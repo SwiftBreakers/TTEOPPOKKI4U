@@ -25,13 +25,22 @@
 		61DAC4EC2C05C7D800DFC575 /* KakaoSDKAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 61DAC4EB2C05C7D800DFC575 /* KakaoSDKAuth */; };
 		61DAC4EE2C05C7D800DFC575 /* KakaoSDKUser in Frameworks */ = {isa = PBXBuildFile; productRef = 61DAC4ED2C05C7D800DFC575 /* KakaoSDKUser */; };
 		61DAC4F12C05C80F00DFC575 /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = 61DAC4F02C05C80F00DFC575 /* GoogleSignIn */; };
-		61DAC4F32C06B51300DFC575 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 61DAC4F22C06B51300DFC575 /* GoogleService-Info.plist */; };
 		61DAC4F62C06B57500DFC575 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 61DAC4F52C06B57500DFC575 /* FirebaseAnalytics */; };
 		61DAC4F82C06B57500DFC575 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 61DAC4F72C06B57500DFC575 /* FirebaseAuth */; };
 		61DAC4FA2C06B57500DFC575 /* FirebaseDatabase in Frameworks */ = {isa = PBXBuildFile; productRef = 61DAC4F92C06B57500DFC575 /* FirebaseDatabase */; };
 		61DAC4FC2C06B57500DFC575 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 61DAC4FB2C06B57500DFC575 /* FirebaseFirestore */; };
 		61DAC4FE2C06B57500DFC575 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 61DAC4FD2C06B57500DFC575 /* FirebaseStorage */; };
 		61DAC5002C06CCB000DFC575 /* Secret.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61DAC4FF2C06CCB000DFC575 /* Secret.swift */; };
+		8DB30F1B2C07371000503139 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8DB30F1A2C07371000503139 /* GoogleService-Info.plist */; };
+		8DB30F1E2C076AE900503139 /* MyPageCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DB30F1D2C076AE900503139 /* MyPageCollectionViewCell.swift */; };
+		8DB30F212C076B8B00503139 /* MyPageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DB30F202C076B8B00503139 /* MyPageModel.swift */; };
+		8DB30F242C07700E00503139 /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DB30F232C07700E00503139 /* UIColor+Extension.swift */; };
+		8DB30F272C07705D00503139 /* ThemeColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DB30F262C07705D00503139 /* ThemeColor.swift */; };
+		8DB30F292C0772DE00503139 /* PersonalInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DB30F282C0772DE00503139 /* PersonalInfoView.swift */; };
+		8DB30F2B2C07731400503139 /* MyPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DB30F2A2C07731400503139 /* MyPageView.swift */; };
+		8DB30F2E2C07767100503139 /* MyPageVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DB30F2D2C07767100503139 /* MyPageVM.swift */; };
+		8DB30F302C07771400503139 /* MyPageSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DB30F2F2C07771400503139 /* MyPageSection.swift */; };
+		8DB30F322C07794E00503139 /* PersonalInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DB30F312C07794E00503139 /* PersonalInfoViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -49,8 +58,17 @@
 		61DAC4DF2C05C3A700DFC575 /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		61DAC4E12C05C3C100DFC575 /* CommunityViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityViewController.swift; sourceTree = "<group>"; };
 		61DAC4E32C05C3CF00DFC575 /* MyPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageViewController.swift; sourceTree = "<group>"; };
-		61DAC4F22C06B51300DFC575 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		61DAC4FF2C06CCB000DFC575 /* Secret.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Secret.swift; sourceTree = "<group>"; };
+		8DB30F1A2C07371000503139 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		8DB30F1D2C076AE900503139 /* MyPageCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageCollectionViewCell.swift; sourceTree = "<group>"; };
+		8DB30F202C076B8B00503139 /* MyPageModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageModel.swift; sourceTree = "<group>"; };
+		8DB30F232C07700E00503139 /* UIColor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
+		8DB30F262C07705D00503139 /* ThemeColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeColor.swift; sourceTree = "<group>"; };
+		8DB30F282C0772DE00503139 /* PersonalInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonalInfoView.swift; sourceTree = "<group>"; };
+		8DB30F2A2C07731400503139 /* MyPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageView.swift; sourceTree = "<group>"; };
+		8DB30F2D2C07767100503139 /* MyPageVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageVM.swift; sourceTree = "<group>"; };
+		8DB30F2F2C07771400503139 /* MyPageSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageSection.swift; sourceTree = "<group>"; };
+		8DB30F312C07794E00503139 /* PersonalInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonalInfoViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -94,20 +112,23 @@
 		613D86972C05BFF80039E771 /* TteoPpoKki4U */ = {
 			isa = PBXGroup;
 			children = (
+				8DB30F252C07704800503139 /* Config */,
+				8DB30F222C076FEF00503139 /* Extension */,
 				613D86AC2C05C0510039E771 /* Model */,
 				613D86B32C05C08C0039E771 /* View */,
 				613D86B02C05C06F0039E771 /* ViewModel */,
 				613D86982C05BFF80039E771 /* AppDelegate.swift */,
 				613D869A2C05BFF80039E771 /* SceneDelegate.swift */,
 				613D869C2C05BFF80039E771 /* SignInViewController.swift */,
-				61DAC4DD2C05C37B00DFC575 /* RecommendViewController.swift */,
 				61DAC4DF2C05C3A700DFC575 /* MapViewController.swift */,
 				61DAC4E12C05C3C100DFC575 /* CommunityViewController.swift */,
+				61DAC4DD2C05C37B00DFC575 /* RecommendViewController.swift */,
 				61DAC4E32C05C3CF00DFC575 /* MyPageViewController.swift */,
+				8DB30F312C07794E00503139 /* PersonalInfoViewController.swift */,
 				613D86A12C05BFF90039E771 /* Assets.xcassets */,
 				613D86A32C05BFF90039E771 /* LaunchScreen.storyboard */,
 				613D86A62C05BFF90039E771 /* Info.plist */,
-				61DAC4F22C06B51300DFC575 /* GoogleService-Info.plist */,
+				8DB30F1A2C07371000503139 /* GoogleService-Info.plist */,
 				61DAC4FF2C06CCB000DFC575 /* Secret.swift */,
 			);
 			path = TteoPpoKki4U;
@@ -116,6 +137,7 @@
 		613D86AC2C05C0510039E771 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				8DB30F1F2C076B6F00503139 /* MyPage */,
 				613D86AD2C05C05E0039E771 /* DummyModel.swift */,
 			);
 			path = Model;
@@ -124,6 +146,7 @@
 		613D86B02C05C06F0039E771 /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
+				8DB30F2C2C07764E00503139 /* MyPage */,
 				613D86B12C05C07C0039E771 /* DummyViewModel.swift */,
 			);
 			path = ViewModel;
@@ -132,9 +155,53 @@
 		613D86B32C05C08C0039E771 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				8DB30F1C2C076A6A00503139 /* MyPage */,
 				613D86B42C05C0950039E771 /* DummyView.swift */,
 			);
 			path = View;
+			sourceTree = "<group>";
+		};
+		8DB30F1C2C076A6A00503139 /* MyPage */ = {
+			isa = PBXGroup;
+			children = (
+				8DB30F1D2C076AE900503139 /* MyPageCollectionViewCell.swift */,
+				8DB30F2A2C07731400503139 /* MyPageView.swift */,
+				8DB30F282C0772DE00503139 /* PersonalInfoView.swift */,
+			);
+			path = MyPage;
+			sourceTree = "<group>";
+		};
+		8DB30F1F2C076B6F00503139 /* MyPage */ = {
+			isa = PBXGroup;
+			children = (
+				8DB30F202C076B8B00503139 /* MyPageModel.swift */,
+				8DB30F2F2C07771400503139 /* MyPageSection.swift */,
+			);
+			path = MyPage;
+			sourceTree = "<group>";
+		};
+		8DB30F222C076FEF00503139 /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				8DB30F232C07700E00503139 /* UIColor+Extension.swift */,
+			);
+			path = Extension;
+			sourceTree = "<group>";
+		};
+		8DB30F252C07704800503139 /* Config */ = {
+			isa = PBXGroup;
+			children = (
+				8DB30F262C07705D00503139 /* ThemeColor.swift */,
+			);
+			path = Config;
+			sourceTree = "<group>";
+		};
+		8DB30F2C2C07764E00503139 /* MyPage */ = {
+			isa = PBXGroup;
+			children = (
+				8DB30F2D2C07767100503139 /* MyPageVM.swift */,
+			);
+			path = MyPage;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -216,8 +283,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				613D86A22C05BFF90039E771 /* Assets.xcassets in Resources */,
+				8DB30F1B2C07371000503139 /* GoogleService-Info.plist in Resources */,
 				613D86A52C05BFF90039E771 /* Base in Resources */,
-				61DAC4F32C06B51300DFC575 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -231,14 +298,23 @@
 				613D86AE2C05C05E0039E771 /* DummyModel.swift in Sources */,
 				613D86B52C05C0950039E771 /* DummyView.swift in Sources */,
 				61DAC4E22C05C3C100DFC575 /* CommunityViewController.swift in Sources */,
+				8DB30F302C07771400503139 /* MyPageSection.swift in Sources */,
+				8DB30F1E2C076AE900503139 /* MyPageCollectionViewCell.swift in Sources */,
 				61DAC4DE2C05C37B00DFC575 /* RecommendViewController.swift in Sources */,
 				61DAC5002C06CCB000DFC575 /* Secret.swift in Sources */,
 				613D869D2C05BFF80039E771 /* SignInViewController.swift in Sources */,
+				8DB30F242C07700E00503139 /* UIColor+Extension.swift in Sources */,
+				8DB30F212C076B8B00503139 /* MyPageModel.swift in Sources */,
+				8DB30F2B2C07731400503139 /* MyPageView.swift in Sources */,
 				61DAC4E42C05C3CF00DFC575 /* MyPageViewController.swift in Sources */,
+				8DB30F322C07794E00503139 /* PersonalInfoViewController.swift in Sources */,
 				613D86992C05BFF80039E771 /* AppDelegate.swift in Sources */,
 				613D86B22C05C07C0039E771 /* DummyViewModel.swift in Sources */,
+				8DB30F2E2C07767100503139 /* MyPageVM.swift in Sources */,
+				8DB30F292C0772DE00503139 /* PersonalInfoView.swift in Sources */,
 				613D869B2C05BFF80039E771 /* SceneDelegate.swift in Sources */,
 				61DAC4E02C05C3A700DFC575 /* MapViewController.swift in Sources */,
+				8DB30F272C07705D00503139 /* ThemeColor.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
