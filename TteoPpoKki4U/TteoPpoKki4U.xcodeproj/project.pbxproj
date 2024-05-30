@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		611644302C08FFFC009FFDA5 /* GreetingHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6116442F2C08FFFC009FFDA5 /* GreetingHeaderView.swift */; };
+		611644322C09000F009FFDA5 /* GreetingBodyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611644312C09000F009FFDA5 /* GreetingBodyView.swift */; };
+		611644352C09039F009FFDA5 /* SignVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611644342C09039F009FFDA5 /* SignVM.swift */; };
+		611644382C0909D4009FFDA5 /* SignManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611644372C0909D4009FFDA5 /* SignManager.swift */; };
 		613D86992C05BFF80039E771 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 613D86982C05BFF80039E771 /* AppDelegate.swift */; };
 		613D869B2C05BFF80039E771 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 613D869A2C05BFF80039E771 /* SceneDelegate.swift */; };
 		613D869D2C05BFF80039E771 /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 613D869C2C05BFF80039E771 /* SignInViewController.swift */; };
@@ -16,6 +20,9 @@
 		613D86B22C05C07C0039E771 /* DummyViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 613D86B12C05C07C0039E771 /* DummyViewModel.swift */; };
 		613D86B52C05C0950039E771 /* DummyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 613D86B42C05C0950039E771 /* DummyView.swift */; };
 		613D86B82C05C0DC0039E771 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 613D86B72C05C0DC0039E771 /* SnapKit */; };
+		619D76F12C071BB10043EF82 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 619D76F02C071BB10043EF82 /* GoogleService-Info.plist */; };
+		619D77182C0817EF0043EF82 /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 619D77172C0817EF0043EF82 /* SignUpViewController.swift */; };
+		619D771A2C085EC80043EF82 /* GreetingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 619D77192C085EC80043EF82 /* GreetingViewController.swift */; };
 		61DAC4DE2C05C37B00DFC575 /* RecommendViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61DAC4DD2C05C37B00DFC575 /* RecommendViewController.swift */; };
 		61DAC4E02C05C3A700DFC575 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61DAC4DF2C05C3A700DFC575 /* MapViewController.swift */; };
 		61DAC4E22C05C3C100DFC575 /* CommunityViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61DAC4E12C05C3C100DFC575 /* CommunityViewController.swift */; };
@@ -25,7 +32,6 @@
 		61DAC4EC2C05C7D800DFC575 /* KakaoSDKAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 61DAC4EB2C05C7D800DFC575 /* KakaoSDKAuth */; };
 		61DAC4EE2C05C7D800DFC575 /* KakaoSDKUser in Frameworks */ = {isa = PBXBuildFile; productRef = 61DAC4ED2C05C7D800DFC575 /* KakaoSDKUser */; };
 		61DAC4F12C05C80F00DFC575 /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = 61DAC4F02C05C80F00DFC575 /* GoogleSignIn */; };
-		61DAC4F32C06B51300DFC575 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 61DAC4F22C06B51300DFC575 /* GoogleService-Info.plist */; };
 		61DAC4F62C06B57500DFC575 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 61DAC4F52C06B57500DFC575 /* FirebaseAnalytics */; };
 		61DAC4F82C06B57500DFC575 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 61DAC4F72C06B57500DFC575 /* FirebaseAuth */; };
 		61DAC4FA2C06B57500DFC575 /* FirebaseDatabase in Frameworks */ = {isa = PBXBuildFile; productRef = 61DAC4F92C06B57500DFC575 /* FirebaseDatabase */; };
@@ -35,6 +41,11 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		6116442F2C08FFFC009FFDA5 /* GreetingHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GreetingHeaderView.swift; sourceTree = "<group>"; };
+		611644312C09000F009FFDA5 /* GreetingBodyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GreetingBodyView.swift; sourceTree = "<group>"; };
+		611644342C09039F009FFDA5 /* SignVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignVM.swift; sourceTree = "<group>"; };
+		611644372C0909D4009FFDA5 /* SignManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignManager.swift; sourceTree = "<group>"; };
+		611644392C0922F0009FFDA5 /* TteoPpoKki4U.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = TteoPpoKki4U.entitlements; sourceTree = "<group>"; };
 		613D86952C05BFF80039E771 /* TteoPpoKki4U.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TteoPpoKki4U.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		613D86982C05BFF80039E771 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		613D869A2C05BFF80039E771 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -45,11 +56,13 @@
 		613D86AD2C05C05E0039E771 /* DummyModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DummyModel.swift; sourceTree = "<group>"; };
 		613D86B12C05C07C0039E771 /* DummyViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DummyViewModel.swift; sourceTree = "<group>"; };
 		613D86B42C05C0950039E771 /* DummyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DummyView.swift; sourceTree = "<group>"; };
+		619D76F02C071BB10043EF82 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		619D77172C0817EF0043EF82 /* SignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
+		619D77192C085EC80043EF82 /* GreetingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GreetingViewController.swift; sourceTree = "<group>"; };
 		61DAC4DD2C05C37B00DFC575 /* RecommendViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendViewController.swift; sourceTree = "<group>"; };
 		61DAC4DF2C05C3A700DFC575 /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		61DAC4E12C05C3C100DFC575 /* CommunityViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityViewController.swift; sourceTree = "<group>"; };
 		61DAC4E32C05C3CF00DFC575 /* MyPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageViewController.swift; sourceTree = "<group>"; };
-		61DAC4F22C06B51300DFC575 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		61DAC4FF2C06CCB000DFC575 /* Secret.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Secret.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -75,6 +88,31 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		6116442E2C08FEF2009FFDA5 /* Sign */ = {
+			isa = PBXGroup;
+			children = (
+				6116442F2C08FFFC009FFDA5 /* GreetingHeaderView.swift */,
+				611644312C09000F009FFDA5 /* GreetingBodyView.swift */,
+			);
+			path = Sign;
+			sourceTree = "<group>";
+		};
+		611644332C09038B009FFDA5 /* SignVM */ = {
+			isa = PBXGroup;
+			children = (
+				611644342C09039F009FFDA5 /* SignVM.swift */,
+			);
+			path = SignVM;
+			sourceTree = "<group>";
+		};
+		611644362C0909C4009FFDA5 /* Service */ = {
+			isa = PBXGroup;
+			children = (
+				611644372C0909D4009FFDA5 /* SignManager.swift */,
+			);
+			path = Service;
+			sourceTree = "<group>";
+		};
 		613D868C2C05BFF80039E771 = {
 			isa = PBXGroup;
 			children = (
@@ -94,12 +132,16 @@
 		613D86972C05BFF80039E771 /* TteoPpoKki4U */ = {
 			isa = PBXGroup;
 			children = (
+				611644392C0922F0009FFDA5 /* TteoPpoKki4U.entitlements */,
+				611644362C0909C4009FFDA5 /* Service */,
 				613D86AC2C05C0510039E771 /* Model */,
 				613D86B32C05C08C0039E771 /* View */,
 				613D86B02C05C06F0039E771 /* ViewModel */,
 				613D86982C05BFF80039E771 /* AppDelegate.swift */,
 				613D869A2C05BFF80039E771 /* SceneDelegate.swift */,
 				613D869C2C05BFF80039E771 /* SignInViewController.swift */,
+				619D77192C085EC80043EF82 /* GreetingViewController.swift */,
+				619D77172C0817EF0043EF82 /* SignUpViewController.swift */,
 				61DAC4DD2C05C37B00DFC575 /* RecommendViewController.swift */,
 				61DAC4DF2C05C3A700DFC575 /* MapViewController.swift */,
 				61DAC4E12C05C3C100DFC575 /* CommunityViewController.swift */,
@@ -107,7 +149,7 @@
 				613D86A12C05BFF90039E771 /* Assets.xcassets */,
 				613D86A32C05BFF90039E771 /* LaunchScreen.storyboard */,
 				613D86A62C05BFF90039E771 /* Info.plist */,
-				61DAC4F22C06B51300DFC575 /* GoogleService-Info.plist */,
+				619D76F02C071BB10043EF82 /* GoogleService-Info.plist */,
 				61DAC4FF2C06CCB000DFC575 /* Secret.swift */,
 			);
 			path = TteoPpoKki4U;
@@ -124,6 +166,7 @@
 		613D86B02C05C06F0039E771 /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
+				611644332C09038B009FFDA5 /* SignVM */,
 				613D86B12C05C07C0039E771 /* DummyViewModel.swift */,
 			);
 			path = ViewModel;
@@ -132,6 +175,7 @@
 		613D86B32C05C08C0039E771 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				6116442E2C08FEF2009FFDA5 /* Sign */,
 				613D86B42C05C0950039E771 /* DummyView.swift */,
 			);
 			path = View;
@@ -217,7 +261,7 @@
 			files = (
 				613D86A22C05BFF90039E771 /* Assets.xcassets in Resources */,
 				613D86A52C05BFF90039E771 /* Base in Resources */,
-				61DAC4F32C06B51300DFC575 /* GoogleService-Info.plist in Resources */,
+				619D76F12C071BB10043EF82 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -230,10 +274,16 @@
 			files = (
 				613D86AE2C05C05E0039E771 /* DummyModel.swift in Sources */,
 				613D86B52C05C0950039E771 /* DummyView.swift in Sources */,
+				611644352C09039F009FFDA5 /* SignVM.swift in Sources */,
 				61DAC4E22C05C3C100DFC575 /* CommunityViewController.swift in Sources */,
+				611644322C09000F009FFDA5 /* GreetingBodyView.swift in Sources */,
 				61DAC4DE2C05C37B00DFC575 /* RecommendViewController.swift in Sources */,
+				611644382C0909D4009FFDA5 /* SignManager.swift in Sources */,
+				611644302C08FFFC009FFDA5 /* GreetingHeaderView.swift in Sources */,
+				619D771A2C085EC80043EF82 /* GreetingViewController.swift in Sources */,
 				61DAC5002C06CCB000DFC575 /* Secret.swift in Sources */,
 				613D869D2C05BFF80039E771 /* SignInViewController.swift in Sources */,
+				619D77182C0817EF0043EF82 /* SignUpViewController.swift in Sources */,
 				61DAC4E42C05C3CF00DFC575 /* MyPageViewController.swift in Sources */,
 				613D86992C05BFF80039E771 /* AppDelegate.swift in Sources */,
 				613D86B22C05C07C0039E771 /* DummyViewModel.swift in Sources */,
@@ -380,6 +430,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = TteoPpoKki4U/TteoPpoKki4U.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = LA95MXQ3R5;
@@ -389,6 +441,7 @@
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -396,6 +449,7 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.TeamSwiftbreakers.TteoPpoKki4U;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -407,6 +461,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = TteoPpoKki4U/TteoPpoKki4U.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = LA95MXQ3R5;
@@ -416,6 +471,7 @@
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
