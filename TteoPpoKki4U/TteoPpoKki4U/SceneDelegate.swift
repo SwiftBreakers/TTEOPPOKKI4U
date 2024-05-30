@@ -48,8 +48,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             selectedImage: UIImage(systemName: "person.3.fill"))
         mypageVC.tabBarItem = UITabBarItem(
             title: "마이페이지",
-            image: UIImage(systemName: "person.circle"),
-            selectedImage: UIImage(systemName: "person.circle.fill"))
+            image: UIImage(systemName: "person.crop.circle"),
+            selectedImage: UIImage(systemName: "person.crop.circle.fill"))
         tabbarController.viewControllers = [firstVC,recommendVC, mapVC, communityVC, mypageVC]
         window.rootViewController = tabbarController // modifed
         
