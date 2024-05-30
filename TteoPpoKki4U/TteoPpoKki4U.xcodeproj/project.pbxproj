@@ -25,13 +25,16 @@
 		61DAC4EC2C05C7D800DFC575 /* KakaoSDKAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 61DAC4EB2C05C7D800DFC575 /* KakaoSDKAuth */; };
 		61DAC4EE2C05C7D800DFC575 /* KakaoSDKUser in Frameworks */ = {isa = PBXBuildFile; productRef = 61DAC4ED2C05C7D800DFC575 /* KakaoSDKUser */; };
 		61DAC4F12C05C80F00DFC575 /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = 61DAC4F02C05C80F00DFC575 /* GoogleSignIn */; };
-		61DAC4F32C06B51300DFC575 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 61DAC4F22C06B51300DFC575 /* GoogleService-Info.plist */; };
 		61DAC4F62C06B57500DFC575 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 61DAC4F52C06B57500DFC575 /* FirebaseAnalytics */; };
 		61DAC4F82C06B57500DFC575 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 61DAC4F72C06B57500DFC575 /* FirebaseAuth */; };
 		61DAC4FA2C06B57500DFC575 /* FirebaseDatabase in Frameworks */ = {isa = PBXBuildFile; productRef = 61DAC4F92C06B57500DFC575 /* FirebaseDatabase */; };
 		61DAC4FC2C06B57500DFC575 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 61DAC4FB2C06B57500DFC575 /* FirebaseFirestore */; };
 		61DAC4FE2C06B57500DFC575 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 61DAC4FD2C06B57500DFC575 /* FirebaseStorage */; };
 		61DAC5002C06CCB000DFC575 /* Secret.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61DAC4FF2C06CCB000DFC575 /* Secret.swift */; };
+		9CED79D12C06FC5B009F9D3A /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CED79D02C06FC5B009F9D3A /* MapView.swift */; };
+		9CED79D32C06FC77009F9D3A /* MapVIewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CED79D22C06FC77009F9D3A /* MapVIewModel.swift */; };
+		9CED79D52C070AD1009F9D3A /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9CED79D42C070AD1009F9D3A /* GoogleService-Info.plist */; };
+		9CED79D72C082243009F9D3A /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CED79D62C082243009F9D3A /* NetworkManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -49,8 +52,11 @@
 		61DAC4DF2C05C3A700DFC575 /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		61DAC4E12C05C3C100DFC575 /* CommunityViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityViewController.swift; sourceTree = "<group>"; };
 		61DAC4E32C05C3CF00DFC575 /* MyPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageViewController.swift; sourceTree = "<group>"; };
-		61DAC4F22C06B51300DFC575 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		61DAC4FF2C06CCB000DFC575 /* Secret.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Secret.swift; sourceTree = "<group>"; };
+		9CED79D02C06FC5B009F9D3A /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
+		9CED79D22C06FC77009F9D3A /* MapVIewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapVIewModel.swift; sourceTree = "<group>"; };
+		9CED79D42C070AD1009F9D3A /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../GoogleService-Info.plist"; sourceTree = "<group>"; };
+		9CED79D62C082243009F9D3A /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -107,7 +113,7 @@
 				613D86A12C05BFF90039E771 /* Assets.xcassets */,
 				613D86A32C05BFF90039E771 /* LaunchScreen.storyboard */,
 				613D86A62C05BFF90039E771 /* Info.plist */,
-				61DAC4F22C06B51300DFC575 /* GoogleService-Info.plist */,
+				9CED79D42C070AD1009F9D3A /* GoogleService-Info.plist */,
 				61DAC4FF2C06CCB000DFC575 /* Secret.swift */,
 			);
 			path = TteoPpoKki4U;
@@ -117,6 +123,7 @@
 			isa = PBXGroup;
 			children = (
 				613D86AD2C05C05E0039E771 /* DummyModel.swift */,
+				9CED79D62C082243009F9D3A /* NetworkManager.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -125,6 +132,7 @@
 			isa = PBXGroup;
 			children = (
 				613D86B12C05C07C0039E771 /* DummyViewModel.swift */,
+				9CED79D22C06FC77009F9D3A /* MapVIewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -133,6 +141,7 @@
 			isa = PBXGroup;
 			children = (
 				613D86B42C05C0950039E771 /* DummyView.swift */,
+				9CED79D02C06FC5B009F9D3A /* MapView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -217,7 +226,7 @@
 			files = (
 				613D86A22C05BFF90039E771 /* Assets.xcassets in Resources */,
 				613D86A52C05BFF90039E771 /* Base in Resources */,
-				61DAC4F32C06B51300DFC575 /* GoogleService-Info.plist in Resources */,
+				9CED79D52C070AD1009F9D3A /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -229,6 +238,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				613D86AE2C05C05E0039E771 /* DummyModel.swift in Sources */,
+				9CED79D12C06FC5B009F9D3A /* MapView.swift in Sources */,
+				9CED79D32C06FC77009F9D3A /* MapVIewModel.swift in Sources */,
 				613D86B52C05C0950039E771 /* DummyView.swift in Sources */,
 				61DAC4E22C05C3C100DFC575 /* CommunityViewController.swift in Sources */,
 				61DAC4DE2C05C37B00DFC575 /* RecommendViewController.swift in Sources */,
@@ -236,6 +247,7 @@
 				613D869D2C05BFF80039E771 /* SignInViewController.swift in Sources */,
 				61DAC4E42C05C3CF00DFC575 /* MyPageViewController.swift in Sources */,
 				613D86992C05BFF80039E771 /* AppDelegate.swift in Sources */,
+				9CED79D72C082243009F9D3A /* NetworkManager.swift in Sources */,
 				613D86B22C05C07C0039E771 /* DummyViewModel.swift in Sources */,
 				613D869B2C05BFF80039E771 /* SceneDelegate.swift in Sources */,
 				61DAC4E02C05C3A700DFC575 /* MapViewController.swift in Sources */,
@@ -389,6 +401,7 @@
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -416,6 +429,7 @@
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
