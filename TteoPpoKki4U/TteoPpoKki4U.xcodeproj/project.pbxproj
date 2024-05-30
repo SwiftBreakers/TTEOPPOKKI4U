@@ -31,6 +31,12 @@
 		61DAC4FC2C06B57500DFC575 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 61DAC4FB2C06B57500DFC575 /* FirebaseFirestore */; };
 		61DAC4FE2C06B57500DFC575 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 61DAC4FD2C06B57500DFC575 /* FirebaseStorage */; };
 		61DAC5002C06CCB000DFC575 /* Secret.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61DAC4FF2C06CCB000DFC575 /* Secret.swift */; };
+		8D580A302C0826B40057D370 /* ThemeFont.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D580A2F2C0826B40057D370 /* ThemeFont.swift */; };
+		8D580A472C082AB60057D370 /* Pretendard-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8D580A422C082AB50057D370 /* Pretendard-Medium.ttf */; };
+		8D580A482C082AB60057D370 /* Pretendard-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8D580A432C082AB50057D370 /* Pretendard-Black.ttf */; };
+		8D580A492C082AB60057D370 /* Pretendard-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8D580A442C082AB50057D370 /* Pretendard-Regular.ttf */; };
+		8D580A4A2C082AB60057D370 /* Pretendard-ExtraLight.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8D580A452C082AB50057D370 /* Pretendard-ExtraLight.ttf */; };
+		8D580A4B2C082AB60057D370 /* Pretendard-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8D580A462C082AB60057D370 /* Pretendard-Bold.ttf */; };
 		8DB30F1B2C07371000503139 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8DB30F1A2C07371000503139 /* GoogleService-Info.plist */; };
 		8DB30F1E2C076AE900503139 /* MyPageCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DB30F1D2C076AE900503139 /* MyPageCollectionViewCell.swift */; };
 		8DB30F212C076B8B00503139 /* MyPageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DB30F202C076B8B00503139 /* MyPageModel.swift */; };
@@ -59,6 +65,12 @@
 		61DAC4E12C05C3C100DFC575 /* CommunityViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityViewController.swift; sourceTree = "<group>"; };
 		61DAC4E32C05C3CF00DFC575 /* MyPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageViewController.swift; sourceTree = "<group>"; };
 		61DAC4FF2C06CCB000DFC575 /* Secret.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Secret.swift; sourceTree = "<group>"; };
+		8D580A2F2C0826B40057D370 /* ThemeFont.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeFont.swift; sourceTree = "<group>"; };
+		8D580A422C082AB50057D370 /* Pretendard-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Medium.ttf"; sourceTree = "<group>"; };
+		8D580A432C082AB50057D370 /* Pretendard-Black.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Black.ttf"; sourceTree = "<group>"; };
+		8D580A442C082AB50057D370 /* Pretendard-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Regular.ttf"; sourceTree = "<group>"; };
+		8D580A452C082AB50057D370 /* Pretendard-ExtraLight.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-ExtraLight.ttf"; sourceTree = "<group>"; };
+		8D580A462C082AB60057D370 /* Pretendard-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Bold.ttf"; sourceTree = "<group>"; };
 		8DB30F1A2C07371000503139 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		8DB30F1D2C076AE900503139 /* MyPageCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageCollectionViewCell.swift; sourceTree = "<group>"; };
 		8DB30F202C076B8B00503139 /* MyPageModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageModel.swift; sourceTree = "<group>"; };
@@ -161,6 +173,18 @@
 			path = View;
 			sourceTree = "<group>";
 		};
+		8D580A412C082AA30057D370 /* Font */ = {
+			isa = PBXGroup;
+			children = (
+				8D580A452C082AB50057D370 /* Pretendard-ExtraLight.ttf */,
+				8D580A442C082AB50057D370 /* Pretendard-Regular.ttf */,
+				8D580A422C082AB50057D370 /* Pretendard-Medium.ttf */,
+				8D580A462C082AB60057D370 /* Pretendard-Bold.ttf */,
+				8D580A432C082AB50057D370 /* Pretendard-Black.ttf */,
+			);
+			path = Font;
+			sourceTree = "<group>";
+		};
 		8DB30F1C2C076A6A00503139 /* MyPage */ = {
 			isa = PBXGroup;
 			children = (
@@ -191,7 +215,9 @@
 		8DB30F252C07704800503139 /* Config */ = {
 			isa = PBXGroup;
 			children = (
+				8D580A412C082AA30057D370 /* Font */,
 				8DB30F262C07705D00503139 /* ThemeColor.swift */,
+				8D580A2F2C0826B40057D370 /* ThemeFont.swift */,
 			);
 			path = Config;
 			sourceTree = "<group>";
@@ -282,9 +308,14 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8D580A472C082AB60057D370 /* Pretendard-Medium.ttf in Resources */,
 				613D86A22C05BFF90039E771 /* Assets.xcassets in Resources */,
+				8D580A492C082AB60057D370 /* Pretendard-Regular.ttf in Resources */,
 				8DB30F1B2C07371000503139 /* GoogleService-Info.plist in Resources */,
+				8D580A4A2C082AB60057D370 /* Pretendard-ExtraLight.ttf in Resources */,
 				613D86A52C05BFF90039E771 /* Base in Resources */,
+				8D580A4B2C082AB60057D370 /* Pretendard-Bold.ttf in Resources */,
+				8D580A482C082AB60057D370 /* Pretendard-Black.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -298,6 +329,7 @@
 				613D86AE2C05C05E0039E771 /* DummyModel.swift in Sources */,
 				613D86B52C05C0950039E771 /* DummyView.swift in Sources */,
 				61DAC4E22C05C3C100DFC575 /* CommunityViewController.swift in Sources */,
+				8D580A302C0826B40057D370 /* ThemeFont.swift in Sources */,
 				8DB30F302C07771400503139 /* MyPageSection.swift in Sources */,
 				8DB30F1E2C076AE900503139 /* MyPageCollectionViewCell.swift in Sources */,
 				61DAC4DE2C05C37B00DFC575 /* RecommendViewController.swift in Sources */,
