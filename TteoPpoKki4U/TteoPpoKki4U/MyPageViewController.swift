@@ -22,7 +22,7 @@ class MyPageViewController: UIViewController {
         view.addSubview(myPageView)
         
         myPageView.snp.makeConstraints { make in
-                    make.top.equalTo(view.snp.top).offset(180)
+                    make.top.equalTo(view.snp.top).offset(16)
                     make.leading.trailing.bottom.equalTo(view)
                 }
         

@@ -9,6 +9,13 @@ import UIKit
 
 class MyPageView: UIView {
     
+    let userProfile: UIImageView = {
+        let view = UIImageView()
+        view.image = UIImage(systemName: "figure.wave")
+        view.contentMode = .scaleAspectFit
+        return view
+    }()
+    
     let collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
@@ -36,10 +43,20 @@ class MyPageView: UIView {
     }
     
     private func layout() {
-        self.addSubview(collectionView)
+        [userProfile, collectionView].forEach { view in
+            self.addSubview(view)
+        }
         
+        userProfile.snp.makeConstraints { make in
+            make.height.equalTo(90)
+            make.width.equalTo(90)
+            make.top.equalToSuperview().offset(128)
+            make.leading.equalToSuperview().offset(40)
+//            make.trailing.equalToSuperview().inset(180)
+            make.bottom.equalTo(collectionView.snp.top).offset(-40)
+        }
         collectionView.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
+            make.leading.trailing.bottom.equalToSuperview()
         }
     }
     
