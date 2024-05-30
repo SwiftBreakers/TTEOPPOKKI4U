@@ -16,7 +16,7 @@ class MyPageViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.backgroundColor = .white
+        view.backgroundColor = .systemBackground
         title = "Profile"
         
         view.addSubview(myPageView)
@@ -56,7 +56,9 @@ extension MyPageViewController: UICollectionViewDataSource, UICollectionViewDele
             let personalInfoVC = PersonalInfoViewController()
             present(personalInfoVC, animated: true)
         case [1, 0]:
-            print(indexPath)
+            let MyScrapVC = MyScrapViewController()
+            MyScrapVC.modalPresentationStyle = .fullScreen
+            present(MyScrapVC, animated: true)
         case [1, 1]:
             print("2")
         case [1, 2]:
