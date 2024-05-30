@@ -37,6 +37,11 @@
 		8D580A492C082AB60057D370 /* Pretendard-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8D580A442C082AB50057D370 /* Pretendard-Regular.ttf */; };
 		8D580A4A2C082AB60057D370 /* Pretendard-ExtraLight.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8D580A452C082AB50057D370 /* Pretendard-ExtraLight.ttf */; };
 		8D580A4B2C082AB60057D370 /* Pretendard-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8D580A462C082AB60057D370 /* Pretendard-Bold.ttf */; };
+		8D580A4D2C08767F0057D370 /* MyScrapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D580A4C2C08767F0057D370 /* MyScrapViewController.swift */; };
+		8D580A4F2C0893A40057D370 /* ScrapList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D580A4E2C0893A40057D370 /* ScrapList.swift */; };
+		8D580A512C08AAF70057D370 /* ScrapCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D580A502C08AAF70057D370 /* ScrapCell.swift */; };
+		8D580A532C08C8420057D370 /* MyReviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D580A522C08C8420057D370 /* MyReviewViewController.swift */; };
+		8D580A552C08C8770057D370 /* MyReviewCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D580A542C08C8770057D370 /* MyReviewCollectionViewCell.swift */; };
 		8DB30F1B2C07371000503139 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8DB30F1A2C07371000503139 /* GoogleService-Info.plist */; };
 		8DB30F1E2C076AE900503139 /* MyPageCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DB30F1D2C076AE900503139 /* MyPageCollectionViewCell.swift */; };
 		8DB30F212C076B8B00503139 /* MyPageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DB30F202C076B8B00503139 /* MyPageModel.swift */; };
@@ -71,6 +76,11 @@
 		8D580A442C082AB50057D370 /* Pretendard-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Regular.ttf"; sourceTree = "<group>"; };
 		8D580A452C082AB50057D370 /* Pretendard-ExtraLight.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-ExtraLight.ttf"; sourceTree = "<group>"; };
 		8D580A462C082AB60057D370 /* Pretendard-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Bold.ttf"; sourceTree = "<group>"; };
+		8D580A4C2C08767F0057D370 /* MyScrapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyScrapViewController.swift; sourceTree = "<group>"; };
+		8D580A4E2C0893A40057D370 /* ScrapList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrapList.swift; sourceTree = "<group>"; };
+		8D580A502C08AAF70057D370 /* ScrapCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrapCell.swift; sourceTree = "<group>"; };
+		8D580A522C08C8420057D370 /* MyReviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyReviewViewController.swift; sourceTree = "<group>"; };
+		8D580A542C08C8770057D370 /* MyReviewCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyReviewCollectionViewCell.swift; sourceTree = "<group>"; };
 		8DB30F1A2C07371000503139 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		8DB30F1D2C076AE900503139 /* MyPageCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageCollectionViewCell.swift; sourceTree = "<group>"; };
 		8DB30F202C076B8B00503139 /* MyPageModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageModel.swift; sourceTree = "<group>"; };
@@ -137,6 +147,8 @@
 				61DAC4DD2C05C37B00DFC575 /* RecommendViewController.swift */,
 				61DAC4E32C05C3CF00DFC575 /* MyPageViewController.swift */,
 				8DB30F312C07794E00503139 /* PersonalInfoViewController.swift */,
+				8D580A4C2C08767F0057D370 /* MyScrapViewController.swift */,
+				8D580A522C08C8420057D370 /* MyReviewViewController.swift */,
 				613D86A12C05BFF90039E771 /* Assets.xcassets */,
 				613D86A32C05BFF90039E771 /* LaunchScreen.storyboard */,
 				613D86A62C05BFF90039E771 /* Info.plist */,
@@ -191,6 +203,8 @@
 				8DB30F1D2C076AE900503139 /* MyPageCollectionViewCell.swift */,
 				8DB30F2A2C07731400503139 /* MyPageView.swift */,
 				8DB30F282C0772DE00503139 /* PersonalInfoView.swift */,
+				8D580A502C08AAF70057D370 /* ScrapCell.swift */,
+				8D580A542C08C8770057D370 /* MyReviewCollectionViewCell.swift */,
 			);
 			path = MyPage;
 			sourceTree = "<group>";
@@ -200,6 +214,7 @@
 			children = (
 				8DB30F202C076B8B00503139 /* MyPageModel.swift */,
 				8DB30F2F2C07771400503139 /* MyPageSection.swift */,
+				8D580A4E2C0893A40057D370 /* ScrapList.swift */,
 			);
 			path = MyPage;
 			sourceTree = "<group>";
@@ -328,21 +343,26 @@
 			files = (
 				613D86AE2C05C05E0039E771 /* DummyModel.swift in Sources */,
 				613D86B52C05C0950039E771 /* DummyView.swift in Sources */,
+				8D580A532C08C8420057D370 /* MyReviewViewController.swift in Sources */,
 				61DAC4E22C05C3C100DFC575 /* CommunityViewController.swift in Sources */,
 				8D580A302C0826B40057D370 /* ThemeFont.swift in Sources */,
 				8DB30F302C07771400503139 /* MyPageSection.swift in Sources */,
 				8DB30F1E2C076AE900503139 /* MyPageCollectionViewCell.swift in Sources */,
 				61DAC4DE2C05C37B00DFC575 /* RecommendViewController.swift in Sources */,
 				61DAC5002C06CCB000DFC575 /* Secret.swift in Sources */,
+				8D580A4F2C0893A40057D370 /* ScrapList.swift in Sources */,
 				613D869D2C05BFF80039E771 /* SignInViewController.swift in Sources */,
 				8DB30F242C07700E00503139 /* UIColor+Extension.swift in Sources */,
 				8DB30F212C076B8B00503139 /* MyPageModel.swift in Sources */,
 				8DB30F2B2C07731400503139 /* MyPageView.swift in Sources */,
+				8D580A4D2C08767F0057D370 /* MyScrapViewController.swift in Sources */,
 				61DAC4E42C05C3CF00DFC575 /* MyPageViewController.swift in Sources */,
 				8DB30F322C07794E00503139 /* PersonalInfoViewController.swift in Sources */,
 				613D86992C05BFF80039E771 /* AppDelegate.swift in Sources */,
+				8D580A552C08C8770057D370 /* MyReviewCollectionViewCell.swift in Sources */,
 				613D86B22C05C07C0039E771 /* DummyViewModel.swift in Sources */,
 				8DB30F2E2C07767100503139 /* MyPageVM.swift in Sources */,
+				8D580A512C08AAF70057D370 /* ScrapCell.swift in Sources */,
 				8DB30F292C0772DE00503139 /* PersonalInfoView.swift in Sources */,
 				613D869B2C05BFF80039E771 /* SceneDelegate.swift in Sources */,
 				61DAC4E02C05C3A700DFC575 /* MapViewController.swift in Sources */,
