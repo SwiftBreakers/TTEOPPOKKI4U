@@ -37,6 +37,11 @@
 		61DAC4FC2C06B57500DFC575 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 61DAC4FB2C06B57500DFC575 /* FirebaseFirestore */; };
 		61DAC4FE2C06B57500DFC575 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 61DAC4FD2C06B57500DFC575 /* FirebaseStorage */; };
 		61DAC5002C06CCB000DFC575 /* Secret.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61DAC4FF2C06CCB000DFC575 /* Secret.swift */; };
+		9CED79D12C06FC5B009F9D3A /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CED79D02C06FC5B009F9D3A /* MapView.swift */; };
+		9CED79D32C06FC77009F9D3A /* MapVIewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CED79D22C06FC77009F9D3A /* MapVIewModel.swift */; };
+		9CED79D72C082243009F9D3A /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CED79D62C082243009F9D3A /* NetworkManager.swift */; };
+		9CED79D92C085C09009F9D3A /* ResponseStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CED79D82C085C09009F9D3A /* ResponseStore.swift */; };
+		9CED79DD2C0890C3009F9D3A /* SearchLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CED79DC2C0890C3009F9D3A /* SearchLocation.swift */; };
 		8D580A302C0826B40057D370 /* ThemeFont.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D580A2F2C0826B40057D370 /* ThemeFont.swift */; };
 		8D580A472C082AB60057D370 /* Pretendard-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8D580A422C082AB50057D370 /* Pretendard-Medium.ttf */; };
 		8D580A482C082AB60057D370 /* Pretendard-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8D580A432C082AB50057D370 /* Pretendard-Black.ttf */; };
@@ -87,6 +92,11 @@
 		61DAC4E12C05C3C100DFC575 /* CommunityViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityViewController.swift; sourceTree = "<group>"; };
 		61DAC4E32C05C3CF00DFC575 /* MyPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageViewController.swift; sourceTree = "<group>"; };
 		61DAC4FF2C06CCB000DFC575 /* Secret.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Secret.swift; sourceTree = "<group>"; };
+		9CED79D02C06FC5B009F9D3A /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
+		9CED79D22C06FC77009F9D3A /* MapVIewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapVIewModel.swift; sourceTree = "<group>"; };
+		9CED79D62C082243009F9D3A /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
+		9CED79D82C085C09009F9D3A /* ResponseStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResponseStore.swift; sourceTree = "<group>"; };
+		9CED79DC2C0890C3009F9D3A /* SearchLocation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchLocation.swift; sourceTree = "<group>"; };
 		8D580A2F2C0826B40057D370 /* ThemeFont.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeFont.swift; sourceTree = "<group>"; };
 		8D580A422C082AB50057D370 /* Pretendard-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Medium.ttf"; sourceTree = "<group>"; };
 		8D580A432C082AB50057D370 /* Pretendard-Black.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Black.ttf"; sourceTree = "<group>"; };
@@ -214,6 +224,9 @@
 				CE3F36362C0846B900532901 /* RecommendPage */,
 				8DB30F1F2C076B6F00503139 /* MyPage */,
 				613D86AD2C05C05E0039E771 /* DummyModel.swift */,
+				9CED79D62C082243009F9D3A /* NetworkManager.swift */,
+				9CED79D82C085C09009F9D3A /* ResponseStore.swift */,
+				9CED79DC2C0890C3009F9D3A /* SearchLocation.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -224,6 +237,7 @@
 				611644332C09038B009FFDA5 /* SignVM */,
 				8DB30F2C2C07764E00503139 /* MyPage */,
 				613D86B12C05C07C0039E771 /* DummyViewModel.swift */,
+				9CED79D22C06FC77009F9D3A /* MapVIewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -235,6 +249,7 @@
 				6116442E2C08FEF2009FFDA5 /* Sign */,
 				8DB30F1C2C076A6A00503139 /* MyPage */,
 				613D86B42C05C0950039E771 /* DummyView.swift */,
+				9CED79D02C06FC5B009F9D3A /* MapView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -415,9 +430,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				613D86AE2C05C05E0039E771 /* DummyModel.swift in Sources */,
+				9CED79D12C06FC5B009F9D3A /* MapView.swift in Sources */,
+				9CED79D32C06FC77009F9D3A /* MapVIewModel.swift in Sources */,
 				613D86B52C05C0950039E771 /* DummyView.swift in Sources */,
 				611644352C09039F009FFDA5 /* SignVM.swift in Sources */,
 				61DAC4E22C05C3C100DFC575 /* CommunityViewController.swift in Sources */,
+				9CED79D92C085C09009F9D3A /* ResponseStore.swift in Sources */,
 				611644322C09000F009FFDA5 /* GreetingBodyView.swift in Sources */,
 				8D580A532C08C8420057D370 /* MyReviewViewController.swift in Sources */,
 				61DAC4E22C05C3C100DFC575 /* CommunityViewController.swift in Sources */,
@@ -441,6 +459,7 @@
 				61DAC4E42C05C3CF00DFC575 /* MyPageViewController.swift in Sources */,
 				8DB30F322C07794E00503139 /* PersonalInfoViewController.swift in Sources */,
 				613D86992C05BFF80039E771 /* AppDelegate.swift in Sources */,
+				9CED79D72C082243009F9D3A /* NetworkManager.swift in Sources */,
 				CE3F363A2C08474700532901 /* RecommendViewController.swift in Sources */,
 				8D580A552C08C8770057D370 /* MyReviewCollectionViewCell.swift in Sources */,
 				613D86B22C05C07C0039E771 /* DummyViewModel.swift in Sources */,
@@ -448,6 +467,7 @@
 				8D580A512C08AAF70057D370 /* ScrapCell.swift in Sources */,
 				8DB30F292C0772DE00503139 /* PersonalInfoView.swift in Sources */,
 				613D869B2C05BFF80039E771 /* SceneDelegate.swift in Sources */,
+				9CED79DD2C0890C3009F9D3A /* SearchLocation.swift in Sources */,
 				61DAC4E02C05C3A700DFC575 /* MapViewController.swift in Sources */,
 				8DB30F272C07705D00503139 /* ThemeColor.swift in Sources */,
 			);
@@ -598,6 +618,8 @@
 				DEVELOPMENT_TEAM = LA95MXQ3R5;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = TteoPpoKki4U/Info.plist;
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -628,6 +650,8 @@
 				DEVELOPMENT_TEAM = LA95MXQ3R5;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = TteoPpoKki4U/Info.plist;
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
