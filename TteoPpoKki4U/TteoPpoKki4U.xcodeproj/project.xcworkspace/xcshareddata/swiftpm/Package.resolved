@@ -1,5 +1,5 @@
 {
-  "originHash" : "3ef87eef9ae52ca5f7fbbfd4e17fe876f5942a4150a0d9ba3066ab8e413a9ddb",
+  "originHash" : "52be8e7a536c3fff81bbc51f9c23cbc04da314b5fa7cbcda6bfb5fce7efa93ff",
   "pins" : [
     {
       "identity" : "abseil-cpp-binary",
@@ -179,6 +179,15 @@
       "state" : {
         "revision" : "9f0c76544701845ad98716f3f6a774a892152bcb",
         "version" : "1.26.0"
+      }
+    },
+    {
+      "identity" : "verticalcardswiper",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/JoniVR/VerticalCardSwiper.git",
+      "state" : {
+        "revision" : "16e5a996ee9b6951a1323a9e875da1074741d96c",
+        "version" : "2.3.1"
       }
     }
   ],

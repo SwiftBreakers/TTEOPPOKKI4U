@@ -1,13 +1,13 @@
 //
-//  RecommendViewController.swift
+//  MyReviewViewController.swift
 //  TteoPpoKki4U
 //
-//  Created by Dongik Song on 5/28/24.
+//  Created by 박미림 on 5/30/24.
 //
 
 import UIKit
 
-class RecommendViewController: UIViewController {
+class MyReviewViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
