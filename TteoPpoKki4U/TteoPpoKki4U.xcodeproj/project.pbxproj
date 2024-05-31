@@ -20,10 +20,9 @@
 		613D86B22C05C07C0039E771 /* DummyViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 613D86B12C05C07C0039E771 /* DummyViewModel.swift */; };
 		613D86B52C05C0950039E771 /* DummyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 613D86B42C05C0950039E771 /* DummyView.swift */; };
 		613D86B82C05C0DC0039E771 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 613D86B72C05C0DC0039E771 /* SnapKit */; };
-		619D76F12C071BB10043EF82 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 619D76F02C071BB10043EF82 /* GoogleService-Info.plist */; };
 		619D77182C0817EF0043EF82 /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 619D77172C0817EF0043EF82 /* SignUpViewController.swift */; };
 		619D771A2C085EC80043EF82 /* GreetingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 619D77192C085EC80043EF82 /* GreetingViewController.swift */; };
-		61DAC4DE2C05C37B00DFC575 /* RecommendViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61DAC4DD2C05C37B00DFC575 /* RecommendViewController.swift */; };
+		61DAC4DE2C05C37B00DFC575 /* RecommendViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61DAC4DD2C05C37B00DFC575 /* RecommendViewModel.swift */; };
 		61DAC4E02C05C3A700DFC575 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61DAC4DF2C05C3A700DFC575 /* MapViewController.swift */; };
 		61DAC4E22C05C3C100DFC575 /* CommunityViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61DAC4E12C05C3C100DFC575 /* CommunityViewController.swift */; };
 		61DAC4E42C05C3CF00DFC575 /* MyPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61DAC4E32C05C3CF00DFC575 /* MyPageViewController.swift */; };
@@ -59,6 +58,10 @@
 		8DB30F2E2C07767100503139 /* MyPageVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DB30F2D2C07767100503139 /* MyPageVM.swift */; };
 		8DB30F302C07771400503139 /* MyPageSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DB30F2F2C07771400503139 /* MyPageSection.swift */; };
 		8DB30F322C07794E00503139 /* PersonalInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DB30F312C07794E00503139 /* PersonalInfoViewController.swift */; };
+		CE3F36322C08463700532901 /* VerticalCardSwiper in Frameworks */ = {isa = PBXBuildFile; productRef = CE3F36312C08463700532901 /* VerticalCardSwiper */; };
+		CE3F36352C08469700532901 /* RecommendCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE3F36342C08469700532901 /* RecommendCardView.swift */; };
+		CE3F36382C0846C800532901 /* RecommendModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE3F36372C0846C800532901 /* RecommendModel.swift */; };
+		CE3F363A2C08474700532901 /* RecommendViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE3F36392C08474700532901 /* RecommendViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -77,10 +80,9 @@
 		613D86AD2C05C05E0039E771 /* DummyModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DummyModel.swift; sourceTree = "<group>"; };
 		613D86B12C05C07C0039E771 /* DummyViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DummyViewModel.swift; sourceTree = "<group>"; };
 		613D86B42C05C0950039E771 /* DummyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DummyView.swift; sourceTree = "<group>"; };
-		619D76F02C071BB10043EF82 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		619D77172C0817EF0043EF82 /* SignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
 		619D77192C085EC80043EF82 /* GreetingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GreetingViewController.swift; sourceTree = "<group>"; };
-		61DAC4DD2C05C37B00DFC575 /* RecommendViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendViewController.swift; sourceTree = "<group>"; };
+		61DAC4DD2C05C37B00DFC575 /* RecommendViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendViewModel.swift; sourceTree = "<group>"; };
 		61DAC4DF2C05C3A700DFC575 /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		61DAC4E12C05C3C100DFC575 /* CommunityViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityViewController.swift; sourceTree = "<group>"; };
 		61DAC4E32C05C3CF00DFC575 /* MyPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageViewController.swift; sourceTree = "<group>"; };
@@ -106,6 +108,9 @@
 		8DB30F2D2C07767100503139 /* MyPageVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageVM.swift; sourceTree = "<group>"; };
 		8DB30F2F2C07771400503139 /* MyPageSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageSection.swift; sourceTree = "<group>"; };
 		8DB30F312C07794E00503139 /* PersonalInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonalInfoViewController.swift; sourceTree = "<group>"; };
+		CE3F36342C08469700532901 /* RecommendCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendCardView.swift; sourceTree = "<group>"; };
+		CE3F36372C0846C800532901 /* RecommendModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendModel.swift; sourceTree = "<group>"; };
+		CE3F36392C08474700532901 /* RecommendViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -121,6 +126,7 @@
 				61DAC4EE2C05C7D800DFC575 /* KakaoSDKUser in Frameworks */,
 				61DAC4EC2C05C7D800DFC575 /* KakaoSDKAuth in Frameworks */,
 				61DAC4FA2C06B57500DFC575 /* FirebaseDatabase in Frameworks */,
+				CE3F36322C08463700532901 /* VerticalCardSwiper in Frameworks */,
 				61DAC4FE2C06B57500DFC575 /* FirebaseStorage in Frameworks */,
 				61DAC4F12C05C80F00DFC575 /* GoogleSignIn in Frameworks */,
 				61DAC4F82C06B57500DFC575 /* FirebaseAuth in Frameworks */,
@@ -186,10 +192,9 @@
 				613D869C2C05BFF80039E771 /* SignInViewController.swift */,
 				619D77192C085EC80043EF82 /* GreetingViewController.swift */,
 				619D77172C0817EF0043EF82 /* SignUpViewController.swift */,
-				61DAC4DD2C05C37B00DFC575 /* RecommendViewController.swift */,
 				61DAC4DF2C05C3A700DFC575 /* MapViewController.swift */,
 				61DAC4E12C05C3C100DFC575 /* CommunityViewController.swift */,
-				61DAC4DD2C05C37B00DFC575 /* RecommendViewController.swift */,
+				61DAC4DD2C05C37B00DFC575 /* RecommendViewModel.swift */,
 				61DAC4E32C05C3CF00DFC575 /* MyPageViewController.swift */,
 				8DB30F312C07794E00503139 /* PersonalInfoViewController.swift */,
 				8D580A4C2C08767F0057D370 /* MyScrapViewController.swift */,
@@ -206,6 +211,7 @@
 		613D86AC2C05C0510039E771 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				CE3F36362C0846B900532901 /* RecommendPage */,
 				8DB30F1F2C076B6F00503139 /* MyPage */,
 				613D86AD2C05C05E0039E771 /* DummyModel.swift */,
 			);
@@ -225,6 +231,7 @@
 		613D86B32C05C08C0039E771 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				CE3F36332C08467700532901 /* RecommendPage */,
 				6116442E2C08FEF2009FFDA5 /* Sign */,
 				8DB30F1C2C076A6A00503139 /* MyPage */,
 				613D86B42C05C0950039E771 /* DummyView.swift */,
@@ -292,6 +299,23 @@
 			path = MyPage;
 			sourceTree = "<group>";
 		};
+		CE3F36332C08467700532901 /* RecommendPage */ = {
+			isa = PBXGroup;
+			children = (
+				CE3F36392C08474700532901 /* RecommendViewController.swift */,
+				CE3F36342C08469700532901 /* RecommendCardView.swift */,
+			);
+			path = RecommendPage;
+			sourceTree = "<group>";
+		};
+		CE3F36362C0846B900532901 /* RecommendPage */ = {
+			isa = PBXGroup;
+			children = (
+				CE3F36372C0846C800532901 /* RecommendModel.swift */,
+			);
+			path = RecommendPage;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -320,6 +344,7 @@
 				61DAC4F92C06B57500DFC575 /* FirebaseDatabase */,
 				61DAC4FB2C06B57500DFC575 /* FirebaseFirestore */,
 				61DAC4FD2C06B57500DFC575 /* FirebaseStorage */,
+				CE3F36312C08463700532901 /* VerticalCardSwiper */,
 			);
 			productName = TteoPpoKki4U;
 			productReference = 613D86952C05BFF80039E771 /* TteoPpoKki4U.app */;
@@ -355,6 +380,7 @@
 				61DAC4E82C05C7D800DFC575 /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */,
 				61DAC4EF2C05C80F00DFC575 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */,
 				61DAC4F42C06B57500DFC575 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				CE3F36302C08463700532901 /* XCRemoteSwiftPackageReference "VerticalCardSwiper" */,
 			);
 			productRefGroup = 613D86962C05BFF80039E771 /* Products */;
 			projectDirPath = "";
@@ -395,10 +421,12 @@
 				611644322C09000F009FFDA5 /* GreetingBodyView.swift in Sources */,
 				8D580A532C08C8420057D370 /* MyReviewViewController.swift in Sources */,
 				61DAC4E22C05C3C100DFC575 /* CommunityViewController.swift in Sources */,
+				CE3F36352C08469700532901 /* RecommendCardView.swift in Sources */,
 				8D580A302C0826B40057D370 /* ThemeFont.swift in Sources */,
+				CE3F36382C0846C800532901 /* RecommendModel.swift in Sources */,
 				8DB30F302C07771400503139 /* MyPageSection.swift in Sources */,
 				8DB30F1E2C076AE900503139 /* MyPageCollectionViewCell.swift in Sources */,
-				61DAC4DE2C05C37B00DFC575 /* RecommendViewController.swift in Sources */,
+				61DAC4DE2C05C37B00DFC575 /* RecommendViewModel.swift in Sources */,
 				611644382C0909D4009FFDA5 /* SignManager.swift in Sources */,
 				611644302C08FFFC009FFDA5 /* GreetingHeaderView.swift in Sources */,
 				619D771A2C085EC80043EF82 /* GreetingViewController.swift in Sources */,
@@ -413,6 +441,7 @@
 				61DAC4E42C05C3CF00DFC575 /* MyPageViewController.swift in Sources */,
 				8DB30F322C07794E00503139 /* PersonalInfoViewController.swift in Sources */,
 				613D86992C05BFF80039E771 /* AppDelegate.swift in Sources */,
+				CE3F363A2C08474700532901 /* RecommendViewController.swift in Sources */,
 				8D580A552C08C8770057D370 /* MyReviewCollectionViewCell.swift in Sources */,
 				613D86B22C05C07C0039E771 /* DummyViewModel.swift in Sources */,
 				8DB30F2E2C07767100503139 /* MyPageVM.swift in Sources */,
@@ -681,6 +710,14 @@
 				minimumVersion = 10.26.0;
 			};
 		};
+		CE3F36302C08463700532901 /* XCRemoteSwiftPackageReference "VerticalCardSwiper" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/JoniVR/VerticalCardSwiper.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.3.1;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -738,6 +775,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 61DAC4F42C06B57500DFC575 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseStorage;
+		};
+		CE3F36312C08463700532901 /* VerticalCardSwiper */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = CE3F36302C08463700532901 /* XCRemoteSwiftPackageReference "VerticalCardSwiper" */;
+			productName = VerticalCardSwiper;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

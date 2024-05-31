@@ -1,5 +1,4 @@
 {
-  "originHash" : "3ef87eef9ae52ca5f7fbbfd4e17fe876f5942a4150a0d9ba3066ab8e413a9ddb",
   "pins" : [
     {
       "identity" : "abseil-cpp-binary",
@@ -42,8 +41,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/firebase/firebase-ios-sdk",
       "state" : {
-        "revision" : "9d17b500cd98d9a7009751ad62f802e152e97021",
-        "version" : "10.26.0"
+        "revision" : "8bcaf973b1d84e119b7c7c119abad72ed460979f",
+        "version" : "10.27.0"
       }
     },
     {
@@ -51,8 +50,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/google/GoogleAppMeasurement.git",
       "state" : {
-        "revision" : "16244d177c4e989f87b25e9db1012b382cfedc55",
-        "version" : "10.25.0"
+        "revision" : "70df02431e216bed98dd461e0c4665889245ba70",
+        "version" : "10.27.0"
       }
     },
     {
@@ -180,7 +179,16 @@
         "revision" : "9f0c76544701845ad98716f3f6a774a892152bcb",
         "version" : "1.26.0"
       }
+    },
+    {
+      "identity" : "verticalcardswiper",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/JoniVR/VerticalCardSwiper.git",
+      "state" : {
+        "revision" : "16e5a996ee9b6951a1323a9e875da1074741d96c",
+        "version" : "2.3.1"
+      }
     }
   ],
-  "version" : 3
+  "version" : 2
 }
