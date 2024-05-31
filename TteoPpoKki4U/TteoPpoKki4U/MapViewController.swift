@@ -68,8 +68,6 @@ class MapViewController: UIViewController {
     
     func setMapView() {
         mapView.delegate = self
-        searchCompleter.delegate = self
-        searchCompleter.resultTypes = .pointOfInterest
         
         // 위치 추적 권한 받기
         let locationManager = CLLocationManager()
@@ -83,8 +81,8 @@ class MapViewController: UIViewController {
         
         // 위도, 경도 설정
         let centerLocation = CLLocationCoordinate2D(
-            latitude: searchLocation.latitude,
-            longitude: searchLocation.longtitude
+            latitude: 0,
+            longitude: 0
         )
         
         // 지도에 표시할 범위
