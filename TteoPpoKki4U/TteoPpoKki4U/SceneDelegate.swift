@@ -17,13 +17,13 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         
         let window = UIWindow(windowScene: windowScene)
-        let signInVC = SignInViewController()
+        let greetingVC = GreetingViewController()
         self.window = window
         window.makeKeyAndVisible()
         
         // added
         let tabbarController = UITabBarController()
-        let firstVC = UINavigationController(rootViewController: signInVC)
+        let firstVC = UINavigationController(rootViewController: greetingVC)
         let mapVC = MapViewController()
         let recommendVC = RecommendViewController()
         let communityVC = CommunityViewController()

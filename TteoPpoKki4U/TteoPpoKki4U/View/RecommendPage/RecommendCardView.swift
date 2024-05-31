@@ -42,6 +42,7 @@ public class MyCardCell: CardCell {
         let randomGreen: CGFloat = .random(in: 0...1)
         let randomBlue: CGFloat = .random(in: 0...1)
         self.backgroundColor = UIColor(red: randomRed, green: randomGreen, blue: randomBlue, alpha: 1.0)
+        
         self.layer.cornerRadius = 12
     }
 }
