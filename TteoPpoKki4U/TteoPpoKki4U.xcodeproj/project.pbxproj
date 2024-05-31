@@ -16,9 +16,6 @@
 		613D869D2C05BFF80039E771 /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 613D869C2C05BFF80039E771 /* SignInViewController.swift */; };
 		613D86A22C05BFF90039E771 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 613D86A12C05BFF90039E771 /* Assets.xcassets */; };
 		613D86A52C05BFF90039E771 /* Base in Resources */ = {isa = PBXBuildFile; fileRef = 613D86A42C05BFF90039E771 /* Base */; };
-		613D86AE2C05C05E0039E771 /* DummyModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 613D86AD2C05C05E0039E771 /* DummyModel.swift */; };
-		613D86B22C05C07C0039E771 /* DummyViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 613D86B12C05C07C0039E771 /* DummyViewModel.swift */; };
-		613D86B52C05C0950039E771 /* DummyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 613D86B42C05C0950039E771 /* DummyView.swift */; };
 		613D86B82C05C0DC0039E771 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 613D86B72C05C0DC0039E771 /* SnapKit */; };
 		619D77182C0817EF0043EF82 /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 619D77172C0817EF0043EF82 /* SignUpViewController.swift */; };
 		619D771A2C085EC80043EF82 /* GreetingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 619D77192C085EC80043EF82 /* GreetingViewController.swift */; };
@@ -53,6 +50,8 @@
 		8D580A512C08AAF70057D370 /* ScrapCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D580A502C08AAF70057D370 /* ScrapCell.swift */; };
 		8D580A532C08C8420057D370 /* MyReviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D580A522C08C8420057D370 /* MyReviewViewController.swift */; };
 		8D580A552C08C8770057D370 /* MyReviewCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D580A542C08C8770057D370 /* MyReviewCollectionViewCell.swift */; };
+		8DA4C3822C09BFA8008AB975 /* Review.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DA4C3812C09BFA8008AB975 /* Review.swift */; };
+		8DA4C3842C0A0ACF008AB975 /* ReviewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DA4C3832C0A0ACF008AB975 /* ReviewCell.swift */; };
 		8DB30F1B2C07371000503139 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8DB30F1A2C07371000503139 /* GoogleService-Info.plist */; };
 		8DB30F1E2C076AE900503139 /* MyPageCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DB30F1D2C076AE900503139 /* MyPageCollectionViewCell.swift */; };
 		8DB30F212C076B8B00503139 /* MyPageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DB30F202C076B8B00503139 /* MyPageModel.swift */; };
@@ -60,7 +59,7 @@
 		8DB30F272C07705D00503139 /* ThemeColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DB30F262C07705D00503139 /* ThemeColor.swift */; };
 		8DB30F292C0772DE00503139 /* PersonalInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DB30F282C0772DE00503139 /* PersonalInfoView.swift */; };
 		8DB30F2B2C07731400503139 /* MyPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DB30F2A2C07731400503139 /* MyPageView.swift */; };
-		8DB30F2E2C07767100503139 /* MyPageVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DB30F2D2C07767100503139 /* MyPageVM.swift */; };
+		8DB30F2E2C07767100503139 /* MyPageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DB30F2D2C07767100503139 /* MyPageViewModel.swift */; };
 		8DB30F302C07771400503139 /* MyPageSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DB30F2F2C07771400503139 /* MyPageSection.swift */; };
 		8DB30F322C07794E00503139 /* PersonalInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DB30F312C07794E00503139 /* PersonalInfoViewController.swift */; };
 		CE3F36322C08463700532901 /* VerticalCardSwiper in Frameworks */ = {isa = PBXBuildFile; productRef = CE3F36312C08463700532901 /* VerticalCardSwiper */; };
@@ -108,6 +107,8 @@
 		8D580A502C08AAF70057D370 /* ScrapCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrapCell.swift; sourceTree = "<group>"; };
 		8D580A522C08C8420057D370 /* MyReviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyReviewViewController.swift; sourceTree = "<group>"; };
 		8D580A542C08C8770057D370 /* MyReviewCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyReviewCollectionViewCell.swift; sourceTree = "<group>"; };
+		8DA4C3812C09BFA8008AB975 /* Review.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Review.swift; sourceTree = "<group>"; };
+		8DA4C3832C0A0ACF008AB975 /* ReviewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewCell.swift; sourceTree = "<group>"; };
 		8DB30F1A2C07371000503139 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		8DB30F1D2C076AE900503139 /* MyPageCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageCollectionViewCell.swift; sourceTree = "<group>"; };
 		8DB30F202C076B8B00503139 /* MyPageModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageModel.swift; sourceTree = "<group>"; };
@@ -115,7 +116,7 @@
 		8DB30F262C07705D00503139 /* ThemeColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeColor.swift; sourceTree = "<group>"; };
 		8DB30F282C0772DE00503139 /* PersonalInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonalInfoView.swift; sourceTree = "<group>"; };
 		8DB30F2A2C07731400503139 /* MyPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageView.swift; sourceTree = "<group>"; };
-		8DB30F2D2C07767100503139 /* MyPageVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageVM.swift; sourceTree = "<group>"; };
+		8DB30F2D2C07767100503139 /* MyPageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageViewModel.swift; sourceTree = "<group>"; };
 		8DB30F2F2C07771400503139 /* MyPageSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageSection.swift; sourceTree = "<group>"; };
 		8DB30F312C07794E00503139 /* PersonalInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonalInfoViewController.swift; sourceTree = "<group>"; };
 		CE3F36342C08469700532901 /* RecommendCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendCardView.swift; sourceTree = "<group>"; };
@@ -274,6 +275,7 @@
 				8DB30F282C0772DE00503139 /* PersonalInfoView.swift */,
 				8D580A502C08AAF70057D370 /* ScrapCell.swift */,
 				8D580A542C08C8770057D370 /* MyReviewCollectionViewCell.swift */,
+				8DA4C3832C0A0ACF008AB975 /* ReviewCell.swift */,
 			);
 			path = MyPage;
 			sourceTree = "<group>";
@@ -284,6 +286,7 @@
 				8DB30F202C076B8B00503139 /* MyPageModel.swift */,
 				8DB30F2F2C07771400503139 /* MyPageSection.swift */,
 				8D580A4E2C0893A40057D370 /* ScrapList.swift */,
+				8DA4C3812C09BFA8008AB975 /* Review.swift */,
 			);
 			path = MyPage;
 			sourceTree = "<group>";
@@ -309,7 +312,7 @@
 		8DB30F2C2C07764E00503139 /* MyPage */ = {
 			isa = PBXGroup;
 			children = (
-				8DB30F2D2C07767100503139 /* MyPageVM.swift */,
+				8DB30F2D2C07767100503139 /* MyPageViewModel.swift */,
 			);
 			path = MyPage;
 			sourceTree = "<group>";
@@ -454,6 +457,7 @@
 				619D77182C0817EF0043EF82 /* SignUpViewController.swift in Sources */,
 				8DB30F242C07700E00503139 /* UIColor+Extension.swift in Sources */,
 				8DB30F212C076B8B00503139 /* MyPageModel.swift in Sources */,
+				8DA4C3842C0A0ACF008AB975 /* ReviewCell.swift in Sources */,
 				8DB30F2B2C07731400503139 /* MyPageView.swift in Sources */,
 				8D580A4D2C08767F0057D370 /* MyScrapViewController.swift in Sources */,
 				61DAC4E42C05C3CF00DFC575 /* MyPageViewController.swift in Sources */,
@@ -462,8 +466,8 @@
 				9CED79D72C082243009F9D3A /* NetworkManager.swift in Sources */,
 				CE3F363A2C08474700532901 /* RecommendViewController.swift in Sources */,
 				8D580A552C08C8770057D370 /* MyReviewCollectionViewCell.swift in Sources */,
-				613D86B22C05C07C0039E771 /* DummyViewModel.swift in Sources */,
-				8DB30F2E2C07767100503139 /* MyPageVM.swift in Sources */,
+				8DA4C3822C09BFA8008AB975 /* Review.swift in Sources */,
+				8DB30F2E2C07767100503139 /* MyPageViewModel.swift in Sources */,
 				8D580A512C08AAF70057D370 /* ScrapCell.swift in Sources */,
 				8DB30F292C0772DE00503139 /* PersonalInfoView.swift in Sources */,
 				613D869B2C05BFF80039E771 /* SceneDelegate.swift in Sources */,
