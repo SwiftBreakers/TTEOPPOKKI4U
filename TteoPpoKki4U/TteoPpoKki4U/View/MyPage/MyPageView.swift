@@ -11,7 +11,10 @@ class MyPageView: UIView {
     
     let userProfile: UIImageView = {
         let view = UIImageView()
-        view.image = UIImage(systemName: "figure.wave")
+        view.image = UIImage(named: "defaultImage")
+//        view.backgroundColor = ThemeColor.mainGreen
+        view.layer.cornerRadius = 60
+        view.clipsToBounds = true
         view.contentMode = .scaleAspectFit
         return view
     }()
@@ -36,6 +39,7 @@ class MyPageView: UIView {
         super.init(frame: .zero)
         
         layout()
+        
     }
     //빌트인2
     required init?(coder: NSCoder) {
@@ -48,13 +52,13 @@ class MyPageView: UIView {
         }
         
         userProfile.snp.makeConstraints { make in
-            make.height.equalTo(90)
-            make.width.equalTo(90)
+            make.height.width.equalTo(120)
             make.top.equalToSuperview().offset(128)
             make.leading.equalToSuperview().offset(40)
 //            make.trailing.equalToSuperview().inset(180)
             make.bottom.equalTo(collectionView.snp.top).offset(-40)
         }
+  
         collectionView.snp.makeConstraints { make in
             make.leading.trailing.bottom.equalToSuperview()
         }

@@ -7,11 +7,11 @@
 
 import Foundation
 
-class MyPageVM {
+class MyPageViewModel {
 
     let sections: [MyPageSection] = [
         MyPageSection(title: "Profile", options: [
-            MyPageModel(icon: "person.crop.circle", title: "내 정보 수정")
+            MyPageModel(icon: "person.crop.circle", title: "프로필 수정")
         ]),
         MyPageSection(title: "History", options: [
             MyPageModel(icon: "heart.fill", title: "나의 찜 목록"),
