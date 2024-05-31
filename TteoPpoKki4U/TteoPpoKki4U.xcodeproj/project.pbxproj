@@ -35,6 +35,8 @@
 		9CED79D32C06FC77009F9D3A /* MapVIewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CED79D22C06FC77009F9D3A /* MapVIewModel.swift */; };
 		9CED79D52C070AD1009F9D3A /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9CED79D42C070AD1009F9D3A /* GoogleService-Info.plist */; };
 		9CED79D72C082243009F9D3A /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CED79D62C082243009F9D3A /* NetworkManager.swift */; };
+		9CED79D92C085C09009F9D3A /* ResponseStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CED79D82C085C09009F9D3A /* ResponseStore.swift */; };
+		9CED79DD2C0890C3009F9D3A /* SearchLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CED79DC2C0890C3009F9D3A /* SearchLocation.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -57,6 +59,8 @@
 		9CED79D22C06FC77009F9D3A /* MapVIewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapVIewModel.swift; sourceTree = "<group>"; };
 		9CED79D42C070AD1009F9D3A /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../GoogleService-Info.plist"; sourceTree = "<group>"; };
 		9CED79D62C082243009F9D3A /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
+		9CED79D82C085C09009F9D3A /* ResponseStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResponseStore.swift; sourceTree = "<group>"; };
+		9CED79DC2C0890C3009F9D3A /* SearchLocation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchLocation.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -124,6 +128,8 @@
 			children = (
 				613D86AD2C05C05E0039E771 /* DummyModel.swift */,
 				9CED79D62C082243009F9D3A /* NetworkManager.swift */,
+				9CED79D82C085C09009F9D3A /* ResponseStore.swift */,
+				9CED79DC2C0890C3009F9D3A /* SearchLocation.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -242,6 +248,7 @@
 				9CED79D32C06FC77009F9D3A /* MapVIewModel.swift in Sources */,
 				613D86B52C05C0950039E771 /* DummyView.swift in Sources */,
 				61DAC4E22C05C3C100DFC575 /* CommunityViewController.swift in Sources */,
+				9CED79D92C085C09009F9D3A /* ResponseStore.swift in Sources */,
 				61DAC4DE2C05C37B00DFC575 /* RecommendViewController.swift in Sources */,
 				61DAC5002C06CCB000DFC575 /* Secret.swift in Sources */,
 				613D869D2C05BFF80039E771 /* SignInViewController.swift in Sources */,
@@ -250,6 +257,7 @@
 				9CED79D72C082243009F9D3A /* NetworkManager.swift in Sources */,
 				613D86B22C05C07C0039E771 /* DummyViewModel.swift in Sources */,
 				613D869B2C05BFF80039E771 /* SceneDelegate.swift in Sources */,
+				9CED79DD2C0890C3009F9D3A /* SearchLocation.swift in Sources */,
 				61DAC4E02C05C3A700DFC575 /* MapViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -397,6 +405,8 @@
 				DEVELOPMENT_TEAM = LA95MXQ3R5;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = TteoPpoKki4U/Info.plist;
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -425,6 +435,8 @@
 				DEVELOPMENT_TEAM = LA95MXQ3R5;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = TteoPpoKki4U/Info.plist;
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
