@@ -13,6 +13,7 @@ import FirebaseStorage
 class SignManager {
     
     func signUp(nickName: String, email: String, password: String, onError: @escaping((Error) -> Void)) {
+                
         Auth.auth().createUser(withEmail: email, password: password) { authDataResult, error in
             
             // error를 escaping closure를 통해 전달.
