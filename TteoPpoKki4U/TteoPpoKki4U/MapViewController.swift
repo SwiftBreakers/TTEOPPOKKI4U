@@ -42,7 +42,7 @@ class MapViewController: UIViewController {
     }()
     
     var locationManager: CLLocationManager = CLLocationManager()
-    
+    var userLocation: CLLocation = CLLocation()
     var storeList: [Document] = []
     
     
@@ -164,6 +164,12 @@ class MapViewController: UIViewController {
         mapView.addAnnotation(annotation)
     }
     
+    private func getDistance(latitude: String, longitude: String) -> CLLocationDistance {
+        let storeLocation = CLLocation(latitude: Double(latitude)!, longitude: Double(longitude)!)
+        let distance = userLocation.distance(from: storeLocation)
+        return distance
+    }
+    
 }
 
 
@@ -189,7 +195,8 @@ extension MapViewController: UISearchBarDelegate, CLLocationManagerDelegate, MKM
     // MARK: - locationManager
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         if let location = locations.last {
-            print("Latitude: \(location.coordinate.latitude), Longitude: \(location.coordinate.longitude)")
+            //print("Latitude: \(location.coordinate.latitude), Longitude: \(location.coordinate.longitude)")
+            userLocation = location
             centerMapOnLocation(location: location)
             locationManager.stopUpdatingLocation() // 위치 업데이트 멈추기
         }
@@ -211,7 +218,7 @@ extension MapViewController: UISearchBarDelegate, CLLocationManagerDelegate, MKM
         
         if annotationView == nil {
             annotationView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: identifier)
-            annotationView?.canShowCallout = true
+            annotationView?.canShowCallout = false
         } else {
             annotationView?.annotation = annotation
         }
@@ -225,24 +232,22 @@ extension MapViewController: UISearchBarDelegate, CLLocationManagerDelegate, MKM
         return annotationView
     }
     
-//    func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
-//        guard view.annotation != nil else { return }
-//        if view.annotation?.subtitle == "분식집" {
-//            storeInfoView.bind(title: "test", address: "test", isScrapped: false, rating: 4.5, reviews: 54, distance: 140)
-//            storeInfoView.isHidden = false
-//        }
-//    }
-    
-    func mapView(_ mapView: MKMapView, didSelect annotation: any MKAnnotation) {
-        guard let title = annotation.title else { return }
-        if annotation.subtitle == "분식집" {
-            storeInfoView.bind(title: title ?? "", address: "test", isScrapped: false, rating: 4.5, reviews: 54, distance: 140)
-            storeInfoView.isHidden = false
+    func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
+        guard let annotation = view.annotation else { return }
+        
+        if let store = storeList.first(where: { $0.placeName == annotation.title }) {
+            if view.annotation?.subtitle == "분식집" {
+                view.transform = CGAffineTransform(scaleX: 1.5, y: 1.5)  // 선택되면 떡볶이 크기 키우기
+                let distance = getDistance(latitude: store.y, longitude: store.x)
+                storeInfoView.bind(title: store.placeName, address: store.addressName, isScrapped: false, rating: 4.5, reviews: 54, distance: distance)
+                storeInfoView.isHidden = false
+            }
         }
     }
     
-    func mapView(_ mapView: MKMapView, didDeselect annotation: any MKAnnotation) {
+    func mapView(_ mapView: MKMapView, didDeselect view: MKAnnotationView) {
         storeInfoView.isHidden = true
+        view.transform = CGAffineTransform.identity
     }
 }
 

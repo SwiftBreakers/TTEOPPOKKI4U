@@ -160,7 +160,7 @@ class PinStoreView: UIView {
         return mutableAttributedString
     }
     
-    func bind(title: String, address: String, isScrapped: Bool, rating: Double, reviews: Int, distance: Int) {
+    func bind(title: String, address: String, isScrapped: Bool, rating: Double, reviews: Int, distance: Double) {
         titleLabel.text = title
         addressLabel.text = address
         self.isScrapped = isScrapped

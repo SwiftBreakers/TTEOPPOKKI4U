@@ -18,8 +18,7 @@ class NetworkManager {
         var components = URLComponents(string: "https://dapi.kakao.com/v2/local/search/keyword")!
         components.queryItems = [
             URLQueryItem(name: "query", value: query),
-            URLQueryItem(name: "category_group_code", value: "FD6"),
-            //URLQueryItem(name: "radius", value: "200")
+            URLQueryItem(name: "category_group_code", value: "FD6")
         ]
         
         // URL 구성 요소를 사용하여 URL 생성
