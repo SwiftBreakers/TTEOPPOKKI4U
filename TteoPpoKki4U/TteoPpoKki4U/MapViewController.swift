@@ -215,6 +215,10 @@ extension MapViewController: UISearchBarDelegate, CLLocationManagerDelegate, MKM
         return annotationView
     }
     
+    func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
+        <#code#>
+    }
+    
 }
 
 
