@@ -10,9 +10,10 @@ import Foundation
 class NetworkManager {
     
     static let shared = NetworkManager()
+    var stores: [Document] = []
     
     
-    func fetchAPI(query: String) {
+    func fetchAPI(query: String, completion: @escaping ([Document]) -> Void) {
         
         var components = URLComponents(string: "https://dapi.kakao.com/v2/local/search/keyword")!
         components.queryItems = [
@@ -54,8 +55,14 @@ class NetworkManager {
                 print("No data received")
                 return
             }
-            let stores = try? JSONDecoder().decode(Welcome.self, from: data)
-            print(stores)
+            guard let store = try? JSONDecoder().decode(Welcome.self, from: data) else { return }
+            self.stores = store.documents
+            
+            DispatchQueue.main.async {
+                completion(self.stores)
+            }
+            
         }.resume()
     }
+    
 }
