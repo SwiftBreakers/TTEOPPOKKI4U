@@ -160,13 +160,13 @@ class PinStoreView: UIView {
         return mutableAttributedString
     }
     
-    func bind(title: String, address: String, isScrapped: Bool, rating: Double, reviews: Int, distance: Double) {
+    func bind(title: String, address: String, isScrapped: Bool, rating: Double, reviews: Int, distance: String) {
         titleLabel.text = title
         addressLabel.text = address
         self.isScrapped = isScrapped
         ratingLabel.attributedText = makeIconBeforeText(icon: "star", label: " \(rating)")
         reviewsLabel.attributedText = makeIconBeforeText(icon: "text.bubble", label: " \(reviews)개")
-        distanceLabel.attributedText = makeIconBeforeText(icon: "arrow.turn.down.right", label: " \(distance) m")
+        distanceLabel.attributedText = makeIconBeforeText(icon: "arrow.turn.down.right", label: distance)
     }
     
     @objc func titleLabelTapped() {

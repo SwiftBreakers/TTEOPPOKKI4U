@@ -60,6 +60,7 @@
 		9C82B9552C0F3046008FA84E /* PinStoreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C82B9542C0F3046008FA84E /* PinStoreView.swift */; };
 		9C82B9572C0F31A0008FA84E /* MapVIewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C82B9562C0F31A0008FA84E /* MapVIewModel.swift */; };
 		9C82B9592C0F31D0008FA84E /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C82B9582C0F31D0008FA84E /* MapView.swift */; };
+		9C82B95B2C0F54D7008FA84E /* Double+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C82B95A2C0F54D7008FA84E /* Double+Extension.swift */; };
 		9CED79D12C06FC5B009F9D3A /* (null) in Sources */ = {isa = PBXBuildFile; };
 		9CED79D32C06FC77009F9D3A /* (null) in Sources */ = {isa = PBXBuildFile; };
 		9CED79D72C082243009F9D3A /* (null) in Sources */ = {isa = PBXBuildFile; };
@@ -117,6 +118,7 @@
 		9C82B9542C0F3046008FA84E /* PinStoreView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinStoreView.swift; sourceTree = "<group>"; };
 		9C82B9562C0F31A0008FA84E /* MapVIewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MapVIewModel.swift; path = TteoPpoKki4U/ViewModel/MapVIewModel.swift; sourceTree = SOURCE_ROOT; };
 		9C82B9582C0F31D0008FA84E /* MapView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MapView.swift; path = TteoPpoKki4U/View/MapView.swift; sourceTree = SOURCE_ROOT; };
+		9C82B95A2C0F54D7008FA84E /* Double+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Double+Extension.swift"; sourceTree = "<group>"; };
 		CE3F36342C08469700532901 /* RecommendCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendCardView.swift; sourceTree = "<group>"; };
 		CE3F36372C0846C800532901 /* RecommendModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendModel.swift; sourceTree = "<group>"; };
 		CE3F36392C08474700532901 /* RecommendViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendViewController.swift; sourceTree = "<group>"; };
@@ -288,6 +290,7 @@
 			isa = PBXGroup;
 			children = (
 				8DB30F232C07700E00503139 /* UIColor+Extension.swift */,
+				9C82B95A2C0F54D7008FA84E /* Double+Extension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -441,6 +444,7 @@
 				8DB30F302C07771400503139 /* MyPageSection.swift in Sources */,
 				8DB30F1E2C076AE900503139 /* MyPageCollectionViewCell.swift in Sources */,
 				61DAC4DE2C05C37B00DFC575 /* RecommendViewModel.swift in Sources */,
+				9C82B95B2C0F54D7008FA84E /* Double+Extension.swift in Sources */,
 				611644382C0909D4009FFDA5 /* SignManager.swift in Sources */,
 				611644302C08FFFC009FFDA5 /* GreetingHeaderView.swift in Sources */,
 				619D771A2C085EC80043EF82 /* GreetingViewController.swift in Sources */,
