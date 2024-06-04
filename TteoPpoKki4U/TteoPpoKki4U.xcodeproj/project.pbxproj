@@ -58,6 +58,8 @@
 		9C82B94F2C0F2D27008FA84E /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C82B94E2C0F2D27008FA84E /* NetworkManager.swift */; };
 		9C82B9512C0F2D55008FA84E /* ResponseStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C82B9502C0F2D55008FA84E /* ResponseStore.swift */; };
 		9C82B9552C0F3046008FA84E /* PinStoreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C82B9542C0F3046008FA84E /* PinStoreView.swift */; };
+		9C82B9572C0F31A0008FA84E /* MapVIewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C82B9562C0F31A0008FA84E /* MapVIewModel.swift */; };
+		9C82B9592C0F31D0008FA84E /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C82B9582C0F31D0008FA84E /* MapView.swift */; };
 		9CED79D12C06FC5B009F9D3A /* (null) in Sources */ = {isa = PBXBuildFile; };
 		9CED79D32C06FC77009F9D3A /* (null) in Sources */ = {isa = PBXBuildFile; };
 		9CED79D72C082243009F9D3A /* (null) in Sources */ = {isa = PBXBuildFile; };
@@ -113,6 +115,8 @@
 		9C82B94E2C0F2D27008FA84E /* NetworkManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NetworkManager.swift; path = TteoPpoKki4U/Service/NetworkManager.swift; sourceTree = SOURCE_ROOT; };
 		9C82B9502C0F2D55008FA84E /* ResponseStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResponseStore.swift; sourceTree = "<group>"; };
 		9C82B9542C0F3046008FA84E /* PinStoreView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinStoreView.swift; sourceTree = "<group>"; };
+		9C82B9562C0F31A0008FA84E /* MapVIewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MapVIewModel.swift; path = TteoPpoKki4U/ViewModel/MapVIewModel.swift; sourceTree = SOURCE_ROOT; };
+		9C82B9582C0F31D0008FA84E /* MapView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MapView.swift; path = TteoPpoKki4U/View/MapView.swift; sourceTree = SOURCE_ROOT; };
 		CE3F36342C08469700532901 /* RecommendCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendCardView.swift; sourceTree = "<group>"; };
 		CE3F36372C0846C800532901 /* RecommendModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendModel.swift; sourceTree = "<group>"; };
 		CE3F36392C08474700532901 /* RecommendViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendViewController.swift; sourceTree = "<group>"; };
@@ -227,6 +231,7 @@
 			children = (
 				611644332C09038B009FFDA5 /* SignVM */,
 				8DB30F2C2C07764E00503139 /* MyPage */,
+				9C82B9562C0F31A0008FA84E /* MapVIewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -237,6 +242,7 @@
 				CE3F36332C08467700532901 /* RecommendPage */,
 				6116442E2C08FEF2009FFDA5 /* Sign */,
 				8DB30F1C2C076A6A00503139 /* MyPage */,
+				9C82B9582C0F31D0008FA84E /* MapView.swift */,
 				9C82B9542C0F3046008FA84E /* PinStoreView.swift */,
 			);
 			path = View;
@@ -444,6 +450,7 @@
 				9CED79DF2C0ECA87009F9D3A /* (null) in Sources */,
 				8DB30F242C07700E00503139 /* UIColor+Extension.swift in Sources */,
 				8DB30F212C076B8B00503139 /* MyPageModel.swift in Sources */,
+				9C82B9592C0F31D0008FA84E /* MapView.swift in Sources */,
 				8DA4C3842C0A0ACF008AB975 /* ReviewCell.swift in Sources */,
 				8DB30F2B2C07731400503139 /* MyPageView.swift in Sources */,
 				8D580A4D2C08767F0057D370 /* MyScrapViewController.swift in Sources */,
@@ -458,6 +465,7 @@
 				8D580A512C08AAF70057D370 /* ScrapCell.swift in Sources */,
 				8DB30F292C0772DE00503139 /* PersonalInfoView.swift in Sources */,
 				613D869B2C05BFF80039E771 /* SceneDelegate.swift in Sources */,
+				9C82B9572C0F31A0008FA84E /* MapVIewModel.swift in Sources */,
 				61DAC4E02C05C3A700DFC575 /* MapViewController.swift in Sources */,
 				8DB30F272C07705D00503139 /* ThemeColor.swift in Sources */,
 			);
