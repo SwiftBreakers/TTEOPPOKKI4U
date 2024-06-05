@@ -25,13 +25,15 @@ class MapViewController: UIViewController {
         let bar = UISearchBar()
         bar.placeholder = "장소, 지역"
         bar.searchTextField.backgroundColor = .clear
+        bar.searchTextField.borderStyle = .none
+        bar.clipsToBounds = true
         bar.layer.cornerRadius = 20
         return bar
     }()
     let barLabel: UILabel = {
         let label = UILabel()
         label.text = "의 근처 맛집을 찾아주세요."
-        label.font = .systemFont(ofSize: 15, weight: .semibold)
+        label.font = .systemFont(ofSize: 16, weight: .semibold)
         return label
     }()
     lazy var storeInfoView: PinStoreView = {
@@ -65,15 +67,15 @@ class MapViewController: UIViewController {
         }
         
         searchBar.snp.makeConstraints { make in
-            make.top.equalToSuperview().offset(50)
-            make.leading.equalToSuperview().offset(30)
-            make.height.equalTo(45)
+            make.top.equalToSuperview().offset(60)
+            make.leading.equalToSuperview().offset(20)
+            make.height.equalTo(50)
         }
         
         barLabel.snp.makeConstraints { make in
             make.centerY.equalTo(searchBar.snp.centerY)
             make.leading.equalTo(searchBar.snp.trailing).offset(10)
-            make.trailing.equalToSuperview().inset(30)
+            make.trailing.equalToSuperview().inset(40)
         }
         
         storeInfoView.snp.makeConstraints { make in
