@@ -51,7 +51,9 @@ final class GreetingViewController: UIViewController {
         view.backgroundColor = .white
         setupLayout()
         
+        bind()
     }
+    
     private func bind() {
         viewModel.loginPublisher.sink { [weak self] completion in
             switch completion {
