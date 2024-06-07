@@ -6,9 +6,14 @@
 //
 
 import Foundation
+import Combine
 
 class MyPageViewModel {
-
+    
+    let userManager = UserManager()
+    //var
+    
+    
     let sections: [MyPageSection] = [
         MyPageSection(title: "Profile", options: [
             MyPageModel(icon: "person.crop.circle", title: "프로필 수정")
@@ -19,7 +24,10 @@ class MyPageViewModel {
         ]),
         MyPageSection(title: "Settings", options: [
             MyPageModel(icon: "gearshape.fill", title: "앱 환경 설정"),
-            MyPageModel(icon: "power.circle", title: "로그아웃")
+            MyPageModel(icon: "power.circle", title: "로그아웃"),
+            MyPageModel(icon: "message", title: "테스트")
         ])
     ]
+
+    
 }

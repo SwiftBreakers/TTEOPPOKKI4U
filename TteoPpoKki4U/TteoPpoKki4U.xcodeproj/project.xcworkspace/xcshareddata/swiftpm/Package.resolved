@@ -1,5 +1,5 @@
 {
-  "originHash" : "52be8e7a536c3fff81bbc51f9c23cbc04da314b5fa7cbcda6bfb5fce7efa93ff",
+  "originHash" : "54e230031e3827bb9c2e6a9726eb649f82ef8d49970143add8fae44064e1b836",
   "pins" : [
     {
       "identity" : "abseil-cpp-binary",
@@ -42,8 +42,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/firebase/firebase-ios-sdk",
       "state" : {
-        "revision" : "8bcaf973b1d84e119b7c7c119abad72ed460979f",
-        "version" : "10.27.0"
+        "revision" : "9d17b500cd98d9a7009751ad62f802e152e97021",
+        "version" : "10.26.0"
       }
     },
     {
@@ -51,8 +51,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/google/GoogleAppMeasurement.git",
       "state" : {
-        "revision" : "70df02431e216bed98dd461e0c4665889245ba70",
-        "version" : "10.27.0"
+        "revision" : "16244d177c4e989f87b25e9db1012b382cfedc55",
+        "version" : "10.25.0"
       }
     },
     {
@@ -125,6 +125,15 @@
       "state" : {
         "revision" : "9f9b830dfd7ee66607c6fddcfeb1a6bc07e48714",
         "version" : "2.22.2"
+      }
+    },
+    {
+      "identity" : "kingfisher",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/onevcat/Kingfisher.git",
+      "state" : {
+        "revision" : "5b92f029fab2cce44386d28588098b5be0824ef5",
+        "version" : "7.11.0"
       }
     },
     {

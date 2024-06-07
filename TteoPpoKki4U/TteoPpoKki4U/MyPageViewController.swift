@@ -7,11 +7,27 @@
 
 import UIKit
 import SnapKit
+import Combine
+import FirebaseAuth
+import Kingfisher
 
 class MyPageViewController: UIViewController {
-
+    
     let myPageView = MyPageView()
     let myPageVM = MyPageViewModel()
+    let userManager = UserManager()
+    
+    private var signVM: SignViewModel!
+    private var signOutTapped: (() -> Void)!
+    
+    private var cancellables = Set<AnyCancellable>()
+    
+    
+    convenience init(signOutTapped: @escaping () -> Void, viewModel: SignViewModel) {
+        self.init()
+        self.signOutTapped = signOutTapped
+        self.signVM = viewModel
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -22,12 +38,44 @@ class MyPageViewController: UIViewController {
         view.addSubview(myPageView)
         
         myPageView.snp.makeConstraints { make in
-                    make.top.equalTo(view.snp.top).offset(16)
-                    make.leading.trailing.bottom.equalTo(view)
-                }
+            make.top.equalTo(view.snp.top).offset(16)
+            make.leading.trailing.bottom.equalTo(view)
+        }
         
         myPageView.collectionView.dataSource = self
         myPageView.collectionView.delegate = self
+        bind()
+        fetchUser()
+    }
+    
+    private func fetchUser() {
+        guard let uid = Auth.auth().currentUser?.uid else { return }
+        userManager.fetchUserData(uid: uid) { [self] error, snapshot in
+            if let error = error {
+                print(error)
+            }
+            
+            guard let dictionary = snapshot?.value as? [String: Any] else { return }
+           
+            myPageView.userProfile.kf.setImage(with: URL(string: dictionary["profileImageUrl"] as! String))
+          
+            
+        }
+    }
+    
+    private func bind() {
+        signVM.logoutPublisher.sink { [weak self] completion in
+            switch completion {
+            case .finished:
+                return
+            case .failure(let error):
+                let alert = UIAlertController(title: "에러 발생", message: "\(error.localizedDescription)이 발생했습니다.", preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "확인", style: .default))
+                self?.present(alert, animated: true)
+            }
+        } receiveValue: { _ in
+            print("logout")
+        }.store(in: &cancellables)
     }
 }
 
@@ -66,7 +114,13 @@ extension MyPageViewController: UICollectionViewDataSource, UICollectionViewDele
         case [1, 2]:
             print("3")
         case [2, 0]:
-            print("4")
+            let WriteVC = WriteViewController()
+            present(WriteVC, animated: true)
+        case [2, 1]:
+            signOutTapped!()
+        case [2, 2]:
+            let chatVC = ChatCollectionViewController()
+            present(chatVC, animated: true)
         default:
             return
         }

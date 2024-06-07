@@ -7,6 +7,7 @@
 
 import UIKit
 import KakaoSDKAuth
+import FirebaseAuth
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
@@ -15,6 +16,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     private lazy var signViewModel = SignViewModel(signManager: signManager)
     
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
+        
+        configureInitialViewController()
         
         guard let windowScene = (scene as? UIWindowScene) else { return }
         
@@ -30,6 +33,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             }, googleTapped: { [weak signViewModel] in
                 signViewModel?.googleLoginDidTapped(presentViewController: greetingVC)}
             , viewModel: signViewModel)
+        
         self.window = window
         window.makeKeyAndVisible()
         
@@ -39,7 +43,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let mapVC = MapViewController()
         let recommendVC = RecommendViewController()
         let communityVC = CommunityViewController()
-        let mypageVC = MyPageViewController()
+        let mypageVC = MyPageViewController(signOutTapped: { [weak signViewModel] in
+            signViewModel?.signOut()
+        }, viewModel: signViewModel)
         
         
         firstVC.tabBarItem = UITabBarItem(
@@ -75,6 +81,13 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         }
     }
     
-    
+    func configureInitialViewController () {
+            var initialVC = UIViewController()
+            if Auth.auth().currentUser != nil {
+                print(Auth.auth().currentUser?.uid)
+            } else {
+               print("nil")
+            }
+        }
 }
 
