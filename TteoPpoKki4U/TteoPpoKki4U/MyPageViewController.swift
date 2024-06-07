@@ -63,10 +63,11 @@ extension MyPageViewController: UICollectionViewDataSource, UICollectionViewDele
             let MyReviewVC = MyReviewViewController()
             MyReviewVC.modalPresentationStyle = .fullScreen
             present(MyReviewVC, animated: true)
-        case [1, 2]:
-            print("3")
         case [2, 0]:
-            print("4")
+            let WriteVC = WriteViewController()
+            present(WriteVC, animated: true)
+        case [2, 1]:
+            print("1")
         default:
             return
         }
