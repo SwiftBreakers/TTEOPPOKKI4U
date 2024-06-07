@@ -85,6 +85,7 @@ class StoreViewController: UIViewController {
         goReviewButton.backgroundColor = .systemBlue
         goReviewButton.layer.cornerRadius = 10
         view.addSubview(goReviewButton)
+        goReviewButton.addTarget(self, action: #selector(goReviewButtonTapped), for: .touchUpInside)
         
         // Setup Table View
                 tableView.delegate = self
@@ -147,6 +148,11 @@ class StoreViewController: UIViewController {
     @objc private func backButtonTapped() {
         self.dismiss(animated: true, completion: nil)
     }
+    
+    @objc private func goReviewButtonTapped() {
+        let writeVC = WriteViewController()
+        present(writeVC, animated: true)
+    }
 }
 
 extension StoreViewController: UITableViewDelegate, UITableViewDataSource {
@@ -175,5 +181,6 @@ extension StoreViewController: UITableViewDelegate, UITableViewDataSource {
            detailedReviewVC.reviewContent = "This is a detailed review content for \(review.0)."
            present(detailedReviewVC, animated: true)
        }
+
 }
 
