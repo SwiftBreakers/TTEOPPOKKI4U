@@ -31,7 +31,7 @@ class NetworkManager {
         var urlRequest = URLRequest(url: url)
         urlRequest.httpMethod = "GET"
         urlRequest.addValue("application/json", forHTTPHeaderField: "Content-Type")
-        urlRequest.allHTTPHeaderFields = ["Authorization" : "KakaoAK 32b459e18e4f795d25e65e31ec0da140"]
+        urlRequest.allHTTPHeaderFields = ["Authorization" : "KakaoAK \(Secret().kakaoLocalApi)"]
         
         URLSession.shared.dataTask(with: urlRequest) { data, response, error in
             if let error = error {

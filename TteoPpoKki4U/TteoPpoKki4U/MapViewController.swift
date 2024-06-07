@@ -6,8 +6,8 @@
 //
 
 import UIKit
-import MapKit
 import SnapKit
+import MapKit
 import CoreLocation
 
 class MapViewController: UIViewController {
@@ -239,7 +239,7 @@ extension MapViewController: UISearchBarDelegate, CLLocationManagerDelegate, MKM
         
         if let store = storeList.first(where: { $0.placeName == annotation.title }) {
             if view.annotation?.subtitle == "분식집" {
-                view.transform = CGAffineTransform(scaleX: 1.5, y: 1.5)  // 선택되면 떡볶이 크기 키우기
+                view.transform = CGAffineTransform(scaleX: 1.5, y: 1.5)  // 선택되면 떡볶이pin 크기 키우기
                 let distance = getDistance(latitude: store.y, longitude: store.x)
                 storeInfoView.bind(title: store.placeName, address: store.addressName, isScrapped: false, rating: 4.5, reviews: 54, distance: distance.prettyDistance)
                 storeInfoView.isHidden = false

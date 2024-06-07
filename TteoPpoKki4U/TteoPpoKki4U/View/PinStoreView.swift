@@ -67,7 +67,7 @@ class PinStoreView: UIView {
         let bt = UIButton()
         bt.setTitle("친구 찾기", for: .normal)
         bt.setTitleColor(.white, for: .normal)
-        bt.titleLabel?.font = UIFont(name: ThemeFont.fontMedium, size: 16)
+        bt.titleLabel?.font = UIFont(name: ThemeFont.fontBold, size: 16)
         bt.titleLabel?.textAlignment = .center
         bt.backgroundColor = ThemeColor.mainOrange
         bt.layer.cornerRadius = 8
@@ -160,7 +160,7 @@ class PinStoreView: UIView {
         return mutableAttributedString
     }
     
-    func bind(title: String, address: String, isScrapped: Bool, rating: Double, reviews: Int, distance: String) {
+    func bind(title: String, address: String, isScrapped: Bool, rating: Float, reviews: Int, distance: String) {
         titleLabel.text = title
         addressLabel.text = address
         self.isScrapped = isScrapped
