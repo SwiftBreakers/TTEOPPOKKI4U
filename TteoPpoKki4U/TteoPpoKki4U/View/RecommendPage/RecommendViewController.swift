@@ -6,18 +6,25 @@
 //
 
 import UIKit
+import Combine
 import VerticalCardSwiper
+import Firebase
 
 public class RecommendViewController: UIViewController {
     
     private var cardSwiper: VerticalCardSwiper!
     private var viewModel: CardViewModel!
+    private var cancellables = Set<AnyCancellable>()
     
     public override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
         viewModel = CardViewModel()
         setupCardSwiper()
+        bind()
+        Task {
+            await viewModel.fetchData()
+        }
     }
     
     private func setupCardSwiper() {
@@ -33,6 +40,25 @@ public class RecommendViewController: UIViewController {
             make.edges.equalTo(view.safeAreaLayoutGuide)
         }
     }
+    private func bind() {
+        viewModel.$cards
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] _ in
+                self?.reloadCollectionView()
+            }
+            .store(in: &cancellables)
+    }
+    
+    private func reloadCollectionView() {
+        cardSwiper.reloadData()
+    }
+    
+    public func didTapCard(verticalCardSwiperView: VerticalCardSwiperView, index: Int) {
+        let tappedCard = viewModel.card(at: index)
+        let detailVC = DetailViewController()
+        detailVC.card = tappedCard
+        present(detailVC, animated: true, completion: nil)
+    }
 }
 
 extension RecommendViewController: VerticalCardSwiperDatasource, VerticalCardSwiperDelegate {
@@ -45,7 +71,8 @@ extension RecommendViewController: VerticalCardSwiperDatasource, VerticalCardSwi
         let card = viewModel.card(at: index)
         cell.titleLabel.text = card.title
         cell.descriptionLabel.text = card.description
+        cell.imageView.image = card.image
         return cell
     }
+    
 }
-
