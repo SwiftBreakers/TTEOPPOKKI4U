@@ -113,6 +113,9 @@ extension MyPageViewController: UICollectionViewDataSource, UICollectionViewDele
             present(MyReviewVC, animated: true)
         case [1, 2]:
             print("3")
+        case [2, 0]:
+            let WriteVC = WriteViewController()
+            present(WriteVC, animated: true)
         case [2, 1]:
             signOutTapped!()
         case [2, 2]:
