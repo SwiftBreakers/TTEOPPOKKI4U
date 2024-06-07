@@ -68,6 +68,12 @@
 		8DB30F2E2C07767100503139 /* MyPageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DB30F2D2C07767100503139 /* MyPageViewModel.swift */; };
 		8DB30F302C07771400503139 /* MyPageSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DB30F2F2C07771400503139 /* MyPageSection.swift */; };
 		8DB30F322C07794E00503139 /* PersonalInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DB30F312C07794E00503139 /* PersonalInfoViewController.swift */; };
+		9C82B94F2C0F2D27008FA84E /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C82B94E2C0F2D27008FA84E /* NetworkManager.swift */; };
+		9C82B9512C0F2D55008FA84E /* ResponseStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C82B9502C0F2D55008FA84E /* ResponseStore.swift */; };
+		9C82B9552C0F3046008FA84E /* PinStoreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C82B9542C0F3046008FA84E /* PinStoreView.swift */; };
+		9C82B9572C0F31A0008FA84E /* MapVIewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C82B9562C0F31A0008FA84E /* MapVIewModel.swift */; };
+		9C82B9592C0F31D0008FA84E /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C82B9582C0F31D0008FA84E /* MapView.swift */; };
+		9C82B95B2C0F54D7008FA84E /* Double+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C82B95A2C0F54D7008FA84E /* Double+Extension.swift */; };
 		8DD5CBB72C107BFD004F27BD /* ReviewTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DD5CBB62C107BFD004F27BD /* ReviewTableViewCell.swift */; };
 		8DD5CBB92C107C82004F27BD /* DetailedReviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DD5CBB82C107C82004F27BD /* DetailedReviewViewController.swift */; };
 		9CED79D12C06FC5B009F9D3A /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CED79D02C06FC5B009F9D3A /* MapView.swift */; };
@@ -135,6 +141,12 @@
 		8DB30F2D2C07767100503139 /* MyPageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageViewModel.swift; sourceTree = "<group>"; };
 		8DB30F2F2C07771400503139 /* MyPageSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageSection.swift; sourceTree = "<group>"; };
 		8DB30F312C07794E00503139 /* PersonalInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonalInfoViewController.swift; sourceTree = "<group>"; };
+		9C82B94E2C0F2D27008FA84E /* NetworkManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NetworkManager.swift; path = TteoPpoKki4U/Service/NetworkManager.swift; sourceTree = SOURCE_ROOT; };
+		9C82B9502C0F2D55008FA84E /* ResponseStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResponseStore.swift; sourceTree = "<group>"; };
+		9C82B9542C0F3046008FA84E /* PinStoreView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinStoreView.swift; sourceTree = "<group>"; };
+		9C82B9562C0F31A0008FA84E /* MapVIewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MapVIewModel.swift; path = TteoPpoKki4U/ViewModel/MapVIewModel.swift; sourceTree = SOURCE_ROOT; };
+		9C82B9582C0F31D0008FA84E /* MapView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MapView.swift; path = TteoPpoKki4U/View/MapView.swift; sourceTree = SOURCE_ROOT; };
+		9C82B95A2C0F54D7008FA84E /* Double+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Double+Extension.swift"; sourceTree = "<group>"; };
 		8DD5CBB62C107BFD004F27BD /* ReviewTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewTableViewCell.swift; sourceTree = "<group>"; };
 		8DD5CBB82C107C82004F27BD /* DetailedReviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailedReviewViewController.swift; sourceTree = "<group>"; };
 		9CED79D02C06FC5B009F9D3A /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
@@ -201,6 +213,7 @@
 			isa = PBXGroup;
 			children = (
 				611644372C0909D4009FFDA5 /* SignManager.swift */,
+				9C82B94E2C0F2D27008FA84E /* NetworkManager.swift */,
 				618DEE052C12516A006B95A8 /* UserManager.swift */,
 			);
 			path = Service;
@@ -250,7 +263,7 @@
 				613D86A32C05BFF90039E771 /* LaunchScreen.storyboard */,
 				613D86A62C05BFF90039E771 /* Info.plist */,
 				61DAC4FF2C06CCB000DFC575 /* Secret.swift */,
-				613ECF352C0C822100C16A82 /* GoogleService-Info.plist */,
+				9C82B94C2C0F2C9E008FA84E /* GoogleService-Info.plist */,
 			);
 			path = TteoPpoKki4U;
 			sourceTree = "<group>";
@@ -261,9 +274,7 @@
 				611578CE2C0DCAA30096BC43 /* Sign */,
 				CE3F36362C0846B900532901 /* RecommendPage */,
 				8DB30F1F2C076B6F00503139 /* MyPage */,
-				9CED79D62C082243009F9D3A /* NetworkManager.swift */,
-				9CED79D82C085C09009F9D3A /* ResponseStore.swift */,
-				9CED79DC2C0890C3009F9D3A /* SearchLocation.swift */,
+				9C82B9502C0F2D55008FA84E /* ResponseStore.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -273,7 +284,7 @@
 			children = (
 				611644332C09038B009FFDA5 /* SignVM */,
 				8DB30F2C2C07764E00503139 /* MyPage */,
-				9CED79D22C06FC77009F9D3A /* MapVIewModel.swift */,
+				9C82B9562C0F31A0008FA84E /* MapVIewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -285,7 +296,8 @@
 				CE3F36332C08467700532901 /* RecommendPage */,
 				6116442E2C08FEF2009FFDA5 /* Sign */,
 				8DB30F1C2C076A6A00503139 /* MyPage */,
-				9CED79D02C06FC5B009F9D3A /* MapView.swift */,
+				9C82B9582C0F31D0008FA84E /* MapView.swift */,
+				9C82B9542C0F3046008FA84E /* PinStoreView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -345,6 +357,7 @@
 			isa = PBXGroup;
 			children = (
 				8DB30F232C07700E00503139 /* UIColor+Extension.swift */,
+				9C82B95A2C0F54D7008FA84E /* Double+Extension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -468,7 +481,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8D580A472C082AB60057D370 /* Pretendard-Medium.ttf in Resources */,
-				613ECF362C0C822100C16A82 /* GoogleService-Info.plist in Resources */,
+				9C82B94D2C0F2C9E008FA84E /* GoogleService-Info.plist in Resources */,
 				613D86A22C05BFF90039E771 /* Assets.xcassets in Resources */,
 				8D580A492C082AB60057D370 /* Pretendard-Regular.ttf in Resources */,
 				8D580A4A2C082AB60057D370 /* Pretendard-ExtraLight.ttf in Resources */,
@@ -485,11 +498,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9CED79D12C06FC5B009F9D3A /* MapView.swift in Sources */,
-				9CED79D32C06FC77009F9D3A /* MapVIewModel.swift in Sources */,
 				611644352C09039F009FFDA5 /* SignViewModel.swift in Sources */,
+				9C82B94F2C0F2D27008FA84E /* NetworkManager.swift in Sources */,
 				61DAC4E22C05C3C100DFC575 /* CommunityViewController.swift in Sources */,
-				9CED79D92C085C09009F9D3A /* ResponseStore.swift in Sources */,
 				611644322C09000F009FFDA5 /* GreetingBodyView.swift in Sources */,
 				8D78CDE02C0E077D00051D50 /* WriteViewController.swift in Sources */,
 				8DD5CBB92C107C82004F27BD /* DetailedReviewViewController.swift in Sources */,
@@ -497,11 +508,13 @@
 				61DAC4E22C05C3C100DFC575 /* CommunityViewController.swift in Sources */,
 				8D78CDDE2C0DE61100051D50 /* SubmitReviewViewController.swift in Sources */,
 				CE3F36352C08469700532901 /* RecommendCardView.swift in Sources */,
+				9C82B9512C0F2D55008FA84E /* ResponseStore.swift in Sources */,
 				8D580A302C0826B40057D370 /* ThemeFont.swift in Sources */,
 				CE3F36382C0846C800532901 /* RecommendModel.swift in Sources */,
 				8DB30F302C07771400503139 /* MyPageSection.swift in Sources */,
 				8DB30F1E2C076AE900503139 /* MyPageCollectionViewCell.swift in Sources */,
 				61DAC4DE2C05C37B00DFC575 /* RecommendViewModel.swift in Sources */,
+				9C82B95B2C0F54D7008FA84E /* Double+Extension.swift in Sources */,
 				611644382C0909D4009FFDA5 /* SignManager.swift in Sources */,
 				8DD5CBB72C107BFD004F27BD /* ReviewTableViewCell.swift in Sources */,
 				611644302C08FFFC009FFDA5 /* GreetingHeaderView.swift in Sources */,
@@ -509,8 +522,10 @@
 				619D771A2C085EC80043EF82 /* GreetingViewController.swift in Sources */,
 				61DAC5002C06CCB000DFC575 /* Secret.swift in Sources */,
 				8D580A4F2C0893A40057D370 /* ScrapList.swift in Sources */,
+				9C82B9552C0F3046008FA84E /* PinStoreView.swift in Sources */,
 				8DB30F242C07700E00503139 /* UIColor+Extension.swift in Sources */,
 				8DB30F212C076B8B00503139 /* MyPageModel.swift in Sources */,
+				9C82B9592C0F31D0008FA84E /* MapView.swift in Sources */,
 				618DEE1A2C12772A006B95A8 /* Views.swift in Sources */,
 				8DA4C3842C0A0ACF008AB975 /* ReviewCell.swift in Sources */,
 				618DEE162C127521006B95A8 /* CustomInputView.swift in Sources */,
@@ -522,7 +537,6 @@
 				618DEE0E2C127430006B95A8 /* ChatCollectionViewController.swift in Sources */,
 				8DB30F322C07794E00503139 /* PersonalInfoViewController.swift in Sources */,
 				613D86992C05BFF80039E771 /* AppDelegate.swift in Sources */,
-				9CED79D72C082243009F9D3A /* NetworkManager.swift in Sources */,
 				CE3F363A2C08474700532901 /* RecommendViewController.swift in Sources */,
 				618DEE122C1274DD006B95A8 /* CustomImageView.swift in Sources */,
 				8D580A552C08C8770057D370 /* MyReviewCollectionViewCell.swift in Sources */,
@@ -534,7 +548,7 @@
 				8D580A512C08AAF70057D370 /* ScrapCell.swift in Sources */,
 				8DB30F292C0772DE00503139 /* PersonalInfoView.swift in Sources */,
 				613D869B2C05BFF80039E771 /* SceneDelegate.swift in Sources */,
-				9CED79DD2C0890C3009F9D3A /* SearchLocation.swift in Sources */,
+				9C82B9572C0F31A0008FA84E /* MapVIewModel.swift in Sources */,
 				61DAC4E02C05C3A700DFC575 /* MapViewController.swift in Sources */,
 				618DEE062C12516A006B95A8 /* UserManager.swift in Sources */,
 				8DB30F272C07705D00503139 /* ThemeColor.swift in Sources */,

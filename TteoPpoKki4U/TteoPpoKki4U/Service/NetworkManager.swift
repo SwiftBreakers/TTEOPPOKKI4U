@@ -10,15 +10,15 @@ import Foundation
 class NetworkManager {
     
     static let shared = NetworkManager()
+    var stores: [Document] = []
     
     
-    func fetchAPI(query: String) {
+    func fetchAPI(query: String, completion: @escaping ([Document]) -> Void) {
         
         var components = URLComponents(string: "https://dapi.kakao.com/v2/local/search/keyword")!
         components.queryItems = [
             URLQueryItem(name: "query", value: query),
-            URLQueryItem(name: "category_group_code", value: "FD6"),
-            //URLQueryItem(name: "radius", value: "200")
+            URLQueryItem(name: "category_group_code", value: "FD6")
         ]
         
         // URL 구성 요소를 사용하여 URL 생성
@@ -31,7 +31,7 @@ class NetworkManager {
         var urlRequest = URLRequest(url: url)
         urlRequest.httpMethod = "GET"
         urlRequest.addValue("application/json", forHTTPHeaderField: "Content-Type")
-        urlRequest.allHTTPHeaderFields = ["Authorization" : "KakaoAK 32b459e18e4f795d25e65e31ec0da140"]
+        urlRequest.allHTTPHeaderFields = ["Authorization" : "KakaoAK \(Secret().kakaoLocalApi)"]
         
         URLSession.shared.dataTask(with: urlRequest) { data, response, error in
             if let error = error {
@@ -54,8 +54,14 @@ class NetworkManager {
                 print("No data received")
                 return
             }
-            let stores = try? JSONDecoder().decode(Welcome.self, from: data)
-            print(stores)
+            guard let store = try? JSONDecoder().decode(Welcome.self, from: data) else { return }
+            self.stores = store.documents
+            
+            DispatchQueue.main.async {
+                completion(self.stores)
+            }
+            
         }.resume()
     }
+    
 }
