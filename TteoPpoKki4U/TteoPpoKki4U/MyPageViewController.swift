@@ -11,7 +11,7 @@ import SnapKit
 class MyPageViewController: UIViewController {
 
     let myPageView = MyPageView()
-    let myPageVM = MyPageVM()
+    let myPageVM = MyPageViewModel()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -60,7 +60,9 @@ extension MyPageViewController: UICollectionViewDataSource, UICollectionViewDele
             MyScrapVC.modalPresentationStyle = .fullScreen
             present(MyScrapVC, animated: true)
         case [1, 1]:
-            print("2")
+            let MyReviewVC = MyReviewViewController()
+            MyReviewVC.modalPresentationStyle = .fullScreen
+            present(MyReviewVC, animated: true)
         case [1, 2]:
             print("3")
         case [2, 0]:

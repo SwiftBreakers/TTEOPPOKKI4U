@@ -18,9 +18,10 @@ class MyScrapViewController: UIViewController {
         ]
     
     var backButton: UIButton = {
-        let button = UIButton()
-        button.setImage(UIImage(systemName: "arrow.left"), for: .normal)
-        button.tintColor = ThemeColor.mainOrange
+        let button = UIButton(type: .system)
+        let image = UIImage(systemName: "chevron.backward.2")
+        button.setImage(image, for: .normal)
+        button.tintColor = .systemGray
         button.addTarget(nil, action: #selector(backButtonTapped), for: .touchUpInside)
         return button
     }()

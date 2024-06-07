@@ -7,12 +7,19 @@
 
 import UIKit
 import SnapKit
+import Combine
 
-class GreetingViewController: UIViewController {
+final class GreetingViewController: UIViewController {
 
     
-    let greetingHeaderView = GreetingHeaderView()
-    let greetingBodyView = GreetingBodyView()
+    private lazy var greetingHeaderView = GreetingHeaderView()
+    private lazy var greetingBodyView: GreetingBodyView = {
+        let view = GreetingBodyView()
+        view.appleTapped = appleTapped
+        view.kakaoTapped = kakaoTapped
+        view.googleTapped = googleTapped
+        return view
+    }()
 
     lazy var vStackview: UIStackView = {
         let stackView = UIStackView(arrangedSubviews: [
@@ -24,14 +31,44 @@ class GreetingViewController: UIViewController {
         return stackView
     }()
     
+    private var appleTapped: (() -> Void)!
+    private var kakaoTapped: (() -> Void)!
+    private var googleTapped: (() -> Void)!
+    
+    var viewModel: SignViewModel!
+    private var cancellables = Set<AnyCancellable>()
+    
+    convenience init(appleTapped: @escaping () -> Void, kakaoTapped: @escaping () -> Void, googleTapped: @escaping () -> Void, viewModel: SignViewModel) {
+        self.init()
+        self.appleTapped = appleTapped
+        self.kakaoTapped = kakaoTapped
+        self.googleTapped = googleTapped
+        self.viewModel = viewModel
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
         setupLayout()
         
     }
+    private func bind() {
+        viewModel.loginPublisher.sink { [weak self] completion in
+            switch completion {
+            case .finished:
+                return
+            case .failure(let error):
+                let alert = UIAlertController(title: "에러 발생", message: "\(error.localizedDescription)이 발생했습니다.", preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "확인", style: .default))
+                self?.present(alert, animated: true)
+            }
+        } receiveValue: { _ in
+            print("로그인")
+        }.store(in: &cancellables)
+
+    }
     
-    func setupLayout() {
+    private func setupLayout() {
         view.addSubview(vStackview)
         
         vStackview.snp.makeConstraints { make in

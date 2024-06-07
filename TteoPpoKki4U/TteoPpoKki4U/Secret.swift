@@ -9,6 +9,6 @@ import Foundation
 
 struct Secret {
     
-    var kakaoApi = ""
-    
+    var kakaoApi = "51ae074db8189189c0ef592e1906d7c8"
+
 }
