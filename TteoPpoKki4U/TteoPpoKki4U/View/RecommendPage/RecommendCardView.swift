@@ -7,11 +7,13 @@
 
 import UIKit
 import VerticalCardSwiper
+import SnapKit
 
 public class MyCardCell: CardCell {
     
     public let titleLabel = UILabel()
     public let descriptionLabel = UILabel()
+    public let imageView = UIImageView()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -24,20 +26,33 @@ public class MyCardCell: CardCell {
     }
 
     private func setupViews() {
-        
-        titleLabel.translatesAutoresizingMaskIntoConstraints = false
-        descriptionLabel.translatesAutoresizingMaskIntoConstraints = false
+        contentView.addSubview(imageView)
         contentView.addSubview(titleLabel)
         contentView.addSubview(descriptionLabel)
         
-        NSLayoutConstraint.activate([
-            titleLabel.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
-            titleLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
-            descriptionLabel.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
-            descriptionLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 10)
-        ])
+        imageView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
+        titleLabel.snp.makeConstraints { make in
+            make.leading.equalToSuperview().inset(25)
+            make.bottom.equalTo(descriptionLabel.snp.bottom).inset(35)
+        }
+        descriptionLabel.snp.makeConstraints { make in
+            make.leading.equalToSuperview().inset(25)
+            make.bottom.equalToSuperview().inset(60)
+        }
     }
+    
     public func setCardUI() {
+        titleLabel.font = UIFont(name: ThemeFont.fontBold, size: 40)
+        titleLabel.textColor = .white
+        
+        descriptionLabel.font = UIFont(name: ThemeFont.fontRegular, size: 16)
+        descriptionLabel.textColor = .white
+        
+        imageView.layer.cornerRadius = 12
+        imageView.clipsToBounds = true
+        
         let randomRed: CGFloat = .random(in: 0...1)
         let randomGreen: CGFloat = .random(in: 0...1)
         let randomBlue: CGFloat = .random(in: 0...1)

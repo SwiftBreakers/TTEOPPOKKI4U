@@ -6,15 +6,19 @@
 //
 
 import Foundation
+import UIKit
 
 public struct Card {
-    public let id: Int
-    public let title: String
-    public let description: String
-
-    public init(id: Int, title: String, description: String) {
-        self.id = id
+    var title: String
+    var description: String
+    var longDescription: String
+    var imageURL: String
+    var image: UIImage?
+    
+    public init(title: String, description: String, imageURL: String, longDescription: String) {
         self.title = title
         self.description = description
+        self.imageURL = imageURL
+        self.longDescription = longDescription
     }
 }

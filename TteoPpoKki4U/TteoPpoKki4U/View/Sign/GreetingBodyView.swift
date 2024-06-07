@@ -7,75 +7,37 @@
 
 import UIKit
 import SnapKit
+import AuthenticationServices
+import KakaoSDKAuth
+import GoogleSignIn
 
 class GreetingBodyView: UIView {
     
-    let signInButton: UIButton = {
-        let button = UIButton(type: .system)
-        button.setTitle("Sign In", for: .normal)
-        button.backgroundColor = UIColor.orange
-        button.setTitleColor(.white, for: .normal)
-        button.layer.cornerRadius = 25
-        button.addTarget(nil, action: #selector(signInDidTapped), for: .touchUpInside)
+    lazy var appleLoginButton: ASAuthorizationAppleIDButton = {
+        let button = ASAuthorizationAppleIDButton(type: .signIn, style: .black)
+        button.cornerRadius = 25
+        button.addTarget(self, action: #selector(appleButtonDidTapped), for: .touchUpInside)
         return button
     }()
     
-    let signUpButton: UIButton = {
-        let button = UIButton(type: .system)
-        button.setTitle("Sign Up with Email", for: .normal)
-        button.backgroundColor = UIColor.green
-        button.setTitleColor(.white, for: .normal)
+    lazy var kakaoLoginButton: UIButton = {
+        let button = UIButton()
+        button.setImage(UIImage(named: "kakao_login_large_wide"), for: .normal)
         button.layer.cornerRadius = 25
-        button.addTarget(nil, action: #selector(signUpDidTapped), for: .touchUpInside)
+        button.addTarget(self, action: #selector(kakaoButtonDidTapped), for: .touchUpInside)
         return button
     }()
     
-    let appleLoginButton: UIButton = {
-        let button = UIButton(type: .system)
-        button.setTitle("Apple", for: .normal)
-        button.backgroundColor = .white
-        button.setTitleColor(.black, for: .normal)
-        button.layer.borderColor = UIColor.red.cgColor
-        button.layer.borderWidth = 1
+    lazy var googleLoginButton: GIDSignInButton = {
+        let button = GIDSignInButton()
         button.layer.cornerRadius = 25
-        button.setImage(UIImage(systemName: "applelogo"), for: .normal)
-        button.tintColor = .black
+        button.addTarget(self, action: #selector(googleButtonDidTapped), for: .touchUpInside)
         return button
     }()
     
-    let kakaoLoginButton: UIButton = {
-        let button = UIButton(type: .system)
-        button.setTitle("카카오 로그인", for: .normal)
-        button.backgroundColor = UIColor.yellow
-        button.setTitleColor(.black, for: .normal)
-        button.layer.cornerRadius = 25
-        button.setImage(UIImage(systemName: "message"), for: .normal)
-        button.tintColor = .black
-        return button
-    }()
-    
-    let naverLoginButton: UIButton = {
-        let button = UIButton(type: .system)
-        button.setTitle("네이버 로그인", for: .normal)
-        button.backgroundColor = UIColor.green
-        button.setTitleColor(.white, for: .normal)
-        button.layer.cornerRadius = 25
-        button.setImage(UIImage(systemName: "n.square.fill"), for: .normal)
-        button.tintColor = .white
-        return button
-    }()
-    
-    let googleLoginButton: UIButton = {
-        let button = UIButton(type: .system)
-        button.setTitle("Sign in with Google", for: .normal)
-        button.backgroundColor = .white
-        button.setTitleColor(.gray, for: .normal)
-        button.layer.cornerRadius = 25
-        button.setImage(UIImage(named: "google"), for: .normal) // 구글 로고 이미지 추가
-        button.tintColor = .gray
-        return button
-    }()
-    
+    var appleTapped: (() -> Void)?
+    var kakaoTapped: (() -> Void)?
+    var googleTapped: (() -> Void)?
     
     override init(frame: CGRect) {
         super.init(frame: .zero)
@@ -88,70 +50,43 @@ class GreetingBodyView: UIView {
     }
     
     private func layout() {
-        [signInButton, signUpButton, appleLoginButton, kakaoLoginButton, naverLoginButton, googleLoginButton].forEach { button in
+        [appleLoginButton, kakaoLoginButton, googleLoginButton].forEach { button in
             self.addSubview(button)
         }
         
-        signInButton.snp.makeConstraints { make in
+        appleLoginButton.snp.makeConstraints { make in
             make.top.equalToSuperview().offset(20)
             make.leading.equalToSuperview().offset(50)
             make.trailing.equalToSuperview().offset(-50)
             make.leading.trailing.height.equalTo(50)
         }
         
-        signUpButton.snp.makeConstraints { make in
-            make.top.equalTo(signInButton.snp.bottom).offset(20)
-            make.leading.equalToSuperview().offset(50)
-            make.trailing.equalToSuperview().offset(-50)
-            make.leading.trailing.height.equalTo(signInButton)
-        }
-        
-        appleLoginButton.snp.makeConstraints { make in
-            make.top.equalTo(signUpButton.snp.bottom).offset(20)
-            make.leading.equalToSuperview().offset(50)
-            make.trailing.equalToSuperview().offset(-50)
-            make.leading.trailing.height.equalTo(signInButton)
-        }
-        
         kakaoLoginButton.snp.makeConstraints { make in
             make.top.equalTo(appleLoginButton.snp.bottom).offset(20)
             make.leading.equalToSuperview().offset(50)
             make.trailing.equalToSuperview().offset(-50)
-            make.leading.trailing.height.equalTo(signInButton)
-        }
-        
-        naverLoginButton.snp.makeConstraints { make in
-            make.top.equalTo(kakaoLoginButton.snp.bottom).offset(20)
-            make.leading.equalToSuperview().offset(50)
-            make.trailing.equalToSuperview().offset(-50)
-            make.leading.trailing.height.equalTo(signInButton)
+            make.leading.trailing.height.equalTo(50)
         }
         
         googleLoginButton.snp.makeConstraints { make in
-            make.top.equalTo(naverLoginButton.snp.bottom).offset(20)
+            make.top.equalTo(kakaoLoginButton.snp.bottom).offset(20)
             make.leading.equalToSuperview().offset(50)
             make.trailing.equalToSuperview().offset(-50)
-            make.leading.trailing.height.equalTo(signInButton)
+            make.leading.trailing.height.equalTo(50)
         }
         
     }
     
-    
-    
-    @objc func signUpDidTapped() {
-        let signUpVC = SignUpViewController()
-        currentViewController!.present(signUpVC, animated: true)
+    @objc func appleButtonDidTapped() {
+        appleTapped?()
     }
     
-    @objc func signInDidTapped() {
-        let signInVC = SignInViewController()
-        currentViewController!.present(signInVC, animated: true)
+    @objc func kakaoButtonDidTapped() {
+        kakaoTapped?()
     }
     
-}
-
-extension UIResponder {
-    var currentViewController: UIViewController? {
-        return next as? UIViewController ?? next?.currentViewController
+    @objc func googleButtonDidTapped() {
+        googleTapped?()
     }
+    
 }
