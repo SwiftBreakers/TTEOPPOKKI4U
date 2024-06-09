@@ -122,8 +122,7 @@ extension MyPageViewController: UICollectionViewDataSource, UICollectionViewDele
         case [1, 2]:
             print("3")
         case [2, 0]:
-            let WriteVC = WriteViewController()
-            present(WriteVC, animated: true)
+            print("하위 페이지에서 회원탈퇴 버튼 생성 예정")
         case [2, 1]:
             signOutTapped!()
         case [2, 2]:

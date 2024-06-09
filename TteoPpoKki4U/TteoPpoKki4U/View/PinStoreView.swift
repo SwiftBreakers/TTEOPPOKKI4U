@@ -175,7 +175,6 @@ class PinStoreView: UIView {
         
         storeVC.addressText = address
         storeVC.shopTitleText = shopName
-        
         currentViewController?.present(storeVC, animated: true)
     }
     

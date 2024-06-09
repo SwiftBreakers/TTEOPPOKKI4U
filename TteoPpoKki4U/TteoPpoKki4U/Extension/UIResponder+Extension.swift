@@ -2,7 +2,7 @@
 //  UIResponder+Extension.swift
 //  TteoPpoKki4U
 //
-//  Created by Dongik Song on 6/7/24.
+//  Created by 박미림 on 6/7/24.
 //
 
 import UIKit
