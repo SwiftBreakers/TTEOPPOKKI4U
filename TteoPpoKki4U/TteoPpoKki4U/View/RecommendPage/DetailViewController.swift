@@ -27,7 +27,11 @@ class DetailViewController: UIViewController {
         titleLabel.text = card.title
         descriptionLabel.text = card.description
         longDescriptionLabel.text = card.longDescription
-        imageView.image = card.image
+        if let url = URL(string: card.imageURL) {
+            imageView.kf.setImage(with: url)
+        } else {
+            imageView.image = nil // Placeholder image or nil
+        }
     }
     
     private func setupViews() {
