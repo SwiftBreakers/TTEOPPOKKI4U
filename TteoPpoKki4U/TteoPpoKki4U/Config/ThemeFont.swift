@@ -4,7 +4,7 @@
 //
 //  Created by 박미림 on 5/30/24.
 //
-import Foundation
+import UIKit
 
 struct ThemeFont {
     static let fontELight = "Pretendard-ExtraLight"

@@ -133,6 +133,7 @@ class PinStoreView: UIView {
             make.height.equalTo(40)
         }
     }
+
     
     private func setClickEvents() {
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(titleLabelTapped))

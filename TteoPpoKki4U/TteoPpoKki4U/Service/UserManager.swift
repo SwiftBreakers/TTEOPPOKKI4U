@@ -18,7 +18,7 @@ class UserManager {
         
         
         let storageRef = Storage.storage().reference(forURL: "gs://tteoppokki4u.appspot.com")
-        let storageProfileRef = storageRef.child("profile").child(uid)
+        let storageProfileRef = storageRef.child(db_user_profile).child(uid)
         guard let imageData = profile.jpegData(compressionQuality: 0.8) else { return }
         
         let metaData = StorageMetadata()
@@ -37,8 +37,8 @@ class UserManager {
                 }
                 
                 guard let downloadURL = url else { return }
-                let values = ["nickName": nickName, "profileImageUrl": downloadURL.absoluteString]
-                self.ref.child("users").child(uid).updateChildValues(values) { error, reference in
+                let values = [db_nickName: nickName, db_profileImageUrl: downloadURL.absoluteString]
+                self.ref.child(db_user_users).child(uid).updateChildValues(values) { error, reference in
                     if let error = error {
                         completion(error)
                         return
@@ -50,7 +50,7 @@ class UserManager {
     }
     
     func fetchUserData(uid: String, completion: @escaping((Error)?, DataSnapshot?) -> Void) {
-        ref.child("users").child(uid).getData(completion: completion)
+        ref.child(db_user_users).child(uid).getData(completion: completion)
     }
     
     func writeReview(userDict: [String: Any], completion: (((Error)?) -> Void)?) {
@@ -58,11 +58,11 @@ class UserManager {
     }
     
     func getMyReview(uid: String, completion: @escaping(QuerySnapshot?, (Error)?) -> Void) {
-        reviewCollection.whereField("uid", isEqualTo: uid).order(by: "createdAt").getDocuments(completion: completion)
+        reviewCollection.whereField(db_uid, isEqualTo: uid).order(by: "createdAt").getDocuments(completion: completion)
     }
     
     func getSpecificReview(uid: String, storeAddress: String, title: String, completion: @escaping(QuerySnapshot?, (Error)?) -> Void) {
-        reviewCollection.whereField("uid", isEqualTo: uid).whereField("storeAddress", isEqualTo: storeAddress).whereField("title", isEqualTo: title).getDocuments(completion: completion)
+        reviewCollection.whereField(db_uid, isEqualTo: uid).whereField(db_storeAddress, isEqualTo: storeAddress).whereField(db_title , isEqualTo: title).getDocuments(completion: completion)
     }
     
 }

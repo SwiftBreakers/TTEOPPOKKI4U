@@ -115,11 +115,7 @@ extension MyPageViewController: UICollectionViewDataSource, UICollectionViewDele
             present(MyScrapVC, animated: true)
         case [1, 1]:
             let MyReviewVC = MyReviewViewController()
-            //MyReviewVC.modalPresentationStyle = .fullScreen
             navigationController?.pushViewController(MyReviewVC, animated: true)
-            //present(MyReviewVC, animated: true)
-        case [1, 2]:
-            print("3")
         case [2, 0]:
             let settingVC = SettingViewController()
             navigationController?.pushViewController(settingVC, animated: true)
@@ -130,9 +126,6 @@ extension MyPageViewController: UICollectionViewDataSource, UICollectionViewDele
                 self.signOutTapped!()
             }))
             present(alert, animated: true)
-        case [2, 2]:
-            let chatVC = ChatViewController()
-            present(chatVC, animated: true)
         default:
             return
         }
