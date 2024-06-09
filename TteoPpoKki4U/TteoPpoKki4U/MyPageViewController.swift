@@ -116,13 +116,16 @@ extension MyPageViewController: UICollectionViewDataSource, UICollectionViewDele
         case [1, 1]:
             let MyReviewVC = MyReviewViewController()
             navigationController?.pushViewController(MyReviewVC, animated: true)
-        case [1, 2]:
-            print("3")
         case [2, 0]:
             let settingVC = SettingViewController()
             navigationController?.pushViewController(settingVC, animated: true)
         case [2, 1]:
-            signOutTapped!()
+            let alert = UIAlertController(title: "로그아웃", message: "정말로 로그아웃 하시겠습니까?", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "취소", style: .cancel, handler: nil))
+            alert.addAction(UIAlertAction(title: "확인", style: .destructive, handler: { _ in
+                self.signOutTapped!()
+            }))
+            present(alert, animated: true)
         default:
             return
         }
