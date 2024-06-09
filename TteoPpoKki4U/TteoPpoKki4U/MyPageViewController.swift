@@ -33,7 +33,7 @@ class MyPageViewController: UIViewController {
         super.viewDidLoad()
         
         view.backgroundColor = .systemBackground
-        title = "Profile"
+        title = "마이페이지"
         
         view.addSubview(myPageView)
         
@@ -119,7 +119,8 @@ extension MyPageViewController: UICollectionViewDataSource, UICollectionViewDele
         case [1, 2]:
             print("3")
         case [2, 0]:
-            print("하위 페이지에서 회원탈퇴 버튼 생성 예정")
+            let settingVC = SettingViewController()
+            navigationController?.pushViewController(settingVC, animated: true)
         case [2, 1]:
             signOutTapped!()
         default:
