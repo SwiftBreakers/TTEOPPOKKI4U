@@ -38,10 +38,10 @@ class SignManager {
     func saveUserData(user: UserModel) {
         let ref = Database.database().reference()
         let userData: [String: Any] = [
-            "uid": user.uid,
-            "nickName": "",
-            "email": user.email,
-            "profileImageUrl": ""
+            db_uid: user.uid,
+            db_nickName: "",
+            db_email: user.email,
+            db_profileImageUrl: ""
         ]
         ref.child("users").child(user.uid).setValue(userData)
     }
@@ -147,14 +147,6 @@ class SignManager {
                     }
                 case "google.com":
                     signOutGoogle { error in
-                        if let error = error {
-                            completion(.failure(error))
-                        } else {
-                            self.signOut(completion: completion)
-                        }
-                    }
-                case "kakao.com":
-                    signOutKakao { error in
                         if let error = error {
                             completion(.failure(error))
                         } else {

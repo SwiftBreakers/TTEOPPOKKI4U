@@ -44,7 +44,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                 signViewModel?.appleLoginDidTapped()
             },
             kakaoTapped: { [weak signViewModel] in
-                signViewModel?.kakaoLoginDidTapped()
+                // signViewModel?.kakaoLoginDidTapped()
             },
             googleTapped: { [weak signViewModel] in
                 signViewModel?.googleLoginDidTapped(presentViewController: self.greetingVC)},
@@ -90,7 +90,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                 signViewModel?.appleLoginDidTapped()
             },
             kakaoTapped: { [weak signViewModel] in
-                signViewModel?.kakaoLoginDidTapped()
+               // signViewModel?.kakaoLoginDidTapped()
             },
             googleTapped: { [weak signViewModel] in
                 signViewModel?.googleLoginDidTapped(presentViewController: self.greetingVC)},
