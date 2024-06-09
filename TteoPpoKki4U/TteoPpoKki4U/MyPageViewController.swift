@@ -48,6 +48,12 @@ class MyPageViewController: UIViewController {
         fetchUser()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        fetchUser()
+    }
+    
     private func fetchUser() {
         guard let uid = Auth.auth().currentUser?.uid else { return }
         userManager.fetchUserData(uid: uid) { [self] error, snapshot in
@@ -102,6 +108,7 @@ extension MyPageViewController: UICollectionViewDataSource, UICollectionViewDele
         switch indexPath {
         case [0, 0]:
             let personalInfoVC = PersonalInfoViewController()
+            personalInfoVC.modalPresentationStyle = .fullScreen
             present(personalInfoVC, animated: true)
         case [1, 0]:
             let MyScrapVC = MyScrapViewController()
@@ -109,8 +116,9 @@ extension MyPageViewController: UICollectionViewDataSource, UICollectionViewDele
             present(MyScrapVC, animated: true)
         case [1, 1]:
             let MyReviewVC = MyReviewViewController()
-            MyReviewVC.modalPresentationStyle = .fullScreen
-            present(MyReviewVC, animated: true)
+            //MyReviewVC.modalPresentationStyle = .fullScreen
+            navigationController?.pushViewController(MyReviewVC, animated: true)
+            //present(MyReviewVC, animated: true)
         case [1, 2]:
             print("3")
         case [2, 0]:
@@ -119,7 +127,7 @@ extension MyPageViewController: UICollectionViewDataSource, UICollectionViewDele
         case [2, 1]:
             signOutTapped!()
         case [2, 2]:
-            let chatVC = ChatCollectionViewController()
+            let chatVC = ChatViewController()
             present(chatVC, animated: true)
         default:
             return

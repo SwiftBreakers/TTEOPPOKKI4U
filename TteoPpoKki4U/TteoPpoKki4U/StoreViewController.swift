@@ -19,6 +19,8 @@ class StoreViewController: UIViewController {
     private let goReviewButton = UIButton()
     private let tableView = UITableView()
     
+    var addressText: String?
+    var shopTitleText: String?
     // Dummy data
        private let storeName = "울랄라 떡볶이"
        private let storeImages = ["image1", "image2", "image3"]
@@ -35,6 +37,13 @@ class StoreViewController: UIViewController {
         setupViews()
         setupConstraints()
         configureUI()
+        locationLabel.text = addressText
+        storeNameLabel.text = shopTitleText
+        fetchRequest()
+    }
+    
+    private func fetchRequest() {
+        
     }
     
     private func setupViews() {
@@ -84,6 +93,7 @@ class StoreViewController: UIViewController {
         goReviewButton.setTitleColor(.white, for: .normal)
         goReviewButton.backgroundColor = .systemBlue
         goReviewButton.layer.cornerRadius = 10
+        goReviewButton.addTarget(self, action: #selector(reviewButtonDidTapped), for: .touchUpInside)
         view.addSubview(goReviewButton)
         
         // Setup Table View
@@ -147,6 +157,14 @@ class StoreViewController: UIViewController {
     @objc private func backButtonTapped() {
         self.dismiss(animated: true, completion: nil)
     }
+    
+    @objc private func reviewButtonDidTapped() {
+        let writeVC = WriteViewController()
+        writeVC.addressText = addressText
+        writeVC.storeTitleText = shopTitleText
+        present(writeVC, animated: true)
+    }
+    
 }
 
 extension StoreViewController: UITableViewDelegate, UITableViewDataSource {

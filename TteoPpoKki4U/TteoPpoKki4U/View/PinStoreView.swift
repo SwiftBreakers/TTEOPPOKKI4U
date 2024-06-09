@@ -170,7 +170,13 @@ class PinStoreView: UIView {
     }
     
     @objc func titleLabelTapped() {
-        print("가게 상세정보 페이지로 이동")
+        let storeVC = StoreViewController()
+        guard let address = addressLabel.text, let shopName = titleLabel.text else { return }
+        
+        storeVC.addressText = address
+        storeVC.shopTitleText = shopName
+        
+        currentViewController?.present(storeVC, animated: true)
     }
     
     @objc func scrapButtonTapped() {

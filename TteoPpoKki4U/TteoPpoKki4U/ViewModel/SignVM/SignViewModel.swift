@@ -56,7 +56,19 @@ class SignViewModel: NSObject {
                     self?.openKakaoService()
                 } else {
                     print("Token is valid")
-                    self?.loadingInfoDidKakaoAuth()
+                    // 이 부분에서는 Kakao 토큰을 갱신하거나 가져오는 로직이 필요합니다.
+                    // 예를 들어, UserApi.shared.accessTokenInfo에서 토큰을 받아와야 할 수 있습니다.
+                    UserApi.shared.me { kakaoUser, error in
+                        if let error = error {
+                            print("Failed to get user info: \(error.localizedDescription)")
+                            return
+                        }
+                        guard let oauthToken = kakaoUser?.groupUserToken else {
+                            print("No access token available")
+                            return
+                        }
+                        self?.loadingInfoDidKakaoAuth(oauthToken: oauthToken)
+                    }
                 }
             }
         } else {
@@ -64,7 +76,7 @@ class SignViewModel: NSObject {
             openKakaoService()
         }
     }
-    
+
     private func openKakaoService() {
         if UserApi.isKakaoTalkLoginAvailable() {
             UserApi.shared.loginWithKakaoTalk { [weak self] oauthToken, error in
@@ -72,9 +84,9 @@ class SignViewModel: NSObject {
                     self?.loginPublisher.send(completion: .failure(error))
                     return
                 }
+                guard let oauthToken = oauthToken else { return }
                 print("KakaoTalk login successful")
-                _ = oauthToken
-                self?.loadingInfoDidKakaoAuth()
+                self?.loadingInfoDidKakaoAuth(oauthToken: oauthToken.accessToken)
             }
         } else {
             UserApi.shared.loginWithKakaoAccount { [weak self] oauthToken, error in
@@ -82,14 +94,14 @@ class SignViewModel: NSObject {
                     self?.loginPublisher.send(completion: .failure(error))
                     return
                 }
+                guard let oauthToken = oauthToken else { return }
                 print("KakaoAccount login successful")
-                _ = oauthToken
-                self?.loadingInfoDidKakaoAuth()
+                self?.loadingInfoDidKakaoAuth(oauthToken: oauthToken.accessToken)
             }
         }
     }
-    
-    private func loadingInfoDidKakaoAuth() {
+
+    private func loadingInfoDidKakaoAuth(oauthToken: String) {
         UserApi.shared.me { [weak self] kakaoUser, error in
             if let error = error {
                 self?.loginPublisher.send(completion: .failure(error))
@@ -100,31 +112,27 @@ class SignViewModel: NSObject {
             }
             let email = kakaoUser?.kakaoAccount?.email ?? "\(uid)@kakao.com"
             
-            
             let userModel = UserModel(uid: String(uid), email: email, isBlock: false, nickName: "", profileImageUrl: "")
-            self?.signInToFirebase(with: userModel)
+            self?.signInToFirebase(with: userModel, oauthToken: oauthToken)
         }
     }
-    
-    private func signInToFirebase(with userModel: UserModel) {
-            let emailForSignIn = userModel.email
-            let passwordForSignIn = userModel.uid
-            
-            let credential = OAuthProvider.credential(withProviderID: "oidc.kakao.com", accessToken: passwordForSignIn)
-            
-            Auth.auth().signIn(with: credential) { [weak self] authResult, error in
-                if let error = error {
-                    self?.loginPublisher.send(completion: .failure(error))
-                    return
-                }
-                
-                print("Firebase sign in successful")
-                self?.signManager.saveUserData(user: userModel)
-                self?.loginPublisher.send(())
-            }
-        }
 
-    
+    private func signInToFirebase(with userModel: UserModel, oauthToken: String) {
+        let credential = OAuthProvider.credential(withProviderID: "kakao.com", accessToken: oauthToken)
+        
+        Auth.auth().signIn(with: credential) { [weak self] authResult, error in
+            if let error = error {
+                print("Error signing in: \(error.localizedDescription)")
+                self?.loginPublisher.send(completion: .failure(error))
+                return
+            }
+            
+            print("Firebase sign in successful")
+            self?.signManager.saveUserData(user: userModel)
+            self?.loginPublisher.send(())
+        }
+    }
+
     private func signUpToFirebase(with userModel: UserModel) {
         let emailForSignUp = userModel.email
         let passwordForSignUp = userModel.uid
