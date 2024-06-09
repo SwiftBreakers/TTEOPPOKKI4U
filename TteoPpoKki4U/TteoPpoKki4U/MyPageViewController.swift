@@ -108,26 +108,20 @@ extension MyPageViewController: UICollectionViewDataSource, UICollectionViewDele
         switch indexPath {
         case [0, 0]:
             let personalInfoVC = PersonalInfoViewController()
-            personalInfoVC.modalPresentationStyle = .fullScreen
-            present(personalInfoVC, animated: true)
+            navigationController?.pushViewController(personalInfoVC, animated: true)
         case [1, 0]:
             let MyScrapVC = MyScrapViewController()
             MyScrapVC.modalPresentationStyle = .fullScreen
             present(MyScrapVC, animated: true)
         case [1, 1]:
             let MyReviewVC = MyReviewViewController()
-            //MyReviewVC.modalPresentationStyle = .fullScreen
             navigationController?.pushViewController(MyReviewVC, animated: true)
-            //present(MyReviewVC, animated: true)
         case [1, 2]:
             print("3")
         case [2, 0]:
             print("하위 페이지에서 회원탈퇴 버튼 생성 예정")
         case [2, 1]:
             signOutTapped!()
-        case [2, 2]:
-            let chatVC = ChatViewController()
-            present(chatVC, animated: true)
         default:
             return
         }

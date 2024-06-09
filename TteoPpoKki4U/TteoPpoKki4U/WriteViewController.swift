@@ -210,7 +210,6 @@ class WriteViewController: UIViewController {
         }
         
         // 등록 버튼 설정
-        submitButton.setTitle("리뷰 등록", for: .normal)
         submitButton.setTitleColor(.white, for: .normal)
         submitButton.backgroundColor = .orange
         submitButton.layer.cornerRadius = 5

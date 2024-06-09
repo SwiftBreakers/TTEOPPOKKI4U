@@ -24,8 +24,7 @@ class MyPageViewModel {
         ]),
         MyPageSection(title: "Settings", options: [
             MyPageModel(icon: "gearshape.fill", title: "설정"),
-            MyPageModel(icon: "power.circle", title: "로그아웃"),
-            MyPageModel(icon: "message", title: "테스트")
+            MyPageModel(icon: "power.circle", title: "로그아웃")
         ])
     ]
 
