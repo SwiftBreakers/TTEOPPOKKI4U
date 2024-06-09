@@ -1,5 +1,5 @@
 {
-  "originHash" : "54e230031e3827bb9c2e6a9726eb649f82ef8d49970143add8fae44064e1b836",
+  "originHash" : "1666de5cab71afe3a6d92057e671c5a0644b3a3e48ec47f4ec17175ccc95aae6",
   "pins" : [
     {
       "identity" : "abseil-cpp-binary",
@@ -164,6 +164,15 @@
       }
     },
     {
+      "identity" : "progresshud",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/relatedcode/ProgressHUD.git",
+      "state" : {
+        "revision" : "9364904a42cb25f58d026451140c4080a868e72e",
+        "version" : "14.1.3"
+      }
+    },
+    {
       "identity" : "promises",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/google/promises.git",
@@ -173,12 +182,30 @@
       }
     },
     {
+      "identity" : "prynttrimmerview",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/HHK1/PryntTrimmerView",
+      "state" : {
+        "revision" : "ac1b60a22c7e6a6514de7a66d2f3d5b537c956d5",
+        "version" : "4.0.2"
+      }
+    },
+    {
       "identity" : "snapkit",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/SnapKit/SnapKit",
       "state" : {
         "revision" : "2842e6e84e82eb9a8dac0100ca90d9444b0307f4",
         "version" : "5.7.1"
+      }
+    },
+    {
+      "identity" : "stevia",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/freshOS/Stevia",
+      "state" : {
+        "revision" : "cfb1a1d2159277bb553c3dc46f3f742c0275566d",
+        "version" : "5.1.2"
       }
     },
     {
@@ -197,6 +224,15 @@
       "state" : {
         "revision" : "16e5a996ee9b6951a1323a9e875da1074741d96c",
         "version" : "2.3.1"
+      }
+    },
+    {
+      "identity" : "ypimagepicker",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/Yummypets/YPImagePicker.git",
+      "state" : {
+        "revision" : "2db04eb020e3ef03828d3207d85250e110fa5919",
+        "version" : "5.2.2"
       }
     }
   ],

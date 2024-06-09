@@ -9,6 +9,7 @@ import UIKit
 import SnapKit
 import PhotosUI
 import Firebase
+import ProgressHUD
 
 class PersonalInfoViewController: UIViewController, PHPickerViewControllerDelegate {
     
@@ -113,7 +114,9 @@ class PersonalInfoViewController: UIViewController, PHPickerViewControllerDelega
             print(error)
         }
         
-        self.dismiss(animated: true)
+       
+            self.dismiss(animated: true)
+        
         
     }
 }

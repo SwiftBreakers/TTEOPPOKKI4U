@@ -171,6 +171,10 @@ class PinStoreView: UIView {
     
     @objc func titleLabelTapped() {
         let storeVC = StoreViewController()
+        guard let address = addressLabel.text, let shopName = titleLabel.text else { return }
+        
+        storeVC.addressText = address
+        storeVC.shopTitleText = shopName
         currentViewController?.present(storeVC, animated: true)
     }
     

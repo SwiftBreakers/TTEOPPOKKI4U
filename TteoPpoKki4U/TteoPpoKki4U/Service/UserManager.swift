@@ -8,6 +8,7 @@
 import UIKit
 import FirebaseStorage
 import FirebaseDatabase
+import FirebaseFirestore
 
 class UserManager {
     
@@ -30,19 +31,38 @@ class UserManager {
             }
             
             storageProfileRef.downloadURL { (url, error) in
-                if let error = error { 
+                if let error = error {
                     completion(error)
                     return
                 }
                 
                 guard let downloadURL = url else { return }
-                self.ref.child("users").child(uid).setValue(["nickName": nickName, "profileImageUrl": downloadURL.absoluteString])
+                let values = ["nickName": nickName, "profileImageUrl": downloadURL.absoluteString]
+                self.ref.child("users").child(uid).updateChildValues(values) { error, reference in
+                    if let error = error {
+                        completion(error)
+                        return
+                    }
+                }
             }
         }
- 
+        
     }
     
     func fetchUserData(uid: String, completion: @escaping((Error)?, DataSnapshot?) -> Void) {
         ref.child("users").child(uid).getData(completion: completion)
     }
+    
+    func writeReview(userDict: [String: Any], completion: (((Error)?) -> Void)?) {
+        reviewCollection.addDocument(data: userDict, completion: completion)
+    }
+    
+    func getMyReview(uid: String, completion: @escaping(QuerySnapshot?, (Error)?) -> Void) {
+        reviewCollection.whereField("uid", isEqualTo: uid).order(by: "createdAt").getDocuments(completion: completion)
+    }
+    
+    func getSpecificReview(uid: String, storeAddress: String, title: String, completion: @escaping(QuerySnapshot?, (Error)?) -> Void) {
+        reviewCollection.whereField("uid", isEqualTo: uid).whereField("storeAddress", isEqualTo: storeAddress).whereField("title", isEqualTo: title).getDocuments(completion: completion)
+    }
+    
 }
