@@ -8,7 +8,13 @@
 import UIKit
 import SnapKit
 import FirebaseAuth
+<<<<<<< HEAD
 import FirebaseDatabase
+||||||| 4108d66
+=======
+import FirebaseDatabaseInternal
+import FirebaseDatabase
+>>>>>>> 543555348c7b57c3402d357c7569f70b36112522
 
 class SettingViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
@@ -56,19 +62,19 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
         }
         
         // 회원탈퇴 버튼 설정
-//        if indexPath.row == 0 {
-//            let deleteButton = UIButton(type: .system)
-//            deleteButton.setTitle("회원탈퇴", for: .normal)
-//            deleteButton.setTitleColor(.red, for: .normal)
-//            deleteButton.addTarget(self, action: #selector(deleteButtonTapped), for: .touchUpInside)
-//            
-//            cell.contentView.addSubview(deleteButton)
-//            
-//            // SnapKit을 사용하여 버튼 레이아웃 설정
-//            deleteButton.snp.makeConstraints { make in
-//                make.center.equalTo(cell.contentView)
-//            }
-//        }
+        //        if indexPath.row == 0 {
+        //            let deleteButton = UIButton(type: .system)
+        //            deleteButton.setTitle("회원탈퇴", for: .normal)
+        //            deleteButton.setTitleColor(.red, for: .normal)
+        //            deleteButton.addTarget(self, action: #selector(deleteButtonTapped), for: .touchUpInside)
+        //
+        //            cell.contentView.addSubview(deleteButton)
+        //
+        //            // SnapKit을 사용하여 버튼 레이아웃 설정
+        //            deleteButton.snp.makeConstraints { make in
+        //                make.center.equalTo(cell.contentView)
+        //            }
+        //        }
         
         return cell
     }
@@ -84,8 +90,8 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
     }
     
     // 회원탈퇴 버튼 액션
- func deleteUser() {
-        let alert = UIAlertController(title: "회원탈퇴", message: "정말로 회원탈퇴 하시겠습니까?", preferredStyle: .alert)
+    func deleteUser() {
+        let alert = UIAlertController(title: "회원탈퇴", message: "정말로 회원탈퇴 하시겠습니까? 작성 리뷰는 자동으로 삭제되지 않습니다.", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "취소", style: .cancel, handler: nil))
         alert.addAction(UIAlertAction(title: "확인", style: .destructive, handler: { _ in
             //firebase 회원탈퇴
@@ -95,14 +101,23 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
                 if let error = error {
                     print("\(error.localizedDescription)")
                 } else {
-                                        
+
+                   let ref = Database.database().reference()
+                    ref.child("users").child(user!.uid).removeValue { error, _ in
+                        if let error = error {
+                            print(error)
+                        }
+                    }
+                    
                     let scene = UIApplication.shared.connectedScenes.first
                     if let sd: SceneDelegate = (scene?.delegate as? SceneDelegate) {
                         sd.switchToGreetingViewController()
+                        
+                        print("회원탈퇴 처리")
                     }
                 }
             }
-            }))
-            present(alert, animated: true, completion: nil)
-        }
-                                      }
+        }))
+        present(alert, animated: true, completion: nil)
+    }
+}

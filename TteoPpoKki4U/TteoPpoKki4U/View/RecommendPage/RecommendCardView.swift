@@ -20,11 +20,11 @@ public class MyCardCell: CardCell {
         setupViews()
         setCardUI()
     }
-
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
+    
     private func setupViews() {
         contentView.addSubview(imageView)
         contentView.addSubview(titleLabel)
@@ -52,11 +52,6 @@ public class MyCardCell: CardCell {
         
         imageView.layer.cornerRadius = 12
         imageView.clipsToBounds = true
-        
-        let randomRed: CGFloat = .random(in: 0...1)
-        let randomGreen: CGFloat = .random(in: 0...1)
-        let randomBlue: CGFloat = .random(in: 0...1)
-        self.backgroundColor = UIColor(red: randomRed, green: randomGreen, blue: randomBlue, alpha: 1.0)
         
         self.layer.cornerRadius = 12
     }
