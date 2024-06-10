@@ -96,6 +96,7 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
                 if let error = error {
                     print("\(error.localizedDescription)")
                 } else {
+
                    let ref = Database.database().reference()
                     ref.child("users").child(user!.uid).removeValue { error, _ in
                         if let error = error {

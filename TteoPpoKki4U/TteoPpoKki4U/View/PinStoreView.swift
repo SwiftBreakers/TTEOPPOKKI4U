@@ -28,7 +28,7 @@ class PinStoreView: UIView {
     
     let titleLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont(name: ThemeFont.fontMedium, size: 24)
+        label.font = ThemeFont.fontMedium(size: 24)
         return label
     }()
     lazy var scrapButton: UIButton = {
@@ -40,7 +40,7 @@ class PinStoreView: UIView {
     }()
     let addressLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont(name: ThemeFont.fontRegular, size: 18)
+        label.font = ThemeFont.fontRegular()
         return label
     }()
     let line: UIView = {
@@ -50,19 +50,19 @@ class PinStoreView: UIView {
     }()
     lazy var ratingLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont(name: ThemeFont.fontRegular, size: 14)
+        label.font = ThemeFont.fontRegular(size: 14)
         label.textColor = .darkGray
         return label
     }()
     lazy var reviewsLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont(name: ThemeFont.fontRegular, size: 14)
+        label.font = ThemeFont.fontRegular(size: 14)
         label.textColor = .darkGray
         return label
     }()
     lazy var distanceLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont(name: ThemeFont.fontRegular, size: 14)
+        label.font = ThemeFont.fontRegular(size: 14)
         label.textColor = .darkGray
         return label
     }()
@@ -76,7 +76,7 @@ class PinStoreView: UIView {
         let bt = UIButton()
         bt.setTitle("친구 찾기", for: .normal)
         bt.setTitleColor(.white, for: .normal)
-        bt.titleLabel?.font = UIFont(name: ThemeFont.fontBold, size: 16)
+        bt.titleLabel?.font = ThemeFont.fontBold(size: 16)
         bt.titleLabel?.textAlignment = .center
         bt.backgroundColor = ThemeColor.mainOrange
         bt.layer.cornerRadius = 8

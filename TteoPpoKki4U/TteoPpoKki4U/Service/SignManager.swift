@@ -41,7 +41,7 @@ class SignManager {
             db_uid: user.uid,
             db_nickName: "",
             db_email: user.email,
-            db_profileImageUrl: ""
+            db_profileImageUrl: "https://firebasestorage.googleapis.com/v0/b/tteoppokki4u.appspot.com/o/dummyProfile%2FdefaultImage.png?alt=media&token=b4aab21e-e19a-42b7-9d17-d92a3801a327"
         ]
         ref.child("users").child(user.uid).setValue(userData)
     }
@@ -93,18 +93,6 @@ class SignManager {
             completion(.success(()))
         } catch let signOutError {
             completion(.failure(signOutError))
-        }
-    }
-    
-    // Kakao 로그아웃
-    func signOutKakao(completion: @escaping (Error?) -> Void) {
-        UserApi.shared.logout { error in
-            if let error = error {
-                print("DEBUG: Kakao 로그아웃 에러 \(error.localizedDescription)")
-            } else {
-                print("DEBUG: Kakao 로그아웃 성공")
-            }
-            completion(error)
         }
     }
     

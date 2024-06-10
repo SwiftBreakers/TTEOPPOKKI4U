@@ -87,9 +87,7 @@ class WriteViewController: UIViewController {
             case .finished:
                 return
             case .failure(let error) :
-                let alert = UIAlertController(title: "에러 발생", message: "\(error.localizedDescription)이 발생했습니다.", preferredStyle: .alert)
-                alert.addAction(UIAlertAction(title: "확인", style: .default))
-                self?.present(alert, animated: true)
+                self?.showMessage(title: "에러 발생", message: "\(error.localizedDescription)이 발생 했습니다.")
             }
         } receiveValue: { _ in
             
@@ -231,56 +229,49 @@ class WriteViewController: UIViewController {
         else {
             return
         }
-        
+        ProgressHUD.animate()
         uploadImages(images: selectedImages)
-            .sink(receiveCompletion: { completion in
+            .sink(receiveCompletion: { [weak self] completion in
                 switch completion {
                 case .finished:
                     break
                 case .failure(let error):
-                    let alert = UIAlertController(title: "에러 발생", message: "\(error.localizedDescription)이 발생했습니다.", preferredStyle: .alert)
-                    alert.addAction(UIAlertAction(title: "확인", style: .default))
-                    self.present(alert, animated: true)
+                    self?.showMessage(title: "에러 발생", message: "\(error.localizedDescription)이 발생 했습니다.")
                 }
             }, receiveValue: { [weak self] imageURLs in
                 guard let self = self else { return }
                 
                 let dictionary: [String: Any] = [
-                    "uid": uid,
-                    "title": title,
-                    "storeAddress": self.addressText!,
-                    "storeName": self.storeTitleText!,
-                    "content": content,
-                    "rating": self.selectedRating,
-                    "imageURL": imageURLs,
-                    "isActive": false,
-                    "createdAt": self.isEditMode ? self.review!.createdAt : Timestamp(date: Date()),
-                    "updatedAt": Timestamp(date: Date())
+                    db_uid: uid,
+                    db_title: title,
+                    db_storeAddress: self.addressText!,
+                    db_storeName: self.storeTitleText!,
+                    db_content: content,
+                    db_rating: self.selectedRating,
+                    db_imageURL: imageURLs,
+                    db_isActive: false,
+                    db_createdAt: self.isEditMode ? self.review!.createdAt : Timestamp(date: Date()),
+                    db_updatedAt: Timestamp(date: Date())
                 ]
                 
+                
                 if isEditMode {
-                    viewModel.editUserReview(uid: uid, storeAddress: self.addressText!, title: review!.title, userDict: dictionary)
+                    viewModel.editUserReview(uid: uid, storeAddress: self.addressText!, title: review!.title, userDict: dictionary) {
+                        ProgressHUD.remove()
+                        self.showMessage(title: "리뷰 수정", message: "리뷰가 수정 되었습니다.") {
+                            self.navigationController?.popViewController(animated: true)
+                        }
+                    }
                 } else {
-                    viewModel.createReview(userDict: dictionary)
+                    viewModel.createReview(userDict: dictionary) {
+                        ProgressHUD.remove()
+                        self.showMessage(title: "리뷰 등록", message: "리뷰가 등록 되었습니다") {
+                            self.dismiss(animated: true, completion: nil)
+                        }
+                    }
                 }
             })
             .store(in: &cancellables)
-        
-        ProgressHUD.animate()
-        let alertTitle = isEditMode ? "리뷰 수정" : "리뷰 저장"
-        let alertMessage = isEditMode ? "리뷰가 수정 되었습니다." : "리뷰가 등록 되었습니다."
-        let alert = UIAlertController(title: alertTitle, message: alertMessage, preferredStyle: .alert)
-        DispatchQueue.main.asyncAfter(deadline: .now() + 4) { [unowned self] in
-            alert.addAction(UIAlertAction(title: "확인", style: .default, handler: { [unowned self] _ in
-                if isNavagtion {
-                    navigationController?.popViewController(animated: true)
-                } else {
-                    dismiss(animated: true, completion: nil)
-                }
-            }))
-            ProgressHUD.remove()
-            present(alert, animated: true)
-        }
     }
     
     private func updateStarButtons() {
