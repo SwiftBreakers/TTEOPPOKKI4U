@@ -12,8 +12,8 @@ import CoreLocation
 import Firebase
 import FirebaseFirestore
 
-class MapViewController: UIViewController {
-    
+class MapViewController: UIViewController, PinStoreViewDelegate {
+        
     let mapView: MKMapView = {
         let map = MKMapView()
         map.mapType = .standard
@@ -57,6 +57,7 @@ class MapViewController: UIViewController {
         setMapView()
         
         searchBar.delegate = self
+        storeInfoView.delegate = self
     }
     
     func setConstraints() {
@@ -175,28 +176,25 @@ class MapViewController: UIViewController {
     }
     
     // MARK: - firebase 불러오기
-    func fetchScrapStatus(shopName: String) {
-        /* scrapList에 존재 여부 확인 : 존재 -> 버튼 ishighted(isSelected??) 상태로 view에 보여야
-                                    존재X -> 버튼 normal 상태로 보이기
-         존재 여부 Bool값으로 넘겨주기 */
+    func fetchScrapStatus(shopName: String, completion: @escaping (Bool) -> Void) {
         scrappedCollection
-                    .whereField(db_shopName, isEqualTo: shopName)
-                    .getDocuments { (querySnapshot, error) in
-                        if let error = error {
-                            print("Error getting documents: \(error)")
-                        } else {
-                            if let documents = querySnapshot?.documents, !documents.isEmpty {
-                                self.isScrapped = true
-                            } else {
-                                self.isScrapped = false
-                            }
-                        }
+            .whereField(db_shopName, isEqualTo: shopName)
+            .getDocuments { (querySnapshot, error) in
+                if let error = error {
+                    print("Error getting documents: \(error)")
+                    completion(false)
+                } else {
+                    if let documents = querySnapshot?.documents, !documents.isEmpty {
+                        completion(true)
+                    } else {
+                        completion(false)
                     }
+                }
+            }
     }
     
-    //한번더 클릭했을 때엔 상태 반대로 가야 함 : create(update) or delete, toggle되어야 하는데 처음 view에 나타날 때엔 생성/삭제 메서드 필요없음.. click event 안에 메서드 넣어야 하나?
-    func createScrapItem(shopName: String) {
-        scrappedCollection.addDocument(data: [db_shopName: shopName]) { error in
+    func createScrapItem(shopName: String, shopAddress: String) {
+        scrappedCollection.addDocument(data: [db_shopName: shopName, db_shopAddress: shopAddress]) { error in
             if let error = error {
                 print("Error adding document: \(error)")
             } else {
@@ -225,6 +223,22 @@ class MapViewController: UIViewController {
             }
     }
     
+    func pinStoreViewDidTapScrapButton(_ view: PinStoreView) {
+        if isScrapped {
+            // 이미 스크랩된 상태 -> 스크랩 해제
+            deleteScrapItem(shopName: view.titleLabel.text!)
+            storeInfoView.scrapButton.backgroundColor = .white
+            storeInfoView.scrapButton.tintColor = .black
+            storeInfoView.scrapButton.layer.borderWidth = 1
+        } else {
+            // 스크랩되지 않은 상태 -> 스크랩 추가
+            createScrapItem(shopName: view.titleLabel.text!, shopAddress: view.addressLabel.text!)
+            storeInfoView.scrapButton.backgroundColor = ThemeColor.mainOrange
+            storeInfoView.scrapButton.tintColor = .white
+            storeInfoView.scrapButton.layer.borderWidth = 0
+        }
+    }
+    
     func fetchRatings(for storeName: String, completion: @escaping ([Float]?, Error?) -> Void) {
         reviewCollection
             .whereField(db_storeName, isEqualTo: storeName)
@@ -250,7 +264,6 @@ class MapViewController: UIViewController {
         for rating in ratings {
             sum += rating
         }
-        
         return sum / Float(count)
     }
     
@@ -279,10 +292,9 @@ extension MapViewController: UISearchBarDelegate, CLLocationManagerDelegate, MKM
     // MARK: - locationManager
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         if let location = locations.last {
-            //print("Latitude: \(location.coordinate.latitude), Longitude: \(location.coordinate.longitude)")
             userLocation = location
             centerMapOnLocation(location: location)
-            locationManager.stopUpdatingLocation() // 위치 업데이트 멈추기
+            locationManager.stopUpdatingLocation()  // 위치 업데이트 멈추기
         }
     }
     
@@ -322,21 +334,25 @@ extension MapViewController: UISearchBarDelegate, CLLocationManagerDelegate, MKM
         if let store = storeList.first(where: { $0.placeName == annotation.title }) {
             view.transform = CGAffineTransform(scaleX: 1.5, y: 1.5)    // 선택되면 떡볶이pin 크기 키우기
             
-            fetchScrapStatus(shopName: store.placeName)
-            
-            let distance = getDistance(latitude: store.y, longitude: store.x)   // 거리 구하기
-            fetchRatings(for: store.placeName) { (ratings, error) in            // rating, reviews 구하기
-                if let error = error {
-                    print("Error getting ratings: \(error)")
-                } else {
-                    print("Ratings for \(store.placeName): \(ratings ?? [])")
-                    guard let ratings = ratings else { return }
-                    let averageRating = self.getAverageRating(ratings: ratings)
-                    self.storeInfoView.bind(title: store.placeName, address: store.addressName, isScrapped: self.isScrapped, rating: averageRating, reviews: ratings.count, distance: distance.prettyDistance)
-                    self.storeInfoView.isHidden = false
+            self.fetchScrapStatus(shopName: store.placeName) { isScrapped in
+                self.isScrapped = isScrapped                                             // scrap 여부 구하기
+                print(self.isScrapped)
+                
+                let distance = self.getDistance(latitude: store.y, longitude: store.x)   // 거리 구하기
+                
+                self.fetchRatings(for: store.placeName) { (ratings, error) in            // rating, reviews 구하기
+                    if let error = error {
+                        print("Error getting ratings: \(error)")
+                    } else {
+                        print("Ratings for \(store.placeName): \(ratings ?? [])")
+                        guard let ratings = ratings else { return }
+                        let averageRating = self.getAverageRating(ratings: ratings)
+                        
+                        self.storeInfoView.bind(title: store.placeName, address: store.addressName, isScrapped: self.isScrapped, rating: averageRating, reviews: ratings.count, distance: distance.prettyDistance)
+                        self.storeInfoView.isHidden = false
+                    }
                 }
             }
-
         }
     }
     

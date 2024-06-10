@@ -26,7 +26,6 @@ class NetworkManager {
             print("Failed to create URL")
             return
         }
-        print(url)
         
         var urlRequest = URLRequest(url: url)
         urlRequest.httpMethod = "GET"
