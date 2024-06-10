@@ -62,25 +62,29 @@ class MyPageViewController: UIViewController {
             }
             
             guard let dictionary = snapshot?.value as? [String: Any] else { return }
-           
+            
             myPageView.userProfile.kf.setImage(with: URL(string: dictionary["profileImageUrl"] as! String))
-          
+            
             
         }
     }
     
     private func bind() {
-        signVM.logoutPublisher.sink { [weak self] completion in
+        signVM.logoutPublisher
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] completion in
             switch completion {
             case .finished:
                 return
             case .failure(let error):
-                let alert = UIAlertController(title: "에러 발생", message: "\(error.localizedDescription)이 발생했습니다.", preferredStyle: .alert)
-                alert.addAction(UIAlertAction(title: "확인", style: .default))
-                self?.present(alert, animated: true)
+                self?.showMessage(title: "에러 발생", message: "\(error.localizedDescription)이 발생했습니다.")
             }
         } receiveValue: { _ in
-            print("logout")
+            let scene = UIApplication.shared.connectedScenes.first
+            if let sd: SceneDelegate = (scene?.delegate as? SceneDelegate) {
+                sd.switchToGreetingViewController()
+
+            }
         }.store(in: &cancellables)
     }
 }
@@ -111,8 +115,8 @@ extension MyPageViewController: UICollectionViewDataSource, UICollectionViewDele
             navigationController?.pushViewController(personalInfoVC, animated: true)
         case [1, 0]:
             let MyScrapVC = MyScrapViewController()
-            MyScrapVC.modalPresentationStyle = .fullScreen
-            present(MyScrapVC, animated: true)
+            
+            navigationController?.pushViewController(MyScrapVC, animated: true)
         case [1, 1]:
             let MyReviewVC = MyReviewViewController()
             navigationController?.pushViewController(MyReviewVC, animated: true)
@@ -120,12 +124,9 @@ extension MyPageViewController: UICollectionViewDataSource, UICollectionViewDele
             let settingVC = SettingViewController()
             navigationController?.pushViewController(settingVC, animated: true)
         case [2, 1]:
-            let alert = UIAlertController(title: "로그아웃", message: "정말로 로그아웃 하시겠습니까?", preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "취소", style: .cancel, handler: nil))
-            alert.addAction(UIAlertAction(title: "확인", style: .destructive, handler: { _ in
+            showMessageWithCancel(title: "로그아웃", message: "정말로 로그아웃 하시겠습니까?") {
                 self.signOutTapped!()
-            }))
-            present(alert, animated: true)
+            }
         default:
             return
         }

@@ -46,7 +46,7 @@ class SignViewModel: NSObject {
         
         controller.performRequests()
     }
-           
+    
     func googleLoginDidTapped(presentViewController: UIViewController) {
         
         GIDSignIn.sharedInstance.signIn(withPresenting: presentViewController) { [weak self] signInResult, error in
@@ -72,10 +72,20 @@ class SignViewModel: NSObject {
                 let uid = user.uid
                 let email = user.email
                 
-                let model = UserModel(uid: uid, email: email!, isBlock: false, nickName: "", profileImageUrl: "")
-                
-                
-                self?.signManager.saveUserData(user: model)
+                self?.signManager.fetchUserData(uid: uid) { error, snapshot in
+                    if let error = error {
+                        self?.loginPublisher.send(completion: .failure(error))
+                    }
+                    
+                    if let snapshot = snapshot {
+                        if snapshot.exists() {
+                            self?.loginPublisher.send(())
+                        } else {
+                            let model = UserModel(uid: uid, email: email!, isBlock: false, nickName: "", profileImageUrl: "https://firebasestorage.googleapis.com/v0/b/tteoppokki4u.appspot.com/o/dummyProfile%2FdefaultImage.png?alt=media&token=b4aab21e-e19a-42b7-9d17-d92a3801a327")
+                            self?.signManager.saveUserData(user: model)
+                        }
+                    }
+                }
                 
             }
             
@@ -112,8 +122,14 @@ extension SignViewModel: ASAuthorizationControllerDelegate, ASAuthorizationContr
     }
     
     func authorizationController(controller: ASAuthorizationController, didCompleteWithAuthorization authorization: ASAuthorization) {
-        
+
         guard let credential = authorization.credential as? ASAuthorizationAppleIDCredential else { return }
+        
+        let userID = credential.user
+        
+        if UserDefaults.standard.string(forKey: "appleAuthorizedUserIdKey") == nil {
+                UserDefaults.standard.set(userID, forKey: "appleAuthorizedUserIdKey")
+            }
         
         let nonce = currentNonce
         
@@ -122,16 +138,26 @@ extension SignViewModel: ASAuthorizationControllerDelegate, ASAuthorizationContr
             case .success(let result):
                 if let user = result?.user {
                     let email = credential.email ?? ""
-                    let userModel = UserModel(uid: user.uid, email: email, isBlock: false, nickName: "", profileImageUrl: "")
-                    self?.signManager.saveUserData(user: userModel)
+                    self?.signManager.fetchUserData(uid: user.uid) { error, snapshot in
+                        if let error = error {
+                            self?.loginPublisher.send(completion: .failure(error))
+                        }
+                        if let snapshot = snapshot {
+                            if snapshot.exists() {
+                                self?.loginPublisher.send(())
+                            } else {
+                                let model = UserModel(uid: user.uid, email: email, isBlock: false, nickName: "", profileImageUrl: "https://firebasestorage.googleapis.com/v0/b/tteoppokki4u.appspot.com/o/dummyProfile%2FdefaultImage.png?alt=media&token=b4aab21e-e19a-42b7-9d17-d92a3801a327")
+                                self?.signManager.saveUserData(user: model)
+                            }
+                        }
+                    }
                 }
             case .failure(let error):
                 self?.loginPublisher.send(completion: .failure(error))
             }
         }
         
-        loginPublisher.send()
-        
     }
+    
     
 }
