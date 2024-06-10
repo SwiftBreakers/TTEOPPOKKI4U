@@ -21,7 +21,7 @@ class MyPageCollectionViewCell: UICollectionViewCell {
         
         private let titleLabel: UILabel = {
             let label = UILabel()
-            label.font = UIFont(name: ThemeFont.fontRegular, size: 18)
+            label.font = ThemeFont.fontRegular()
             label.translatesAutoresizingMaskIntoConstraints = false
             return label
         }()

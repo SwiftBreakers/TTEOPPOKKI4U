@@ -17,12 +17,13 @@ class ReviewViewModel {
     var reviewPublisher = PassthroughSubject<Void, Error>()
     @Published var userReview = [ReviewModel]()
     
-    func createReview(userDict: [String: Any]) {
+    func createReview(userDict: [String: Any], completion: @escaping () -> Void) {
         userManager.writeReview(userDict: userDict) { [weak self] error in
             guard let self = self else { return }
             if let error = error {
                 self.reviewPublisher.send(completion: .failure(error))
             }
+            completion()
         }
     }
     
@@ -40,16 +41,16 @@ class ReviewViewModel {
                     for doc in snapshotDocuments {
                         let data = doc.data()
                         guard
-                            let uid = data["uid"] as? String,
-                            let title = data["title"] as? String,
-                            let storeName = data["storeName"] as? String,
-                            let storeAddress = data["storeAddress"] as? String,
-                            let content = data["content"] as? String,
-                            let rating = data["rating"] as? Float,
-                            let imageURL = data["imageURL"] as? [String],
-                            let isActive = data["isActive"] as? Bool,
-                            let createdAt = data["createdAt"] as? Timestamp,
-                            let updatedAt = data["updatedAt"] as? Timestamp
+                            let uid = data[db_uid] as? String,
+                            let title = data[db_title] as? String,
+                            let storeName = data[db_storeName] as? String,
+                            let storeAddress = data[db_storeAddress] as? String,
+                            let content = data[db_content] as? String,
+                            let rating = data[db_rating] as? Float,
+                            let imageURL = data[db_imageURL] as? [String],
+                            let isActive = data[db_isActive] as? Bool,
+                            let createdAt = data[db_createdAt] as? Timestamp,
+                            let updatedAt = data[db_updatedAt] as? Timestamp
                         else {
                             print("error")
                             return
@@ -63,7 +64,7 @@ class ReviewViewModel {
         }
     }
     
-    func editUserReview(uid: String, storeAddress: String, title: String, userDict: [String: Any]) {
+    func editUserReview(uid: String, storeAddress: String, title: String, userDict: [String: Any], completion: @escaping () -> Void) {
         userManager.getSpecificReview(uid: uid, storeAddress: storeAddress, title: title) { [weak self ] querySnapshot, error in
             if let error = error {
                 self?.reviewPublisher.send(completion: .failure(error))
@@ -75,6 +76,7 @@ class ReviewViewModel {
                     let id = doc.documentID
                     reviewCollection.document(id).setData(userDict, merge: true)
                     self?.reviewPublisher.send(())
+                    completion()
                 }
             }
         }
@@ -108,16 +110,16 @@ class ReviewViewModel {
                     for doc in snapshotDocuments {
                         let data = doc.data()
                         guard
-                            let uid = data["uid"] as? String,
-                            let title = data["title"] as? String,
-                            let storeName = data["storeName"] as? String,
-                            let storeAddress = data["storeAddress"] as? String,
-                            let content = data["content"] as? String,
-                            let rating = data["rating"] as? Float,
-                            let imageURL = data["imageURL"] as? [String],
-                            let isActive = data["isActive"] as? Bool,
-                            let createdAt = data["createdAt"] as? Timestamp,
-                            let updatedAt = data["updatedAt"] as? Timestamp
+                            let uid = data[db_uid] as? String,
+                            let title = data[db_title] as? String,
+                            let storeName = data[db_storeName] as? String,
+                            let storeAddress = data[db_storeAddress] as? String,
+                            let content = data[db_content] as? String,
+                            let rating = data[db_rating] as? Float,
+                            let imageURL = data[db_imageURL] as? [String],
+                            let isActive = data[db_isActive] as? Bool,
+                            let createdAt = data[db_createdAt] as? Timestamp,
+                            let updatedAt = data[db_updatedAt] as? Timestamp
                         else {
                             print("error")
                             return

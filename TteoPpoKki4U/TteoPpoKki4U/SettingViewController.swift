@@ -8,8 +8,13 @@
 import UIKit
 import SnapKit
 import FirebaseAuth
+<<<<<<< HEAD
+import FirebaseDatabase
+||||||| 4108d66
+=======
 import FirebaseDatabaseInternal
 import FirebaseDatabase
+>>>>>>> 543555348c7b57c3402d357c7569f70b36112522
 
 class SettingViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
@@ -96,6 +101,7 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
                 if let error = error {
                     print("\(error.localizedDescription)")
                 } else {
+
                    let ref = Database.database().reference()
                     ref.child("users").child(user!.uid).removeValue { error, _ in
                         if let error = error {

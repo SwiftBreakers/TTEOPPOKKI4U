@@ -15,5 +15,5 @@ class StoreManager {
     func reqeustStore(storeAddress: String, completion: @escaping(QuerySnapshot?, (Error)?) -> Void) {
         reviewCollection.whereField(db_storeAddress, isEqualTo: storeAddress).getDocuments(completion: completion)
     }
-    
+
 }

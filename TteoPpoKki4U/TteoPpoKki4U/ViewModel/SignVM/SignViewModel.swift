@@ -74,6 +74,7 @@ class SignViewModel: NSObject {
                 
                 let model = UserModel(uid: uid, email: email!, isBlock: false, nickName: "", profileImageUrl: "")
                 
+                
                 self?.signManager.saveUserData(user: model)
                 
             }
