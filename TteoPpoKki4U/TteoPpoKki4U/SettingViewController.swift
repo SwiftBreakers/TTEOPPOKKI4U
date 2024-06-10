@@ -8,13 +8,8 @@
 import UIKit
 import SnapKit
 import FirebaseAuth
-<<<<<<< HEAD
-import FirebaseDatabase
-||||||| 4108d66
-=======
 import FirebaseDatabaseInternal
 import FirebaseDatabase
->>>>>>> 543555348c7b57c3402d357c7569f70b36112522
 
 class SettingViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
