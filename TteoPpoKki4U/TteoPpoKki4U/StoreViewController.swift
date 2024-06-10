@@ -7,6 +7,7 @@
 
 import UIKit
 import SnapKit
+import Combine
 
 class StoreViewController: UIViewController {
     
@@ -19,15 +20,16 @@ class StoreViewController: UIViewController {
     private let goReviewButton = UIButton()
     private let tableView = UITableView()
     
+    var addressText: String?
+    var shopTitleText: String?
     // Dummy data
-       private let storeName = "울랄라 떡볶이"
-       private let storeImages = ["image1", "image2", "image3"]
-       private let storeLocation = "123길 123"
-       private let reviews = [
-           ("Amazing Tteokbokki!", 5),
-           ("Good, but could be spicier", 4),
-           ("Just okay", 3)
-       ]
+    private let storeName = "울랄라 떡볶이"
+    private let storeImages = ["image1", "image2", "image3"]
+    private let storeLocation = "123길 123"
+    //private let reviews = [ReviewModel]()
+    
+    let viewModel = ReviewViewModel()
+    private var cancellables = Set<AnyCancellable>()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -35,13 +37,39 @@ class StoreViewController: UIViewController {
         setupViews()
         setupConstraints()
         configureUI()
+        locationLabel.text = addressText
+        storeNameLabel.text = shopTitleText
+        fetchRequest()
+        bind()
+    }
+    
+    private func fetchRequest() {
+        viewModel.getStoreReview(storeAddress: addressText!)
+    }
+    
+    private func bind() {
+        viewModel.$userReview
+            .receive(on: DispatchQueue.main)
+            .sink { _ in
+                self.tableView.reloadData()
+            }.store(in: &cancellables)
+        
+        viewModel.reviewPublisher.sink { completion in
+            switch completion {
+            case .finished:
+                return
+            case .failure(let error):
+                print(error)
+            }
+        } receiveValue: { _ in
+        }.store(in: &cancellables)
     }
     
     private func setupViews() {
         view.backgroundColor = .white
         
         // Setup Back Button
-       
+        
         let image = UIImage(systemName: "chevron.backward.2")
         backButton.setImage(image, for: .normal)
         backButton.tintColor = .systemGray
@@ -88,10 +116,10 @@ class StoreViewController: UIViewController {
         goReviewButton.addTarget(self, action: #selector(goReviewButtonTapped), for: .touchUpInside)
         
         // Setup Table View
-                tableView.delegate = self
-                tableView.dataSource = self
-                tableView.register(ReviewTableViewCell.self, forCellReuseIdentifier: "reviewCell")
-                view.addSubview(tableView)
+        tableView.delegate = self
+        tableView.dataSource = self
+        tableView.register(ReviewTableViewCell.self, forCellReuseIdentifier: "reviewCell")
+        view.addSubview(tableView)
     }
     
     private func setupConstraints() {
@@ -127,11 +155,11 @@ class StoreViewController: UIViewController {
         }
         
         // Table View Constraints
-              tableView.snp.makeConstraints { make in
-                  make.top.equalTo(locationLabel.snp.bottom).offset(20)
-                  make.leading.trailing.equalToSuperview()
-                  make.bottom.equalTo(goReviewButton.snp.top).offset(-20)
-              }
+        tableView.snp.makeConstraints { make in
+            make.top.equalTo(locationLabel.snp.bottom).offset(20)
+            make.leading.trailing.equalToSuperview()
+            make.bottom.equalTo(goReviewButton.snp.top).offset(-20)
+        }
         
         // Review Button Constraints
         goReviewButton.snp.makeConstraints { make in
@@ -151,36 +179,39 @@ class StoreViewController: UIViewController {
     
     @objc private func goReviewButtonTapped() {
         let writeVC = WriteViewController()
+        writeVC.addressText = addressText
+        writeVC.storeTitleText = shopTitleText
         present(writeVC, animated: true)
     }
+    
 }
 
 extension StoreViewController: UITableViewDelegate, UITableViewDataSource {
-   // MARK: - UITableViewDataSource Methods
-      func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-          return reviews.count
-      }
-      
-      func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-          let cell = tableView.dequeueReusableCell(withIdentifier: "reviewCell", for: indexPath) as! ReviewTableViewCell
-          let review = reviews[indexPath.row]
-          cell.reviewTitleLabel.text = review.0
-          cell.starRatingLabel.text = "⭐️ \(review.1)"
-          return cell
-      }
-      // MARK: - UITableViewDelegate Methods
+    // MARK: - UITableViewDataSource Methods
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return viewModel.userReview.count
+    }
     
-       func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-           tableView.deselectRow(at: indexPath, animated: true)
-           
-           let review = reviews[indexPath.row]
-           let detailedReviewVC = DetailedReviewViewController()
-           detailedReviewVC.storeName = storeName
-           detailedReviewVC.reviewTitle = review.0
-           detailedReviewVC.starRating = review.1
-           detailedReviewVC.reviewContent = "This is a detailed review content for \(review.0)."
-           present(detailedReviewVC, animated: true)
-       }
-
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "reviewCell", for: indexPath) as! ReviewTableViewCell
+        let item = viewModel.userReview[indexPath.row]
+        cell.reviewTitleLabel.text = item.title
+        cell.starRatingLabel.text = "⭐️ \(item.rating)"
+        return cell
+    }
+    // MARK: - UITableViewDelegate Methods
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+        
+        let item = viewModel.userReview[indexPath.row]
+        let detailedReviewVC = DetailedReviewViewController()
+        detailedReviewVC.storeName = item.storeName
+        detailedReviewVC.reviewTitle = item.title
+        detailedReviewVC.starRating = Int(item.rating)
+        detailedReviewVC.reviewContent = item.content
+        present(detailedReviewVC, animated: true)
+    }
+    
 }
 

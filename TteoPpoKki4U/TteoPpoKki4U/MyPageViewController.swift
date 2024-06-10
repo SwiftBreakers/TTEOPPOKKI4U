@@ -33,7 +33,7 @@ class MyPageViewController: UIViewController {
         super.viewDidLoad()
         
         view.backgroundColor = .systemBackground
-        title = "Profile"
+        title = "마이페이지"
         
         view.addSubview(myPageView)
         
@@ -45,6 +45,12 @@ class MyPageViewController: UIViewController {
         myPageView.collectionView.dataSource = self
         myPageView.collectionView.delegate = self
         bind()
+        fetchUser()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
         fetchUser()
     }
     
@@ -102,24 +108,24 @@ extension MyPageViewController: UICollectionViewDataSource, UICollectionViewDele
         switch indexPath {
         case [0, 0]:
             let personalInfoVC = PersonalInfoViewController()
-            present(personalInfoVC, animated: true)
+            navigationController?.pushViewController(personalInfoVC, animated: true)
         case [1, 0]:
             let MyScrapVC = MyScrapViewController()
             MyScrapVC.modalPresentationStyle = .fullScreen
             present(MyScrapVC, animated: true)
         case [1, 1]:
             let MyReviewVC = MyReviewViewController()
-            MyReviewVC.modalPresentationStyle = .fullScreen
-            present(MyReviewVC, animated: true)
-        case [1, 2]:
-            print("3")
+            navigationController?.pushViewController(MyReviewVC, animated: true)
         case [2, 0]:
-            print("하위 페이지에서 회원탈퇴 버튼 생성 예정")
+            let settingVC = SettingViewController()
+            navigationController?.pushViewController(settingVC, animated: true)
         case [2, 1]:
-            signOutTapped!()
-        case [2, 2]:
-            let chatVC = ChatCollectionViewController()
-            present(chatVC, animated: true)
+            let alert = UIAlertController(title: "로그아웃", message: "정말로 로그아웃 하시겠습니까?", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "취소", style: .cancel, handler: nil))
+            alert.addAction(UIAlertAction(title: "확인", style: .destructive, handler: { _ in
+                self.signOutTapped!()
+            }))
+            present(alert, animated: true)
         default:
             return
         }

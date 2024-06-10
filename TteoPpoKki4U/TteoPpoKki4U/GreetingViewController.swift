@@ -65,9 +65,11 @@ final class GreetingViewController: UIViewController {
                 self?.present(alert, animated: true)
             }
         } receiveValue: { _ in
-            print("로그인")
+            let scene = UIApplication.shared.connectedScenes.first
+            if let sd: SceneDelegate = (scene?.delegate as? SceneDelegate) {
+                sd.switchToMainTabBarController()
+            }
         }.store(in: &cancellables)
-
     }
     
     private func setupLayout() {

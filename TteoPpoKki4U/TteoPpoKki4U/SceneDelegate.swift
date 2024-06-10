@@ -14,41 +14,51 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     var window: UIWindow?
     private lazy var signManager = SignManager()
     private lazy var signViewModel = SignViewModel(signManager: signManager)
+    var greetingVC = GreetingViewController()
     
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
-        
         configureInitialViewController()
         
         guard let windowScene = (scene as? UIWindowScene) else { return }
         
         let window = UIWindow(windowScene: windowScene)
-        var greetingVC = GreetingViewController()
-        
-        greetingVC = GreetingViewController(
-            appleTapped: { [weak signViewModel] in
-               signViewModel?.appleLoginDidTapped()
-            }
-            ,kakaoTapped: { [weak signViewModel] in
-                signViewModel?.kakaoLoginDidTapped()
-            }, googleTapped: { [weak signViewModel] in
-                signViewModel?.googleLoginDidTapped(presentViewController: greetingVC)}
-            , viewModel: signViewModel)
-        
         self.window = window
         window.makeKeyAndVisible()
         
-        // added
+        configureInitialViewController()
+    }
+    
+    func configureInitialViewController() {
+        if Auth.auth().currentUser != nil {
+            switchToMainTabBarController()
+        } else {
+            switchToGreetingViewController()
+        }
+    }
+    
+    func switchToMainTabBarController() {
         let tabbarController = UITabBarController()
-        let firstVC = UINavigationController(rootViewController: greetingVC)
+        
+        greetingVC = GreetingViewController(
+            appleTapped: { [weak signViewModel] in
+                signViewModel?.appleLoginDidTapped()
+            },
+            kakaoTapped: { [weak signViewModel] in
+                // signViewModel?.kakaoLoginDidTapped()
+            },
+            googleTapped: { [weak signViewModel] in
+                signViewModel?.googleLoginDidTapped(presentViewController: self.greetingVC)},
+            viewModel: signViewModel)
+        
         let mapVC = MapViewController()
-        let recommendVC = RecommendViewController()
-        let communityVC = CommunityViewController()
-        let mypageVC = MyPageViewController(signOutTapped: { [weak signViewModel] in
+        let recommendVC = UINavigationController(rootViewController: RecommendViewController())
+        let communityVC = UINavigationController(rootViewController: CommunityViewController())
+        let mypageVC = UINavigationController(rootViewController: MyPageViewController(signOutTapped: { [weak signViewModel, weak self] in
             signViewModel?.signOut()
-        }, viewModel: signViewModel)
+            self?.configureInitialViewController()
+        }, viewModel: signViewModel))
         
-        
-        firstVC.tabBarItem = UITabBarItem(
+        greetingVC.tabBarItem = UITabBarItem(
             title: "로그인테스트",
             image: UIImage(systemName: "magnifyingglass.circle"),
             selectedImage: UIImage(systemName: "magnifyingglass.circle.fill"))
@@ -68,9 +78,25 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             title: "마이페이지",
             image: UIImage(systemName: "person.crop.circle"),
             selectedImage: UIImage(systemName: "person.crop.circle.fill"))
-        tabbarController.viewControllers = [firstVC,recommendVC, mapVC, communityVC, mypageVC]
-        window.rootViewController = tabbarController // modifed
         
+        tabbarController.viewControllers = [recommendVC, mapVC, communityVC, mypageVC]
+        
+        window?.rootViewController = tabbarController
+    }
+    
+    func switchToGreetingViewController() {
+        greetingVC = GreetingViewController(
+            appleTapped: { [weak signViewModel] in
+                signViewModel?.appleLoginDidTapped()
+            },
+            kakaoTapped: { [weak signViewModel] in
+               // signViewModel?.kakaoLoginDidTapped()
+            },
+            googleTapped: { [weak signViewModel] in
+                signViewModel?.googleLoginDidTapped(presentViewController: self.greetingVC)},
+            viewModel: signViewModel)
+        
+        window?.rootViewController = greetingVC
     }
     
     func scene(_ scene: UIScene, openURLContexts URLContexts: Set<UIOpenURLContext>) {
@@ -81,13 +107,5 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         }
     }
     
-    func configureInitialViewController () {
-            var initialVC = UIViewController()
-            if Auth.auth().currentUser != nil {
-                print(Auth.auth().currentUser?.uid)
-            } else {
-               print("nil")
-            }
-        }
 }
 

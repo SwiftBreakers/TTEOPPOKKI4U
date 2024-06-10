@@ -9,6 +9,7 @@ import UIKit
 import SnapKit
 import PhotosUI
 import Firebase
+import ProgressHUD
 
 class PersonalInfoViewController: UIViewController, PHPickerViewControllerDelegate {
     
@@ -112,8 +113,6 @@ class PersonalInfoViewController: UIViewController, PHPickerViewControllerDelega
         userManager.updateProfile(uid: uid, nickName: userName, profile: image) { error in
             print(error)
         }
-        
-        self.dismiss(animated: true)
-        
-    }
+        navigationController?.popViewController(animated: true)
+        }
 }
