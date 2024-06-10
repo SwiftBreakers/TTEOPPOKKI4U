@@ -83,6 +83,7 @@ class SignViewModel: NSObject {
                         } else {
                             let model = UserModel(uid: uid, email: email!, isBlock: false, nickName: "", profileImageUrl: "https://firebasestorage.googleapis.com/v0/b/tteoppokki4u.appspot.com/o/dummyProfile%2FdefaultImage.png?alt=media&token=b4aab21e-e19a-42b7-9d17-d92a3801a327")
                             self?.signManager.saveUserData(user: model)
+                            self?.loginPublisher.send(())
                         }
                     }
                 }
@@ -148,6 +149,7 @@ extension SignViewModel: ASAuthorizationControllerDelegate, ASAuthorizationContr
                             } else {
                                 let model = UserModel(uid: user.uid, email: email, isBlock: false, nickName: "", profileImageUrl: "https://firebasestorage.googleapis.com/v0/b/tteoppokki4u.appspot.com/o/dummyProfile%2FdefaultImage.png?alt=media&token=b4aab21e-e19a-42b7-9d17-d92a3801a327")
                                 self?.signManager.saveUserData(user: model)
+                                self?.loginPublisher.send(())
                             }
                         }
                     }
