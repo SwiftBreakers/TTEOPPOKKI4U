@@ -9,9 +9,11 @@ import UIKit
 import SnapKit
 import MapKit
 import CoreLocation
+import Firebase
+import FirebaseFirestore
 
-class MapViewController: UIViewController {
-    
+class MapViewController: UIViewController, PinStoreViewDelegate {
+        
     let mapView: MKMapView = {
         let map = MKMapView()
         map.mapType = .standard
@@ -46,7 +48,7 @@ class MapViewController: UIViewController {
     var locationManager: CLLocationManager = CLLocationManager()
     var userLocation: CLLocation = CLLocation()
     var storeList: [Document] = []
-    
+    var isScrapped = PinStoreView().isScrapped
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -55,6 +57,7 @@ class MapViewController: UIViewController {
         setMapView()
         
         searchBar.delegate = self
+        storeInfoView.delegate = self
     }
     
     func setConstraints() {
@@ -172,6 +175,98 @@ class MapViewController: UIViewController {
         return distance
     }
     
+    // MARK: - firebase 불러오기
+    func fetchScrapStatus(shopName: String, completion: @escaping (Bool) -> Void) {
+        scrappedCollection
+            .whereField(db_shopName, isEqualTo: shopName)
+            .getDocuments { (querySnapshot, error) in
+                if let error = error {
+                    print("Error getting documents: \(error)")
+                    completion(false)
+                } else {
+                    if let documents = querySnapshot?.documents, !documents.isEmpty {
+                        completion(true)
+                    } else {
+                        completion(false)
+                    }
+                }
+            }
+    }
+    
+    func createScrapItem(shopName: String, shopAddress: String) {
+        scrappedCollection.addDocument(data: [db_shopName: shopName, db_shopAddress: shopAddress]) { error in
+            if let error = error {
+                print("Error adding document: \(error)")
+            } else {
+                self.isScrapped = true
+            }
+        }
+    }
+    
+    func deleteScrapItem(shopName: String) {
+        scrappedCollection
+            .whereField(db_shopName, isEqualTo: shopName)
+            .getDocuments { (querySnapshot, error) in
+                if let error = error {
+                    print("Error getting documents: \(error)")
+                } else {
+                    for document in querySnapshot!.documents {
+                        scrappedCollection.document(document.documentID).delete() { error in
+                            if let error = error {
+                                print("Error removing document: \(error)")
+                            } else {
+                                self.isScrapped = false
+                            }
+                        }
+                    }
+                }
+            }
+    }
+    
+    func pinStoreViewDidTapScrapButton(_ view: PinStoreView) {
+        if isScrapped {
+            // 이미 스크랩된 상태 -> 스크랩 해제
+            deleteScrapItem(shopName: view.titleLabel.text!)
+            storeInfoView.scrapButton.backgroundColor = .white
+            storeInfoView.scrapButton.tintColor = .black
+            storeInfoView.scrapButton.layer.borderWidth = 1
+        } else {
+            // 스크랩되지 않은 상태 -> 스크랩 추가
+            createScrapItem(shopName: view.titleLabel.text!, shopAddress: view.addressLabel.text!)
+            storeInfoView.scrapButton.backgroundColor = ThemeColor.mainOrange
+            storeInfoView.scrapButton.tintColor = .white
+            storeInfoView.scrapButton.layer.borderWidth = 0
+        }
+    }
+    
+    func fetchRatings(for storeName: String, completion: @escaping ([Float]?, Error?) -> Void) {
+        reviewCollection
+            .whereField(db_storeName, isEqualTo: storeName)
+            .getDocuments { (querySnapshot, error) in
+                if let error = error {
+                    completion(nil, error)
+                } else {
+                    var ratings: [Float] = []
+                    for document in querySnapshot!.documents {
+                        if let rating = document.get(db_rating) as? Float {
+                            ratings.append(rating)
+                        }
+                    }
+                    completion(ratings, nil)
+                }
+            }
+    }
+    
+    func getAverageRating(ratings: [Float]) -> Float {
+        let count = ratings.count
+        var sum:Float = 0.0
+        
+        for rating in ratings {
+            sum += rating
+        }
+        return sum / Float(count)
+    }
+    
 }
 
 
@@ -197,10 +292,9 @@ extension MapViewController: UISearchBarDelegate, CLLocationManagerDelegate, MKM
     // MARK: - locationManager
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         if let location = locations.last {
-            //print("Latitude: \(location.coordinate.latitude), Longitude: \(location.coordinate.longitude)")
             userLocation = location
             centerMapOnLocation(location: location)
-            locationManager.stopUpdatingLocation() // 위치 업데이트 멈추기
+            locationManager.stopUpdatingLocation()  // 위치 업데이트 멈추기
         }
     }
     
@@ -238,11 +332,24 @@ extension MapViewController: UISearchBarDelegate, CLLocationManagerDelegate, MKM
         guard let annotation = view.annotation else { return }
         
         if let store = storeList.first(where: { $0.placeName == annotation.title }) {
-            if view.annotation?.subtitle == "분식집" {
-                view.transform = CGAffineTransform(scaleX: 1.5, y: 1.5)  // 선택되면 떡볶이pin 크기 키우기
-                let distance = getDistance(latitude: store.y, longitude: store.x)
-                storeInfoView.bind(title: store.placeName, address: store.addressName, isScrapped: false, rating: 4.5, reviews: 54, distance: distance.prettyDistance)
-                storeInfoView.isHidden = false
+            view.transform = CGAffineTransform(scaleX: 1.5, y: 1.5)    // 선택되면 떡볶이pin 크기 키우기
+            
+            self.fetchScrapStatus(shopName: store.placeName) { isScrapped in
+                self.isScrapped = isScrapped                                             // scrap 여부 구하기
+                
+                let distance = self.getDistance(latitude: store.y, longitude: store.x)   // 거리 구하기
+                
+                self.fetchRatings(for: store.placeName) { (ratings, error) in            // rating, reviews 구하기
+                    if let error = error {
+                        print("Error getting ratings: \(error)")
+                    } else {
+                        guard let ratings = ratings else { return }
+                        let averageRating = self.getAverageRating(ratings: ratings)
+                        
+                        self.storeInfoView.bind(title: store.placeName, address: store.addressName, isScrapped: self.isScrapped, rating: averageRating, reviews: ratings.count, distance: distance.prettyDistance)
+                        self.storeInfoView.isHidden = false
+                    }
+                }
             }
         }
     }

@@ -10,7 +10,21 @@ import SnapKit
 
 class PinStoreView: UIView {
     
-    var isScrapped = false
+    weak var delegate: PinStoreViewDelegate?
+    
+    var isScrapped = false {
+        didSet {
+            if isScrapped {
+                scrapButton.backgroundColor = ThemeColor.mainOrange
+                scrapButton.tintColor = .white
+                scrapButton.layer.borderWidth = 0
+            } else {
+                scrapButton.backgroundColor = .white
+                scrapButton.tintColor = .black
+                scrapButton.layer.borderWidth = 1
+            }
+        }
+    }
     
     let titleLabel: UILabel = {
         let label = UILabel()
@@ -22,11 +36,6 @@ class PinStoreView: UIView {
         bt.layer.cornerRadius = 12
         bt.layer.borderWidth = 1
         bt.setImage(UIImage(systemName: "flag"), for: .normal)
-        if isScrapped {
-            bt.tintColor = ThemeColor.mainOrange
-        } else {
-            bt.tintColor = .black
-        }
         return bt
     }()
     let addressLabel: UILabel = {
@@ -180,7 +189,7 @@ class PinStoreView: UIView {
     }
     
     @objc func scrapButtonTapped() {
-        print("찜 리스트에 추가")
+        delegate?.pinStoreViewDidTapScrapButton(self)
     }
     
     @objc func findFriendButtonTapped() {
@@ -188,3 +197,6 @@ class PinStoreView: UIView {
     }
 }
 
+protocol PinStoreViewDelegate: AnyObject {
+    func pinStoreViewDidTapScrapButton(_ view: PinStoreView)
+}

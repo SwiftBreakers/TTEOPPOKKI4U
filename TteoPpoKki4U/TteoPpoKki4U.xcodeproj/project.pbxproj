@@ -21,9 +21,9 @@
 		617357192C12AD540007B92A /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 617357182C12AD540007B92A /* Message.swift */; };
 		6173571F2C12AE470007B92A /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = 6173571E2C12AE470007B92A /* FirebaseMessaging */; };
 		617357262C1364940007B92A /* ReviewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 617357252C1364940007B92A /* ReviewModel.swift */; };
-		617357292C137A3F0007B92A /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 617357282C137A3F0007B92A /* Constants.swift */; };
 		6173572C2C137B500007B92A /* ReviewViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6173572B2C137B500007B92A /* ReviewViewModel.swift */; };
 		6173572F2C1383C00007B92A /* YPImagePicker in Frameworks */ = {isa = PBXBuildFile; productRef = 6173572E2C1383C00007B92A /* YPImagePicker */; };
+		617357292C137A3F0007B92A /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 617357282C137A3F0007B92A /* Constants.swift */; };
 		618DEE062C12516A006B95A8 /* UserManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 618DEE052C12516A006B95A8 /* UserManager.swift */; };
 		618DEE092C125D9D006B95A8 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 618DEE082C125D9D006B95A8 /* Kingfisher */; };
 		619D771A2C085EC80043EF82 /* GreetingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 619D77192C085EC80043EF82 /* GreetingViewController.swift */; };
@@ -262,6 +262,7 @@
 				613D86A12C05BFF90039E771 /* Assets.xcassets */,
 				613D86A32C05BFF90039E771 /* LaunchScreen.storyboard */,
 				613D86A62C05BFF90039E771 /* Info.plist */,
+				9CC13A862C12F46400DDA659 /* GoogleService-Info.plist */,
 				61DAC4FF2C06CCB000DFC575 /* Secret.swift */,
 				61DC690A2C16F20E003DEB73 /* GoogleService-Info.plist */,
 			);
@@ -400,6 +401,14 @@
 				8DB30F2D2C07767100503139 /* MyPageViewModel.swift */,
 			);
 			path = MyPage;
+			sourceTree = "<group>";
+		};
+		9CC13A892C16B77D00DDA659 /* ETC */ = {
+			isa = PBXGroup;
+			children = (
+				9CC13A882C16B77D00DDA659 /* Constants.swift */,
+			);
+			path = ETC;
 			sourceTree = "<group>";
 		};
 		CE3F36332C08467700532901 /* RecommendPage */ = {
