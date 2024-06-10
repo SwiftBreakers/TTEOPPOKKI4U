@@ -336,7 +336,6 @@ extension MapViewController: UISearchBarDelegate, CLLocationManagerDelegate, MKM
             
             self.fetchScrapStatus(shopName: store.placeName) { isScrapped in
                 self.isScrapped = isScrapped                                             // scrap 여부 구하기
-                print(self.isScrapped)
                 
                 let distance = self.getDistance(latitude: store.y, longitude: store.x)   // 거리 구하기
                 
@@ -344,7 +343,6 @@ extension MapViewController: UISearchBarDelegate, CLLocationManagerDelegate, MKM
                     if let error = error {
                         print("Error getting ratings: \(error)")
                     } else {
-                        print("Ratings for \(store.placeName): \(ratings ?? [])")
                         guard let ratings = ratings else { return }
                         let averageRating = self.getAverageRating(ratings: ratings)
                         
