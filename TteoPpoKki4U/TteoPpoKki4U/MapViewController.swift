@@ -11,6 +11,7 @@ import MapKit
 import CoreLocation
 import Firebase
 import FirebaseFirestore
+import FirebaseAuth
 
 class MapViewController: UIViewController, PinStoreViewDelegate {
         
@@ -44,11 +45,13 @@ class MapViewController: UIViewController, PinStoreViewDelegate {
         view.layer.cornerRadius = 20
         return view
     }()
+    var searchBarWidth: ConstraintItem?
     
     var locationManager: CLLocationManager = CLLocationManager()
     var userLocation: CLLocation = CLLocation()
     var storeList: [Document] = []
     var isScrapped = PinStoreView().isScrapped
+    var userID = Auth.auth().currentUser!.uid
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -84,6 +87,8 @@ class MapViewController: UIViewController, PinStoreViewDelegate {
         storeInfoView.snp.makeConstraints { make in
             make.bottom.horizontalEdges.equalTo(self.view.safeAreaLayoutGuide).inset(20)
         }
+        
+        searchBarWidth = searchBar.snp.width
     }
     
     func setMapView() {
@@ -130,6 +135,7 @@ class MapViewController: UIViewController, PinStoreViewDelegate {
         search.start { response, error in
             guard let response = response else {
                 print("Error searching for location: \(String(describing: error))")
+                self.showMessage(title: "잘못된 지역명입니다.", message: "올바른 지역명 또는 장소명을 입력해 주세요.")
                 return
             }
             if let mapItem = response.mapItems.first {
@@ -178,6 +184,7 @@ class MapViewController: UIViewController, PinStoreViewDelegate {
     // MARK: - firebase 불러오기
     func fetchScrapStatus(shopName: String, completion: @escaping (Bool) -> Void) {
         scrappedCollection
+            .whereField(db_uid, isEqualTo: userID)
             .whereField(db_shopName, isEqualTo: shopName)
             .getDocuments { (querySnapshot, error) in
                 if let error = error {
@@ -194,7 +201,7 @@ class MapViewController: UIViewController, PinStoreViewDelegate {
     }
     
     func createScrapItem(shopName: String, shopAddress: String) {
-        scrappedCollection.addDocument(data: [db_shopName: shopName, db_shopAddress: shopAddress]) { error in
+        scrappedCollection.addDocument(data: [db_shopName: shopName, db_shopAddress: shopAddress, db_uid: userID]) { error in
             if let error = error {
                 print("Error adding document: \(error)")
             } else {
@@ -205,6 +212,7 @@ class MapViewController: UIViewController, PinStoreViewDelegate {
     
     func deleteScrapItem(shopName: String) {
         scrappedCollection
+            .whereField(db_uid, isEqualTo: userID)
             .whereField(db_shopName, isEqualTo: shopName)
             .getDocuments { (querySnapshot, error) in
                 if let error = error {
@@ -264,7 +272,11 @@ class MapViewController: UIViewController, PinStoreViewDelegate {
         for rating in ratings {
             sum += rating
         }
-        return sum / Float(count)
+        if count == 0 {
+            return 0.0
+        } else {
+            return sum / Float(count)
+        }
     }
     
 }
@@ -272,6 +284,29 @@ class MapViewController: UIViewController, PinStoreViewDelegate {
 
 extension MapViewController: UISearchBarDelegate, CLLocationManagerDelegate, MKMapViewDelegate  {
     // MARK: - searchBar
+    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
+        UIView.animate(withDuration: 0.5) {
+            self.searchBar.snp.remakeConstraints { make in
+                make.top.equalToSuperview().inset(60)
+                make.horizontalEdges.equalToSuperview().inset(20)
+            }
+            self.view.layoutIfNeeded()
+        }
+    }
+    
+//    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+//        UIView.animate(withDuration: 0.5) {
+//            self.searchBar.snp.remakeConstraints { make in
+//                guard let searchBarWidth = self.searchBarWidth else { return }
+//                make.width.equalTo(searchBarWidth)
+//                make.top.equalToSuperview().inset(60)
+//                make.leading.equalToSuperview().offset(20)
+//            }
+//        }
+//        //self.view.layoutIfNeeded()
+//       // self.view.endEditing(true)
+//    }
+    
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         searchBar.resignFirstResponder()
     }
