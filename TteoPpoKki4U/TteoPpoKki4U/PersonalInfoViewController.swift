@@ -22,13 +22,35 @@ class PersonalInfoViewController: UIViewController, PHPickerViewControllerDelega
     
     let userManager = UserManager()
     
+    var backButton: UIButton = {
+        let button = UIButton(type: .system)
+        let image = UIImage(systemName: "chevron.backward.2")
+        button.setImage(image, for: .normal)
+        button.tintColor = .systemGray
+        button.addTarget(nil, action: #selector(backButtonTapped), for: .touchUpInside)
+        return button
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .systemBackground
         
         setupProfileImageView()
         setupUserNameTextField()
+        setupBackButton()
         setupSaveButton()
+        navigationController?.isNavigationBarHidden = true
+    }
+    
+    func setupBackButton() {
+        view.addSubview(backButton)
+        
+        backButton.snp.makeConstraints { make in
+            make.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(10)
+            make.leading.equalToSuperview().offset(20)
+            make.trailing.equalToSuperview().offset(-340)
+            make.height.equalTo(30)
+        }
     }
     
     func setupProfileImageView() {
@@ -75,6 +97,12 @@ class PersonalInfoViewController: UIViewController, PHPickerViewControllerDelega
             make.top.equalTo(userNameTextField.snp.bottom).offset(20)
             make.centerX.equalToSuperview()
         }
+    }
+    
+    
+    @objc func backButtonTapped() {
+        navigationController?.popViewController(animated: true)
+        
     }
     
     @objc func changeProfileImage() {
