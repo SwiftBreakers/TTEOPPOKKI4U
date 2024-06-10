@@ -9,6 +9,8 @@ import UIKit
 import SnapKit
 import MapKit
 import CoreLocation
+import Firebase
+import FirebaseFirestore
 
 class MapViewController: UIViewController {
     
@@ -46,7 +48,7 @@ class MapViewController: UIViewController {
     var locationManager: CLLocationManager = CLLocationManager()
     var userLocation: CLLocation = CLLocation()
     var storeList: [Document] = []
-    
+    var isScrapped = PinStoreView().isScrapped
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -172,6 +174,86 @@ class MapViewController: UIViewController {
         return distance
     }
     
+    // MARK: - firebase 불러오기
+    func fetchScrapStatus(shopName: String) {
+        /* scrapList에 존재 여부 확인 : 존재 -> 버튼 ishighted(isSelected??) 상태로 view에 보여야
+                                    존재X -> 버튼 normal 상태로 보이기
+         존재 여부 Bool값으로 넘겨주기 */
+        scrappedCollection
+                    .whereField(db_shopName, isEqualTo: shopName)
+                    .getDocuments { (querySnapshot, error) in
+                        if let error = error {
+                            print("Error getting documents: \(error)")
+                        } else {
+                            if let documents = querySnapshot?.documents, !documents.isEmpty {
+                                self.isScrapped = true
+                            } else {
+                                self.isScrapped = false
+                            }
+                        }
+                    }
+    }
+    
+    //한번더 클릭했을 때엔 상태 반대로 가야 함 : create(update) or delete, toggle되어야 하는데 처음 view에 나타날 때엔 생성/삭제 메서드 필요없음.. click event 안에 메서드 넣어야 하나?
+    func createScrapItem(shopName: String) {
+        scrappedCollection.addDocument(data: [db_shopName: shopName]) { error in
+            if let error = error {
+                print("Error adding document: \(error)")
+            } else {
+                self.isScrapped = true
+            }
+        }
+    }
+    
+    func deleteScrapItem(shopName: String) {
+        scrappedCollection
+            .whereField(db_shopName, isEqualTo: shopName)
+            .getDocuments { (querySnapshot, error) in
+                if let error = error {
+                    print("Error getting documents: \(error)")
+                } else {
+                    for document in querySnapshot!.documents {
+                        scrappedCollection.document(document.documentID).delete() { error in
+                            if let error = error {
+                                print("Error removing document: \(error)")
+                            } else {
+                                self.isScrapped = false
+                            }
+                        }
+                    }
+                }
+            }
+    }
+    
+    func fetchRatings(for storeName: String, completion: @escaping ([Float]?, Error?) -> Void) {
+        reviewCollection
+            .whereField(db_storeName, isEqualTo: storeName)
+            .getDocuments { (querySnapshot, error) in
+                if let error = error {
+                    completion(nil, error)
+                } else {
+                    var ratings: [Float] = []
+                    for document in querySnapshot!.documents {
+                        if let rating = document.get(db_rating) as? Float {
+                            ratings.append(rating)
+                        }
+                    }
+                    completion(ratings, nil)
+                }
+            }
+    }
+    
+    func getAverageRating(ratings: [Float]) -> Float {
+        let count = ratings.count
+        var sum:Float = 0.0
+        
+        for rating in ratings {
+            sum += rating
+        }
+        
+        return sum / Float(count)
+    }
+    
 }
 
 
@@ -238,12 +320,23 @@ extension MapViewController: UISearchBarDelegate, CLLocationManagerDelegate, MKM
         guard let annotation = view.annotation else { return }
         
         if let store = storeList.first(where: { $0.placeName == annotation.title }) {
-            if view.annotation?.subtitle == "분식집" {
-                view.transform = CGAffineTransform(scaleX: 1.5, y: 1.5)  // 선택되면 떡볶이pin 크기 키우기
-                let distance = getDistance(latitude: store.y, longitude: store.x)
-                storeInfoView.bind(title: store.placeName, address: store.addressName, isScrapped: false, rating: 4.5, reviews: 54, distance: distance.prettyDistance)
-                storeInfoView.isHidden = false
+            view.transform = CGAffineTransform(scaleX: 1.5, y: 1.5)    // 선택되면 떡볶이pin 크기 키우기
+            
+            fetchScrapStatus(shopName: store.placeName)
+            
+            let distance = getDistance(latitude: store.y, longitude: store.x)   // 거리 구하기
+            fetchRatings(for: store.placeName) { (ratings, error) in            // rating, reviews 구하기
+                if let error = error {
+                    print("Error getting ratings: \(error)")
+                } else {
+                    print("Ratings for \(store.placeName): \(ratings ?? [])")
+                    guard let ratings = ratings else { return }
+                    let averageRating = self.getAverageRating(ratings: ratings)
+                    self.storeInfoView.bind(title: store.placeName, address: store.addressName, isScrapped: self.isScrapped, rating: averageRating, reviews: ratings.count, distance: distance.prettyDistance)
+                    self.storeInfoView.isHidden = false
+                }
             }
+
         }
     }
     

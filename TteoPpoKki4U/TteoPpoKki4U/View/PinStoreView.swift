@@ -169,8 +169,14 @@ class PinStoreView: UIView {
         distanceLabel.attributedText = makeIconBeforeText(icon: "arrow.turn.down.right", label: distance)
     }
     
-    @objc func titleLabelTapped() {
-        print("가게 상세정보 페이지로 이동")
+   @objc func titleLabelTapped() {
+        if isScrapped {
+            // 이미 스크랩된 상태 -> 스크랩 해제
+            removeScrap()
+        } else {
+            // 스크랩되지 않은 상태 -> 스크랩 추가
+            addScrap()
+        }
     }
     
     @objc func scrapButtonTapped() {
