@@ -14,7 +14,7 @@ class UserManager {
     
     let ref = Database.database().reference()
     
-    func updateProfile(uid: String, nickName: String, profile: UIImage, completion: @escaping (Error) -> Void) {
+    func updateProfile(uid: String, nickName: String, profile: UIImage, completion: @escaping ((Result<(),Error>) -> Void)) {
         
         
         let storageRef = Storage.storage().reference(forURL: "gs://tteoppokki4u.appspot.com")
@@ -26,13 +26,13 @@ class UserManager {
         
         storageProfileRef.putData(imageData, metadata: metaData) { (metadata, error) in
             if let error = error {
-                completion(error)
+                completion(.failure(error))
                 return
             }
             
             storageProfileRef.downloadURL { (url, error) in
                 if let error = error {
-                    completion(error)
+                    completion(.failure(error))
                     return
                 }
                 
@@ -40,9 +40,10 @@ class UserManager {
                 let values = [db_nickName: nickName, db_profileImageUrl: downloadURL.absoluteString]
                 self.ref.child(db_user_users).child(uid).updateChildValues(values) { error, reference in
                     if let error = error {
-                        completion(error)
+                        completion(.failure(error))
                         return
                     }
+                    completion(.success(()))
                 }
             }
         }

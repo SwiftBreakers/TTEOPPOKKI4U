@@ -30,7 +30,7 @@ class ReviewCell: UICollectionViewCell {
     private let editButton: UIButton = {
         let button = UIButton()
         button.setTitle("수정", for: .normal)
-        button.titleLabel?.font = UIFont(name: ThemeFont.fontMedium, size: 17)
+        button.titleLabel?.font = ThemeFont.fontMedium(size: 17)
         button.setTitleColor(.systemBlue, for: .normal)
         return button
     }()
@@ -38,7 +38,7 @@ class ReviewCell: UICollectionViewCell {
     private let deleteButton: UIButton = {
         let button = UIButton()
         button.setTitle("삭제", for: .normal)
-        button.titleLabel?.font = UIFont(name: ThemeFont.fontMedium, size: 17)
+        button.titleLabel?.font = ThemeFont.fontMedium(size: 17)
         button.setTitleColor(.systemRed, for: .normal)
         return button
     }()

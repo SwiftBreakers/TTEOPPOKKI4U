@@ -34,7 +34,7 @@ class ScrapCell: UICollectionViewCell {
         addressLabel.font = UIFont.systemFont(ofSize: 14)
         addressLabel.numberOfLines = 0
         deleteButton.setTitle("삭제", for: .normal)
-        deleteButton.titleLabel?.font = UIFont(name: ThemeFont.fontMedium, size: 17)
+        deleteButton.titleLabel?.font = ThemeFont.fontMedium(size: 17)
         deleteButton.setTitleColor(.red, for: .normal)
         deleteButton.addTarget(self, action: #selector(deleteButtonTapped), for: .touchUpInside)
         

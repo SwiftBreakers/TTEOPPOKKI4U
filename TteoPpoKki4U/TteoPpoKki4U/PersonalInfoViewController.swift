@@ -106,13 +106,22 @@ class PersonalInfoViewController: UIViewController, PHPickerViewControllerDelega
     }
     
     @objc func saveChanges() {
+        ProgressHUD.animate()
         guard let uid = Auth.auth().currentUser?.uid else { return }
         guard let image = profileImage else { return }
         let userName = userNameTextField.text ?? ""
         
-        userManager.updateProfile(uid: uid, nickName: userName, profile: image) { error in
-            print(error)
+        userManager.updateProfile(uid: uid, nickName: userName, profile: image) { [weak self] result in
+            switch result {
+            case .success(()):
+                ProgressHUD.dismiss()
+                self?.showMessage(title: "수정 완료", message: "프로필 정보가 수정 되었습니다.") {
+                    self?.navigationController?.popViewController(animated: true)
+                }
+            case .failure(let error) :
+                ProgressHUD.dismiss()
+                self?.showMessage(title: "에러 발생", message: "\(error.localizedDescription)가 발생했습니다.")
+            }
         }
-        navigationController?.popViewController(animated: true)
-        }
+    }
 }

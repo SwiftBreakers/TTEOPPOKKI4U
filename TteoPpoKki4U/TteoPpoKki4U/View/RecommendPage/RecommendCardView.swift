@@ -44,10 +44,10 @@ public class MyCardCell: CardCell {
     }
     
     public func setCardUI() {
-        titleLabel.font = UIFont(name: ThemeFont.fontBold, size: 40)
+        titleLabel.font = ThemeFont.fontBold(size: 40)
         titleLabel.textColor = .white
         
-        descriptionLabel.font = UIFont(name: ThemeFont.fontRegular, size: 16)
+        descriptionLabel.font = ThemeFont.fontRegular(size: 16)
         descriptionLabel.textColor = .white
         
         imageView.layer.cornerRadius = 12

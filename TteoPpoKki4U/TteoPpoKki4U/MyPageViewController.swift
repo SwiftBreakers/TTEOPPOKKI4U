@@ -116,8 +116,6 @@ extension MyPageViewController: UICollectionViewDataSource, UICollectionViewDele
         case [1, 1]:
             let MyReviewVC = MyReviewViewController()
             navigationController?.pushViewController(MyReviewVC, animated: true)
-        case [1, 2]:
-            print("3")
         case [2, 0]:
             let settingVC = SettingViewController()
             navigationController?.pushViewController(settingVC, animated: true)

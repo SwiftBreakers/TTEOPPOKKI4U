@@ -8,6 +8,7 @@
 import UIKit
 import SnapKit
 import FirebaseAuth
+import FirebaseDatabase
 
 class SettingViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
@@ -94,8 +95,7 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
                 if let error = error {
                     print("\(error.localizedDescription)")
                 } else {
-                    print("회원탈퇴 처리")
-                    
+                                        
                     let scene = UIApplication.shared.connectedScenes.first
                     if let sd: SceneDelegate = (scene?.delegate as? SceneDelegate) {
                         sd.switchToGreetingViewController()
