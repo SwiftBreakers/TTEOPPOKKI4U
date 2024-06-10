@@ -34,23 +34,19 @@ public class CardViewModel: ObservableObject {
         do {
             let querySnapshot = try await cardRef.getDocuments()
             
-            // 각 document에 대해 비동기 작업을 병렬로 처리
             let cards = try await withThrowingTaskGroup(of: Card?.self) { taskGroup in
                 for document in querySnapshot.documents {
                     taskGroup.addTask {
                         let data = document.data()
-                        
                         let title = data["title"] as? String ?? "No Title"
                         let description = data["description"] as? String ?? "No Description"
-                        let imageURL = data["imageURL"] as? String ?? ""
+                        let imageURLString = data["imageURL"] as? String ?? ""
                         let longDescription = data["longDescription"] as? String ?? "No LongDescription"
-                        var card = Card(title: title, description: description, imageURL: imageURL, longDescription: longDescription)
                         
-                        // 이미지를 비동기적으로 가져옴
-                        if let image = await self.fetchImage(for: card) {
-                            card.image = image
-                        }
-                        return card
+                        // gs:// URL을 HTTP(S) URL로 변환
+                        let imageURL = try await self.convertGSURLToHTTPURL(gsURL: imageURLString)
+                        
+                        return Card(title: title, description: description, longDescription: longDescription, imageURL: imageURL)
                     }
                 }
                 
@@ -71,32 +67,12 @@ public class CardViewModel: ObservableObject {
         }
     }
     
-    private func fetchImage(for card: Card) async -> UIImage? {
-        guard card.imageURL.starts(with: "gs://") else {
-            print("Invalid URL scheme: \(card.imageURL)")
-            return nil
-        }
+    private func convertGSURLToHTTPURL(gsURL: String) async throws -> String {
+        guard gsURL.starts(with: "gs://") else { return gsURL }
         
-        do {
-            print("Fetching image for URL: \(card.imageURL)")
-            let reference = storage.reference(forURL: card.imageURL)
-            let url = try await reference.downloadURL()
-            print("Fetched download URL: \(url)")
-            let data = try await downloadImageData(from: url)
-            print("Fetched image data")
-            return UIImage(data: data)
-        } catch {
-            print("Error fetching image: \(error.localizedDescription)")
-            return nil
-        }
-    }
-    
-    private func downloadImageData(from url: URL) async throws -> Data {
-        let (data, response) = try await URLSession.shared.data(from: url)
-        if let httpResponse = response as? HTTPURLResponse {
-            print("HTTP Response Status Code: \(httpResponse.statusCode)")
-        }
-        return data
+        let reference = storage.reference(forURL: gsURL)
+        let url = try await reference.downloadURL()
+        return url.absoluteString
     }
     
     public func card(at index: Int) -> Card {

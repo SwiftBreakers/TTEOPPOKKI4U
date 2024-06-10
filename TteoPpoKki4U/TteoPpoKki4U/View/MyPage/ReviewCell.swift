@@ -1,17 +1,11 @@
-//
-//  ReviewCell.swift
-//  TteoPpoKki4U
-//
-//  Created by 박미림 on 5/31/24.
-//
-
 import UIKit
 
 class ReviewCell: UICollectionViewCell {
     
     static let identifier = "ReviewCell"
     var delegate: ReviewCellDelegate?
-    private var review: Review?
+    private var review: ReviewModel?
+    private var indexPath: IndexPath? // indexPath 추가
     
     private let titleLabel: UILabel = {
         let label = UILabel()
@@ -81,7 +75,7 @@ class ReviewCell: UICollectionViewCell {
         
         editButton.snp.makeConstraints { make in
             make.top.equalTo(contentLabel.snp.bottom).offset(8)
-            make.leading.equalToSuperview().inset(264)  // 200픽셀 오른쪽으로 이동
+            make.leading.equalToSuperview().inset(264)
         }
         
         deleteButton.snp.makeConstraints { make in
@@ -93,22 +87,23 @@ class ReviewCell: UICollectionViewCell {
         deleteButton.addTarget(self, action: #selector(deleteTapped), for: .touchUpInside)
     }
     
-    func configure(with review: Review) {
+    func configure(with review: ReviewModel, indexPath: IndexPath) {
         self.review = review
+        self.indexPath = indexPath // indexPath 설정
         titleLabel.text = review.title
         ratingLabel.text = "Rating: \(review.rating)"
         contentLabel.text = review.content
     }
     
     @objc private func editTapped() {
-        if let review = review {
-            delegate?.editReview(review)
+        if let review = review, let indexPath = indexPath {
+            delegate?.editReview(review, indexPath: indexPath)
         }
     }
     
     @objc private func deleteTapped() {
-        if let review = review {
-            delegate?.deleteReview(review)
+        if let review = review, let indexPath = indexPath {
+            delegate?.deleteReview(review, indexPath: indexPath)
         }
     }
 }

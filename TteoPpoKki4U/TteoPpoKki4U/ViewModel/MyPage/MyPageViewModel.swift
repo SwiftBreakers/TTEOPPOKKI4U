@@ -23,9 +23,8 @@ class MyPageViewModel {
             MyPageModel(icon: "pencil.line", title: "내가 쓴 리뷰"),
         ]),
         MyPageSection(title: "Settings", options: [
-            MyPageModel(icon: "gearshape.fill", title: "앱 환경 설정"),
-            MyPageModel(icon: "power.circle", title: "로그아웃"),
-            MyPageModel(icon: "message", title: "테스트")
+            MyPageModel(icon: "gearshape.fill", title: "설정"),
+            MyPageModel(icon: "power.circle", title: "로그아웃")
         ])
     ]
 

@@ -142,6 +142,7 @@ class PinStoreView: UIView {
             make.height.equalTo(40)
         }
     }
+
     
     private func setClickEvents() {
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(titleLabelTapped))
@@ -179,7 +180,12 @@ class PinStoreView: UIView {
     }
     
     @objc func titleLabelTapped() {
-        print("가게 정보 페이지로 이동")
+        let storeVC = StoreViewController()
+        guard let address = addressLabel.text, let shopName = titleLabel.text else { return }
+        
+        storeVC.addressText = address
+        storeVC.shopTitleText = shopName
+        currentViewController?.present(storeVC, animated: true)
     }
     
     @objc func scrapButtonTapped() {

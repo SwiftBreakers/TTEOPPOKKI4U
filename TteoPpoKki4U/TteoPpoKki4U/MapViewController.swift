@@ -358,6 +358,7 @@ extension MapViewController: UISearchBarDelegate, CLLocationManagerDelegate, MKM
         storeInfoView.isHidden = true
         view.transform = CGAffineTransform.identity
     }
+
 }
 
 

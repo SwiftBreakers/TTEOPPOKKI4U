@@ -7,11 +7,19 @@
 
 import UIKit
 import SnapKit
-import PhotosUI
+import YPImagePicker
+import Firebase
+import FirebaseAuth
+import FirebaseStorage
+import Combine
+import Kingfisher
+import ProgressHUD
 
 class WriteViewController: UIViewController {
     
+    
     let starStackView = UIStackView()
+    
     var starButtons: [UIButton] = []
     var selectedRating = 0
     
@@ -25,22 +33,82 @@ class WriteViewController: UIViewController {
     let imageScrollView = UIScrollView()
     let imageStackView = UIStackView()
     
+    var addressText: String?
+    var storeTitleText: String?
+    
+    var isEditMode: Bool = false
+    var isNavagtion: Bool = false
+    var review: ReviewModel?
+    
+    private var cancellables = Set<AnyCancellable>()
+    let viewModel = ReviewViewModel()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         setupUI()
+        
+        bind()
+        setDataForEdit()
+    }
+    
+    private func setDataForEdit() {
+        if review != nil {
+            titleTextField.text = review?.title
+            contentTextView.text = review?.content
+            selectedRating = Int(review!.rating)
+            addressText = review?.storeAddress
+            storeTitleText = review?.storeName
+            updateStarButtons()
+            getImages()
+        }
+    }
+    
+    private func getImages() {
+        review?.imageURL.forEach { url in
+            guard let imageURL = URL(string: url) else { return }
+            KingfisherManager.shared.retrieveImage(with: imageURL) { result in
+                switch result {
+                case .success(let image):
+                    DispatchQueue.main.async {
+                        self.addImageToStackView(image: image.image)
+                        self.selectedImages.append(image.image)
+                    }
+                case .failure(let error):
+                    print("Error: \(error)")
+                }
+            }
+        }
+    }
+    
+    private func bind() {
+        viewModel.reviewPublisher.sink { [weak self] completion in
+            switch completion {
+            case .finished:
+                return
+            case .failure(let error) :
+                let alert = UIAlertController(title: "에러 발생", message: "\(error.localizedDescription)이 발생했습니다.", preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "확인", style: .default))
+                self?.present(alert, animated: true)
+            }
+        } receiveValue: { _ in
+            
+        }.store(in: &cancellables)
+        
     }
     
     func setupUI() {
         view.backgroundColor = .systemBackground
         
-//        // Navigation Bar 설정
-//        self.title = "후기 작성하기"
-//        let backButton = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
-//        self.navigationItem.backBarButtonItem = backButton
-        
         // 별점 라벨
         let starLabel = UILabel()
-        starLabel.text = "별점 리뷰 작성"
+        if isEditMode {
+            starLabel.text = "별점 리뷰 수정"
+            submitButton.setTitle("리뷰 수정", for: .normal)
+        } else {
+            starLabel.text = "별점 리뷰 작성"
+            submitButton.setTitle("리뷰 등록", for: .normal)
+        }
         starLabel.font = UIFont.boldSystemFont(ofSize: 22)
         view.addSubview(starLabel)
         starLabel.snp.makeConstraints { make in
@@ -97,35 +165,35 @@ class WriteViewController: UIViewController {
         // 이미지 추가 버튼
         addImageButton.setImage(UIImage(systemName: "camera"), for: .normal)
         addImageButton.backgroundColor = .systemGray5
-                addImageButton.layer.cornerRadius = 5
-                addImageButton.addTarget(self, action: #selector(addImageButtonTapped), for: .touchUpInside)
-                view.addSubview(addImageButton)
-                addImageButton.snp.makeConstraints { make in
-                    make.top.equalTo(contentTextView.snp.bottom).offset(20)
-                    make.left.equalToSuperview().offset(20)
-                    make.width.height.equalTo(60)
-                }
+        addImageButton.layer.cornerRadius = 5
+        addImageButton.addTarget(self, action: #selector(addImageButtonTapped), for: .touchUpInside)
+        view.addSubview(addImageButton)
+        addImageButton.snp.makeConstraints { make in
+            make.top.equalTo(contentTextView.snp.bottom).offset(20)
+            make.left.equalToSuperview().offset(20)
+            make.width.height.equalTo(60)
+        }
         // MARK: - 여기 스크롤 되는지 모르겠음....
         // 이미지 스크롤뷰 설정
-                imageScrollView.showsHorizontalScrollIndicator = false
-                view.addSubview(imageScrollView)
-                imageScrollView.snp.makeConstraints { make in
-                    make.top.equalTo(addImageButton.snp.bottom).offset(40)
-                    make.left.equalToSuperview().offset(20)
-                    make.right.equalToSuperview().offset(-20)
-                    make.height.equalTo(90)
-                }
+        imageScrollView.showsHorizontalScrollIndicator = false
+        view.addSubview(imageScrollView)
+        imageScrollView.snp.makeConstraints { make in
+            make.top.equalTo(addImageButton.snp.bottom).offset(40)
+            make.left.equalToSuperview().offset(20)
+            make.right.equalToSuperview().offset(-20)
+            make.height.equalTo(90)
+        }
         
         // 이미지 스택뷰 설정
-                imageStackView.axis = .horizontal
-                imageStackView.spacing = 10
-                imageScrollView.addSubview(imageStackView)
-                imageStackView.snp.makeConstraints { make in
-                    make.top.equalToSuperview()
-                    make.left.equalToSuperview().offset(20)
-                    make.right.equalToSuperview().offset(-20)
-                }
-       
+        imageStackView.axis = .horizontal
+        imageStackView.spacing = 10
+        imageScrollView.addSubview(imageStackView)
+        imageStackView.snp.makeConstraints { make in
+            make.top.equalToSuperview()
+            make.left.equalToSuperview().offset(20)
+            make.right.equalToSuperview().offset(-20)
+        }
+        
         
         // 취소 버튼 설정
         cancelButton.setTitle("취소", for: .normal)
@@ -142,7 +210,6 @@ class WriteViewController: UIViewController {
         }
         
         // 등록 버튼 설정
-        submitButton.setTitle("리뷰 등록", for: .normal)
         submitButton.setTitleColor(.white, for: .normal)
         submitButton.backgroundColor = .orange
         submitButton.layer.cornerRadius = 5
@@ -156,115 +223,185 @@ class WriteViewController: UIViewController {
         }
     }
     
-    @objc func starButtonTapped(_ sender: UIButton) {
-        selectedRating = sender.tag
+    private func reviewTapped() {
+        guard
+            let uid = Auth.auth().currentUser?.uid,
+            let title = titleTextField.text,
+            let content = contentTextView.text
+        else {
+            return
+        }
+        
+        uploadImages(images: selectedImages)
+            .sink(receiveCompletion: { completion in
+                switch completion {
+                case .finished:
+                    break
+                case .failure(let error):
+                    let alert = UIAlertController(title: "에러 발생", message: "\(error.localizedDescription)이 발생했습니다.", preferredStyle: .alert)
+                    alert.addAction(UIAlertAction(title: "확인", style: .default))
+                    self.present(alert, animated: true)
+                }
+            }, receiveValue: { [weak self] imageURLs in
+                guard let self = self else { return }
+                
+                let dictionary: [String: Any] = [
+                    "uid": uid,
+                    "title": title,
+                    "storeAddress": self.addressText!,
+                    "storeName": self.storeTitleText!,
+                    "content": content,
+                    "rating": self.selectedRating,
+                    "imageURL": imageURLs,
+                    "isActive": false,
+                    "createdAt": self.isEditMode ? self.review!.createdAt : Timestamp(date: Date()),
+                    "updatedAt": Timestamp(date: Date())
+                ]
+                
+                if isEditMode {
+                    viewModel.editUserReview(uid: uid, storeAddress: self.addressText!, title: review!.title, userDict: dictionary)
+                } else {
+                    viewModel.createReview(userDict: dictionary)
+                }
+            })
+            .store(in: &cancellables)
+        
+        ProgressHUD.animate()
+        let alertTitle = isEditMode ? "리뷰 수정" : "리뷰 저장"
+        let alertMessage = isEditMode ? "리뷰가 수정 되었습니다." : "리뷰가 등록 되었습니다."
+        let alert = UIAlertController(title: alertTitle, message: alertMessage, preferredStyle: .alert)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 4) { [unowned self] in
+            alert.addAction(UIAlertAction(title: "확인", style: .default, handler: { [unowned self] _ in
+                if isNavagtion {
+                    navigationController?.popViewController(animated: true)
+                } else {
+                    dismiss(animated: true, completion: nil)
+                }
+            }))
+            ProgressHUD.remove()
+            present(alert, animated: true)
+        }
+    }
+    
+    private func updateStarButtons() {
         for (index, button) in starButtons.enumerated() {
             button.isSelected = index < selectedRating
         }
     }
     
+    @objc func starButtonTapped(_ sender: UIButton) {
+        selectedRating = sender.tag
+        updateStarButtons()
+    }
+    
     @objc func cancelButtonTapped() {
-        self.dismiss(animated: true, completion: nil)
+        if isNavagtion {
+            navigationController?.popViewController(animated: true)
+        } else {
+            self.dismiss(animated: true, completion: nil)
+        }
     }
     
     @objc func submitButtonTapped() {
-        // 등록 버튼 클릭 시 처리 로직 구현
-        let title = titleTextField.text ?? ""
-        let content = contentTextView.text ?? ""
-        print("저장된 제목: \(title)")
-        print("저장된 내용: \(content)")
-        print("선택된 별점: \(selectedRating)")
-        print("선택된 이미지 수: \(selectedImages.count)")
-        
-        // 데이터 저장 로직 추가 필요
+        reviewTapped()
     }
-    //5개 이미지만 선택 가능!
+    
     @objc func addImageButtonTapped() {
-           var configuration = PHPickerConfiguration()
-           configuration.filter = .images
-           configuration.selectionLimit = 5
-           
-           let picker = PHPickerViewController(configuration: configuration)
-           picker.delegate = self
-           present(picker, animated: true, completion: nil)
-       }
-    
-    
-}
-
-extension WriteViewController: PHPickerViewControllerDelegate {
-    
-    func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
+        var config = YPImagePickerConfiguration()
+        config.library.mediaType = .photo
+        config.library.maxNumberOfItems = 5
+        config.startOnScreen = .library
+        config.screens = [.library]
+        config.showsPhotoFilters = false
+        config.hidesStatusBar = false
+        config.hidesBottomBar = false
+        
+        let picker = YPImagePicker(configuration: config)
+        picker.didFinishPicking { [unowned picker] items, _ in
+            for item in items {
+                switch item {
+                case .photo(let photo):
+                    self.selectedImages.append(photo.image)
+                    self.addImageToStackView(image: photo.image)
+                case .video(_):
+                    break
+                }
+            }
             picker.dismiss(animated: true, completion: nil)
+        }
+        present(picker, animated: true, completion: nil)
+    }
+    
+    func addImageToStackView(image: UIImage) {
+        let containerView = UIView()
+        containerView.snp.makeConstraints { make in
+            make.width.height.equalTo(90)
+        }
+        
+        containerView.clipsToBounds = true
+        containerView.layer.cornerRadius = 10
+        
+        let imageView = UIImageView(image: image)
+        imageView.contentMode = .scaleAspectFill
+        imageView.clipsToBounds = true
+        containerView.addSubview(imageView)
+        imageView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
+        
+        let removeButton = UIButton(type: .custom)
+        removeButton.setImage(UIImage(systemName: "xmark.circle.fill"), for: .normal)
+        removeButton.tintColor = .systemGray6
+        removeButton.addTarget(self, action: #selector(removeImageButtonTapped(_:)), for: .touchUpInside)
+        containerView.addSubview(removeButton)
+        removeButton.snp.makeConstraints { make in
+            make.top.right.equalToSuperview().inset(5)
+            make.width.height.equalTo(20)
+        }
+        
+        imageStackView.addArrangedSubview(containerView)
+    }
+    
+    @objc func removeImageButtonTapped(_ sender: UIButton) {
+        guard let containerView = sender.superview else { return }
+        
+        if let index = imageStackView.arrangedSubviews.firstIndex(of: containerView) {
+            selectedImages.remove(at: index)
+        }
+        
+        containerView.removeFromSuperview()
+    }
+    
+    func uploadImage(image: UIImage) -> AnyPublisher<String, Error> {
+        Future<String, Error> { promise in
+            let storageRef = Storage.storage().reference()
+            guard let imageData = image.jpegData(compressionQuality: 0.5) else {
+                return
+            }
             
-            for result in results {
-                if result.itemProvider.canLoadObject(ofClass: UIImage.self) {
-                    result.itemProvider.loadObject(ofClass: UIImage.self) { [weak self] (object, error) in
-                        guard let self = self else { return }
-                        if let image = object as? UIImage {
-                            DispatchQueue.main.async {
-                                if self.selectedImages.count > 4 {
-                                    let alert = UIAlertController(title: "업로드 갯수 제한", message: "이미지 업로드는 5개로 제한됩니다.", preferredStyle: .alert)
-                                    alert.addAction(UIAlertAction(title: "확인", style: .default))
-                                    self.present(alert, animated: true)
-                                } else {
-                                    self.selectedImages.append(image)
-                                    self.addImageToStackView(image: image)
-//                                    let imageView = UIImageView(image: image)
-//                                    imageView.contentMode = .scaleAspectFill
-//                                    imageView.clipsToBounds = true
-//                                    self.imageStackView.addArrangedSubview(imageView)
-//                                    imageView.snp.makeConstraints { make in
-//                                        make.width.height.equalTo(90)
-//                                        imageView.layer.cornerRadius = 10
-//                                    }
-                                }
-                            }
-                        }
+            let imageRef = storageRef.child("images/\(UUID().uuidString).jpg")
+            imageRef.putData(imageData, metadata: nil) { metadata, error in
+                if let error = error {
+                    promise(.failure(error))
+                    return
+                }
+                
+                imageRef.downloadURL { url, error in
+                    if let error = error {
+                        promise(.failure(error))
+                    } else if let downloadURL = url {
+                        promise(.success(downloadURL.absoluteString))
                     }
                 }
             }
         }
+        .eraseToAnyPublisher()
+    }
     
-    func addImageToStackView(image: UIImage) {
-           let containerView = UIView()
-           containerView.snp.makeConstraints { make in
-               make.width.height.equalTo(90)
-           }
-        
-        containerView.clipsToBounds = true
-        containerView.layer.cornerRadius = 10
-           
-           let imageView = UIImageView(image: image)
-           imageView.contentMode = .scaleAspectFill
-           imageView.clipsToBounds = true
-           containerView.addSubview(imageView)
-           imageView.snp.makeConstraints { make in
-               make.edges.equalToSuperview()
-           }
-           
-           let removeButton = UIButton(type: .custom)
-           removeButton.setImage(UIImage(systemName: "xmark.circle.fill"), for: .normal)
-           removeButton.tintColor = .systemGray6
-           removeButton.addTarget(self, action: #selector(removeImageButtonTapped(_:)), for: .touchUpInside)
-           containerView.addSubview(removeButton)
-           removeButton.snp.makeConstraints { make in
-               make.top.right.equalToSuperview().inset(5)
-               make.width.height.equalTo(20)
-           }
-           
-           imageStackView.addArrangedSubview(containerView)
-       }
-       
-       @objc func removeImageButtonTapped(_ sender: UIButton) {
-           
-           guard let containerView = sender.superview else { return }
-           
-           if let index = imageStackView.arrangedSubviews.firstIndex(of: containerView) {
-               selectedImages.remove(at: index)
-              // print(selectedImages.count)
-           }
-        
-           containerView.removeFromSuperview()
-           }
+    func uploadImages(images: [UIImage]) -> AnyPublisher<[String], Error> {
+        let publishers = images.map { uploadImage(image: $0) }
+        return Publishers.MergeMany(publishers)
+            .collect()
+            .eraseToAnyPublisher()
+    }
 }
