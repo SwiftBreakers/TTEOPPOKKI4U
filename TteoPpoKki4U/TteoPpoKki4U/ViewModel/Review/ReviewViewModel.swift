@@ -82,7 +82,7 @@ class ReviewViewModel {
         }
     }
     
-    func removeUserReview(uid: String, storeAddress: String, title: String) {
+    func removeUserReview(uid: String, storeAddress: String, title: String, completion: @escaping () -> Void) {
         userManager.getSpecificReview(uid: uid, storeAddress: storeAddress, title: title) { [weak self ] querySnapshot, error in
             if let error = error {
                 self?.reviewPublisher.send(completion: .failure(error))
@@ -93,6 +93,7 @@ class ReviewViewModel {
                 for doc in documents {
                     let id = doc.documentID
                     reviewCollection.document(id).delete()
+                    completion()
                 }
             }
         }

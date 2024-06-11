@@ -85,6 +85,7 @@
 		CE3F363A2C08474700532901 /* RecommendViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE3F36392C08474700532901 /* RecommendViewController.swift */; };
 		CE3F36422C1036D700532901 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE3F36412C1036D700532901 /* DetailViewController.swift */; };
 		CE3F36472C14286400532901 /* SkeletonView in Frameworks */ = {isa = PBXBuildFile; productRef = CE3F36462C14286400532901 /* SkeletonView */; };
+		CE4003FD2C17F160009E1142 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = CE4003FC2C17F160009E1142 /* GoogleService-Info.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -152,6 +153,7 @@
 		CE3F36372C0846C800532901 /* RecommendModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendModel.swift; sourceTree = "<group>"; };
 		CE3F36392C08474700532901 /* RecommendViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendViewController.swift; sourceTree = "<group>"; };
 		CE3F36412C1036D700532901 /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
+		CE4003FC2C17F160009E1142 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */

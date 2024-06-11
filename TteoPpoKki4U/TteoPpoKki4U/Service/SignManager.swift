@@ -46,6 +46,11 @@ class SignManager {
         ref.child("users").child(user.uid).setValue(userData)
     }
     
+    func fetchUserData(uid: String, completion: @escaping ((any Error)?, DataSnapshot?) -> Void) {
+        let ref = Database.database().reference()
+        ref.child("users").child(uid).getData(completion: completion)
+    }
+    
     func sha256(_ input: String) -> String {
         let inputData = Data(input.utf8)
         let hashedData = SHA256.hash(data: inputData)
@@ -105,51 +110,63 @@ class SignManager {
     
     // Apple 로그아웃 함수
     func signOutApple(completion: @escaping (Error?) -> Void) {
+        guard let userID = UserDefaults.standard.string(forKey: "appleAuthorizedUserIdKey") else {
+            let error = NSError(domain: "AppleSignOut", code: -1, userInfo: [NSLocalizedDescriptionKey: "No Apple ID user ID found."])
+            completion(error)
+            return
+        }
+        
         let appleIDProvider = ASAuthorizationAppleIDProvider()
-        appleIDProvider.getCredentialState(forUserID: "YOUR_USER_ID") { (credentialState, error) in
+        appleIDProvider.getCredentialState(forUserID: userID) { (credentialState, error) in
+            if let error = error {
+                completion(error)
+                return
+            }
+            
             switch credentialState {
             case .authorized:
                 completion(nil)
-            case .revoked:
-                completion(nil)
-            case .notFound:
+            case .revoked, .notFound:
+                // Consider the user logged out if the credential is revoked or not found
                 completion(nil)
             default:
-                completion(error)
+                let unknownError = NSError(domain: "AppleSignOut", code: -1, userInfo: [NSLocalizedDescriptionKey: "Unknown Apple credential state."])
+                completion(unknownError)
             }
         }
     }
     
     // 로그인된 서비스 확인 및 로그아웃
     func signOutCurrentUser(completion: @escaping (Result<Void, Error>) -> Void) {
-        if let user = Auth.auth().currentUser {
-            for provider in user.providerData {
-                switch provider.providerID {
-                case "apple.com":
-                    signOutApple { error in
-                        if let error = error {
-                            completion(.failure(error))
-                        } else {
-                            self.signOut(completion: completion)
+            if let user = Auth.auth().currentUser {
+                for provider in user.providerData {
+                    switch provider.providerID {
+                    case "apple.com":
+                        signOutApple { error in
+                            if let error = error {
+                                completion(.failure(error))
+                            } else {
+                                self.signOut(completion: completion)
+                            }
                         }
-                    }
-                case "google.com":
-                    signOutGoogle { error in
-                        if let error = error {
-                            completion(.failure(error))
-                        } else {
-                            self.signOut(completion: completion)
+                    case "google.com":
+                        signOutGoogle { error in
+                            if let error = error {
+                                completion(.failure(error))
+                            } else {
+                                self.signOut(completion: completion)
+                            }
                         }
+                    default:
+                        break
                     }
-                default:
-                    break
                 }
+            } else {
+                let error = NSError(domain: "FirebaseService", code: -1, userInfo: [NSLocalizedDescriptionKey: "로그인된 사용자가 없습니다."])
+                completion(.failure(error))
             }
-        } else {
-            let error = NSError(domain: "FirebaseService", code: -1, userInfo: [NSLocalizedDescriptionKey: "로그인된 사용자가 없습니다."])
-            completion(.failure(error))
         }
-    }
+
 }
 
 

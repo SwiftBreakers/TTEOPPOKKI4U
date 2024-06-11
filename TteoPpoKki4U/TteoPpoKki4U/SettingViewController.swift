@@ -15,6 +15,15 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
     
     let tableView = UITableView()
     
+    var backButton: UIButton = {
+        let button = UIButton(type: .system)
+        let image = UIImage(systemName: "chevron.backward.2")
+        button.setImage(image, for: .normal)
+        button.tintColor = .systemGray
+        button.addTarget(nil, action: #selector(backButtonTapped), for: .touchUpInside)
+        return button
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -30,10 +39,28 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
         view.addSubview(tableView)
         
         // SnapKit을 사용하여 테이블 뷰 레이아웃 설정
+        
+        
+        setupBackButton()
+        navigationController?.isNavigationBarHidden = true
         tableView.snp.makeConstraints { make in
-            make.edges.equalTo(view)
+            make.top.equalTo(backButton.snp.bottom).offset(20)
+            make.horizontalEdges.equalToSuperview().inset(20)
+            make.bottom.equalToSuperview()
         }
     }
+    
+    func setupBackButton() {
+        view.addSubview(backButton)
+        
+        backButton.snp.makeConstraints { make in
+            make.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(10)
+            make.leading.equalToSuperview().offset(20)
+            make.trailing.equalToSuperview().offset(-340)
+            make.height.equalTo(30)
+        }
+    }
+    
     
     // MARK: - UITableViewDataSource
     
@@ -115,4 +142,10 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
         }))
         present(alert, animated: true, completion: nil)
     }
+    
+    @objc func backButtonTapped() {
+        navigationController?.popViewController(animated: true)
+        
+    }
+    
 }
