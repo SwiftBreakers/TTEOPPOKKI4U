@@ -85,6 +85,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         tabbarController.viewControllers = [recommendVC, mapVC, communityVC, mypageVC]
         
         window?.rootViewController = tabbarController
+        tabbarController.tabBar.backgroundColor = .white
     }
     
     func switchToGreetingViewController() {

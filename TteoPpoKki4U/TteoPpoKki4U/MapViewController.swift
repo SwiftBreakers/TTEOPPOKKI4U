@@ -11,6 +11,7 @@ import MapKit
 import CoreLocation
 import Firebase
 import FirebaseFirestore
+import FirebaseAuth
 
 class MapViewController: UIViewController, PinStoreViewDelegate {
         
@@ -20,23 +21,24 @@ class MapViewController: UIViewController, PinStoreViewDelegate {
         map.isZoomEnabled = true     // 줌 가능 여부
         map.isScrollEnabled = true   // 이동 가능 여부
         map.isPitchEnabled = true    // 각도 조절 가능 여부 (두 손가락으로 위/아래 슬라이드)
+        map.showsCompass = false
         map.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         return map
     }()
     let searchBar: UISearchBar = {
         let bar = UISearchBar()
-        bar.placeholder = "장소, 지역"
+        bar.placeholder = "장소명 또는 지역명을 입력해주세요"
         bar.searchTextField.backgroundColor = .clear
         bar.searchTextField.borderStyle = .none
         bar.clipsToBounds = true
         bar.layer.cornerRadius = 20
         return bar
     }()
-    let barLabel: UILabel = {
-        let label = UILabel()
-        label.text = "의 근처 맛집을 찾아주세요."
-        label.font = .systemFont(ofSize: 16, weight: .semibold)
-        return label
+    lazy var compassBtn: MKCompassButton = {
+        let btn = MKCompassButton(mapView: mapView)
+        btn.frame.origin = CGPoint(x: self.view.frame.maxX - 40, y: 20)
+        btn.compassVisibility = .adaptive
+        return btn
     }()
     lazy var storeInfoView: PinStoreView = {
         let view = PinStoreView()
@@ -49,6 +51,7 @@ class MapViewController: UIViewController, PinStoreViewDelegate {
     var userLocation: CLLocation = CLLocation()
     var storeList: [Document] = []
     var isScrapped = PinStoreView().isScrapped
+    var userID = Auth.auth().currentUser!.uid
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -61,7 +64,7 @@ class MapViewController: UIViewController, PinStoreViewDelegate {
     }
     
     func setConstraints() {
-        [mapView, searchBar, barLabel, storeInfoView].forEach {
+        [mapView, searchBar, compassBtn, storeInfoView].forEach {
             self.view.addSubview($0)
         }
         
@@ -71,14 +74,13 @@ class MapViewController: UIViewController, PinStoreViewDelegate {
         
         searchBar.snp.makeConstraints { make in
             make.top.equalToSuperview().offset(60)
-            make.leading.equalToSuperview().offset(20)
+            make.horizontalEdges.equalTo(view.safeAreaLayoutGuide).inset(20)
             make.height.equalTo(50)
         }
         
-        barLabel.snp.makeConstraints { make in
-            make.centerY.equalTo(searchBar.snp.centerY)
-            make.leading.equalTo(searchBar.snp.trailing).offset(10)
-            make.trailing.equalToSuperview().inset(40)
+        compassBtn.snp.makeConstraints { make in
+            make.top.equalTo(searchBar.snp.bottom).offset(10)
+            make.trailing.equalTo(view.safeAreaLayoutGuide).inset(20)
         }
         
         storeInfoView.snp.makeConstraints { make in
@@ -100,8 +102,9 @@ class MapViewController: UIViewController, PinStoreViewDelegate {
     }
     
     func findMyLocation() {
-        guard locationManager.location != nil else { return }
+        guard let userLocation = mapView.userLocation.location else { return }
         mapView.showsUserLocation = true
+        centerMapOnLocation(location: userLocation)
         mapView.setUserTrackingMode(.follow, animated: true)
     }
     
@@ -130,6 +133,7 @@ class MapViewController: UIViewController, PinStoreViewDelegate {
         search.start { response, error in
             guard let response = response else {
                 print("Error searching for location: \(String(describing: error))")
+                self.showMessage(title: "잘못된 지역명입니다.", message: "올바른 지역명 또는 장소명을 입력해 주세요.")
                 return
             }
             if let mapItem = response.mapItems.first {
@@ -175,9 +179,10 @@ class MapViewController: UIViewController, PinStoreViewDelegate {
         return distance
     }
     
-    // MARK: - firebase 불러오기
+    // MARK: - firebase 데이터 관리
     func fetchScrapStatus(shopName: String, completion: @escaping (Bool) -> Void) {
         scrappedCollection
+            .whereField(db_uid, isEqualTo: userID)
             .whereField(db_shopName, isEqualTo: shopName)
             .getDocuments { (querySnapshot, error) in
                 if let error = error {
@@ -194,7 +199,7 @@ class MapViewController: UIViewController, PinStoreViewDelegate {
     }
     
     func createScrapItem(shopName: String, shopAddress: String) {
-        scrappedCollection.addDocument(data: [db_shopName: shopName, db_shopAddress: shopAddress]) { error in
+        scrappedCollection.addDocument(data: [db_shopName: shopName, db_shopAddress: shopAddress, db_uid: userID]) { error in
             if let error = error {
                 print("Error adding document: \(error)")
             } else {
@@ -205,6 +210,7 @@ class MapViewController: UIViewController, PinStoreViewDelegate {
     
     func deleteScrapItem(shopName: String) {
         scrappedCollection
+            .whereField(db_uid, isEqualTo: userID)
             .whereField(db_shopName, isEqualTo: shopName)
             .getDocuments { (querySnapshot, error) in
                 if let error = error {
@@ -264,7 +270,11 @@ class MapViewController: UIViewController, PinStoreViewDelegate {
         for rating in ratings {
             sum += rating
         }
-        return sum / Float(count)
+        if count == 0 {
+            return 0.0
+        } else {
+            return sum / Float(count)
+        }
     }
     
 }
