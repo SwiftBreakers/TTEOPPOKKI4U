@@ -60,9 +60,7 @@ final class GreetingViewController: UIViewController {
             case .finished:
                 return
             case .failure(let error):
-                let alert = UIAlertController(title: "에러 발생", message: "\(error.localizedDescription)이 발생했습니다.", preferredStyle: .alert)
-                alert.addAction(UIAlertAction(title: "확인", style: .default))
-                self?.present(alert, animated: true)
+                self?.showMessage(title: "에러 발생", message: "\(error.localizedDescription)이 발생했습니다.")
             }
         } receiveValue: { _ in
             let scene = UIApplication.shared.connectedScenes.first

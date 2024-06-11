@@ -19,7 +19,7 @@ class UserManager {
         
         let storageRef = Storage.storage().reference(forURL: "gs://tteoppokki4u.appspot.com")
         let storageProfileRef = storageRef.child(db_user_profile).child(uid)
-        guard let imageData = profile.jpegData(compressionQuality: 0.8) else { return }
+        guard let imageData = profile.jpegData(compressionQuality: 0.3) else { return }
         
         let metaData = StorageMetadata()
         metaData.contentType = "image/jpg"

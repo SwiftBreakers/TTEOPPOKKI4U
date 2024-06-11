@@ -18,7 +18,6 @@ class SignViewModel: NSObject {
     
     private let signManager: SignManager
     
-    
     init(signManager: SignManager) {
         self.signManager = signManager
     }
@@ -50,6 +49,7 @@ class SignViewModel: NSObject {
     func googleLoginDidTapped(presentViewController: UIViewController) {
         
         GIDSignIn.sharedInstance.signIn(withPresenting: presentViewController) { [weak self] signInResult, error in
+            
             if let error = error {
                 self?.loginPublisher.send(completion: .failure(error))
             }
