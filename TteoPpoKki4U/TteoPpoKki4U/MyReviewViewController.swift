@@ -7,6 +7,7 @@
 import UIKit
 import SnapKit
 import Combine
+import ProgressHUD
 
 class MyReviewViewController: UIViewController {
     
@@ -121,15 +122,15 @@ extension MyReviewViewController: ReviewCellDelegate {
     
     func deleteReview(_ review: ReviewModel, indexPath: IndexPath) {
         let item = viewModel.userReview[indexPath.row]
-        let alert = UIAlertController(title: "삭제 확인", message: "삭제하시면 복원 할 수 없습니다.", preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "확인", style: .destructive, handler: { [unowned self] _ in
-            viewModel.removeUserReview(uid: item.uid, storeAddress: item.storeAddress, title: item.title)
-            
-            getData()
-            bind()
-        }))
-        alert.addAction(UIAlertAction(title: "취소", style: .default))
-        present(alert, animated: true)
+        showMessageWithCancel(title: "삭제 확인", message: "삭제하시면 복원 할 수 없습니다.") { [weak self]  in
+            ProgressHUD.animate()
+            self?.viewModel.removeUserReview(uid: item.uid, storeAddress: item.storeAddress, title: item.title) {
+                ProgressHUD.remove()
+                self?.showMessage(title: "삭제 완료", message: "선택하신 리뷰가 삭제되었습니다.")
+                self?.getData()
+                self?.bind()
+            }
+        }
     }
 }
 

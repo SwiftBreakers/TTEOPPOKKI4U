@@ -21,7 +21,7 @@ class MyPageViewController: UIViewController {
     private var signOutTapped: (() -> Void)!
     
     private var cancellables = Set<AnyCancellable>()
-    
+    private var currentImageUrl: String?
     
     convenience init(signOutTapped: @escaping () -> Void, viewModel: SignViewModel) {
         self.init()
@@ -45,7 +45,6 @@ class MyPageViewController: UIViewController {
         myPageView.collectionView.dataSource = self
         myPageView.collectionView.delegate = self
         bind()
-        fetchUser()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -60,12 +59,9 @@ class MyPageViewController: UIViewController {
             if let error = error {
                 print(error)
             }
-            
             guard let dictionary = snapshot?.value as? [String: Any] else { return }
-            
-            myPageView.userProfile.kf.setImage(with: URL(string: dictionary["profileImageUrl"] as! String))
-            
-            
+            myPageView.userProfile.kf.setImage(with: URL(string: dictionary[db_profileImageUrl] as! String))
+            currentImageUrl = dictionary[db_profileImageUrl] as? String
         }
     }
     
@@ -83,7 +79,6 @@ class MyPageViewController: UIViewController {
             let scene = UIApplication.shared.connectedScenes.first
             if let sd: SceneDelegate = (scene?.delegate as? SceneDelegate) {
                 sd.switchToGreetingViewController()
-
             }
         }.store(in: &cancellables)
     }
@@ -112,6 +107,7 @@ extension MyPageViewController: UICollectionViewDataSource, UICollectionViewDele
         switch indexPath {
         case [0, 0]:
             let personalInfoVC = PersonalInfoViewController()
+            personalInfoVC.gotProfileImage = currentImageUrl
             navigationController?.pushViewController(personalInfoVC, animated: true)
         case [1, 0]:
             let MyScrapVC = MyScrapViewController()

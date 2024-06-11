@@ -363,14 +363,15 @@ class WriteViewController: UIViewController {
         containerView.removeFromSuperview()
     }
     
-    func uploadImage(image: UIImage) -> AnyPublisher<String, Error> {
+    func uploadImage(image: UIImage, index: Int) -> AnyPublisher<String, Error> {
         Future<String, Error> { promise in
+            guard let uid = Auth.auth().currentUser?.uid else { return }
             let storageRef = Storage.storage().reference()
-            guard let imageData = image.jpegData(compressionQuality: 0.5) else {
+            guard let imageData = image.jpegData(compressionQuality: 0.3) else {
                 return
             }
             
-            let imageRef = storageRef.child("images/\(UUID().uuidString).jpg")
+            let imageRef = storageRef.child("images/\(uid)\(index).jpg")
             imageRef.putData(imageData, metadata: nil) { metadata, error in
                 if let error = error {
                     promise(.failure(error))
@@ -390,7 +391,9 @@ class WriteViewController: UIViewController {
     }
     
     func uploadImages(images: [UIImage]) -> AnyPublisher<[String], Error> {
-        let publishers = images.map { uploadImage(image: $0) }
+        let publishers = images.enumerated().map { (index, image) in
+            uploadImage(image: image, index: index + 1) // 인덱스를 1부터 시작
+        }
         return Publishers.MergeMany(publishers)
             .collect()
             .eraseToAnyPublisher()

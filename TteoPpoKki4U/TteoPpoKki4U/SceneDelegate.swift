@@ -25,6 +25,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         self.window = window
         window.makeKeyAndVisible()
         
+        let recommendVC = RecommendViewController()
+        let navigationVC = UINavigationController(rootViewController: recommendVC)
+        
         configureInitialViewController()
     }
     
@@ -82,6 +85,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         tabbarController.viewControllers = [recommendVC, mapVC, communityVC, mypageVC]
         
         window?.rootViewController = tabbarController
+        tabbarController.tabBar.backgroundColor = .white
     }
     
     func switchToGreetingViewController() {

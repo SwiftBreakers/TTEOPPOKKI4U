@@ -18,9 +18,11 @@ class PersonalInfoViewController: UIViewController, PHPickerViewControllerDelega
     var saveButton: UIButton!
     
     var profileImage: UIImage?
+    var gotProfileImage: String?
     var profileName: String?
     
     let userManager = UserManager()
+    
     
     var backButton: UIButton = {
         let button = UIButton(type: .system)
@@ -40,6 +42,10 @@ class PersonalInfoViewController: UIViewController, PHPickerViewControllerDelega
         setupBackButton()
         setupSaveButton()
         navigationController?.isNavigationBarHidden = true
+    }
+    
+    func validateData() {
+        
     }
     
     func setupBackButton() {
