@@ -66,7 +66,7 @@ public class RecommendViewController: UIViewController {
         let tappedCard = viewModel.card(at: index)
         let detailVC = DetailViewController()
         detailVC.card = tappedCard
-        present(detailVC, animated: true, completion: nil)
+        self.navigationController?.pushViewController(detailVC, animated: true)
     }
 }
 
