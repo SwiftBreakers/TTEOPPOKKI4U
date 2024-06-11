@@ -15,11 +15,53 @@ class DetailViewController: UIViewController {
     let titleLabel = UILabel()
     let descriptionLabel = UILabel()
     let longDescriptionLabel = UILabel()
+    let contentView = UIView()
+    let scrollView: UIScrollView = {
+        let scrollView = UIScrollView()
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        scrollView.showsVerticalScrollIndicator = false
+        scrollView.backgroundColor = .white
+        
+        return scrollView
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
         configureView()
+        navigationController?.hidesBarsOnSwipe = true
+        makeBarButton()
+    }
+    
+    @objc func shareButtonTapped() {
+        var shareItems = [String]()
+        if let text = self.titleLabel.text {
+            shareItems.append(text)
+        }
+        let activityViewController = UIActivityViewController(activityItems: shareItems, applicationActivities: nil)
+        activityViewController.popoverPresentationController?.sourceView = self.view
+        self.present(activityViewController, animated: true, completion: nil)
+    }
+    @objc func bookmarkButtonTapped() {
+        
+    }
+    func makeBarButton() {
+        // 첫 번째 버튼 생성
+        let shareButton = UIBarButtonItem(
+            title: "공유하기",
+            style: .plain,
+            target: self,
+            action: #selector(shareButtonTapped)
+        )
+        
+        // 두 번째 버튼 생성
+        let bookmarkButton = UIBarButtonItem(
+            title: "북마크",
+            style: .plain,
+            target: self,
+            action: #selector(bookmarkButtonTapped)
+        )
+        navigationItem.rightBarButtonItems = [shareButton, bookmarkButton]
     }
     
     private func configureView() {
@@ -35,51 +77,72 @@ class DetailViewController: UIViewController {
     }
     
     private func setupViews() {
+        
         view.backgroundColor = .white
         
-        // 이미지뷰 설정
-        imageView.contentMode = .scaleAspectFit
+        contentView.backgroundColor = .white
         
-        // 타이틀 라벨 설정
-        titleLabel.font = UIFont.boldSystemFont(ofSize: 24)
+        imageView.contentMode = .scaleToFill
+        
+        titleLabel.textColor = .white
+        titleLabel.font = ThemeFont.fontBold(size: 40)
         titleLabel.numberOfLines = 0
-        titleLabel.textAlignment = .center
+        titleLabel.textAlignment = .left
         
-        // 설명 라벨 설정
-        descriptionLabel.font = UIFont.systemFont(ofSize: 16)
+        descriptionLabel.textColor = .white
+        descriptionLabel.font = ThemeFont.fontRegular(size: 16)
         descriptionLabel.numberOfLines = 0
-        descriptionLabel.textAlignment = .center
+        descriptionLabel.textAlignment = .left
         
-        longDescriptionLabel.font = UIFont.systemFont(ofSize: 16)
+        longDescriptionLabel.font = ThemeFont.fontRegular(size: 16)
         longDescriptionLabel.numberOfLines = 100
         longDescriptionLabel.textAlignment = .left
         
-        // 서브뷰 추가
-        view.addSubview(imageView)
-        view.addSubview(titleLabel)
-        view.addSubview(descriptionLabel)
-        view.addSubview(longDescriptionLabel)
+        view.addSubview(scrollView)
         
-        // SnapKit으로 오토레이아웃 설정
+        scrollView.addSubview(contentView)
+        
+        contentView.addSubview(imageView)
+        imageView.addSubview(titleLabel)
+        imageView.addSubview(descriptionLabel)
+        contentView.addSubview(longDescriptionLabel)
+        
+        //오토레이아웃 설정
+        
+        scrollView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
+        
+        contentView.snp.makeConstraints { make in
+            make.edges.equalTo(scrollView.contentLayoutGuide)
+            make.width.equalTo(scrollView.frameLayoutGuide)
+        }
+        
         imageView.snp.makeConstraints { make in
-            make.top.equalTo(view.safeAreaLayoutGuide).offset(20)
-            make.leading.trailing.equalToSuperview().inset(20)
-            make.height.equalTo(200)
+            make.top.equalTo(contentView.snp.top).offset(10)
+            make.leading.equalTo(contentView.safeAreaLayoutGuide)
+            make.trailing.equalTo(contentView.safeAreaLayoutGuide)
+            make.height.equalTo(500)
         }
         
         titleLabel.snp.makeConstraints { make in
-            make.top.equalTo(imageView.snp.bottom).offset(20)
-            make.leading.trailing.equalToSuperview().inset(20)
+            make.bottom.equalTo(descriptionLabel.snp.top).offset(-10)
+            make.leading.equalTo(imageView.snp.leading).offset(30)
+            make.trailing.equalTo(imageView.snp.trailing).offset(-30)
         }
         
         descriptionLabel.snp.makeConstraints { make in
-            make.top.equalTo(titleLabel.snp.bottom).offset(10)
-            make.leading.trailing.equalToSuperview().inset(20)
-            make.bottom.lessThanOrEqualTo(view.safeAreaLayoutGuide).offset(-20)
+            make.bottom.equalTo(imageView.snp.bottom).offset(-50)
+            make.leading.equalTo(imageView.snp.leading).offset(30)
+            make.trailing.equalTo(imageView.snp.trailing).offset(-30)
+            make.left.equalTo(titleLabel)
         }
+        
         longDescriptionLabel.snp.makeConstraints { make in
-            make.top.equalTo(descriptionLabel.snp.top).inset(30)
-            make.horizontalEdges.equalToSuperview().inset(20)
+            make.top.equalTo(imageView.snp.bottom).offset(20)
+            make.leading.equalTo(contentView.safeAreaLayoutGuide).offset(20)
+            make.trailing.equalTo(contentView.safeAreaLayoutGuide).offset(-20)
+            make.bottom.equalToSuperview().offset(-20)
         }
     }
     
