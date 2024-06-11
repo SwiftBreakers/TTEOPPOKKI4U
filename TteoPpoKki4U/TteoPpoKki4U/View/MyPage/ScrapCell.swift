@@ -30,12 +30,11 @@ class ScrapCell: UICollectionViewCell {
         addressLabel = UILabel()
         deleteButton = UIButton(type: .system)
         
-        titleLabel.font = UIFont.boldSystemFont(ofSize: 16)
-        addressLabel.font = UIFont.systemFont(ofSize: 14)
+        titleLabel.font = ThemeFont.fontBold(size: 17)
+        addressLabel.font = ThemeFont.fontMedium(size: 14)
         addressLabel.numberOfLines = 0
-        deleteButton.setTitle("삭제", for: .normal)
-        deleteButton.titleLabel?.font = ThemeFont.fontMedium(size: 17)
-        deleteButton.setTitleColor(.red, for: .normal)
+        deleteButton.setImage(UIImage(systemName: "xmark.circle.fill"), for: .normal)
+        deleteButton.tintColor = .systemGray4
         deleteButton.addTarget(self, action: #selector(deleteButtonTapped), for: .touchUpInside)
         
         contentView.addSubview(titleLabel)
@@ -43,26 +42,26 @@ class ScrapCell: UICollectionViewCell {
         contentView.addSubview(deleteButton)
         
         titleLabel.snp.makeConstraints { make in
-            make.top.leading.equalToSuperview().offset(10)
+            make.top.leading.equalToSuperview().offset(20)
             make.trailing.equalTo(deleteButton.snp.leading).offset(-10)
         }
         
         addressLabel.snp.makeConstraints { make in
-            make.top.equalTo(titleLabel.snp.bottom).offset(5)
+            make.top.equalTo(titleLabel.snp.bottom).offset(10)
             make.leading.trailing.equalTo(titleLabel)
         }
         
         deleteButton.snp.makeConstraints { make in
             make.centerY.equalToSuperview()
-            make.trailing.equalToSuperview().offset(-10)
-            make.width.equalTo(60)
+            make.trailing.equalToSuperview().offset(-20)
+            make.width.equalTo(30)
             make.height.equalTo(30)
         }
     }
     
     func configure(with item: ScrapList) {
-        titleLabel.text = item.store
-        addressLabel.text = item.address
+        titleLabel.text = item.shopName
+        addressLabel.text = item.shopAddress
     }
     
     @objc func deleteButtonTapped() {
