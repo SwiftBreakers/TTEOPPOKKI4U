@@ -120,7 +120,7 @@ class MapViewController: UIViewController, PinStoreViewDelegate {
     }
     
     private func centerMapOnLocation(location: CLLocation) {
-        let regionRadius: CLLocationDistance = 500
+        let regionRadius: CLLocationDistance = 1000
         let coordinateRegion = MKCoordinateRegion(center: location.coordinate,
                                                   latitudinalMeters: regionRadius, longitudinalMeters: regionRadius)
         mapView.setRegion(coordinateRegion, animated: true)
