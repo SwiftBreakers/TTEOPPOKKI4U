@@ -55,7 +55,7 @@ class PersonalInfoViewController: UIViewController, PHPickerViewControllerDelega
             make.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(10)
             make.leading.equalToSuperview().offset(20)
             make.trailing.equalToSuperview().offset(-340)
-            make.height.equalTo(30)
+            make.height.width.equalTo(24)
         }
     }
     
@@ -94,14 +94,18 @@ class PersonalInfoViewController: UIViewController, PHPickerViewControllerDelega
     
     func setupSaveButton() {
         saveButton = UIButton(type: .system)
-        saveButton.setTitle("저장", for: .normal)
+        saveButton.setImage(UIImage(named: "checkBox"), for: .normal)
+        saveButton.tintColor = ThemeColor.mainGreen
         saveButton.addTarget(self, action: #selector(saveChanges), for: .touchUpInside)
         
         view.addSubview(saveButton)
         
         saveButton.snp.makeConstraints { make in
-            make.top.equalTo(userNameTextField.snp.bottom).offset(20)
-            make.centerX.equalToSuperview()
+            make.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(10)
+          //  make.leading.equalTo(backButton.snp.trailing).offset(274)
+            make.trailing.equalToSuperview().offset(-30)
+            make.width.height.equalTo(24)
+           
         }
     }
     

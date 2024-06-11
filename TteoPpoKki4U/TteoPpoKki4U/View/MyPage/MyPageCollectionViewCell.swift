@@ -58,7 +58,8 @@ class MyPageCollectionViewCell: UICollectionViewCell {
                    arrowImageView.snp.makeConstraints { make in
                        make.centerY.equalTo(contentView)
                        make.trailing.equalTo(contentView).offset(-16)
-                       make.width.height.equalTo(16)
+                       make.width.equalTo(16)
+                       make.height.equalTo(22)
                    }
         }
         

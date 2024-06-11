@@ -59,6 +59,8 @@
 		8D580A552C08C8770057D370 /* MyReviewCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D580A542C08C8770057D370 /* MyReviewCollectionViewCell.swift */; };
 		8D60C7AD2C105EFC00CAFD0C /* StoreViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D60C7AC2C105EFC00CAFD0C /* StoreViewController.swift */; };
 		8D78CDE02C0E077D00051D50 /* WriteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D78CDDF2C0E077D00051D50 /* WriteViewController.swift */; };
+		8D9A30582C1800C2004E7F1B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8D9A30572C1800C2004E7F1B /* GoogleService-Info.plist */; };
+		8D9A305A2C180D99004E7F1B /* ScrapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D9A30592C180D99004E7F1B /* ScrapViewModel.swift */; };
 		8DA4C3822C09BFA8008AB975 /* Review.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DA4C3812C09BFA8008AB975 /* Review.swift */; };
 		8DA4C3842C0A0ACF008AB975 /* ReviewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DA4C3832C0A0ACF008AB975 /* ReviewCell.swift */; };
 		8DB30F1E2C076AE900503139 /* MyPageCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DB30F1D2C076AE900503139 /* MyPageCollectionViewCell.swift */; };
@@ -129,6 +131,8 @@
 		8D580A542C08C8770057D370 /* MyReviewCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyReviewCollectionViewCell.swift; sourceTree = "<group>"; };
 		8D60C7AC2C105EFC00CAFD0C /* StoreViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreViewController.swift; sourceTree = "<group>"; };
 		8D78CDDF2C0E077D00051D50 /* WriteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WriteViewController.swift; sourceTree = "<group>"; };
+		8D9A30572C1800C2004E7F1B /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		8D9A30592C180D99004E7F1B /* ScrapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrapViewModel.swift; sourceTree = "<group>"; };
 		8DA4C3812C09BFA8008AB975 /* Review.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Review.swift; sourceTree = "<group>"; };
 		8DA4C3832C0A0ACF008AB975 /* ReviewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewCell.swift; sourceTree = "<group>"; };
 		8DB30F1D2C076AE900503139 /* MyPageCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -265,7 +269,7 @@
 				613D86A32C05BFF90039E771 /* LaunchScreen.storyboard */,
 				613D86A62C05BFF90039E771 /* Info.plist */,
 				61DAC4FF2C06CCB000DFC575 /* Secret.swift */,
-				9CC13A8B2C16FC7400DDA659 /* GoogleService-Info.plist */,
+				8D9A30572C1800C2004E7F1B /* GoogleService-Info.plist */,
 			);
 			path = TteoPpoKki4U;
 			sourceTree = "<group>";
@@ -400,6 +404,7 @@
 			isa = PBXGroup;
 			children = (
 				8DB30F2D2C07767100503139 /* MyPageViewModel.swift */,
+				8D9A30592C180D99004E7F1B /* ScrapViewModel.swift */,
 			);
 			path = MyPage;
 			sourceTree = "<group>";
@@ -512,7 +517,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8D580A472C082AB60057D370 /* Pretendard-Medium.ttf in Resources */,
-				9CC13A8C2C16FC7400DDA659 /* GoogleService-Info.plist in Resources */,
+				8D9A30582C1800C2004E7F1B /* GoogleService-Info.plist in Resources */,
 				613D86A22C05BFF90039E771 /* Assets.xcassets in Resources */,
 				8D580A492C082AB60057D370 /* Pretendard-Regular.ttf in Resources */,
 				8D580A4A2C082AB60057D370 /* Pretendard-ExtraLight.ttf in Resources */,
@@ -568,6 +573,7 @@
 				8D580A4D2C08767F0057D370 /* MyScrapViewController.swift in Sources */,
 				CE3F36422C1036D700532901 /* DetailViewController.swift in Sources */,
 				61DAC4E42C05C3CF00DFC575 /* MyPageViewController.swift in Sources */,
+				8D9A305A2C180D99004E7F1B /* ScrapViewModel.swift in Sources */,
 				8DB30F322C07794E00503139 /* PersonalInfoViewController.swift in Sources */,
 				613D86992C05BFF80039E771 /* AppDelegate.swift in Sources */,
 				CE3F363A2C08474700532901 /* RecommendViewController.swift in Sources */,
