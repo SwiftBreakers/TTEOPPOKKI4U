@@ -21,23 +21,24 @@ class MapViewController: UIViewController, PinStoreViewDelegate {
         map.isZoomEnabled = true     // 줌 가능 여부
         map.isScrollEnabled = true   // 이동 가능 여부
         map.isPitchEnabled = true    // 각도 조절 가능 여부 (두 손가락으로 위/아래 슬라이드)
+        map.showsCompass = false
         map.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         return map
     }()
     let searchBar: UISearchBar = {
         let bar = UISearchBar()
-        bar.placeholder = "장소, 지역"
+        bar.placeholder = "장소명 또는 지역명을 입력해주세요"
         bar.searchTextField.backgroundColor = .clear
         bar.searchTextField.borderStyle = .none
         bar.clipsToBounds = true
         bar.layer.cornerRadius = 20
         return bar
     }()
-    let barLabel: UILabel = {
-        let label = UILabel()
-        label.text = "의 근처 맛집을 찾아주세요."
-        label.font = .systemFont(ofSize: 16, weight: .semibold)
-        return label
+    lazy var compassBtn: MKCompassButton = {
+        let btn = MKCompassButton(mapView: mapView)
+        btn.frame.origin = CGPoint(x: self.view.frame.maxX - 40, y: 20)
+        btn.compassVisibility = .adaptive
+        return btn
     }()
     lazy var storeInfoView: PinStoreView = {
         let view = PinStoreView()
@@ -45,7 +46,6 @@ class MapViewController: UIViewController, PinStoreViewDelegate {
         view.layer.cornerRadius = 20
         return view
     }()
-    var searchBarWidth: ConstraintItem?
     
     var locationManager: CLLocationManager = CLLocationManager()
     var userLocation: CLLocation = CLLocation()
@@ -64,7 +64,7 @@ class MapViewController: UIViewController, PinStoreViewDelegate {
     }
     
     func setConstraints() {
-        [mapView, searchBar, barLabel, storeInfoView].forEach {
+        [mapView, searchBar, compassBtn, storeInfoView].forEach {
             self.view.addSubview($0)
         }
         
@@ -74,21 +74,18 @@ class MapViewController: UIViewController, PinStoreViewDelegate {
         
         searchBar.snp.makeConstraints { make in
             make.top.equalToSuperview().offset(60)
-            make.leading.equalToSuperview().offset(20)
+            make.horizontalEdges.equalTo(view.safeAreaLayoutGuide).inset(20)
             make.height.equalTo(50)
         }
         
-        barLabel.snp.makeConstraints { make in
-            make.centerY.equalTo(searchBar.snp.centerY)
-            make.leading.equalTo(searchBar.snp.trailing).offset(10)
-            make.trailing.equalToSuperview().inset(40)
+        compassBtn.snp.makeConstraints { make in
+            make.top.equalTo(searchBar.snp.bottom).offset(10)
+            make.trailing.equalTo(view.safeAreaLayoutGuide).inset(20)
         }
         
         storeInfoView.snp.makeConstraints { make in
             make.bottom.horizontalEdges.equalTo(self.view.safeAreaLayoutGuide).inset(20)
         }
-        
-        searchBarWidth = searchBar.snp.width
     }
     
     func setMapView() {
@@ -105,8 +102,9 @@ class MapViewController: UIViewController, PinStoreViewDelegate {
     }
     
     func findMyLocation() {
-        guard locationManager.location != nil else { return }
+        guard let userLocation = mapView.userLocation.location else { return }
         mapView.showsUserLocation = true
+        centerMapOnLocation(location: userLocation)
         mapView.setUserTrackingMode(.follow, animated: true)
     }
     
@@ -122,7 +120,7 @@ class MapViewController: UIViewController, PinStoreViewDelegate {
     }
     
     private func centerMapOnLocation(location: CLLocation) {
-        let regionRadius: CLLocationDistance = 1000
+        let regionRadius: CLLocationDistance = 500
         let coordinateRegion = MKCoordinateRegion(center: location.coordinate,
                                                   latitudinalMeters: regionRadius, longitudinalMeters: regionRadius)
         mapView.setRegion(coordinateRegion, animated: true)
@@ -181,7 +179,7 @@ class MapViewController: UIViewController, PinStoreViewDelegate {
         return distance
     }
     
-    // MARK: - firebase 불러오기
+    // MARK: - firebase 데이터 관리
     func fetchScrapStatus(shopName: String, completion: @escaping (Bool) -> Void) {
         scrappedCollection
             .whereField(db_uid, isEqualTo: userID)
@@ -284,29 +282,6 @@ class MapViewController: UIViewController, PinStoreViewDelegate {
 
 extension MapViewController: UISearchBarDelegate, CLLocationManagerDelegate, MKMapViewDelegate  {
     // MARK: - searchBar
-    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
-        UIView.animate(withDuration: 0.5) {
-            self.searchBar.snp.remakeConstraints { make in
-                make.top.equalToSuperview().inset(60)
-                make.horizontalEdges.equalToSuperview().inset(20)
-            }
-            self.view.layoutIfNeeded()
-        }
-    }
-    
-//    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-//        UIView.animate(withDuration: 0.5) {
-//            self.searchBar.snp.remakeConstraints { make in
-//                guard let searchBarWidth = self.searchBarWidth else { return }
-//                make.width.equalTo(searchBarWidth)
-//                make.top.equalToSuperview().inset(60)
-//                make.leading.equalToSuperview().offset(20)
-//            }
-//        }
-//        //self.view.layoutIfNeeded()
-//       // self.view.endEditing(true)
-//    }
-    
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         searchBar.resignFirstResponder()
     }
