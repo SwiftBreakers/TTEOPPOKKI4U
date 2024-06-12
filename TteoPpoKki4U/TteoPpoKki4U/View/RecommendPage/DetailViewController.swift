@@ -10,7 +10,9 @@ import SnapKit
 class DetailViewController: UIViewController {
     
     var card: Card?
-    
+    var swipeRecognizer: UISwipeGestureRecognizer!
+    let shopAddressLabel = UILabel()
+    let shopAddressButton = UIButton()
     let imageView = UIImageView()
     let titleLabel = UILabel()
     let descriptionLabel = UILabel()
@@ -24,6 +26,9 @@ class DetailViewController: UIViewController {
         
         return scrollView
     }()
+    var isBookmarked = false
+    let barBookmarkButton = UIBarButtonItem()
+    let barShareButton = UIBarButtonItem()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,7 +37,6 @@ class DetailViewController: UIViewController {
         navigationController?.hidesBarsOnSwipe = true
         makeBarButton()
     }
-    
     @objc func shareButtonTapped() {
         var shareItems = [String]()
         if let text = self.titleLabel.text {
@@ -42,26 +46,33 @@ class DetailViewController: UIViewController {
         activityViewController.popoverPresentationController?.sourceView = self.view
         self.present(activityViewController, animated: true, completion: nil)
     }
-    @objc func bookmarkButtonTapped() {
-        
-    }
+    
     func makeBarButton() {
-        // 첫 번째 버튼 생성
-        let shareButton = UIBarButtonItem(
-            title: "공유하기",
-            style: .plain,
-            target: self,
-            action: #selector(shareButtonTapped)
-        )
+        barShareButton.title = "공유하기"
+        barShareButton.style = .plain
+        barShareButton.target = self
+        barShareButton.action = #selector(shareButtonTapped)
         
-        // 두 번째 버튼 생성
-        let bookmarkButton = UIBarButtonItem(
-            title: "북마크",
-            style: .plain,
-            target: self,
-            action: #selector(bookmarkButtonTapped)
-        )
-        navigationItem.rightBarButtonItems = [shareButton, bookmarkButton]
+        if isBookmarked == false {
+            barBookmarkButton.image = .bookmark0
+        } else {
+            barBookmarkButton.image = .bookmark1
+        }
+        barBookmarkButton.style = .plain
+        barBookmarkButton.target = self
+        barBookmarkButton.action = #selector(bookmarkButtonTapped)
+        
+        navigationItem.rightBarButtonItems = [barShareButton, barBookmarkButton]
+    }
+    @objc func bookmarkButtonTapped() {
+        print(#function)
+        if isBookmarked == false {
+            barBookmarkButton.image = .bookmark1
+            isBookmarked = true
+        } else {
+            barBookmarkButton.image = .bookmark0
+            isBookmarked = false
+        }
     }
     
     private func configureView() {
@@ -69,6 +80,11 @@ class DetailViewController: UIViewController {
         titleLabel.text = card.title
         descriptionLabel.text = card.description
         longDescriptionLabel.text = card.longDescription
+        
+        let addressString = NSMutableAttributedString(string: card.shopAddress)
+        addressString.addAttribute(.underlineStyle, value: NSUnderlineStyle.single.rawValue, range: NSRange(location: 0, length: card.shopAddress.count))
+        shopAddressButton.setAttributedTitle(addressString, for: .normal)
+        
         if let url = URL(string: card.imageURL) {
             imageView.kf.setImage(with: url)
         } else {
@@ -94,6 +110,14 @@ class DetailViewController: UIViewController {
         descriptionLabel.numberOfLines = 0
         descriptionLabel.textAlignment = .left
         
+        shopAddressLabel.text = "주소"
+        shopAddressLabel.font = ThemeFont.fontBold(size: 18)
+        
+        shopAddressButton.setTitleColor(.black, for: .normal)
+        shopAddressButton.titleLabel?.font = ThemeFont.fontRegular(size: 18)
+        shopAddressButton.titleLabel?.numberOfLines = 2
+        shopAddressButton.addTarget(self, action: #selector(moveToMap), for: .touchUpInside)
+        
         longDescriptionLabel.font = ThemeFont.fontRegular(size: 16)
         longDescriptionLabel.numberOfLines = 100
         longDescriptionLabel.textAlignment = .left
@@ -105,6 +129,8 @@ class DetailViewController: UIViewController {
         contentView.addSubview(imageView)
         imageView.addSubview(titleLabel)
         imageView.addSubview(descriptionLabel)
+        contentView.addSubview(shopAddressLabel)
+        contentView.addSubview(shopAddressButton)
         contentView.addSubview(longDescriptionLabel)
         
         //오토레이아웃 설정
@@ -137,13 +163,28 @@ class DetailViewController: UIViewController {
             make.trailing.equalTo(imageView.snp.trailing).offset(-30)
             make.left.equalTo(titleLabel)
         }
+        shopAddressLabel.snp.makeConstraints { make in
+            make.top.equalTo(imageView.snp.bottom).offset(20)
+            make.leading.equalTo(contentView.safeAreaLayoutGuide).offset(20)
+        }
+        shopAddressButton.snp.makeConstraints { make in
+            make.top.equalTo(imageView.snp.bottom).offset(20)
+            make.leading.equalTo(shopAddressLabel.snp.trailing).offset(20)
+            make.trailing.equalTo(contentView.safeAreaLayoutGuide).offset(-150)
+            make.centerY.equalTo(shopAddressLabel)
+        }
         
         longDescriptionLabel.snp.makeConstraints { make in
-            make.top.equalTo(imageView.snp.bottom).offset(20)
+            make.top.equalTo(shopAddressLabel.snp.bottom).offset(20)
             make.leading.equalTo(contentView.safeAreaLayoutGuide).offset(20)
             make.trailing.equalTo(contentView.safeAreaLayoutGuide).offset(-20)
             make.bottom.equalToSuperview().offset(-20)
         }
+    }
+    
+    @objc func moveToMap() {
+        print(#function)
+        
     }
     
 }

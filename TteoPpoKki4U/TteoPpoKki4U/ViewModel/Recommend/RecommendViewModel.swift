@@ -18,6 +18,7 @@ public class CardViewModel: ObservableObject {
     private var storage: Storage!
     private var cancellables = Set<AnyCancellable>()
     
+    
     public var numberOfCards: Int {
         return cards.count
     }
@@ -42,11 +43,12 @@ public class CardViewModel: ObservableObject {
                         let description = data["description"] as? String ?? "No Description"
                         let imageURLString = data["imageURL"] as? String ?? ""
                         let longDescription = data["longDescription"] as? String ?? "No LongDescription"
+                        let shopAddress = data["shopAddress"] as? String ?? "No ShopAddress"
                         
                         // gs:// URL을 HTTP(S) URL로 변환
                         let imageURL = try await self.convertGSURLToHTTPURL(gsURL: imageURLString)
                         
-                        return Card(title: title, description: description, longDescription: longDescription, imageURL: imageURL)
+                        return Card(title: title, description: description, longDescription: longDescription, imageURL: imageURL, shopAddress: shopAddress)
                     }
                 }
                 

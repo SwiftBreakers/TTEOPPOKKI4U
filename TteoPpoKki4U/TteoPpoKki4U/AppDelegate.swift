@@ -15,11 +15,18 @@ import GoogleSignIn
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
     
+    func applicationDidEnterBackground(_ application: UIApplication) {
+        BookmarkCoreDataManager.shared.saveContext()
+    }
+    
+    func applicationWillTerminate(_ application: UIApplication) {
+        BookmarkCoreDataManager.shared.saveContext()
+    }
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         FirebaseApp.configure()
         let db = Firestore.firestore()
-//        print(db)
+        //        print(db)
         KakaoSDK.initSDK(appKey: Secret().kakaoApi)
         return true
     }

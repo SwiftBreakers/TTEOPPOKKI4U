@@ -25,9 +25,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         self.window = window
         window.makeKeyAndVisible()
         
-        let recommendVC = RecommendViewController()
-        let navigationVC = UINavigationController(rootViewController: recommendVC)
-        
         configureInitialViewController()
     }
     

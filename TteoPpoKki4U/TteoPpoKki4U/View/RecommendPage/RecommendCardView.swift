@@ -14,6 +14,8 @@ public class MyCardCell: CardCell {
     public let titleLabel = UILabel()
     public let descriptionLabel = UILabel()
     public let imageView = UIImageView()
+    public let bookmarkButton = UIButton()
+    public var isBookmarked = false
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -29,9 +31,14 @@ public class MyCardCell: CardCell {
         contentView.addSubview(imageView)
         contentView.addSubview(titleLabel)
         contentView.addSubview(descriptionLabel)
+        contentView.addSubview(bookmarkButton)
         
         imageView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
+        }
+        bookmarkButton.snp.makeConstraints { make in
+            make.top.equalTo(imageView.snp.top).offset(20)
+            make.trailing.equalTo(imageView.snp.trailing).offset(-10)
         }
         titleLabel.snp.makeConstraints { make in
             make.leading.equalToSuperview().inset(25)
@@ -44,6 +51,15 @@ public class MyCardCell: CardCell {
     }
     
     public func setCardUI() {
+        
+        if isBookmarked == false {
+            bookmarkButton.setImage(.bookmark0, for: .normal)
+        } else {
+            bookmarkButton.setImage(.bookmark1, for: .normal)
+        }
+        
+        bookmarkButton.addTarget(self, action: #selector(bookmarkTapped), for: .touchUpInside)
+        
         titleLabel.font = ThemeFont.fontBold(size: 40)
         titleLabel.textColor = .white
         
@@ -54,5 +70,15 @@ public class MyCardCell: CardCell {
         imageView.clipsToBounds = true
         
         self.layer.cornerRadius = 12
+    }
+    @objc func bookmarkTapped() {
+        print(#function)
+        if isBookmarked == false {
+            bookmarkButton.setImage(.bookmark1, for: .normal)
+            isBookmarked = true
+        } else {
+            bookmarkButton.setImage(.bookmark0, for: .normal)
+            isBookmarked = false
+        }
     }
 }

@@ -59,7 +59,6 @@
 		8D580A552C08C8770057D370 /* MyReviewCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D580A542C08C8770057D370 /* MyReviewCollectionViewCell.swift */; };
 		8D60C7AD2C105EFC00CAFD0C /* StoreViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D60C7AC2C105EFC00CAFD0C /* StoreViewController.swift */; };
 		8D78CDE02C0E077D00051D50 /* WriteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D78CDDF2C0E077D00051D50 /* WriteViewController.swift */; };
-		8D9A30582C1800C2004E7F1B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8D9A30572C1800C2004E7F1B /* GoogleService-Info.plist */; };
 		8D9A305A2C180D99004E7F1B /* ScrapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D9A30592C180D99004E7F1B /* ScrapViewModel.swift */; };
 		8DA4C3822C09BFA8008AB975 /* Review.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DA4C3812C09BFA8008AB975 /* Review.swift */; };
 		8DA4C3842C0A0ACF008AB975 /* ReviewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DA4C3832C0A0ACF008AB975 /* ReviewCell.swift */; };
@@ -80,14 +79,15 @@
 		9C82B9572C0F31A0008FA84E /* MapVIewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C82B9562C0F31A0008FA84E /* MapVIewModel.swift */; };
 		9C82B9592C0F31D0008FA84E /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C82B9582C0F31D0008FA84E /* MapView.swift */; };
 		9C82B95B2C0F54D7008FA84E /* Double+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C82B95A2C0F54D7008FA84E /* Double+Extension.swift */; };
-		9CC13A8C2C16FC7400DDA659 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9CC13A8B2C16FC7400DDA659 /* GoogleService-Info.plist */; };
 		CE3F36322C08463700532901 /* VerticalCardSwiper in Frameworks */ = {isa = PBXBuildFile; productRef = CE3F36312C08463700532901 /* VerticalCardSwiper */; };
 		CE3F36352C08469700532901 /* RecommendCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE3F36342C08469700532901 /* RecommendCardView.swift */; };
 		CE3F36382C0846C800532901 /* RecommendModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE3F36372C0846C800532901 /* RecommendModel.swift */; };
 		CE3F363A2C08474700532901 /* RecommendViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE3F36392C08474700532901 /* RecommendViewController.swift */; };
 		CE3F36422C1036D700532901 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE3F36412C1036D700532901 /* DetailViewController.swift */; };
 		CE3F36472C14286400532901 /* SkeletonView in Frameworks */ = {isa = PBXBuildFile; productRef = CE3F36462C14286400532901 /* SkeletonView */; };
-		CE4003FD2C17F160009E1142 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = CE4003FC2C17F160009E1142 /* GoogleService-Info.plist */; };
+		CE4004012C18496E009E1142 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = CE4004002C18496E009E1142 /* GoogleService-Info.plist */; };
+		CE4004052C19A855009E1142 /* BookmarkCoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE4004042C19A855009E1142 /* BookmarkCoreDataManager.swift */; };
+		CE4004082C19A877009E1142 /* Bookmark.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = CE4004062C19A877009E1142 /* Bookmark.xcdatamodeld */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -131,7 +131,6 @@
 		8D580A542C08C8770057D370 /* MyReviewCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyReviewCollectionViewCell.swift; sourceTree = "<group>"; };
 		8D60C7AC2C105EFC00CAFD0C /* StoreViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreViewController.swift; sourceTree = "<group>"; };
 		8D78CDDF2C0E077D00051D50 /* WriteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WriteViewController.swift; sourceTree = "<group>"; };
-		8D9A30572C1800C2004E7F1B /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		8D9A30592C180D99004E7F1B /* ScrapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrapViewModel.swift; sourceTree = "<group>"; };
 		8DA4C3812C09BFA8008AB975 /* Review.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Review.swift; sourceTree = "<group>"; };
 		8DA4C3832C0A0ACF008AB975 /* ReviewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewCell.swift; sourceTree = "<group>"; };
@@ -152,12 +151,13 @@
 		9C82B9562C0F31A0008FA84E /* MapVIewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MapVIewModel.swift; path = TteoPpoKki4U/ViewModel/MapVIewModel.swift; sourceTree = SOURCE_ROOT; };
 		9C82B9582C0F31D0008FA84E /* MapView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MapView.swift; path = TteoPpoKki4U/View/MapView.swift; sourceTree = SOURCE_ROOT; };
 		9C82B95A2C0F54D7008FA84E /* Double+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Double+Extension.swift"; sourceTree = "<group>"; };
-		9CC13A8B2C16FC7400DDA659 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../GoogleService-Info.plist"; sourceTree = "<group>"; };
 		CE3F36342C08469700532901 /* RecommendCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendCardView.swift; sourceTree = "<group>"; };
 		CE3F36372C0846C800532901 /* RecommendModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendModel.swift; sourceTree = "<group>"; };
 		CE3F36392C08474700532901 /* RecommendViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendViewController.swift; sourceTree = "<group>"; };
 		CE3F36412C1036D700532901 /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
-		CE4003FC2C17F160009E1142 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
+		CE4004002C18496E009E1142 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
+		CE4004042C19A855009E1142 /* BookmarkCoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkCoreDataManager.swift; sourceTree = "<group>"; };
+		CE4004072C19A877009E1142 /* Bookmark.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Bookmark.xcdatamodel; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -220,6 +220,8 @@
 				9C82B94E2C0F2D27008FA84E /* NetworkManager.swift */,
 				618DEE052C12516A006B95A8 /* UserManager.swift */,
 				61DC69062C15CC38003DEB73 /* StoreManager.swift */,
+				CE4004042C19A855009E1142 /* BookmarkCoreDataManager.swift */,
+				CE4004062C19A877009E1142 /* Bookmark.xcdatamodeld */,
 			);
 			path = Service;
 			sourceTree = "<group>";
@@ -256,7 +258,6 @@
 				619D77192C085EC80043EF82 /* GreetingViewController.swift */,
 				61DAC4DF2C05C3A700DFC575 /* MapViewController.swift */,
 				61DAC4E12C05C3C100DFC575 /* CommunityViewController.swift */,
-				61DAC4DD2C05C37B00DFC575 /* RecommendViewModel.swift */,
 				61DAC4E32C05C3CF00DFC575 /* MyPageViewController.swift */,
 				8DB30F312C07794E00503139 /* PersonalInfoViewController.swift */,
 				8D580A4C2C08767F0057D370 /* MyScrapViewController.swift */,
@@ -269,7 +270,7 @@
 				613D86A32C05BFF90039E771 /* LaunchScreen.storyboard */,
 				613D86A62C05BFF90039E771 /* Info.plist */,
 				61DAC4FF2C06CCB000DFC575 /* Secret.swift */,
-				8D9A30572C1800C2004E7F1B /* GoogleService-Info.plist */,
+				CE4004002C18496E009E1142 /* GoogleService-Info.plist */,
 			);
 			path = TteoPpoKki4U;
 			sourceTree = "<group>";
@@ -290,6 +291,7 @@
 		613D86B02C05C06F0039E771 /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
+				CE4004032C1983E0009E1142 /* Recommend */,
 				6173572A2C137B430007B92A /* Review */,
 				611644332C09038B009FFDA5 /* SignVM */,
 				8DB30F2C2C07764E00503139 /* MyPage */,
@@ -427,6 +429,14 @@
 			path = RecommendPage;
 			sourceTree = "<group>";
 		};
+		CE4004032C1983E0009E1142 /* Recommend */ = {
+			isa = PBXGroup;
+			children = (
+				61DAC4DD2C05C37B00DFC575 /* RecommendViewModel.swift */,
+			);
+			path = Recommend;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -517,7 +527,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8D580A472C082AB60057D370 /* Pretendard-Medium.ttf in Resources */,
-				8D9A30582C1800C2004E7F1B /* GoogleService-Info.plist in Resources */,
+				CE4004012C18496E009E1142 /* GoogleService-Info.plist in Resources */,
 				613D86A22C05BFF90039E771 /* Assets.xcassets in Resources */,
 				8D580A492C082AB60057D370 /* Pretendard-Regular.ttf in Resources */,
 				8D580A4A2C082AB60057D370 /* Pretendard-ExtraLight.ttf in Resources */,
@@ -540,6 +550,7 @@
 				61DAC4E22C05C3C100DFC575 /* CommunityViewController.swift in Sources */,
 				617357262C1364940007B92A /* ReviewModel.swift in Sources */,
 				611644322C09000F009FFDA5 /* GreetingBodyView.swift in Sources */,
+				CE4004082C19A877009E1142 /* Bookmark.xcdatamodeld in Sources */,
 				8D3BA8412C15D5F1007597F2 /* SettingViewController.swift in Sources */,
 				8D78CDE02C0E077D00051D50 /* WriteViewController.swift in Sources */,
 				8DD5CBB92C107C82004F27BD /* DetailedReviewViewController.swift in Sources */,
@@ -584,6 +595,7 @@
 				8DB30F2E2C07767100503139 /* MyPageViewModel.swift in Sources */,
 				8D580A512C08AAF70057D370 /* ScrapCell.swift in Sources */,
 				8DB30F292C0772DE00503139 /* PersonalInfoView.swift in Sources */,
+				CE4004052C19A855009E1142 /* BookmarkCoreDataManager.swift in Sources */,
 				613D869B2C05BFF80039E771 /* SceneDelegate.swift in Sources */,
 				9C82B9572C0F31A0008FA84E /* MapVIewModel.swift in Sources */,
 				61DAC4E02C05C3A700DFC575 /* MapViewController.swift in Sources */,
@@ -984,6 +996,19 @@
 			productName = SkeletonView;
 		};
 /* End XCSwiftPackageProductDependency section */
+
+/* Begin XCVersionGroup section */
+		CE4004062C19A877009E1142 /* Bookmark.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				CE4004072C19A877009E1142 /* Bookmark.xcdatamodel */,
+			);
+			currentVersion = CE4004072C19A877009E1142 /* Bookmark.xcdatamodel */;
+			path = Bookmark.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 613D868D2C05BFF80039E771 /* Project object */;
 }
