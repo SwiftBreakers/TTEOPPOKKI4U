@@ -51,7 +51,7 @@ class MapViewController: UIViewController, PinStoreViewDelegate {
     var userLocation: CLLocation = CLLocation()
     var storeList: [Document] = []
     var isScrapped = PinStoreView().isScrapped
-    var userID = Auth.auth().currentUser!.uid
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -181,6 +181,7 @@ class MapViewController: UIViewController, PinStoreViewDelegate {
     
     // MARK: - firebase 데이터 관리
     func fetchScrapStatus(shopName: String, completion: @escaping (Bool) -> Void) {
+        guard let userID = Auth.auth().currentUser?.uid else { return }
         scrappedCollection
             .whereField(db_uid, isEqualTo: userID)
             .whereField(db_shopName, isEqualTo: shopName)
@@ -199,6 +200,7 @@ class MapViewController: UIViewController, PinStoreViewDelegate {
     }
     
     func createScrapItem(shopName: String, shopAddress: String) {
+        guard let userID = Auth.auth().currentUser?.uid else { return }
         scrappedCollection.addDocument(data: [db_shopName: shopName, db_shopAddress: shopAddress, db_uid: userID]) { error in
             if let error = error {
                 print("Error adding document: \(error)")
@@ -209,6 +211,7 @@ class MapViewController: UIViewController, PinStoreViewDelegate {
     }
     
     func deleteScrapItem(shopName: String) {
+        guard let userID = Auth.auth().currentUser?.uid else { return }
         scrappedCollection
             .whereField(db_uid, isEqualTo: userID)
             .whereField(db_shopName, isEqualTo: shopName)

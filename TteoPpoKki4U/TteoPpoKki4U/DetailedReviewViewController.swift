@@ -24,19 +24,19 @@ class DetailedReviewViewController: UIViewController {
            
            view.backgroundColor = .white
            
-           storeNameLabel.font = UIFont.boldSystemFont(ofSize: 24)
+           storeNameLabel.font = ThemeFont.fontMedium(size: 24)
            storeNameLabel.textAlignment = .center
            view.addSubview(storeNameLabel)
            
-           reviewTitleLabel.font = UIFont.boldSystemFont(ofSize: 20)
+           reviewTitleLabel.font = ThemeFont.fontMedium(size: 20)
            reviewTitleLabel.textAlignment = .center
            view.addSubview(reviewTitleLabel)
            
-           starRatingLabel.font = UIFont.systemFont(ofSize: 18)
+           starRatingLabel.font = ThemeFont.fontRegular()
            starRatingLabel.textAlignment = .center
            view.addSubview(starRatingLabel)
            
-           reviewContentLabel.font = UIFont.systemFont(ofSize: 16)
+           reviewContentLabel.font = ThemeFont.fontRegular()
            reviewContentLabel.numberOfLines = 0
            view.addSubview(reviewContentLabel)
            

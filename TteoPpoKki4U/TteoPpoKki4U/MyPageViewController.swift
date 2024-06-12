@@ -62,6 +62,7 @@ class MyPageViewController: UIViewController {
             guard let dictionary = snapshot?.value as? [String: Any] else { return }
             myPageView.userProfile.kf.setImage(with: URL(string: dictionary[db_profileImageUrl] as! String))
             currentImageUrl = dictionary[db_profileImageUrl] as? String
+            myPageView.userNameLabel.text = (dictionary[db_nickName] as? String) ?? "Unknown"
         }
     }
     
@@ -111,7 +112,6 @@ extension MyPageViewController: UICollectionViewDataSource, UICollectionViewDele
             navigationController?.pushViewController(personalInfoVC, animated: true)
         case [1, 0]:
             let MyScrapVC = MyScrapViewController()
-            
             navigationController?.pushViewController(MyScrapVC, animated: true)
         case [1, 1]:
             let MyReviewVC = MyReviewViewController()
