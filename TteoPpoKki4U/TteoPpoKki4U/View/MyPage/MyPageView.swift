@@ -15,8 +15,17 @@ class MyPageView: UIView {
 //        view.backgroundColor = ThemeColor.mainGreen
         view.layer.cornerRadius = 60
         view.clipsToBounds = true
-        view.contentMode = .scaleAspectFit
+        view.contentMode = .scaleToFill
         return view
+    }()
+    
+    let userNameLabel: UILabel = {
+        let label = UILabel()
+        label.font = ThemeFont.fontRegular(size: 20)
+        label.text = "떡볶이왕"
+        label.textAlignment = .center
+        label.numberOfLines = 0
+        return label
     }()
     
     let collectionView: UICollectionView = {
@@ -47,7 +56,7 @@ class MyPageView: UIView {
     }
     
     private func layout() {
-        [userProfile, collectionView].forEach { view in
+        [userProfile, userNameLabel, collectionView].forEach { view in
             self.addSubview(view)
         }
         
@@ -56,10 +65,17 @@ class MyPageView: UIView {
             make.top.equalToSuperview().offset(128)
             make.leading.equalToSuperview().offset(40)
 //            make.trailing.equalToSuperview().inset(180)
-            make.bottom.equalTo(collectionView.snp.top).offset(-40)
+ //           make.bottom.equalTo(collectionView.snp.top).offset(-40)
+        }
+        
+        userNameLabel.snp.makeConstraints { make in
+            make.centerY.equalTo(userProfile)
+            make.leading.equalTo(userProfile.snp.trailing).offset(40)
+            make.trailing.equalToSuperview().offset(-40)
         }
   
         collectionView.snp.makeConstraints { make in
+            make.top.equalTo(userProfile.snp.bottom).offset(40)
             make.leading.trailing.bottom.equalToSuperview()
         }
     }
