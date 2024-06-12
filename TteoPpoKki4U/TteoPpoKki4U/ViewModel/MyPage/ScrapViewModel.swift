@@ -43,4 +43,20 @@ class ScrapViewModel {
             }
         }
     }
+    
+    func deleteScrap(uid: String, shopAddress: String) {
+        storeManager.deleteScrap(uid: uid, shopAddress: shopAddress) { querySnapshot, error in
+            if let error = error {
+                print(error.localizedDescription)
+            }
+            
+            if let docSnapshot = querySnapshot?.documents {
+                for doc in docSnapshot {
+                    let id = doc.documentID
+                    
+                    scrappedCollection.document(id).delete()
+                }
+            }
+        }
+    }
 }

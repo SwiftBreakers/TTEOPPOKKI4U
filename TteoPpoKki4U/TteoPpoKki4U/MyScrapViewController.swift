@@ -129,8 +129,13 @@ class MyScrapViewController: UIViewController {
            }
     
     func deleteScrap(at indexPath: IndexPath) {
-      //  scrapLists.remove(at: indexPath.item)
-        collectionView.deleteItems(at: [indexPath])
+        let item = scrapViewModel.scrapArray[indexPath.row]
+        
+        guard let uid = Auth.auth().currentUser?.uid else
+        {
+            return
+        }
+        scrapViewModel.deleteScrap(uid: uid, shopAddress: item.shopAddress)
     }
     
 //    func deleteBookmark(at indexPath: IndexPath) {

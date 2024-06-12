@@ -20,4 +20,8 @@ class StoreManager {
         scrappedCollection.whereField(db_uid, isEqualTo: uid).getDocuments(completion: completion)
     }
 
+    
+    func deleteScrap(uid: String, shopAddress: String, completion: @escaping(QuerySnapshot?, (any Error)?) -> Void) {
+        scrappedCollection.whereField(db_uid, isEqualTo: uid).whereField(db_shopAddress, isEqualTo: shopAddress).getDocuments(completion: completion)
+    }
 }
