@@ -244,6 +244,10 @@ extension MapViewController: UISearchBarDelegate, CLLocationManagerDelegate, MKM
         searchBar.resignFirstResponder()
     }
     
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        mapView.searchBar.resignFirstResponder()
+    }
+    
     func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
         guard let keyword = searchBar.text else { return }
         NetworkManager.shared.fetchAPI(query: "\(keyword) 분식") { [weak self] stores in
