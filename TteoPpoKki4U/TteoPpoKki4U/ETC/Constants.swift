@@ -29,3 +29,6 @@ let db_updatedAt = "updatedAt"
 let scrappedCollection = Firestore.firestore().collection("Scrapped")
 let db_shopName = "shopName"
 let db_shopAddress = "shopAddress"
+
+//0613 moremirim 임의 추가 변경 가능
+let bookmarkedCollection = Firestore.firestore().collection("Bookmarked")
