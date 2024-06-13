@@ -112,6 +112,7 @@ class StoreViewController: UIViewController {
         goReviewButton.setTitleColor(.white, for: .normal)
         goReviewButton.backgroundColor = .systemBlue
         goReviewButton.layer.cornerRadius = 10
+    
         view.addSubview(goReviewButton)
         goReviewButton.addTarget(self, action: #selector(goReviewButtonTapped), for: .touchUpInside)
         
