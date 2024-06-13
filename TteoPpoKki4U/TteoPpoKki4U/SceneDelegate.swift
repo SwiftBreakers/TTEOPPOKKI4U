@@ -86,6 +86,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         window?.rootViewController = tabbarController
         tabbarController.tabBar.backgroundColor = .white
+        tabbarController.tabBar.tintColor = ThemeColor.mainOrange
     }
     
     func switchToGreetingViewController() {

@@ -200,3 +200,4 @@ class PinStoreView: UIView {
 protocol PinStoreViewDelegate: AnyObject {
     func pinStoreViewDidTapScrapButton(_ view: PinStoreView)
 }
+
