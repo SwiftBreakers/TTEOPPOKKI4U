@@ -24,7 +24,7 @@ class StoreViewController: UIViewController {
     var shopTitleText: String?
     // Dummy data
     private let storeName = "울랄라 떡볶이"
-    private let storeImages = ["image1", "image2", "image3"]
+    private let storeImages = ["tpkImage1", "tpkImage1WithBg"]
     private let storeLocation = "123길 123"
     //private let reviews = [ReviewModel]()
     
@@ -78,12 +78,13 @@ class StoreViewController: UIViewController {
         
         // Setup Title Label
         storeNameLabel.text = storeName
-        storeNameLabel.font = UIFont.boldSystemFont(ofSize: 24)
+        storeNameLabel.font = ThemeFont.fontMedium(size: 24)
         storeNameLabel.textAlignment = .center
         view.addSubview(storeNameLabel)
         
         // Setup Scroll View and Stack View
-        scrollView.showsHorizontalScrollIndicator = false
+        scrollView.showsHorizontalScrollIndicator = true
+        scrollView.showsVerticalScrollIndicator = false
         view.addSubview(scrollView)
         
         stackView.axis = .horizontal
@@ -104,13 +105,15 @@ class StoreViewController: UIViewController {
         
         // Setup Location Label
         locationLabel.text = storeLocation
+        locationLabel.font = ThemeFont.fontRegular(size: 17)
         locationLabel.textAlignment = .center
         view.addSubview(locationLabel)
         
         // Setup Review Button
         goReviewButton.setTitle("리뷰 작성하기", for: .normal)
+        goReviewButton.titleLabel?.font = ThemeFont.fontBold(size: 18)
         goReviewButton.setTitleColor(.white, for: .normal)
-        goReviewButton.backgroundColor = .systemBlue
+        goReviewButton.backgroundColor = ThemeColor.mainOrange
         goReviewButton.layer.cornerRadius = 10
     
         view.addSubview(goReviewButton)
@@ -119,7 +122,8 @@ class StoreViewController: UIViewController {
         // Setup Table View
         tableView.delegate = self
         tableView.dataSource = self
-        tableView.register(ReviewTableViewCell.self, forCellReuseIdentifier: "reviewCell")
+        tableView.register(ReviewTableViewCell.self, forCellReuseIdentifier: "ReviewTableViewCell")
+        tableView.rowHeight = 50
         view.addSubview(tableView)
     }
     
@@ -138,15 +142,14 @@ class StoreViewController: UIViewController {
         
         // Scroll View Constraints
         scrollView.snp.makeConstraints { make in
-            make.top.equalTo(backButton.snp.bottom).offset(20)
+            make.top.equalTo(backButton.snp.bottom).offset(40)
             make.leading.trailing.equalToSuperview()
             make.height.equalTo(view.snp.width).multipliedBy(0.8 * 0.75) // 4:3 aspect ratio of the image views
         }
         
         // Stack View Constraints
         stackView.snp.makeConstraints { make in
-            make.edges.equalToSuperview().inset(10)
-            make.height.equalToSuperview()
+            make.edges.equalToSuperview()
         }
         
         // Location Label Constraints
@@ -157,7 +160,7 @@ class StoreViewController: UIViewController {
         
         // Table View Constraints
         tableView.snp.makeConstraints { make in
-            make.top.equalTo(locationLabel.snp.bottom).offset(20)
+            make.top.equalTo(locationLabel.snp.bottom).offset(40)
             make.leading.trailing.equalToSuperview()
             make.bottom.equalTo(goReviewButton.snp.top).offset(-20)
         }
@@ -194,7 +197,7 @@ extension StoreViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "reviewCell", for: indexPath) as! ReviewTableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "ReviewTableViewCell", for: indexPath) as! ReviewTableViewCell
         let item = viewModel.userReview[indexPath.row]
         cell.reviewTitleLabel.text = item.title
         cell.starRatingLabel.text = "⭐️ \(item.rating)"
@@ -211,6 +214,7 @@ extension StoreViewController: UITableViewDelegate, UITableViewDataSource {
         detailedReviewVC.reviewTitle = item.title
         detailedReviewVC.starRating = Int(item.rating)
         detailedReviewVC.reviewContent = item.content
+        detailedReviewVC.reviewImages = item.imageURL
         present(detailedReviewVC, animated: true)
     }
     

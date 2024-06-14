@@ -18,14 +18,18 @@ class ReviewTableViewCell: UITableViewCell {
         contentView.addSubview(reviewTitleLabel)
         contentView.addSubview(starRatingLabel)
         
+        reviewTitleLabel.font = ThemeFont.fontRegular(size: 17)
+        starRatingLabel.font = ThemeFont.fontRegular(size: 17)
+        
         reviewTitleLabel.snp.makeConstraints { make in
-            make.leading.top.equalToSuperview().inset(10)
+            make.leading.equalToSuperview().inset(20)
+            make.centerY.equalToSuperview()
         }
         
         starRatingLabel.snp.makeConstraints { make in
             make.leading.equalTo(reviewTitleLabel.snp.trailing).offset(10)
             make.centerY.equalTo(reviewTitleLabel)
-            make.trailing.equalToSuperview().inset(10)
+            make.trailing.equalToSuperview().inset(20)
         }
         
     }
