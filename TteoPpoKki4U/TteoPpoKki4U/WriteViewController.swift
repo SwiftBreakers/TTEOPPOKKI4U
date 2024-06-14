@@ -35,6 +35,7 @@ class WriteViewController: UIViewController {
     
     var addressText: String?
     var storeTitleText: String?
+    var reportCount: Int?
     
     var isEditMode: Bool = false
     var isNavagtion: Bool = false
@@ -251,9 +252,10 @@ class WriteViewController: UIViewController {
                     db_content: content,
                     db_rating: self.selectedRating,
                     db_imageURL: imageURLs,
-                    db_isActive: false,
+                    db_isActive: true,
                     db_createdAt: self.isEditMode ? self.review!.createdAt : Timestamp(date: Date()),
-                    db_updatedAt: Timestamp(date: Date())
+                    db_updatedAt: Timestamp(date: Date()),
+                    db_reportCount: review?.reportCount ?? 0
                 ]
                 
                 

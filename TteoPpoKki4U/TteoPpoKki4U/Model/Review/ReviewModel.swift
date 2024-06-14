@@ -8,7 +8,7 @@
 import Foundation
 import Firebase
 
-struct ReviewModel {
+struct ReviewModel: Hashable {
     
     var uid: String
     var title: String
@@ -20,5 +20,6 @@ struct ReviewModel {
     var isActive: Bool
     var createdAt: Timestamp
     var updatedAt: Timestamp
+    var reportCount: Int
     
 }

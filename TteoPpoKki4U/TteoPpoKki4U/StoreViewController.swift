@@ -115,13 +115,15 @@ class StoreViewController: UIViewController {
         goReviewButton.setTitleColor(.white, for: .normal)
         goReviewButton.backgroundColor = ThemeColor.mainOrange
         goReviewButton.layer.cornerRadius = 10
+    
         view.addSubview(goReviewButton)
         goReviewButton.addTarget(self, action: #selector(goReviewButtonTapped), for: .touchUpInside)
         
         // Setup Table View
         tableView.delegate = self
         tableView.dataSource = self
-        tableView.register(ReviewTableViewCell.self, forCellReuseIdentifier: "reviewCell")
+        tableView.register(ReviewTableViewCell.self, forCellReuseIdentifier: "ReviewTableViewCell")
+        tableView.rowHeight = 50
         view.addSubview(tableView)
     }
     
@@ -195,7 +197,7 @@ extension StoreViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "reviewCell", for: indexPath) as! ReviewTableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "ReviewTableViewCell", for: indexPath) as! ReviewTableViewCell
         let item = viewModel.userReview[indexPath.row]
         cell.reviewTitleLabel.text = item.title
         cell.starRatingLabel.text = "⭐️ \(item.rating)"
@@ -212,6 +214,7 @@ extension StoreViewController: UITableViewDelegate, UITableViewDataSource {
         detailedReviewVC.reviewTitle = item.title
         detailedReviewVC.starRating = Int(item.rating)
         detailedReviewVC.reviewContent = item.content
+        detailedReviewVC.reviewImages = item.imageURL
         present(detailedReviewVC, animated: true)
     }
     

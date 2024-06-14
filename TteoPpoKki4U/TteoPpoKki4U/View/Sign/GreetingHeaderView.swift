@@ -10,17 +10,17 @@ import SnapKit
 
 class GreetingHeaderView: UIView {
     
-    let logoImageView: UIImageView = {
+    private lazy var logoImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.image = UIImage(named: "mainlogo")
         imageView.contentMode = .scaleAspectFit
         return imageView
     }()
     
-    let titleLabel: UILabel = {
+    private lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.text = "떡볶이 4U"
-        label.font = UIFont.systemFont(ofSize: 24, weight: .bold)
+        label.font = ThemeFont.fontBold(size: 24)
         label.textAlignment = .center
         return label
     }()

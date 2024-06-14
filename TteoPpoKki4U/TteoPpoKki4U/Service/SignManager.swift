@@ -41,7 +41,8 @@ class SignManager {
             db_uid: user.uid,
             db_nickName: "",
             db_email: user.email,
-            db_profileImageUrl: "https://firebasestorage.googleapis.com/v0/b/tteoppokki4u.appspot.com/o/dummyProfile%2FdefaultImage.png?alt=media&token=b4aab21e-e19a-42b7-9d17-d92a3801a327"
+            db_profileImageUrl: "https://firebasestorage.googleapis.com/v0/b/tteoppokki4u.appspot.com/o/dummyProfile%2FdefaultImage.png?alt=media&token=b4aab21e-e19a-42b7-9d17-d92a3801a327",
+            db_isBlock: user.isBlock
         ]
         ref.child("users").child(user.uid).setValue(userData)
     }

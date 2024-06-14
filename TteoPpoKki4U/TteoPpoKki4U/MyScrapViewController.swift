@@ -15,8 +15,6 @@ class MyScrapViewController: UIViewController {
     var segmentedControl: UISegmentedControl!
     var collectionView: UICollectionView!
     
-    var bookmarkLists: [ScrapList] = []
-    
     var backButton: UIButton = {
         let button = UIButton(type: .system)
         let image = UIImage(systemName: "chevron.backward.2")
@@ -27,6 +25,8 @@ class MyScrapViewController: UIViewController {
     }()
     
     let scrapViewModel = ScrapViewModel()
+    let bookmarkViewModel = BookmarkViewModel()
+    
     private var cancellables = Set<AnyCancellable>()
     
     override func viewDidLoad() {
