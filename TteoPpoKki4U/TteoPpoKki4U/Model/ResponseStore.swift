@@ -22,6 +22,7 @@ struct Document: Decodable {
     let placeName: String
     let placeURL: String
     let roadAddressName, x, y: String
+    let isScrapped = false
 
     enum CodingKeys: String, CodingKey {
         case addressName = "address_name"
