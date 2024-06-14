@@ -22,6 +22,7 @@ class MyPageViewController: UIViewController {
     
     private var cancellables = Set<AnyCancellable>()
     private var currentImageUrl: String?
+    private var currentName: String?
     
     convenience init(signOutTapped: @escaping () -> Void, viewModel: SignViewModel) {
         self.init()
@@ -62,6 +63,8 @@ class MyPageViewController: UIViewController {
             guard let dictionary = snapshot?.value as? [String: Any] else { return }
             myPageView.userProfile.kf.setImage(with: URL(string: dictionary[db_profileImageUrl] as! String))
             currentImageUrl = dictionary[db_profileImageUrl] as? String
+            currentName = (dictionary[db_nickName] as? String) ?? "Unknown"
+            myPageView.userNameLabel.text = currentName
         }
     }
     
@@ -108,10 +111,10 @@ extension MyPageViewController: UICollectionViewDataSource, UICollectionViewDele
         case [0, 0]:
             let personalInfoVC = PersonalInfoViewController()
             personalInfoVC.gotProfileImage = currentImageUrl
+            personalInfoVC.profileName = currentName
             navigationController?.pushViewController(personalInfoVC, animated: true)
         case [1, 0]:
             let MyScrapVC = MyScrapViewController()
-            
             navigationController?.pushViewController(MyScrapVC, animated: true)
         case [1, 1]:
             let MyReviewVC = MyReviewViewController()
@@ -120,8 +123,8 @@ extension MyPageViewController: UICollectionViewDataSource, UICollectionViewDele
             let settingVC = SettingViewController()
             navigationController?.pushViewController(settingVC, animated: true)
         case [2, 1]:
-            showMessageWithCancel(title: "로그아웃", message: "정말로 로그아웃 하시겠습니까?") {
-                self.signOutTapped!()
+            showMessageWithCancel(title: "로그아웃", message: "정말로 로그아웃 하시겠습니까?") { [weak self] in
+                self?.signOutTapped!()
             }
         default:
             return

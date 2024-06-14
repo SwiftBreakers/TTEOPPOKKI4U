@@ -50,12 +50,13 @@ class ReviewViewModel {
                             let imageURL = data[db_imageURL] as? [String],
                             let isActive = data[db_isActive] as? Bool,
                             let createdAt = data[db_createdAt] as? Timestamp,
-                            let updatedAt = data[db_updatedAt] as? Timestamp
+                            let updatedAt = data[db_updatedAt] as? Timestamp,
+                            let reportCount = data[db_reportCount] as? Int
                         else {
                             print("error")
                             return
                         }
-                        let reviewData = ReviewModel(uid: uid, title: title, storeAddress: storeAddress, storeName: storeName, content: content, rating: rating, imageURL: imageURL, isActive: isActive, createdAt: createdAt, updatedAt: updatedAt)
+                        let reviewData = ReviewModel(uid: uid, title: title, storeAddress: storeAddress, storeName: storeName, content: content, rating: rating, imageURL: imageURL, isActive: isActive, createdAt: createdAt, updatedAt: updatedAt, reportCount: reportCount)
                         self?.userReview.append(reviewData)
                         self?.reviewPublisher.send(())
                     }
@@ -71,7 +72,6 @@ class ReviewViewModel {
             }
             
             if let documents = querySnapshot?.documents {
-                print(documents)
                 for doc in documents {
                     let id = doc.documentID
                     reviewCollection.document(id).setData(userDict, merge: true)
@@ -100,7 +100,7 @@ class ReviewViewModel {
     }
     
     func getStoreReview(storeAddress: String) {
-        storeManager.reqeustStore(storeAddress: storeAddress) { [weak self] querySnapshot, error in
+        storeManager.requestStore(storeAddress: storeAddress) { [weak self] querySnapshot, error in
             self?.userReview.removeAll()
             if let error = error {
                 self?.reviewPublisher.send(completion: .failure(error))
@@ -120,12 +120,13 @@ class ReviewViewModel {
                             let imageURL = data[db_imageURL] as? [String],
                             let isActive = data[db_isActive] as? Bool,
                             let createdAt = data[db_createdAt] as? Timestamp,
-                            let updatedAt = data[db_updatedAt] as? Timestamp
+                            let updatedAt = data[db_updatedAt] as? Timestamp,
+                            let reportCount = data[db_reportCount] as? Int
                         else {
                             print("error")
                             return
                         }
-                        let reviewData = ReviewModel(uid: uid, title: title, storeAddress: storeAddress, storeName: storeName, content: content, rating: rating, imageURL: imageURL, isActive: isActive, createdAt: createdAt, updatedAt: updatedAt)
+                        let reviewData = ReviewModel(uid: uid, title: title, storeAddress: storeAddress, storeName: storeName, content: content, rating: rating, imageURL: imageURL, isActive: isActive, createdAt: createdAt, updatedAt: updatedAt, reportCount: reportCount)
                         self?.userReview.append(reviewData)
                         self?.reviewPublisher.send(())
                     }

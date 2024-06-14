@@ -26,7 +26,7 @@ class MapViewController: UIViewController, PinStoreViewDelegate {
     var locationManager: CLLocationManager = CLLocationManager()
     var userLocation: CLLocation = CLLocation()
     var storeList: [Document] = []
-    
+
     
     override func viewDidLoad() {
         super.viewDidLoad()

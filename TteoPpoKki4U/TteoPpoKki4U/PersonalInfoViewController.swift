@@ -10,6 +10,7 @@ import SnapKit
 import PhotosUI
 import Firebase
 import ProgressHUD
+import Kingfisher
 
 class PersonalInfoViewController: UIViewController, PHPickerViewControllerDelegate {
     
@@ -41,12 +42,14 @@ class PersonalInfoViewController: UIViewController, PHPickerViewControllerDelega
         setupUserNameTextField()
         setupBackButton()
         setupSaveButton()
+        getImage()
         navigationController?.isNavigationBarHidden = true
     }
     
-    func validateData() {
-        
+    func getImage() {
+        profileImageView.kf.setImage(with: URL(string: gotProfileImage!))
     }
+    
     
     func setupBackButton() {
         view.addSubview(backButton)
@@ -142,14 +145,29 @@ class PersonalInfoViewController: UIViewController, PHPickerViewControllerDelega
             }
         }
     }
-    
+  
     @objc func saveChanges() {
         ProgressHUD.animate()
         guard let uid = Auth.auth().currentUser?.uid else { return }
-        guard let image = profileImage else { return }
-        let userName = userNameTextField.text ?? ""
+        var selectedImage = profileImage
+        var userName = userNameTextField.text
         
-        userManager.updateProfile(uid: uid, nickName: userName, profile: image) { [weak self] result in
+        if userName == "" {
+            userName = profileName
+        }
+        
+        if selectedImage == nil {
+            KingfisherManager.shared.retrieveImage(with: URL(string: gotProfileImage!)!) { [weak self] result in
+                switch result {
+                case .success(let image):
+                    selectedImage = image.image
+                case .failure(let error):
+                    self?.showMessage(title: "에러 발생", message: "\(error)가 발생했습니다")
+                }
+            }
+        }
+        
+        userManager.updateProfile(uid: uid, nickName: userName!, profile: selectedImage!) { [weak self] result in
             switch result {
             case .success(()):
                 ProgressHUD.dismiss()

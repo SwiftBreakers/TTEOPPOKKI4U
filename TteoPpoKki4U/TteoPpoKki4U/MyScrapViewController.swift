@@ -15,8 +15,6 @@ class MyScrapViewController: UIViewController {
     var segmentedControl: UISegmentedControl!
     var collectionView: UICollectionView!
     
-    var bookmarkLists: [ScrapList] = []
-    
     var backButton: UIButton = {
         let button = UIButton(type: .system)
         let image = UIImage(systemName: "chevron.backward.2")
@@ -27,6 +25,8 @@ class MyScrapViewController: UIViewController {
     }()
     
     let scrapViewModel = ScrapViewModel()
+    let bookmarkViewModel = BookmarkViewModel()
+    
     private var cancellables = Set<AnyCancellable>()
     
     override func viewDidLoad() {
@@ -129,8 +129,13 @@ class MyScrapViewController: UIViewController {
            }
     
     func deleteScrap(at indexPath: IndexPath) {
-      //  scrapLists.remove(at: indexPath.item)
-        collectionView.deleteItems(at: [indexPath])
+        let item = scrapViewModel.scrapArray[indexPath.row]
+        
+        guard let uid = Auth.auth().currentUser?.uid else
+        {
+            return
+        }
+        scrapViewModel.deleteScrap(uid: uid, shopAddress: item.shopAddress)
     }
     
 //    func deleteBookmark(at indexPath: IndexPath) {
