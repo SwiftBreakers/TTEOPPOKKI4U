@@ -29,7 +29,6 @@ let db_updatedAt = "updatedAt"
 let db_reportCount = "reportCount"
 
 let scrappedCollection = Firestore.firestore().collection("Scrapped")
-let bookmarkedCollection = Firestore.firestore().collection("Bookmarked")
 let db_shopName = "shopName"
 let db_shopAddress = "shopAddress"
 
