@@ -37,22 +37,15 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     func configureInitialViewController() {
         let auth = Auth.auth().currentUser
         if auth != nil {
-            signManager.fetchUserData(uid: auth!.uid) { [weak self] error, dataSnapshot in
-                if let dataSnapshot = dataSnapshot {
-                    if let userData = dataSnapshot.value as? [String: Any] {
-                        let isBlockInt = userData[db_isBlock] as? Int ?? 0
-                        let isBlock = isBlockInt != 0
-                        if isBlock {
-                            self?.switchToGreetingViewController()
-                            self?.greetingVC.showMessage(title: "차단 알림", message: "현재 계정은 차단되었습니다.\n관리자에게 문의하세요")
-                        } else {
-                            self?.switchToMainTabBarController()
-                        }
-                        
-                    }
+            signViewModel.checkUserisBlock(uid: auth!.uid) { [weak self] isBlock in
+                if isBlock {
+                    self?.switchToGreetingViewController()
+                    self?.greetingVC.showMessage(title: "차단 알림", message: "현재 계정은 차단되었습니다.\n관리자에게 문의하세요")
+                    self?.signViewModel.signOut()
+                } else {
+                    self?.switchToMainTabBarController()
                 }
             }
-            
         } else {
             switchToGreetingViewController()
         }

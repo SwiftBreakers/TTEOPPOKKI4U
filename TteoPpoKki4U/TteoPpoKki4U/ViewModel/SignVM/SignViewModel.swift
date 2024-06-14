@@ -51,31 +51,31 @@ class SignViewModel: NSObject {
                 self?.loginPublisher.send(completion: .failure(error))
                 return
             }
-
+            
             guard let result = signInResult else { return }
-
+            
             let user = result.user
             let idToken = user.idToken?.tokenString
-
+            
             let credential = GoogleAuthProvider.credential(withIDToken: idToken!, accessToken: user.accessToken.tokenString)
-
+            
             Auth.auth().signIn(with: credential) { result, error in
                 if let error = error {
                     self?.loginPublisher.send(completion: .failure(error))
                     return
                 }
-
+                
                 guard let user = result?.user else { return }
-
+                
                 let uid = user.uid
                 let email = user.email
-
+                
                 self?.signManager.fetchUserData(uid: uid) { error, snapshot in
                     if let error = error {
                         self?.loginPublisher.send(completion: .failure(error))
                         return
                     }
-
+                    
                     if let snapshot = snapshot {
                         let userData = snapshot.value as! [String: Any]
                         let isBlockInt = userData[db_isBlock] as? Int ?? 0
@@ -104,6 +104,22 @@ class SignViewModel: NSObject {
                 self?.logoutPublisher.send()
             case .failure(let error):
                 self?.logoutPublisher.send(completion: .failure(error))
+            }
+        }
+    }
+    
+    func checkUserisBlock(uid: String, completion: @escaping (Bool) -> Void) {
+        signManager.fetchUserData(uid: uid) { error, dataSnapshot in
+            if let dataSnapshot = dataSnapshot {
+                if let userData = dataSnapshot.value as? [String: Any] {
+                    let isBlockInt = userData[db_isBlock] as? Int ?? 0
+                    let isBlock = isBlockInt != 0
+                    if isBlock {
+                        completion(isBlock)
+                    } else {
+                        completion(isBlock)
+                    }
+                }
             }
         }
     }
