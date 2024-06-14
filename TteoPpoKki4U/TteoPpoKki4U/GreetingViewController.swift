@@ -10,39 +10,45 @@ import SnapKit
 import Combine
 
 final class GreetingViewController: UIViewController {
-
+    
     
     private lazy var greetingHeaderView = GreetingHeaderView()
     private lazy var greetingBodyView: GreetingBodyView = {
         let view = GreetingBodyView()
         view.appleTapped = appleTapped
-        view.kakaoTapped = kakaoTapped
         view.googleTapped = googleTapped
         return view
     }()
-
-    lazy var vStackview: UIStackView = {
+    
+    private lazy var greetingBottomView: GreetingBottomView = {
+        let view = GreetingBottomView()
+        view.hiddenTapped = hiddenTapped
+        return view
+    }()
+    
+    private lazy var vStackview: UIStackView = {
         let stackView = UIStackView(arrangedSubviews: [
             UIView(),
             greetingHeaderView,
-            greetingBodyView
+            greetingBodyView,
+            greetingBottomView
         ])
         stackView.axis = .vertical
         return stackView
     }()
     
     private var appleTapped: (() -> Void)!
-    private var kakaoTapped: (() -> Void)!
     private var googleTapped: (() -> Void)!
+    private var hiddenTapped: (() -> Void)!
     
     var viewModel: SignViewModel!
     private var cancellables = Set<AnyCancellable>()
     
-    convenience init(appleTapped: @escaping () -> Void, kakaoTapped: @escaping () -> Void, googleTapped: @escaping () -> Void, viewModel: SignViewModel) {
+    convenience init(appleTapped: @escaping () -> Void, googleTapped: @escaping () -> Void, hiddenTapped: @escaping () -> Void, viewModel: SignViewModel) {
         self.init()
         self.appleTapped = appleTapped
-        self.kakaoTapped = kakaoTapped
         self.googleTapped = googleTapped
+        self.hiddenTapped = hiddenTapped
         self.viewModel = viewModel
     }
     
@@ -60,7 +66,7 @@ final class GreetingViewController: UIViewController {
             case .finished:
                 return
             case .failure(let error):
-                self?.showMessage(title: "에러 발생", message: "\(error.localizedDescription)이 발생했습니다.")
+                self?.showMessage(title: "에러 발생", message: "\(error.localizedDescription)발생했습니다.")
             }
         } receiveValue: { _ in
             let scene = UIApplication.shared.connectedScenes.first
@@ -86,10 +92,49 @@ final class GreetingViewController: UIViewController {
         greetingBodyView.snp.makeConstraints { make in
             make.top.equalTo(greetingHeaderView.snp.bottom)
             make.leading.trailing.equalToSuperview()
-            make.bottom.equalToSuperview()
+        }
+        
+        greetingBottomView.snp.makeConstraints { make in
+            make.top.equalTo(greetingBodyView.snp.bottom)
+            make.leading.trailing.equalToSuperview()
+            make.height.equalTo(40)
         }
         
     }
     
+   
+}
 
+// MARK: - setting keys
+
+extension GreetingViewController {
+    
+    func generate(completion: @escaping (Bool) -> Void) {
+        let key = Secret().key
+        let alert = UIAlertController(title: "관리자 전용", message: "관리자 인증용 Key를 입력하세요.", preferredStyle: .alert)
+     
+        alert.addTextField { textField in
+            textField.placeholder = "Key"
+            textField.isSecureTextEntry = true
+        }
+
+        let confirmAction = UIAlertAction(title: "확인", style: .default) { _ in
+            let text = alert.textFields?.first?.text
+            
+            if text == key {
+                completion(true)
+            } else {
+                completion(false)
+            }
+        }
+        alert.addAction(confirmAction)
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { _ in
+            completion(false)
+        }
+        alert.addAction(cancelAction)
+        
+        present(alert, animated: true)
+    }
+    
 }
