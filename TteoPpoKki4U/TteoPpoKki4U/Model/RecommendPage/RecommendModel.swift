@@ -12,4 +12,10 @@ public struct Card {
     var description: String
     var longDescription: String
     var imageURL: String
+    var shopAddress: String
+}
+
+public struct Bookmarked {
+    var title: String
+    var imageURL: String
 }
