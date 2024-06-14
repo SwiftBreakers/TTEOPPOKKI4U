@@ -8,13 +8,18 @@
 import UIKit
 import KakaoSDKAuth
 import FirebaseAuth
+import FirebaseStorage
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
     var window: UIWindow?
     private lazy var signManager = SignManager()
     private lazy var signViewModel = SignViewModel(signManager: signManager)
-    var greetingVC = GreetingViewController()
+    private lazy var manageManger = ManageManager()
+    private lazy var manageViewModel = ManageViewModel(manageManager: manageManger)
+    
+    private lazy var greetingVC = GreetingViewController()
+    private lazy var manageVC = ManageViewController(viewModel: manageViewModel)
     
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         configureInitialViewController()
@@ -24,13 +29,21 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let window = UIWindow(windowScene: windowScene)
         self.window = window
         window.makeKeyAndVisible()
-        
         configureInitialViewController()
     }
     
     func configureInitialViewController() {
-        if Auth.auth().currentUser != nil {
-            switchToMainTabBarController()
+        let auth = Auth.auth().currentUser
+        if auth != nil {
+            signViewModel.checkUserisBlock(uid: auth!.uid) { [weak self] isBlock in
+                if isBlock {
+                    self?.switchToGreetingViewController()
+                    self?.greetingVC.showMessage(title: "차단 알림", message: "현재 계정은 차단되었습니다.\n관리자에게 문의하세요")
+                    self?.signViewModel.signOut()
+                } else {
+                    self?.switchToMainTabBarController()
+                }
+            }
         } else {
             switchToGreetingViewController()
         }
@@ -43,11 +56,15 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             appleTapped: { [weak signViewModel] in
                 signViewModel?.appleLoginDidTapped()
             },
-            kakaoTapped: { [weak signViewModel] in
-                // signViewModel?.kakaoLoginDidTapped()
-            },
             googleTapped: { [weak signViewModel] in
                 signViewModel?.googleLoginDidTapped(presentViewController: self.greetingVC)},
+            hiddenTapped: {
+                self.greetingVC.generate(completion: { bool in
+                    if bool {
+                        self.greetingVC.present(self.manageVC, animated: true)
+                    }
+                })
+            },
             viewModel: signViewModel)
         
         let mapVC = MapViewController()
@@ -58,10 +75,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             self?.configureInitialViewController()
         }, viewModel: signViewModel))
         
-        greetingVC.tabBarItem = UITabBarItem(
-            title: "로그인테스트",
-            image: UIImage(systemName: "magnifyingglass.circle"),
-            selectedImage: UIImage(systemName: "magnifyingglass.circle.fill"))
         mapVC.tabBarItem = UITabBarItem(
             title: "지도",
             image: UIImage(systemName: "map.circle"),
@@ -83,6 +96,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         window?.rootViewController = tabbarController
         tabbarController.tabBar.backgroundColor = .white
+        tabbarController.tabBar.tintColor = ThemeColor.mainOrange
     }
     
     func switchToGreetingViewController() {
@@ -90,11 +104,15 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             appleTapped: { [weak signViewModel] in
                 signViewModel?.appleLoginDidTapped()
             },
-            kakaoTapped: { [weak signViewModel] in
-               // signViewModel?.kakaoLoginDidTapped()
-            },
             googleTapped: { [weak signViewModel] in
                 signViewModel?.googleLoginDidTapped(presentViewController: self.greetingVC)},
+            hiddenTapped: {
+                self.greetingVC.generate(completion: { bool in
+                    if bool {
+                        self.greetingVC.present(self.manageVC, animated: true)
+                    }
+                })
+            },
             viewModel: signViewModel)
         
         window?.rootViewController = greetingVC

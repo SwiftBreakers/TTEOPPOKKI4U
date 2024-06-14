@@ -12,7 +12,6 @@ import CoreLocation
 class DetailViewController: UIViewController, UISearchBarDelegate {
     
     var card: Card?
-    let mkVC = MapViewController()
     var swipeRecognizer: UISwipeGestureRecognizer!
     let shopAddressLabel = UILabel()
     let imageURL = UILabel()

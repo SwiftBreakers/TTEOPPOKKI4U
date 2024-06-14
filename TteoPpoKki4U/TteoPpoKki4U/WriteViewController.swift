@@ -35,6 +35,7 @@ class WriteViewController: UIViewController {
     
     var addressText: String?
     var storeTitleText: String?
+    var reportCount: Int?
     
     var isEditMode: Bool = false
     var isNavagtion: Bool = false
@@ -107,7 +108,7 @@ class WriteViewController: UIViewController {
             starLabel.text = "별점 리뷰 작성"
             submitButton.setTitle("리뷰 등록", for: .normal)
         }
-        starLabel.font = UIFont.boldSystemFont(ofSize: 22)
+        starLabel.font = ThemeFont.fontMedium(size: 24)
         view.addSubview(starLabel)
         starLabel.snp.makeConstraints { make in
             make.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(24)
@@ -129,7 +130,7 @@ class WriteViewController: UIViewController {
             let button = UIButton()
             button.setImage(UIImage(systemName: "star"), for: .normal)
             button.setImage(UIImage(systemName: "star.fill"), for: .selected)
-            button.tintColor = .orange
+            button.tintColor = ThemeColor.mainOrange
             button.tag = i
             button.addTarget(self, action: #selector(starButtonTapped(_:)), for: .touchUpInside)
             starStackView.addArrangedSubview(button)
@@ -141,7 +142,7 @@ class WriteViewController: UIViewController {
         titleTextField.borderStyle = .roundedRect
         view.addSubview(titleTextField)
         titleTextField.snp.makeConstraints { make in
-            make.top.equalTo(starStackView.snp.bottom).offset(40)
+            make.top.equalTo(starStackView.snp.bottom).offset(50)
             make.left.equalToSuperview().offset(20)
             make.right.equalToSuperview().offset(-20)
         }
@@ -157,7 +158,7 @@ class WriteViewController: UIViewController {
             make.top.equalTo(titleTextField.snp.bottom).offset(20)
             make.left.equalToSuperview().offset(20)
             make.right.equalToSuperview().offset(-20)
-            make.height.equalTo(150)
+            make.height.equalTo(180)
         }
         
         // 이미지 추가 버튼
@@ -195,6 +196,7 @@ class WriteViewController: UIViewController {
         
         // 취소 버튼 설정
         cancelButton.setTitle("취소", for: .normal)
+        cancelButton.titleLabel?.font = ThemeFont.fontBold()
         cancelButton.setTitleColor(.white, for: .normal)
         cancelButton.backgroundColor = .systemGray
         cancelButton.layer.cornerRadius = 5
@@ -209,7 +211,8 @@ class WriteViewController: UIViewController {
         
         // 등록 버튼 설정
         submitButton.setTitleColor(.white, for: .normal)
-        submitButton.backgroundColor = .orange
+        submitButton.titleLabel?.font = ThemeFont.fontBold()
+        submitButton.backgroundColor = ThemeColor.mainOrange
         submitButton.layer.cornerRadius = 5
         submitButton.addTarget(self, action: #selector(submitButtonTapped), for: .touchUpInside)
         view.addSubview(submitButton)
@@ -249,9 +252,10 @@ class WriteViewController: UIViewController {
                     db_content: content,
                     db_rating: self.selectedRating,
                     db_imageURL: imageURLs,
-                    db_isActive: false,
+                    db_isActive: true,
                     db_createdAt: self.isEditMode ? self.review!.createdAt : Timestamp(date: Date()),
-                    db_updatedAt: Timestamp(date: Date())
+                    db_updatedAt: Timestamp(date: Date()),
+                    db_reportCount: review?.reportCount ?? 0
                 ]
                 
                 

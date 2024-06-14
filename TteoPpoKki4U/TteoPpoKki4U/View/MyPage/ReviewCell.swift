@@ -9,37 +9,35 @@ class ReviewCell: UICollectionViewCell {
     
     private let titleLabel: UILabel = {
         let label = UILabel()
-        label.font = .boldSystemFont(ofSize: 18)
+        label.font = ThemeFont.fontBold(size: 17)
         return label
     }()
     
     private let ratingLabel: UILabel = {
         let label = UILabel()
-        label.font = .systemFont(ofSize: 16)
-        label.textColor = .gray
+        label.font = ThemeFont.fontMedium(size: 14)
+        label.textColor = .systemGray
         return label
     }()
     
     private let contentLabel: UILabel = {
         let label = UILabel()
-        label.font = .systemFont(ofSize: 14)
+        label.font = ThemeFont.fontRegular(size: 14)
         label.numberOfLines = 0
         return label
     }()
     
     private let editButton: UIButton = {
         let button = UIButton()
-        button.setTitle("수정", for: .normal)
-        button.titleLabel?.font = ThemeFont.fontMedium(size: 17)
-        button.setTitleColor(.systemBlue, for: .normal)
+        button.setImage(UIImage(systemName: "square.and.pencil"), for: .normal)
+        button.tintColor = ThemeColor.mainGreen
         return button
     }()
     
     private let deleteButton: UIButton = {
         let button = UIButton()
-        button.setTitle("삭제", for: .normal)
-        button.titleLabel?.font = ThemeFont.fontMedium(size: 17)
-        button.setTitleColor(.systemRed, for: .normal)
+        button.setImage(UIImage(systemName: "xmark.app.fill"), for: .normal)
+        button.tintColor = .systemGray3
         return button
     }()
     
@@ -64,23 +62,30 @@ class ReviewCell: UICollectionViewCell {
         }
         
         ratingLabel.snp.makeConstraints { make in
-            make.top.equalTo(titleLabel.snp.bottom).offset(4)
+            make.top.equalTo(titleLabel.snp.bottom).offset(6)
             make.leading.trailing.equalToSuperview().inset(20)
         }
         
         contentLabel.snp.makeConstraints { make in
-            make.top.equalTo(ratingLabel.snp.bottom).offset(8)
+            make.top.equalTo(ratingLabel.snp.bottom).offset(10)
             make.leading.trailing.equalToSuperview().inset(20)
+        }
+        
+//        editButton.snp.makeConstraints { make in
+//            make.top.equalTo(contentLabel.snp.bottom).offset(8)
+//            make.trailing.equalTo(deleteButton.snp.leading).offset(-20)
+//        }
+        
+        deleteButton.snp.makeConstraints { make in
+            make.top.equalTo(contentLabel.snp.bottom).offset(8)
+            make.width.height.equalTo(28)
+            make.trailing.equalToSuperview().offset(-20)
         }
         
         editButton.snp.makeConstraints { make in
             make.top.equalTo(contentLabel.snp.bottom).offset(8)
-            make.leading.equalToSuperview().inset(264)
-        }
-        
-        deleteButton.snp.makeConstraints { make in
-            make.top.equalTo(contentLabel.snp.bottom).offset(8)
-            make.leading.equalTo(editButton.snp.trailing).offset(20)
+            make.width.height.equalTo(28)
+            make.trailing.equalTo(deleteButton.snp.leading).offset(-20)
         }
         
         editButton.addTarget(self, action: #selector(editTapped), for: .touchUpInside)
