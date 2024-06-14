@@ -86,8 +86,6 @@
 		CE3F36422C1036D700532901 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE3F36412C1036D700532901 /* DetailViewController.swift */; };
 		CE3F36472C14286400532901 /* SkeletonView in Frameworks */ = {isa = PBXBuildFile; productRef = CE3F36462C14286400532901 /* SkeletonView */; };
 		CE4004012C18496E009E1142 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = CE4004002C18496E009E1142 /* GoogleService-Info.plist */; };
-		CE4004052C19A855009E1142 /* BookmarkCoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE4004042C19A855009E1142 /* BookmarkCoreDataManager.swift */; };
-		CE4004082C19A877009E1142 /* Bookmark.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = CE4004062C19A877009E1142 /* Bookmark.xcdatamodeld */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -156,8 +154,6 @@
 		CE3F36392C08474700532901 /* RecommendViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendViewController.swift; sourceTree = "<group>"; };
 		CE3F36412C1036D700532901 /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		CE4004002C18496E009E1142 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
-		CE4004042C19A855009E1142 /* BookmarkCoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkCoreDataManager.swift; sourceTree = "<group>"; };
-		CE4004072C19A877009E1142 /* Bookmark.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Bookmark.xcdatamodel; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -220,8 +216,6 @@
 				9C82B94E2C0F2D27008FA84E /* NetworkManager.swift */,
 				618DEE052C12516A006B95A8 /* UserManager.swift */,
 				61DC69062C15CC38003DEB73 /* StoreManager.swift */,
-				CE4004042C19A855009E1142 /* BookmarkCoreDataManager.swift */,
-				CE4004062C19A877009E1142 /* Bookmark.xcdatamodeld */,
 			);
 			path = Service;
 			sourceTree = "<group>";
@@ -550,7 +544,6 @@
 				61DAC4E22C05C3C100DFC575 /* CommunityViewController.swift in Sources */,
 				617357262C1364940007B92A /* ReviewModel.swift in Sources */,
 				611644322C09000F009FFDA5 /* GreetingBodyView.swift in Sources */,
-				CE4004082C19A877009E1142 /* Bookmark.xcdatamodeld in Sources */,
 				8D3BA8412C15D5F1007597F2 /* SettingViewController.swift in Sources */,
 				8D78CDE02C0E077D00051D50 /* WriteViewController.swift in Sources */,
 				8DD5CBB92C107C82004F27BD /* DetailedReviewViewController.swift in Sources */,
@@ -595,7 +588,6 @@
 				8DB30F2E2C07767100503139 /* MyPageViewModel.swift in Sources */,
 				8D580A512C08AAF70057D370 /* ScrapCell.swift in Sources */,
 				8DB30F292C0772DE00503139 /* PersonalInfoView.swift in Sources */,
-				CE4004052C19A855009E1142 /* BookmarkCoreDataManager.swift in Sources */,
 				613D869B2C05BFF80039E771 /* SceneDelegate.swift in Sources */,
 				9C82B9572C0F31A0008FA84E /* MapVIewModel.swift in Sources */,
 				61DAC4E02C05C3A700DFC575 /* MapViewController.swift in Sources */,
@@ -996,19 +988,6 @@
 			productName = SkeletonView;
 		};
 /* End XCSwiftPackageProductDependency section */
-
-/* Begin XCVersionGroup section */
-		CE4004062C19A877009E1142 /* Bookmark.xcdatamodeld */ = {
-			isa = XCVersionGroup;
-			children = (
-				CE4004072C19A877009E1142 /* Bookmark.xcdatamodel */,
-			);
-			currentVersion = CE4004072C19A877009E1142 /* Bookmark.xcdatamodel */;
-			path = Bookmark.xcdatamodeld;
-			sourceTree = "<group>";
-			versionGroupType = wrapper.xcdatamodel;
-		};
-/* End XCVersionGroup section */
 	};
 	rootObject = 613D868D2C05BFF80039E771 /* Project object */;
 }

@@ -6,12 +6,16 @@
 //
 import UIKit
 import SnapKit
+import Combine
+import CoreLocation
 
-class DetailViewController: UIViewController {
+class DetailViewController: UIViewController, UISearchBarDelegate {
     
     var card: Card?
+    let mkVC = MapViewController()
     var swipeRecognizer: UISwipeGestureRecognizer!
     let shopAddressLabel = UILabel()
+    let imageURL = UILabel()
     let shopAddressButton = UIButton()
     let imageView = UIImageView()
     let titleLabel = UILabel()
@@ -26,9 +30,19 @@ class DetailViewController: UIViewController {
         
         return scrollView
     }()
-    var isBookmarked = false
+    var isBookmarked = false {
+        didSet {
+            if isBookmarked {
+                barBookmarkButton.image = .bookmark1
+            } else {
+                barBookmarkButton.image = .bookmark0
+            }
+        }
+    }
+    let viewModel = CardViewModel()
     let barBookmarkButton = UIBarButtonItem()
     let barShareButton = UIBarButtonItem()
+    var cancellables = Set<AnyCancellable>()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -36,6 +50,15 @@ class DetailViewController: UIViewController {
         configureView()
         navigationController?.hidesBarsOnSwipe = true
         makeBarButton()
+        bind()
+    }
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        if let title = card?.title {
+            Task {
+                await viewModel.fetchBookmarkStatus(title: title)
+            }
+        }
     }
     @objc func shareButtonTapped() {
         var shareItems = [String]()
@@ -53,11 +76,7 @@ class DetailViewController: UIViewController {
         barShareButton.target = self
         barShareButton.action = #selector(shareButtonTapped)
         
-        if isBookmarked == false {
-            barBookmarkButton.image = .bookmark0
-        } else {
-            barBookmarkButton.image = .bookmark1
-        }
+        barBookmarkButton.image = .bookmark0
         barBookmarkButton.style = .plain
         barBookmarkButton.target = self
         barBookmarkButton.action = #selector(bookmarkButtonTapped)
@@ -66,13 +85,21 @@ class DetailViewController: UIViewController {
     }
     @objc func bookmarkButtonTapped() {
         print(#function)
-        if isBookmarked == false {
-            barBookmarkButton.image = .bookmark1
-            isBookmarked = true
-        } else {
+        if isBookmarked {
             barBookmarkButton.image = .bookmark0
-            isBookmarked = false
+            viewModel.deleteBookmarkItem(title: titleLabel.text!)
+        } else {
+            barBookmarkButton.image = .bookmark1
+            viewModel.createBookmarkItem(title: titleLabel.text!, imageURL: imageURL.text!)
         }
+    }
+    private func bind() {
+        viewModel.$isBookmarked
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] isBookmarked in
+                self?.isBookmarked = isBookmarked
+            }
+            .store(in: &cancellables)
     }
     
     private func configureView() {
@@ -80,6 +107,7 @@ class DetailViewController: UIViewController {
         titleLabel.text = card.title
         descriptionLabel.text = card.description
         longDescriptionLabel.text = card.longDescription
+        imageURL.text = card.imageURL
         
         let addressString = NSMutableAttributedString(string: card.shopAddress)
         addressString.addAttribute(.underlineStyle, value: NSUnderlineStyle.single.rawValue, range: NSRange(location: 0, length: card.shopAddress.count))
@@ -181,10 +209,23 @@ class DetailViewController: UIViewController {
             make.bottom.equalToSuperview().offset(-20)
         }
     }
-    
-    @objc func moveToMap() {
-        print(#function)
         
+    @objc func moveToMap() {
+            
+            guard let keyword = card?.title else { return }
+            
+            NetworkManager.shared.fetchAPI(query: keyword) {[weak self] stores in
+                
+                if let tabBarController = self?.tabBarController {
+                    tabBarController.selectedIndex = 1
+                    
+                }
+                
+                let mapVC = self?.tabBarController!.selectedViewController as! MapViewController
+                let location = CLLocation(latitude: Double(stores[0].y)!, longitude: Double(stores[0].x)!)
+                mapVC.centerMapOnLocation(location: location)
+                
+            }
+        }
     }
-    
-}
+

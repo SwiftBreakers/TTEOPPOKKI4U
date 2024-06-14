@@ -14,3 +14,8 @@ public struct Card {
     var imageURL: String
     var shopAddress: String
 }
+
+public struct Bookmarked {
+    var title: String
+    var imageURL: String
+}

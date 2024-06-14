@@ -119,14 +119,18 @@ class MapViewController: UIViewController, PinStoreViewDelegate {
         }
     }
     
-    private func centerMapOnLocation(location: CLLocation) {
+     func centerMapOnLocation(location: CLLocation) {
         let regionRadius: CLLocationDistance = 1000
+        
         let coordinateRegion = MKCoordinateRegion(center: location.coordinate,
                                                   latitudinalMeters: regionRadius, longitudinalMeters: regionRadius)
         mapView.setRegion(coordinateRegion, animated: true)
+        mapView.showsUserLocation = true
+        // 클립보드에 복사되었습니다.
     }
-    
-    private func searchLocation(query: String) {
+  
+     func searchLocation(query: String) {
+         print(#function)
         let request = MKLocalSearch.Request()
         request.naturalLanguageQuery = query
         let search = MKLocalSearch(request: request)
@@ -135,7 +139,7 @@ class MapViewController: UIViewController, PinStoreViewDelegate {
                 print("Error searching for location: \(String(describing: error))")
                 self.showMessage(title: "잘못된 지역명입니다.", message: "올바른 지역명 또는 장소명을 입력해 주세요.")
                 return
-            }
+            } 
             if let mapItem = response.mapItems.first {
                 let coordinate = mapItem.placemark.coordinate
                 let location = CLLocation(latitude: coordinate.latitude, longitude: coordinate.longitude)
@@ -370,6 +374,3 @@ extension MapViewController: UISearchBarDelegate, CLLocationManagerDelegate, MKM
     }
 
 }
-
-
-
