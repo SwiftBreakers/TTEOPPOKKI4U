@@ -1,3 +1,10 @@
+//
+//  StoreViewController.swift
+//  TteoPpoKki4U
+//
+//  Created by 박미림 on 6/7/24.
+//
+
 import UIKit
 import Kingfisher
 import SnapKit
@@ -15,10 +22,13 @@ class DetailedReviewViewController: UIViewController {
     private lazy var starRatingLabel = UILabel()
     private lazy var reviewContentLabel = UILabel()
     private lazy var scrollView = UIScrollView()
-    private lazy var imageViews = [UIImageView]()
+    private lazy var stackView = UIStackView()
+    private lazy var imageView = UIImageView()
     private lazy var reportButton: UIButton = {
         let button = UIButton(type: .system)
         button.setTitle("신고", for: .normal)
+        button.setTitleColor(.systemRed, for: .normal)
+        button.titleLabel?.font = ThemeFont.fontMedium(size: 16)
         button.addTarget(self, action: #selector(reportButtonTapped), for: .touchUpInside)
         return button
     }()
@@ -50,24 +60,30 @@ class DetailedReviewViewController: UIViewController {
         scrollView.isPagingEnabled = true
         view.addSubview(scrollView)
         
+        stackView.axis = .horizontal
+        stackView.spacing = 10
+        stackView.distribution = .fillEqually
+        scrollView.addSubview(stackView)
+        
         reviewContentLabel.font = ThemeFont.fontRegular()
         reviewContentLabel.numberOfLines = 0
         view.addSubview(reviewContentLabel)
         
         view.addSubview(reportButton)
         view.addSubview(backButton)
+        
         storeNameLabel.snp.makeConstraints { make in
-            make.top.equalToSuperview().offset(20)
+            make.top.equalTo(view.safeAreaLayoutGuide).offset(10)
             make.centerX.equalToSuperview()
         }
         
         reportButton.snp.makeConstraints { make in
-            make.top.equalTo(view.safeAreaLayoutGuide).offset(20)
+            make.centerY.equalTo(storeNameLabel)
             make.trailing.equalToSuperview().inset(20)
         }
         
         backButton.snp.makeConstraints { make in
-            make.top.equalTo(view.safeAreaLayoutGuide).offset(20)
+            make.centerY.equalTo(storeNameLabel)
             make.leading.equalToSuperview().offset(20)
         }
         
@@ -77,23 +93,17 @@ class DetailedReviewViewController: UIViewController {
         }
         
         starRatingLabel.snp.makeConstraints { make in
-            make.top.equalTo(reviewTitleLabel.snp.bottom).offset(20)
+            make.top.equalTo(reviewTitleLabel.snp.bottom).offset(10)
             make.leading.trailing.equalToSuperview().inset(20)
-        }
-        
-        scrollView.snp.makeConstraints { make in
-            make.top.equalTo(starRatingLabel.snp.bottom).offset(20)
-            make.leading.trailing.equalToSuperview()
-            make.height.equalTo(260)
         }
         
         reviewContentLabel.snp.makeConstraints { make in
-            make.top.equalTo(scrollView.snp.bottom).offset(30)
+            make.top.equalTo(scrollView.snp.bottom).offset(20)
             make.leading.trailing.equalToSuperview().inset(20)
         }
         
-        configureImageScrollView()
         configureUI()
+        configureImageScrollView()
     }
     
     private func configureUI() {
@@ -104,62 +114,64 @@ class DetailedReviewViewController: UIViewController {
     }
     
     private func configureImageScrollView() {
-        var images = [UIImage]()
-        
-        if let imageURLs = reviewImages {
-            let dispatchGroup = DispatchGroup()
-            
-            for imageURL in imageURLs {
-                dispatchGroup.enter()
-                KingfisherManager.shared.retrieveImage(with: URL(string: imageURL)!) { [weak self] result in
-                    switch result {
-                    case .success(let image):
-                        images.append(image.image)
-                    case .failure(let error):
-                        DispatchQueue.main.async {
-                            self?.showMessage(title: "이미지 로딩 오류", message: "\(error.localizedDescription)이 발생하였습니다.")
-                        }
-                    }
-                    dispatchGroup.leave()
-                }
-            }
-            
-            dispatchGroup.notify(queue: .main) {
-                self.addImagesToScrollView(images)
-            }
-        } else {
-            images = [UIImage(named: "tpkImage1"), UIImage(named: "tpkImage1WithBg")].compactMap { $0 }
-            addImagesToScrollView(images)
-        }
-    }
-    
-    private func addImagesToScrollView(_ images: [UIImage]) {
-        var previousImageView: UIImageView?
-        
-        for image in images {
-            let imageView = UIImageView(image: image)
+        guard let imageURLs = reviewImages else { return }
+
+        if imageURLs.count == 1, let imageURL = imageURLs.first {
+            scrollView.removeFromSuperview()
+            view.addSubview(imageView)
+
             imageView.contentMode = .scaleAspectFill
             imageView.clipsToBounds = true
-            scrollView.addSubview(imageView)
-            imageViews.append(imageView)
+            imageView.layer.cornerRadius = 10
+            imageView.layer.masksToBounds = true
+            imageView.kf.setImage(with: URL(string: imageURL))
+
+            imageView.snp.makeConstraints { make in
+                make.top.equalTo(starRatingLabel.snp.bottom).offset(20)
+                make.leading.trailing.equalToSuperview().inset(20)  // 스크롤뷰와 동일한 사이즈
+                make.height.equalTo(imageView.snp.width).multipliedBy(0.75)
+            }
+
+            reviewContentLabel.snp.remakeConstraints { make in
+                make.top.equalTo(imageView.snp.bottom).offset(20)
+                make.leading.trailing.equalToSuperview().inset(20)
+            }
+        } else {
+            view.addSubview(scrollView)
+            
+            scrollView.snp.remakeConstraints { make in
+                make.top.equalTo(starRatingLabel.snp.bottom).offset(20)
+                make.leading.trailing.equalToSuperview().inset(20)
+                make.height.equalTo(200)
+            }
+
+            stackView.snp.remakeConstraints { make in
+                make.edges.equalToSuperview()
+                make.height.equalTo(scrollView.snp.height)
+            }
+
+            addImagesToStackView(imageURLs)
+        }
+    }
+
+    private func addImagesToStackView(_ imageURLs: [String]) {
+        for imageView in stackView.arrangedSubviews {
+            stackView.removeArrangedSubview(imageView)
+            imageView.removeFromSuperview()
+        }
+
+        for imageURL in imageURLs {
+            let imageView = UIImageView()
+            imageView.contentMode = .scaleAspectFill
+            imageView.clipsToBounds = true
+            imageView.layer.cornerRadius = 10
+            imageView.layer.masksToBounds = true
+            imageView.kf.setImage(with: URL(string: imageURL))
+            stackView.addArrangedSubview(imageView)
             
             imageView.snp.makeConstraints { make in
-                make.width.equalTo(view.snp.width).multipliedBy(0.8)
+                make.width.equalTo(scrollView.snp.width).multipliedBy(0.8)
                 make.height.equalTo(imageView.snp.width).multipliedBy(0.75)
-                
-                if let previous = previousImageView {
-                    make.leading.equalTo(previous.snp.trailing)
-                } else {
-                    make.leading.equalToSuperview()
-                }
-            }
-            
-            previousImageView = imageView
-        }
-        
-        if let lastImageView = imageViews.last {
-            lastImageView.snp.makeConstraints { make in
-                make.trailing.equalToSuperview()
             }
         }
     }
@@ -181,8 +193,6 @@ class DetailedReviewViewController: UIViewController {
                 print("신고 사유: \(reason)")
             }
             self.showMessage(title: "신고", message: "리뷰가 신고되었습니다.")
-            //let reportVC = ReportViewController()
-            //self.present(reportVC, animated: true)
         }))
         alert.addAction(UIAlertAction(title: "아니오", style: .cancel, handler: nil))
         
