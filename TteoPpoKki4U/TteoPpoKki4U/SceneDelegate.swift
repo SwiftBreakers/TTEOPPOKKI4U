@@ -67,7 +67,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             },
             viewModel: signViewModel)
         
-        let mapVC = MapViewController()
+        let mapVC = UINavigationController(rootViewController: MapViewController())
         let recommendVC = UINavigationController(rootViewController: RecommendViewController())
         let communityVC = UINavigationController(rootViewController: CommunityViewController())
         let mypageVC = UINavigationController(rootViewController: MyPageViewController(signOutTapped: { [weak signViewModel, weak self] in

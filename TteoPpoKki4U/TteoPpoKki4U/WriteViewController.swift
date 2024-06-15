@@ -290,11 +290,7 @@ class WriteViewController: UIViewController {
     }
     
     @objc func cancelButtonTapped() {
-        if isNavagtion {
             navigationController?.popViewController(animated: true)
-        } else {
-            self.dismiss(animated: true, completion: nil)
-        }
     }
     
     @objc func submitButtonTapped() {

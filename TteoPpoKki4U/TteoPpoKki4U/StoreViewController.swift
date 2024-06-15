@@ -41,6 +41,7 @@ class StoreViewController: UIViewController {
         storeNameLabel.text = shopTitleText
         fetchRequest()
         bind()
+        tabBarController?.tabBar.isHidden = true
     }
     
     private func fetchRequest() {
@@ -178,14 +179,14 @@ class StoreViewController: UIViewController {
     }
     
     @objc private func backButtonTapped() {
-        self.dismiss(animated: true, completion: nil)
+        navigationController?.popViewController(animated: true)
     }
     
     @objc private func goReviewButtonTapped() {
         let writeVC = WriteViewController()
         writeVC.addressText = addressText
         writeVC.storeTitleText = shopTitleText
-        present(writeVC, animated: true)
+        navigationController?.pushViewController(writeVC, animated: true)
     }
     
 }
@@ -215,7 +216,7 @@ extension StoreViewController: UITableViewDelegate, UITableViewDataSource {
         detailedReviewVC.starRating = Int(item.rating)
         detailedReviewVC.reviewContent = item.content
         detailedReviewVC.reviewImages = item.imageURL
-        present(detailedReviewVC, animated: true)
+        navigationController?.pushViewController(detailedReviewVC, animated: true)
     }
     
 }
