@@ -208,23 +208,25 @@ class DetailViewController: UIViewController, UISearchBarDelegate {
             make.bottom.equalToSuperview().offset(-20)
         }
     }
-        
+    
     @objc func moveToMap() {
+        
+        guard let keyword = card?.title else { return }
+        
+        NetworkManager.shared.fetchAPI(query: keyword) {[weak self] stores in
             
-            guard let keyword = card?.title else { return }
-            
-            NetworkManager.shared.fetchAPI(query: keyword) {[weak self] stores in
+            if let tabBarController = self?.tabBarController {
+                tabBarController.selectedIndex = 1
                 
-                if let tabBarController = self?.tabBarController {
-                    tabBarController.selectedIndex = 1
+                if let navController = tabBarController.selectedViewController as? UINavigationController,
+                   let mapVC = navController.viewControllers.first as? MapViewController {
                     
+                    let location = CLLocation(latitude: Double(stores[0].y)!, longitude: Double(stores[0].x)!)
+                    mapVC.centerMapOnLocation(location: location)
                 }
-                
-                let mapVC = self?.tabBarController!.selectedViewController as! MapViewController
-                let location = CLLocation(latitude: Double(stores[0].y)!, longitude: Double(stores[0].x)!)
-                mapVC.centerMapOnLocation(location: location)
-                
             }
+            
         }
     }
+}
 

@@ -1,12 +1,6 @@
-//
-//  DetailedReviewViewController.swift
-//  TteoPpoKki4U
-//
-//  Created by 박미림 on 6/5/24.
-//
-
 import UIKit
 import Kingfisher
+import SnapKit
 
 class DetailedReviewViewController: UIViewController {
     
@@ -16,12 +10,25 @@ class DetailedReviewViewController: UIViewController {
     var reviewContent: String?
     var reviewImages: [String]?
     
-    private let storeNameLabel = UILabel()
-    private let reviewTitleLabel = UILabel()
-    private let starRatingLabel = UILabel()
-    private let reviewContentLabel = UILabel()
-    private let scrollView = UIScrollView()
-    private var imageViews = [UIImageView]()
+    private lazy var storeNameLabel = UILabel()
+    private lazy var reviewTitleLabel = UILabel()
+    private lazy var starRatingLabel = UILabel()
+    private lazy var reviewContentLabel = UILabel()
+    private lazy var scrollView = UIScrollView()
+    private lazy var imageViews = [UIImageView]()
+    private lazy var reportButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.setTitle("신고", for: .normal)
+        button.addTarget(self, action: #selector(reportButtonTapped), for: .touchUpInside)
+        return button
+    }()
+    private lazy var backButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.setImage(UIImage(systemName: "chevron.backward.2"), for: .normal)
+        button.tintColor = .systemGray
+        button.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
+        return button
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -47,9 +54,21 @@ class DetailedReviewViewController: UIViewController {
         reviewContentLabel.numberOfLines = 0
         view.addSubview(reviewContentLabel)
         
+        view.addSubview(reportButton)
+        view.addSubview(backButton)
         storeNameLabel.snp.makeConstraints { make in
+            make.top.equalToSuperview().offset(20)
+            make.centerX.equalToSuperview()
+        }
+        
+        reportButton.snp.makeConstraints { make in
             make.top.equalTo(view.safeAreaLayoutGuide).offset(20)
-            make.leading.trailing.equalToSuperview().inset(20)
+            make.trailing.equalToSuperview().inset(20)
+        }
+        
+        backButton.snp.makeConstraints { make in
+            make.top.equalTo(view.safeAreaLayoutGuide).offset(20)
+            make.leading.equalToSuperview().offset(20)
         }
         
         reviewTitleLabel.snp.makeConstraints { make in
@@ -113,7 +132,7 @@ class DetailedReviewViewController: UIViewController {
             addImagesToScrollView(images)
         }
     }
-
+    
     private func addImagesToScrollView(_ images: [UIImage]) {
         var previousImageView: UIImageView?
         
@@ -144,5 +163,35 @@ class DetailedReviewViewController: UIViewController {
             }
         }
     }
-
+    
+    @objc private func backButtonTapped() {
+        navigationController?.popViewController(animated: true)
+    }
+    
+    @objc private func reportButtonTapped() {
+        let alert = UIAlertController(title: "신고", message: "이 리뷰를 신고하시겠습니까?", preferredStyle: .alert)
+        
+        // 텍스트 필드 추가
+        alert.addTextField { textField in
+            textField.placeholder = "신고 사유를 입력해 주세요"
+        }
+        
+        alert.addAction(UIAlertAction(title: "예", style: .default, handler: { _ in
+            if let reason = alert.textFields?.first?.text {
+                print("신고 사유: \(reason)")
+            }
+            self.showMessage(title: "신고", message: "리뷰가 신고되었습니다.")
+            //let reportVC = ReportViewController()
+            //self.present(reportVC, animated: true)
+        }))
+        alert.addAction(UIAlertAction(title: "아니오", style: .cancel, handler: nil))
+        
+        present(alert, animated: true, completion: nil)
+    }
+    
+    private func showMessage(title: String, message: String) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "확인", style: .default, handler: nil))
+        present(alert, animated: true, completion: nil)
+    }
 }
