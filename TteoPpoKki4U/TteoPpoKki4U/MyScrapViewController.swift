@@ -9,6 +9,7 @@ import UIKit
 import SnapKit
 import Combine
 import FirebaseAuth
+import ProgressHUD
 
 class MyScrapViewController: UIViewController {
     
@@ -42,8 +43,8 @@ class MyScrapViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        bind()
         getData()
+        bind()
     }
     
     private func getData() {
@@ -140,11 +141,12 @@ class MyScrapViewController: UIViewController {
     
     func deleteScrap(at indexPath: IndexPath) {
         let item = scrapViewModel.scrapArray[indexPath.row]
-        
         guard let uid = Auth.auth().currentUser?.uid else {
             return
         }
-        scrapViewModel.deleteScrap(uid: uid, shopAddress: item.shopAddress)
+        scrapViewModel.deleteScrap(uid: uid, shopAddress: item.shopAddress) { [weak self] in
+            self?.scrapViewModel.scrapArray.remove(at: indexPath.row)
+        }
     }
 }
 
@@ -173,8 +175,6 @@ extension MyScrapViewController: UICollectionViewDelegate, UICollectionViewDataS
             return CGSize(width: view.frame.width - 20, height: 100)
         } else {
             let numberOfItemsPerRow: CGFloat = 2
-            let spacingBetweenItems: CGFloat = 10
-            let totalSpacing = (2 * 10) + ((numberOfItemsPerRow - 1) * spacingBetweenItems)
             
             let width = (collectionView.bounds.width - 18) / numberOfItemsPerRow
             return CGSize(width: width, height: width * 1.5)
