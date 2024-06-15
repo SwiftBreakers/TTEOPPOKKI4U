@@ -115,6 +115,7 @@ class StoreViewController: UIViewController {
         goReviewButton.setTitleColor(.white, for: .normal)
         goReviewButton.backgroundColor = ThemeColor.mainOrange
         goReviewButton.layer.cornerRadius = 10
+    
         view.addSubview(goReviewButton)
         goReviewButton.addTarget(self, action: #selector(goReviewButtonTapped), for: .touchUpInside)
         

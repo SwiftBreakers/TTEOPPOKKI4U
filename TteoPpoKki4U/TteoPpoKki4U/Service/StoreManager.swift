@@ -12,8 +12,8 @@ import FirebaseFirestore
 
 class StoreManager {
     
-    func reqeustStore(storeAddress: String, completion: @escaping(QuerySnapshot?, (Error)?) -> Void) {
-        reviewCollection.whereField(db_storeAddress, isEqualTo: storeAddress).getDocuments(completion: completion)
+    func requestStore(storeAddress: String, completion: @escaping(QuerySnapshot?, (Error)?) -> Void) {
+        reviewCollection.whereField(db_storeAddress, isEqualTo: storeAddress).whereField(db_isActive, isEqualTo: true).getDocuments(completion: completion)
     }
     
     func requestScrap(uid: String, completion: @escaping(QuerySnapshot?, (any Error)?) -> Void) {

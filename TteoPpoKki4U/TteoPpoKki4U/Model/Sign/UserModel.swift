@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct UserModel {
+struct UserModel: Hashable {
     let uid: String
     let email: String
     let isBlock: Bool

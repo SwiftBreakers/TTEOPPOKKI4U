@@ -19,7 +19,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
         FirebaseApp.configure()
         let db = Firestore.firestore()
-//        print(db)
+        //        print(db)
         KakaoSDK.initSDK(appKey: Secret().kakaoApi)
         return true
     }
@@ -38,6 +38,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // If not handled by this app, return false.
         return false
     }
+    
+   
     
     // MARK: UISceneSession Lifecycle
     

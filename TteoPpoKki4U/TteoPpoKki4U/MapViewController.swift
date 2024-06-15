@@ -15,31 +15,7 @@ import FirebaseAuth
 
 class MapViewController: UIViewController, PinStoreViewDelegate {
         
-    let mapView: MKMapView = {
-        let map = MKMapView()
-        map.mapType = .standard
-        map.isZoomEnabled = true     // 줌 가능 여부
-        map.isScrollEnabled = true   // 이동 가능 여부
-        map.isPitchEnabled = true    // 각도 조절 가능 여부 (두 손가락으로 위/아래 슬라이드)
-        map.showsCompass = false
-        map.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        return map
-    }()
-    let searchBar: UISearchBar = {
-        let bar = UISearchBar()
-        bar.placeholder = "장소명 또는 지역명을 입력해주세요"
-        bar.searchTextField.backgroundColor = .clear
-        bar.searchTextField.borderStyle = .none
-        bar.clipsToBounds = true
-        bar.layer.cornerRadius = 20
-        return bar
-    }()
-    lazy var compassBtn: MKCompassButton = {
-        let btn = MKCompassButton(mapView: mapView)
-        btn.frame.origin = CGPoint(x: self.view.frame.maxX - 40, y: 20)
-        btn.compassVisibility = .adaptive
-        return btn
-    }()
+    let mapView = MapView()
     lazy var storeInfoView: PinStoreView = {
         let view = PinStoreView()
         view.isHidden = true
@@ -50,8 +26,7 @@ class MapViewController: UIViewController, PinStoreViewDelegate {
     var locationManager: CLLocationManager = CLLocationManager()
     var userLocation: CLLocation = CLLocation()
     var storeList: [Document] = []
-    var isScrapped = PinStoreView().isScrapped
-    
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -59,28 +34,17 @@ class MapViewController: UIViewController, PinStoreViewDelegate {
         setConstraints()
         setMapView()
         
-        searchBar.delegate = self
+        mapView.searchBar.delegate = self
         storeInfoView.delegate = self
     }
     
     func setConstraints() {
-        [mapView, searchBar, compassBtn, storeInfoView].forEach {
+        [mapView, storeInfoView].forEach {
             self.view.addSubview($0)
         }
         
         mapView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
-        }
-        
-        searchBar.snp.makeConstraints { make in
-            make.top.equalToSuperview().offset(60)
-            make.horizontalEdges.equalTo(view.safeAreaLayoutGuide).inset(20)
-            make.height.equalTo(50)
-        }
-        
-        compassBtn.snp.makeConstraints { make in
-            make.top.equalTo(searchBar.snp.bottom).offset(10)
-            make.trailing.equalTo(view.safeAreaLayoutGuide).inset(20)
         }
         
         storeInfoView.snp.makeConstraints { make in
@@ -89,7 +53,7 @@ class MapViewController: UIViewController, PinStoreViewDelegate {
     }
     
     func setMapView() {
-        mapView.delegate = self
+        mapView.map.delegate = self
      
         // 위치 관리자 설정
         locationManager.delegate = self
@@ -102,10 +66,9 @@ class MapViewController: UIViewController, PinStoreViewDelegate {
     }
     
     func findMyLocation() {
-        guard let userLocation = mapView.userLocation.location else { return }
-        mapView.showsUserLocation = true
+        mapView.map.showsUserLocation = true
         centerMapOnLocation(location: userLocation)
-        mapView.setUserTrackingMode(.follow, animated: true)
+        mapView.map.setUserTrackingMode(.follow, animated: true)
     }
     
     func LocationAuthorization() {
@@ -119,14 +82,16 @@ class MapViewController: UIViewController, PinStoreViewDelegate {
         }
     }
     
-    private func centerMapOnLocation(location: CLLocation) {
+     func centerMapOnLocation(location: CLLocation) {
         let regionRadius: CLLocationDistance = 1000
+        
         let coordinateRegion = MKCoordinateRegion(center: location.coordinate,
                                                   latitudinalMeters: regionRadius, longitudinalMeters: regionRadius)
-        mapView.setRegion(coordinateRegion, animated: true)
+        mapView.map.setRegion(coordinateRegion, animated: true)
     }
-    
-    private func searchLocation(query: String) {
+  
+     func searchLocation(query: String) {
+         print(#function)
         let request = MKLocalSearch.Request()
         request.naturalLanguageQuery = query
         let search = MKLocalSearch(request: request)
@@ -135,15 +100,15 @@ class MapViewController: UIViewController, PinStoreViewDelegate {
                 print("Error searching for location: \(String(describing: error))")
                 self.showMessage(title: "잘못된 지역명입니다.", message: "올바른 지역명 또는 장소명을 입력해 주세요.")
                 return
-            }
+            } 
             if let mapItem = response.mapItems.first {
                 let coordinate = mapItem.placemark.coordinate
                 let location = CLLocation(latitude: coordinate.latitude, longitude: coordinate.longitude)
                 self.centerMapOnLocation(location: location)
                 
                 // 기존 핀 제거
-                let allAnnotations = self.mapView.annotations
-                self.mapView.removeAnnotations(allAnnotations)
+                let allAnnotations = self.mapView.map.annotations
+                self.mapView.map.removeAnnotations(allAnnotations)
                 
                 // 검색한 장소에 핀 추가
                 self.addPin(at: location, title: query, isMainLocation: true)
@@ -170,7 +135,7 @@ class MapViewController: UIViewController, PinStoreViewDelegate {
         annotation.coordinate = location.coordinate
         annotation.title = title
         annotation.subtitle = isMainLocation ? "검색한 장소" : "분식집"
-        mapView.addAnnotation(annotation)
+        mapView.map.addAnnotation(annotation)
     }
     
     private func getDistance(latitude: String, longitude: String) -> CLLocationDistance {
@@ -204,8 +169,6 @@ class MapViewController: UIViewController, PinStoreViewDelegate {
         scrappedCollection.addDocument(data: [db_shopName: shopName, db_shopAddress: shopAddress, db_uid: userID]) { error in
             if let error = error {
                 print("Error adding document: \(error)")
-            } else {
-                self.isScrapped = true
             }
         }
     }
@@ -223,8 +186,6 @@ class MapViewController: UIViewController, PinStoreViewDelegate {
                         scrappedCollection.document(document.documentID).delete() { error in
                             if let error = error {
                                 print("Error removing document: \(error)")
-                            } else {
-                                self.isScrapped = false
                             }
                         }
                     }
@@ -233,18 +194,14 @@ class MapViewController: UIViewController, PinStoreViewDelegate {
     }
     
     func pinStoreViewDidTapScrapButton(_ view: PinStoreView) {
-        if isScrapped {
+        if self.storeInfoView.isScrapped {
             // 이미 스크랩된 상태 -> 스크랩 해제
             deleteScrapItem(shopName: view.titleLabel.text!)
-            storeInfoView.scrapButton.backgroundColor = .white
-            storeInfoView.scrapButton.tintColor = .black
-            storeInfoView.scrapButton.layer.borderWidth = 1
+            self.storeInfoView.isScrapped.toggle()
         } else {
             // 스크랩되지 않은 상태 -> 스크랩 추가
             createScrapItem(shopName: view.titleLabel.text!, shopAddress: view.addressLabel.text!)
-            storeInfoView.scrapButton.backgroundColor = ThemeColor.mainOrange
-            storeInfoView.scrapButton.tintColor = .white
-            storeInfoView.scrapButton.layer.borderWidth = 0
+            self.storeInfoView.isScrapped.toggle()
         }
     }
     
@@ -287,6 +244,10 @@ extension MapViewController: UISearchBarDelegate, CLLocationManagerDelegate, MKM
     // MARK: - searchBar
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         searchBar.resignFirstResponder()
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        mapView.searchBar.resignFirstResponder()
     }
     
     func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
@@ -347,9 +308,7 @@ extension MapViewController: UISearchBarDelegate, CLLocationManagerDelegate, MKM
         if let store = storeList.first(where: { $0.placeName == annotation.title }) {
             view.transform = CGAffineTransform(scaleX: 1.5, y: 1.5)    // 선택되면 떡볶이pin 크기 키우기
             
-            self.fetchScrapStatus(shopName: store.placeName) { isScrapped in
-                self.isScrapped = isScrapped                                             // scrap 여부 구하기
-                
+            self.fetchScrapStatus(shopName: store.placeName) { isScrapped in             // scrap 여부 구하기
                 let distance = self.getDistance(latitude: store.y, longitude: store.x)   // 거리 구하기
                 
                 self.fetchRatings(for: store.placeName) { (ratings, error) in            // rating, reviews 구하기
@@ -359,7 +318,7 @@ extension MapViewController: UISearchBarDelegate, CLLocationManagerDelegate, MKM
                         guard let ratings = ratings else { return }
                         let averageRating = self.getAverageRating(ratings: ratings)
                         
-                        self.storeInfoView.bind(title: store.placeName, address: store.addressName, isScrapped: self.isScrapped, rating: averageRating, reviews: ratings.count, distance: distance.prettyDistance)
+                        self.storeInfoView.bind(title: store.placeName, address: store.addressName, isScrapped: isScrapped, rating: averageRating, reviews: ratings.count, distance: distance.prettyDistance)
                         self.storeInfoView.isHidden = false
                     }
                 }
@@ -373,6 +332,3 @@ extension MapViewController: UISearchBarDelegate, CLLocationManagerDelegate, MKM
     }
 
 }
-
-
-

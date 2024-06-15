@@ -17,6 +17,7 @@ public class RecommendViewController: UIViewController {
     private var cardSwiper: VerticalCardSwiper!
     private var viewModel = CardViewModel()
     private var cancellables = Set<AnyCancellable>()
+    private var card: Card?
     
     public override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,6 +32,9 @@ public class RecommendViewController: UIViewController {
     public override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         cancellables.removeAll()
+    }
+    public override func viewWillAppear(_ animated: Bool) {
+        cardSwiper.reloadData()
     }
     
     private func setupCardSwiper() {
@@ -78,16 +82,7 @@ extension RecommendViewController: VerticalCardSwiperDatasource, VerticalCardSwi
     public func cardForItemAt(verticalCardSwiperView: VerticalCardSwiperView, cardForItemAt index: Int) -> CardCell {
         let cell = verticalCardSwiperView.dequeueReusableCell(withReuseIdentifier: "MyCardCell", for: index) as! MyCardCell
         let card = viewModel.card(at: index)
-        
-        cell.titleLabel.text = card.title
-        cell.descriptionLabel.text = card.description
-        
-        if let url = URL(string: card.imageURL) {
-            cell.imageView.kf.setImage(with: url, placeholder: UIImage(named: "placeholder"))
-        }
-        else {
-            cell.imageView.image = UIImage(named: "placeholder")
-        }
+        cell.configure(with: card)
         return cell
         
     }

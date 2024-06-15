@@ -15,6 +15,7 @@ let db_storeAddress = "storeAddress" // 표준 구 주소
 let db_title = "title"
 let db_nickName = "nickName"
 let db_email = "email"
+let db_isBlock = "isBlock"
 let db_profileImageUrl = "profileImageUrl"
 let db_user_profile = "profile"
 let db_user_users = "users"
@@ -25,6 +26,7 @@ let db_imageURL = "imageURL"
 let db_isActive = "isActive"
 let db_createdAt = "createdAt"
 let db_updatedAt = "updatedAt"
+let db_reportCount = "reportCount"
 
 let scrappedCollection = Firestore.firestore().collection("Scrapped")
 let db_shopName = "shopName"
