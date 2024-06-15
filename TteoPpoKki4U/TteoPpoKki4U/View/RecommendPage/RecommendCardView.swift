@@ -84,6 +84,7 @@ public class MyCardCell: CardCell {
         }
         titleLabel.snp.makeConstraints { make in
             make.leading.equalToSuperview().inset(25)
+            make.trailing.equalToSuperview().offset(-25)
             make.bottom.equalTo(descriptionLabel.snp.bottom).inset(35)
         }
         descriptionLabel.snp.makeConstraints { make in
@@ -98,8 +99,9 @@ public class MyCardCell: CardCell {
         
         titleLabel.font = ThemeFont.fontBold(size: 40)
         titleLabel.textColor = .white
+        titleLabel.numberOfLines = 3
         
-        descriptionLabel.font = ThemeFont.fontRegular(size: 16)
+        descriptionLabel.font = ThemeFont.fontRegular(size: 20)
         descriptionLabel.textColor = .white
         
         imageView.layer.cornerRadius = 12

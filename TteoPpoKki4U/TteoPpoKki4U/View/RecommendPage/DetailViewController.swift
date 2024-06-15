@@ -75,7 +75,7 @@ class DetailViewController: UIViewController, UISearchBarDelegate {
         setupViews()
         configureView()
         setupCollectionView()
-        navigationController?.hidesBarsOnSwipe = true
+//        navigationController?.hidesBarsOnSwipe = true
         makeBarButton()
         bind()
     }
@@ -164,6 +164,7 @@ class DetailViewController: UIViewController, UISearchBarDelegate {
         guard let card = card else { return }
         titleLabel.text = card.title
         descriptionLabel.text = card.description
+        descriptionLabel.font = ThemeFont.fontRegular(size: 20)
         longDescription1Label.text = card.longDescription1
         longDescription2Label.text = card.longDescription2
         imageURL.text = card.imageURL
