@@ -145,7 +145,7 @@ class MyScrapViewController: UIViewController {
             return
         }
         scrapViewModel.deleteScrap(uid: uid, shopAddress: item.shopAddress) { [weak self] in
-            self?.scrapViewModel.scrapArray.remove(at: indexPath.row)
+            self?.getData()
         }
     }
 }
