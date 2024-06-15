@@ -15,6 +15,7 @@ import Kingfisher
 public class MyCardCell: CardCell {
     
     public let titleLabel = UILabel()
+    weak var customAlertViewController: UIViewController?
     public var card: Card?
     public let descriptionLabel = UILabel()
     public let imageURL = UILabel()
@@ -108,13 +109,24 @@ public class MyCardCell: CardCell {
     }
     
     @objc func bookmarkTapped() {
-        print(#function)
+        guard let viewController = customAlertViewController else { return }
+        
         if isBookmarked {
             bookmarkButton.setImage(.bookmark0, for: .normal)
             viewModel.deleteBookmarkItem(title: titleLabel.text!)
+            let bookmark0Image = UIImageView()
+            bookmark0Image.image = .bookmark0
+            viewController.showCustomAlert(image: bookmark0Image.image!, message: "북마크에서 삭제 되었어요.")
+            
         } else {
             bookmarkButton.setImage(.bookmark1, for: .normal)
             viewModel.createBookmarkItem(title: titleLabel.text!, imageURL: imageURL.text!)
+            let bookmark1Image = UIImageView()
+            bookmark1Image.image = .bookmark1
+            viewController.showCustomAlert(image: bookmark1Image.image!, message: "북마크에 추가 되었어요.")
         }
     }
+    
 }
+
+
