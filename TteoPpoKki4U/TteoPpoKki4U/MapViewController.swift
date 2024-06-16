@@ -143,7 +143,7 @@ class MapViewController: UIViewController, PinStoreViewDelegate {
         mapView.map.addAnnotation(annotation)
     }
     
-    private func getDistance(latitude: String, longitude: String) -> CLLocationDistance {
+    public func getDistance(latitude: String, longitude: String) -> CLLocationDistance {
         let storeLocation = CLLocation(latitude: Double(latitude)!, longitude: Double(longitude)!)
         let distance = userLocation.distance(from: storeLocation)
         return distance

@@ -7,19 +7,18 @@
 import UIKit
 import SnapKit
 import Combine
-import CoreLocation
 
 class DetailViewController: UIViewController, UISearchBarDelegate {
     
     var card: Card?
-    var swipeRecognizer: UISwipeGestureRecognizer!
     let shopAddressLabel = UILabel()
     let imageURL = UILabel()
     let shopAddressButton = UIButton()
     let imageView = UIImageView()
     let titleLabel = UILabel()
     let descriptionLabel = UILabel()
-    let longDescriptionLabel = UILabel()
+    let longDescription1Label = UILabel()
+    let longDescription2Label = UILabel()
     let contentView = UIView()
     let scrollView: UIScrollView = {
         let scrollView = UIScrollView()
@@ -43,11 +42,40 @@ class DetailViewController: UIViewController, UISearchBarDelegate {
     let barShareButton = UIBarButtonItem()
     var cancellables = Set<AnyCancellable>()
     
+    lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: flowlayout)
+    
+    let flowlayout: UICollectionViewFlowLayout = {
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .horizontal
+        layout.minimumInteritemSpacing = 8.0
+        layout.itemSize = Const.itemSize
+        layout.minimumLineSpacing = Const.itemSpacing
+        layout.minimumInteritemSpacing = 0
+        return layout
+    }()
+    
+    private enum Const {
+        static let itemSize = CGSize(width: 300, height: 400)
+        static let itemSpacing = 24.0
+        
+        static var insetX: CGFloat {
+            (UIScreen.main.bounds.width - Self.itemSize.width) / 2.0
+        }
+        static var collectionViewContentInset: UIEdgeInsets {
+            UIEdgeInsets(top: 0, left: Self.insetX, bottom: 0, right: Self.insetX)
+        }
+    }
+    private var items = (0...3).map { _ in
+      MyModel(color: randomColor, isDimmed: true)
+    }
+    private var previousIndex: Int?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
         configureView()
-        navigationController?.hidesBarsOnSwipe = true
+        setupCollectionView()
+//        navigationController?.hidesBarsOnSwipe = true
         makeBarButton()
         bind()
     }
@@ -58,6 +86,19 @@ class DetailViewController: UIViewController, UISearchBarDelegate {
                 await viewModel.fetchBookmarkStatus(title: title)
             }
         }
+    }
+    func setupCollectionView() {
+        collectionView.delegate = self
+        collectionView.dataSource = self
+        collectionView.register(DetailCollectionViewCell.self, forCellWithReuseIdentifier: DetailCollectionViewCell.identifier)
+        collectionView.frame = view.bounds
+        collectionView.isPagingEnabled = false
+        collectionView.contentInset = .zero
+        collectionView.backgroundColor = .systemGray6
+        collectionView.clipsToBounds = true
+        collectionView.contentInsetAdjustmentBehavior = .never
+        collectionView.contentInset = Const.collectionViewContentInset
+        collectionView.decelerationRate = .fast
     }
     @objc func shareButtonTapped() {
         var shareItems = [String]()
@@ -70,12 +111,19 @@ class DetailViewController: UIViewController, UISearchBarDelegate {
     }
     
     func makeBarButton() {
-        barShareButton.title = "공유하기"
+        if let image = UIImage(named: "share")?.withRenderingMode(.alwaysTemplate) {
+            barShareButton.image = image
+            barShareButton.tintColor = ThemeColor.mainOrange
+        }
+        
         barShareButton.style = .plain
         barShareButton.target = self
         barShareButton.action = #selector(shareButtonTapped)
         
-        barBookmarkButton.image = .bookmark0
+        if let image = UIImage(named: "bookmark0")?.withRenderingMode(.alwaysTemplate) {
+            barBookmarkButton.image = image
+            barBookmarkButton.tintColor = ThemeColor.mainOrange
+        }
         barBookmarkButton.style = .plain
         barBookmarkButton.target = self
         barBookmarkButton.action = #selector(bookmarkButtonTapped)
@@ -83,12 +131,23 @@ class DetailViewController: UIViewController, UISearchBarDelegate {
         navigationItem.rightBarButtonItems = [barShareButton, barBookmarkButton]
     }
     @objc func bookmarkButtonTapped() {
-        print(#function)
         if isBookmarked {
-            barBookmarkButton.image = .bookmark0
+            if let image = UIImage(named: "bookmark0")?.withRenderingMode(.alwaysTemplate) {
+                barBookmarkButton.image = image
+                barBookmarkButton.tintColor = ThemeColor.mainOrange
+            }
+            let bookmark0Image = UIImageView()
+            bookmark0Image.image = .bookmark0
+            showCustomAlert(image: bookmark0Image.image!, message: "북마크에서 삭제 되었어요.")
             viewModel.deleteBookmarkItem(title: titleLabel.text!)
         } else {
-            barBookmarkButton.image = .bookmark1
+            if let image = UIImage(named: "bookmark1")?.withRenderingMode(.alwaysTemplate) {
+                barBookmarkButton.image = image
+                barBookmarkButton.tintColor = ThemeColor.mainOrange
+            }
+            let bookmark1Image = UIImageView()
+            bookmark1Image.image = .bookmark1
+            showCustomAlert(image: bookmark1Image.image!, message: "북마크에 추가 되었어요.")
             viewModel.createBookmarkItem(title: titleLabel.text!, imageURL: imageURL.text!)
         }
     }
@@ -105,7 +164,9 @@ class DetailViewController: UIViewController, UISearchBarDelegate {
         guard let card = card else { return }
         titleLabel.text = card.title
         descriptionLabel.text = card.description
-        longDescriptionLabel.text = card.longDescription
+        descriptionLabel.font = ThemeFont.fontRegular(size: 20)
+        longDescription1Label.text = card.longDescription1
+        longDescription2Label.text = card.longDescription2
         imageURL.text = card.imageURL
         
         let addressString = NSMutableAttributedString(string: card.shopAddress)
@@ -145,9 +206,13 @@ class DetailViewController: UIViewController, UISearchBarDelegate {
         shopAddressButton.titleLabel?.numberOfLines = 2
         shopAddressButton.addTarget(self, action: #selector(moveToMap), for: .touchUpInside)
         
-        longDescriptionLabel.font = ThemeFont.fontRegular(size: 16)
-        longDescriptionLabel.numberOfLines = 100
-        longDescriptionLabel.textAlignment = .left
+        longDescription1Label.font = ThemeFont.fontRegular(size: 16)
+        longDescription1Label.numberOfLines = 100
+        longDescription1Label.textAlignment = .left
+        
+        longDescription2Label.font = ThemeFont.fontRegular(size: 16)
+        longDescription2Label.numberOfLines = 100
+        longDescription2Label.textAlignment = .left
         
         view.addSubview(scrollView)
         
@@ -157,8 +222,10 @@ class DetailViewController: UIViewController, UISearchBarDelegate {
         imageView.addSubview(titleLabel)
         imageView.addSubview(descriptionLabel)
         contentView.addSubview(shopAddressLabel)
+        contentView.addSubview(longDescription1Label)
+        contentView.addSubview(collectionView)
+        contentView.addSubview(longDescription2Label)
         contentView.addSubview(shopAddressButton)
-        contentView.addSubview(longDescriptionLabel)
         
         //오토레이아웃 설정
         
@@ -190,43 +257,90 @@ class DetailViewController: UIViewController, UISearchBarDelegate {
             make.trailing.equalTo(imageView.snp.trailing).offset(-30)
             make.left.equalTo(titleLabel)
         }
-        shopAddressLabel.snp.makeConstraints { make in
+        longDescription1Label.snp.makeConstraints { make in
             make.top.equalTo(imageView.snp.bottom).offset(20)
             make.leading.equalTo(contentView.safeAreaLayoutGuide).offset(20)
+            make.trailing.equalTo(contentView.safeAreaLayoutGuide).offset(-20)
+        }
+        collectionView.snp.makeConstraints { make in
+            make.leading.trailing.equalToSuperview()
+            make.top.equalTo(longDescription1Label.snp.bottom).offset(20)
+            make.height.equalTo(200)
+        }
+        longDescription2Label.snp.makeConstraints { make in
+            make.top.equalTo(collectionView.snp.bottom).offset(20)
+            make.leading.equalTo(contentView.safeAreaLayoutGuide).offset(20)
+            make.trailing.equalTo(contentView.safeAreaLayoutGuide).offset(-20)
+        }
+        shopAddressLabel.snp.makeConstraints { make in
+            make.top.equalTo(longDescription2Label.snp.bottom).offset(20)
+            make.leading.equalTo(contentView.safeAreaLayoutGuide).offset(20)
+            make.bottom.equalToSuperview().offset(-20)
         }
         shopAddressButton.snp.makeConstraints { make in
-            make.top.equalTo(imageView.snp.bottom).offset(20)
+            make.top.equalTo(longDescription2Label.snp.bottom).offset(20)
             make.leading.equalTo(shopAddressLabel.snp.trailing).offset(20)
             make.trailing.equalTo(contentView.safeAreaLayoutGuide).offset(-150)
             make.centerY.equalTo(shopAddressLabel)
         }
-        
-        longDescriptionLabel.snp.makeConstraints { make in
-            make.top.equalTo(shopAddressLabel.snp.bottom).offset(20)
-            make.leading.equalTo(contentView.safeAreaLayoutGuide).offset(20)
-            make.trailing.equalTo(contentView.safeAreaLayoutGuide).offset(-20)
-            make.bottom.equalToSuperview().offset(-20)
-        }
     }
     
     @objc func moveToMap() {
-        
-        guard let keyword = card?.title else { return }
+        guard let keyword = card?.queryName else { return }
         
         NetworkManager.shared.fetchAPI(query: keyword) {[weak self] stores in
             
-            if let tabBarController = self?.tabBarController {
-                tabBarController.selectedIndex = 1
-                
-                if let navController = tabBarController.selectedViewController as? UINavigationController,
-                   let mapVC = navController.viewControllers.first as? MapViewController {
-                    
-                    let location = CLLocation(latitude: Double(stores[0].y)!, longitude: Double(stores[0].x)!)
-                    mapVC.centerMapOnLocation(location: location)
-                }
+            guard let tabBarController = self?.tabBarController else { return }
+                   tabBarController.selectedIndex = 1
+            
+            if let navController = tabBarController.selectedViewController as? UINavigationController,
+               let mapVC = navController.viewControllers.first as? MapViewController {
+                mapVC.searchLocation(query: self!.card!.queryName)
+                mapVC.storeInfoView.isHidden = false
             }
             
         }
     }
 }
-
+extension DetailViewController: UICollectionViewDataSource {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        self.items.count
+      }
+      func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+          let cell = collectionView.dequeueReusableCell(withReuseIdentifier: DetailCollectionViewCell.identifier, for: indexPath) as! DetailCollectionViewCell
+          cell.prepare(color: self.items[indexPath.item].color, isDimmed: self.items[indexPath.item].isDimmed)
+        return cell
+      }
+}
+extension DetailViewController: UICollectionViewDelegateFlowLayout {
+  func scrollViewWillEndDragging(
+    _ scrollView: UIScrollView,
+    withVelocity velocity: CGPoint,
+    targetContentOffset: UnsafeMutablePointer<CGPoint>
+  ) {
+    let scrolledOffsetX = targetContentOffset.pointee.x + scrollView.contentInset.left
+    let cellWidth = Const.itemSize.width + Const.itemSpacing
+    let index = round(scrolledOffsetX / cellWidth)
+    targetContentOffset.pointee = CGPoint(x: index * cellWidth - scrollView.contentInset.left, y: scrollView.contentInset.top)
+  }
+  
+  func scrollViewDidScroll(_ scrollView: UIScrollView) {
+    let scrolledOffset = scrollView.contentOffset.x + scrollView.contentInset.left
+    let cellWidth = Const.itemSize.width + Const.itemSpacing
+    let index = Int(round(scrolledOffset / cellWidth))
+    self.items[index].isDimmed = false
+    
+    defer {
+      self.previousIndex = index
+      self.collectionView.reloadData()
+    }
+    
+    guard
+      let previousIndex = self.previousIndex,
+      previousIndex != index
+    else { return }
+    self.items[previousIndex].isDimmed = true
+  }
+}
+private var randomColor: UIColor {
+    UIColor(red: CGFloat(drand48()), green: CGFloat(drand48()), blue: CGFloat(drand48()), alpha: 1.0)}
