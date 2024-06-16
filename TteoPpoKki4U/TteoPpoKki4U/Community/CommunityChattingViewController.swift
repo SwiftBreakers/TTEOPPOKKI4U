@@ -7,11 +7,16 @@
 
 import UIKit
 import SnapKit
-
+import FirebaseFirestore
 
    
 
     final class CommunityChattingViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+        
+        
+        // Firestore 데이터베이스 인스턴스
+        private let db = Firestore.firestore()
+        
         
         //바닥 제약 조정
         var tableViewBottomConstraint: NSLayoutConstraint?
@@ -35,7 +40,7 @@ import SnapKit
             tableView.dataSource = self
             tableView.delegate = self
             tableView.separatorStyle = .none
-            tableView.backgroundColor = UIColor.black
+            tableView.backgroundColor = UIColor(hex: "F5F5F5")
             //테이블뷰 셀 줄 없애기
             
             tableView.register(CommunityTableViewCell.self, forCellReuseIdentifier: "cell" )
@@ -49,9 +54,13 @@ import SnapKit
         
         
         
-        private var data: [ChatData] = [ChatData(name: "qkqk", text: "1213"),
-                                        ChatData(name: "dftggg", text: "가나다라"),
-                                        ChatData(name: "qkqk", text: "12다13")]
+        private var data: [ChatData] = [ChatData(name: "지역", text: "서울"),
+                                        ChatData(name: "지역", text: "경기도"),
+                                        ChatData(name: "지역", text: "강원도"),
+                                        ChatData(name: "지역", text: "충청도"),
+                                        ChatData(name: "지역", text: "전라도"),
+                                        ChatData(name: "지역", text: "경상도"),
+                                        ChatData(name: "지역", text: "제주도")]
         
         
         
@@ -60,7 +69,7 @@ import SnapKit
             super.viewDidLoad()
             
             view.addSubview(tableView)
-            tableView.backgroundColor = .black
+            tableView.backgroundColor = UIColor(hex: "F5F5F5")
             tableView.snp.makeConstraints{ $0.edges.equalTo(view.safeAreaLayoutGuide)
             }
             setupNavigationBar()
@@ -76,6 +85,7 @@ import SnapKit
             NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
                 NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
             
+            fetchMessages() //firestore에서 메시지 불러오기
             
         }
         
@@ -83,6 +93,25 @@ import SnapKit
             super.viewDidAppear(animated)
             inputTextField.becomeFirstResponder()
         }
+        
+        // Firestore에서 메시지 실시간 불러오기
+        func fetchMessages() {
+            db.collection("region").order(by: "timestamp", descending: false)
+                .addSnapshotListener { querySnapshot, error in
+                    guard let snapshot = querySnapshot else {
+                        print("Error fetching messages: \(error!)")
+                        return
+                    }
+                    self.data = snapshot.documents.map { doc -> ChatData in
+                        let name = doc.get("name") as? String ?? ""
+                        let text = doc.get("text") as? String ?? ""
+                        return ChatData(name: name, text: text)
+                    }
+                    self.tableView.reloadData()
+                }
+        }
+        //여기까지.
+        
         
         //셀 누를때 메서드 호출(메뉴알러트)
         @objc func handleLongPress(_ gestureRecognizer: UILongPressGestureRecognizer) {
@@ -135,6 +164,7 @@ import SnapKit
         private func setupNavigationBar() {
             navigationBar.translatesAutoresizingMaskIntoConstraints = false
             view.addSubview(navigationBar)
+            navigationBar.backgroundColor = UIColor(hex: "F5F5F5")
             
             let navigationItem = UINavigationItem(title: "채팅")
             navigationBar.setItems([navigationItem], animated: false)
@@ -247,7 +277,7 @@ import SnapKit
                 make.right.equalToSuperview().inset(20)
                 make.centerY.equalToSuperview().offset(-20)
                 make.height.equalTo(30)
-                make.width.equalTo(60)
+                make.width.equalTo(50)
             }
             
             inputTextField.snp.makeConstraints { make in
@@ -267,9 +297,9 @@ import SnapKit
         }
         
         private func styleViews() {
-            inputContainerView.backgroundColor = .lightGray  // Customize color as needed
+            inputContainerView.backgroundColor = UIColor(hex: "FFFFFF")
             inputTextField.borderStyle = .roundedRect
-            sendButton.backgroundColor = .black  // Customize button color as needed
+            sendButton.backgroundColor = UIColor(hex: "FE724C")  // Customize button color as needed
             sendButton.setTitleColor(.white, for: .normal)
         }
         
@@ -280,15 +310,37 @@ import SnapKit
         //        }
         //
         
+//        @objc private func sendMessage() {
+//                if let message = inputTextField.text, !message.isEmpty {
+//                    data.append(ChatData(name: "김건응", text: message))
+//    //                let newIndexPath = IndexPath(row: data.count - 1, section: 0)
+//    //                tableView.insertRows(at: [newIndexPath], with: .automatic)
+//                    tableView.reloadData()
+//                    inputTextField.text = "" // 메시지 전송 후 입력 필드 초기화
+//                }
+//            }
+        
+        //sendmessage코드
         @objc private func sendMessage() {
-                if let message = inputTextField.text, !message.isEmpty {
-                    data.append(ChatData(name: "김건응", text: message))
-    //                let newIndexPath = IndexPath(row: data.count - 1, section: 0)
-    //                tableView.insertRows(at: [newIndexPath], with: .automatic)
-                    tableView.reloadData()
-                    inputTextField.text = "" // 메시지 전송 후 입력 필드 초기화
+            if let message = inputTextField.text, !message.isEmpty {
+                let messageData: [String: Any] = [
+                    "name": "김건응", // 현재 사용자 이름
+                    "text": message,
+                    "timestamp": FieldValue.serverTimestamp()
+                ]
+                
+                db.collection("region").addDocument(data: messageData) { error in
+                    if let error = error {
+                        print("Error saving message: \(error)")
+                    } else {
+                        print("Message successfully saved")
+                        self.inputTextField.text = "" // 메시지 전송 후 입력 필드 초기화
+                    }
                 }
             }
+        }
+        
+        //여기까지
         
         
         func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -326,3 +378,24 @@ import SnapKit
         
         
     }
+
+//UIColor을 확장하여 hex color을 쓰기 위해 지원하도록 하는 코드
+extension UIColor {
+    convenience init(hex: String, alpha: CGFloat = 1.0) {
+        var hexSanitized = hex.trimmingCharacters(in: .whitespacesAndNewlines)
+                hexSanitized = hexSanitized.replacingOccurrences(of: "#", with: "")
+
+                var rgb: UInt64 = 0
+
+                Scanner(string: hexSanitized).scanHexInt64(&rgb)
+
+                let red = CGFloat((rgb & 0xFF0000) >> 16) / 255.0
+                let green = CGFloat((rgb & 0x00FF00) >> 8) / 255.0
+                let blue = CGFloat(rgb & 0x0000FF) / 255.0
+
+                self.init(red: red, green: green, blue: blue, alpha: alpha)
+            }
+    
+    
+}
+//여기까지

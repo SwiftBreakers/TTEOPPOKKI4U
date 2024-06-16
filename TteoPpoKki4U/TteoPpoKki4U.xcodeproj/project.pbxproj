@@ -233,6 +233,15 @@
 			path = Community;
 			sourceTree = "<group>";
 		};
+		25CCA3BD2C1DC8F0008F81A3 /* CommunityMainView */ = {
+			isa = PBXGroup;
+			children = (
+				61DAC4E12C05C3C100DFC575 /* CommunityViewController.swift */,
+				25CCA3B72C1AE272008F81A3 /* CommunityLocalTableViewCell.swift */,
+			);
+			path = CommunityMainView;
+			sourceTree = "<group>";
+		};
 		611578CE2C0DCAA30096BC43 /* Sign */ = {
 			isa = PBXGroup;
 			children = (
@@ -299,13 +308,12 @@
 				613D86B32C05C08C0039E771 /* View */,
 				613D86B02C05C06F0039E771 /* ViewModel */,
 				25CCA3B42C1ADBFE008F81A3 /* Community */,
+				25CCA3BD2C1DC8F0008F81A3 /* CommunityMainView */,
 				613D869A2C05BFF80039E771 /* SceneDelegate.swift */,
 				613D86982C05BFF80039E771 /* AppDelegate.swift */,
 				619D77192C085EC80043EF82 /* GreetingViewController.swift */,
 				61DAC4DF2C05C3A700DFC575 /* MapViewController.swift */,
-				61DAC4E12C05C3C100DFC575 /* CommunityViewController.swift */,
 				6116167D2C1C218B008A2FA2 /* ReportViewController.swift */,
-				25CCA3B72C1AE272008F81A3 /* CommunityLocalTableViewCell.swift */,
 				61DAC4E32C05C3CF00DFC575 /* MyPageViewController.swift */,
 				8DB30F312C07794E00503139 /* PersonalInfoViewController.swift */,
 				617BCCBB2C191897008D8D48 /* ManageViewController.swift */,
@@ -661,7 +669,6 @@
 				8D580A532C08C8420057D370 /* MyReviewViewController.swift in Sources */,
 				25CCA3B12C1ADA38008F81A3 /* CommunityTableViewCellSelf.swift in Sources */,
 				617BCCC62C19699C008D8D48 /* ManageTableViewCell.swift in Sources */,
-				61DAC4E22C05C3C100DFC575 /* CommunityViewController.swift in Sources */,
 				CE3F36352C08469700532901 /* RecommendCardView.swift in Sources */,
 				9C82B9512C0F2D55008FA84E /* ResponseStore.swift in Sources */,
 				8D899FE02C1C3F0500FEBE77 /* BookmarkCell.swift in Sources */,
