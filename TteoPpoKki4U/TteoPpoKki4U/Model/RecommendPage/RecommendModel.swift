@@ -26,7 +26,7 @@ public struct DetailImage {
     var imageURL: String
 }
 
-struct MyModel {
-  let color: UIColor
-  var isDimmed: Bool
+struct Item {
+    let imageURL: URL
+    var isDimmed: Bool
 }

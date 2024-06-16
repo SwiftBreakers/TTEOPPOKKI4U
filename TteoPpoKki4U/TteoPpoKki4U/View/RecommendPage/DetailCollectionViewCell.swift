@@ -7,12 +7,15 @@
 
 import UIKit
 import SnapKit
+import Kingfisher
 
 class DetailCollectionViewCell: UICollectionViewCell {
     static let identifier = "DetailCollectionViewCell"
-    
-    private let view: UIView = {
-        let view = UIView()
+
+    private var imageView: UIImageView = {
+        let view = UIImageView()
+        view.contentMode = .scaleAspectFit
+        view.clipsToBounds = true
         return view
     }()
     
@@ -29,10 +32,10 @@ class DetailCollectionViewCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        self.contentView.addSubview(self.view)
+        self.contentView.addSubview(self.imageView)
         self.contentView.addSubview(self.dimmedView)
         
-        view.snp.makeConstraints { make in
+        imageView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
         dimmedView.snp.makeConstraints { make in
@@ -42,13 +45,17 @@ class DetailCollectionViewCell: UICollectionViewCell {
     override func prepareForReuse() {
         super.prepareForReuse()
         
-        self.prepare(color: nil, isDimmed: true)
+        self.prepare(imageURL: nil, isDimmed: true)
     }
-    
-    func prepare(color: UIColor?, isDimmed: Bool) {
-        self.view.backgroundColor = color
-        self.dimmedView.isHidden = !isDimmed
-    }
+
+    func prepare(imageURL: URL?, isDimmed: Bool) {
+            if let imageURL = imageURL {
+                self.imageView.kf.setImage(with: imageURL)
+            } else {
+                self.imageView.image = nil
+            }
+            self.dimmedView.isHidden = !isDimmed
+        }
 }
 
 
