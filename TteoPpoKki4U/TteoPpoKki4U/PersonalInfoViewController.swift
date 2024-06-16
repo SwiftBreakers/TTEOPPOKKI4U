@@ -15,7 +15,7 @@ import Kingfisher
 class PersonalInfoViewController: UIViewController, PHPickerViewControllerDelegate {
     
     var profileImageView: UIImageView!
-    var userNameTextField: UITextField!
+    var userNameTextField: CustomTextField!
     var saveButton: UIButton!
     
     var profileImage: UIImage?
@@ -81,9 +81,8 @@ class PersonalInfoViewController: UIViewController, PHPickerViewControllerDelega
     }
     
     func setupUserNameTextField() {
-        userNameTextField = UITextField()
+        userNameTextField = CustomTextField(placeholder: "변경할 닉네임을 입력해주세요.",target: self, action: #selector(doneButtonTapped))
         userNameTextField.borderStyle = .roundedRect
-        userNameTextField.placeholder = "변경할 닉네임을 입력해주세요."
         
         view.addSubview(userNameTextField)
         
@@ -105,10 +104,10 @@ class PersonalInfoViewController: UIViewController, PHPickerViewControllerDelega
         
         saveButton.snp.makeConstraints { make in
             make.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(10)
-          //  make.leading.equalTo(backButton.snp.trailing).offset(274)
+            //  make.leading.equalTo(backButton.snp.trailing).offset(274)
             make.trailing.equalToSuperview().offset(-30)
             make.width.height.equalTo(24)
-           
+            
         }
     }
     
@@ -116,6 +115,10 @@ class PersonalInfoViewController: UIViewController, PHPickerViewControllerDelega
     @objc func backButtonTapped() {
         navigationController?.popViewController(animated: true)
         
+    }
+    
+    @objc func doneButtonTapped() {
+        self.view.endEditing(true)
     }
     
     @objc func changeProfileImage() {
@@ -145,7 +148,7 @@ class PersonalInfoViewController: UIViewController, PHPickerViewControllerDelega
             }
         }
     }
-  
+    
     @objc func saveChanges() {
         ProgressHUD.animate()
         guard let uid = Auth.auth().currentUser?.uid else { return }
