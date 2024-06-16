@@ -49,16 +49,16 @@ public class CardViewModel: ObservableObject {
                         let longDescription2 = data["longDescription2"] as? String ?? "No LongDescription2"
                         let shopAddress = data["shopAddress"] as? String ?? "No ShopAddress"
                         let queryName = data["queryName"] as? String ?? "No queryName"
-//                        let collectionImageURL1 = data["collectionImageURL1"] as? String ?? ""
-//                        let collectionImageURL2 = data["collectionImageURL2"] as? String ?? ""
-//                        let collectionImageURL3 = data["collectionImageURL3"] as? String ?? ""
-//                        let collectionImageURL4 = data["collectionImageURL4"] as? String ?? ""
+                        let collectionImageURL1 = data["collectionImageURL1"] as? String ?? ""
+                        let collectionImageURL2 = data["collectionImageURL2"] as? String ?? ""
+                        let collectionImageURL3 = data["collectionImageURL3"] as? String ?? ""
+                        let collectionImageURL4 = data["collectionImageURL4"] as? String ?? ""
                         // gs:// URL을 HTTP(S) URL로 변환
                         let imageURL = try await self.convertGSURLToHTTPURL(gsURL: imageURLString)
                         
                         await self.fetchBookmarkStatus(title: title)
                         
-                        return Card(title: title, description: description, longDescription1: longDescription1, longDescription2: longDescription2, imageURL: imageURL, shopAddress: shopAddress, queryName: queryName)
+                        return Card(title: title, description: description, longDescription1: longDescription1, longDescription2: longDescription2, imageURL: imageURL, shopAddress: shopAddress, queryName: queryName, collectionImageURL1: collectionImageURL1, collectionImageURL2: collectionImageURL2, collectionImageURL3: collectionImageURL3, collectionImageURL4: collectionImageURL4)
                     }
                 }
                 var newCards: [Card] = []

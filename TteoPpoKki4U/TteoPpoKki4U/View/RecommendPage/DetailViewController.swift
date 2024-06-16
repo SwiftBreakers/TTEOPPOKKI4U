@@ -291,12 +291,15 @@ class DetailViewController: UIViewController, UISearchBarDelegate {
         
         NetworkManager.shared.fetchAPI(query: keyword) {[weak self] stores in
             
-            if let tabBarController = self?.tabBarController {
-                tabBarController.selectedIndex = 1
+            guard let tabBarController = self?.tabBarController else { return }
+                   tabBarController.selectedIndex = 1
+            
+            if let navController = tabBarController.selectedViewController as? UINavigationController,
+               let mapVC = navController.viewControllers.first as? MapViewController {
+                mapVC.searchLocation(query: self!.card!.queryName)
+                mapVC.storeInfoView.isHidden = false
             }
-            let mapVC = self?.tabBarController!.selectedViewController as! MapViewController
-            mapVC.searchLocation(query: self!.card!.queryName)
-            mapVC.storeInfoView.isHidden = false
+            
         }
     }
 }

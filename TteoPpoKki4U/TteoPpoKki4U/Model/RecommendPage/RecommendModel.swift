@@ -16,12 +16,11 @@ public struct Card {
     var imageURL: String
     var shopAddress: String
     var queryName: String
+    var collectionImageURL1: String
+    var collectionImageURL2: String
+    var collectionImageURL3: String
+    var collectionImageURL4: String
 }
-
-//public struct Bookmarked {
-//    var title: String
-//    var imageURL: String
-//}
 
 public struct DetailImage {
     var imageURL: String
