@@ -221,6 +221,15 @@
 			path = Community;
 			sourceTree = "<group>";
 		};
+		25CCA3BD2C1DC8F0008F81A3 /* CommunityMainView */ = {
+			isa = PBXGroup;
+			children = (
+				25CCA3B72C1AE272008F81A3 /* CommunityLocalTableViewCell.swift */,
+				61DAC4E12C05C3C100DFC575 /* CommunityViewController.swift */,
+			);
+			path = CommunityMainView;
+			sourceTree = "<group>";
+		};
 		611578CE2C0DCAA30096BC43 /* Sign */ = {
 			isa = PBXGroup;
 			children = (
@@ -287,12 +296,11 @@
 				613D86B32C05C08C0039E771 /* View */,
 				613D86B02C05C06F0039E771 /* ViewModel */,
 				25CCA3B42C1ADBFE008F81A3 /* Community */,
+				25CCA3BD2C1DC8F0008F81A3 /* CommunityMainView */,
 				613D869A2C05BFF80039E771 /* SceneDelegate.swift */,
 				613D86982C05BFF80039E771 /* AppDelegate.swift */,
 				619D77192C085EC80043EF82 /* GreetingViewController.swift */,
 				61DAC4DF2C05C3A700DFC575 /* MapViewController.swift */,
-				61DAC4E12C05C3C100DFC575 /* CommunityViewController.swift */,
-				25CCA3B72C1AE272008F81A3 /* CommunityLocalTableViewCell.swift */,
 				61DAC4E32C05C3CF00DFC575 /* MyPageViewController.swift */,
 				8DB30F312C07794E00503139 /* PersonalInfoViewController.swift */,
 				617BCCBB2C191897008D8D48 /* ManageViewController.swift */,

@@ -48,7 +48,7 @@ final class CommunityTableViewCellSelf: UITableViewCell {
 //        view.addSubview(profileImageView)
         view.addSubview(titleLabel)
         view.addSubview(titleLabel2)
-        view.backgroundColor = .yellow
+        view.backgroundColor = UIColor(hex: "FE724C")
 //        profileImageView.snp.makeConstraints {
 //            $0.size.equalTo(60)
 //            $0.centerY.equalToSuperview()
@@ -80,7 +80,7 @@ final class CommunityTableViewCellSelf: UITableViewCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
         contentView.addSubview(container)
-        contentView.backgroundColor = .black
+        contentView.backgroundColor = UIColor(hex: "FFFFFF")
         container.snp.makeConstraints {
             $0.top.equalToSuperview().offset(20)
             $0.leading.equalToSuperview().offset(16)

@@ -43,7 +43,7 @@ final class CommunityLocalTableViewCell: UITableViewCell {
        
         view.addSubview(titleLabel)
         view.addSubview(titleLabel2)
-        view.backgroundColor = .white
+        view.backgroundColor = UIColor(hex: "FFFFFF")
         
         titleLabel.snp.makeConstraints { make in
             make.leading.equalToSuperview().offset(10)
@@ -69,7 +69,7 @@ final class CommunityLocalTableViewCell: UITableViewCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
         contentView.addSubview(container)
-        contentView.backgroundColor = .black
+        contentView.backgroundColor = UIColor(hex: "F5F5F5")
         container.snp.makeConstraints {
             $0.top.equalToSuperview().offset(20)
             $0.leading.equalToSuperview().offset(16)

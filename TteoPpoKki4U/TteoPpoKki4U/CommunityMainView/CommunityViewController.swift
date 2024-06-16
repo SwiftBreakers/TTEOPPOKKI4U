@@ -35,7 +35,7 @@ import SnapKit
             tableView.dataSource = self
             tableView.delegate = self
             tableView.separatorStyle = .none
-            tableView.backgroundColor = UIColor.black
+            tableView.backgroundColor = UIColor(hex: "F5F5F5")
             //테이블뷰 셀 줄 없애기
             
             tableView.register(CommunityLocalTableViewCell.self, forCellReuseIdentifier: "CommunityLocalTableViewCell" )
@@ -49,9 +49,13 @@ import SnapKit
         
         
         
-        private var data: [ChatData] = [ChatData(name: "qkqk", text: "1213"),
-                                        ChatData(name: "dftggg", text: "가나다라"),
-                                        ChatData(name: "qkqk", text: "12다13")]
+        private var data: [ChatData] = [ChatData(name: "지역", text: "서울"),
+                                        ChatData(name: "지역", text: "경기도"),
+                                        ChatData(name: "지역", text: "강원도"),
+                                        ChatData(name: "지역", text: "충청도"),
+                                        ChatData(name: "지역", text: "전라도"),
+                                        ChatData(name: "지역", text: "경상도"),
+                                        ChatData(name: "지역", text: "제주도")]
         
         
         
@@ -60,7 +64,7 @@ import SnapKit
             super.viewDidLoad()
             view.addSubview(inputContainerView)
             view.addSubview(tableView)
-            tableView.backgroundColor = .black
+            tableView.backgroundColor = UIColor(hex: "F5F5F5")
             tableView.snp.makeConstraints{ $0.edges.equalTo(view.safeAreaLayoutGuide)
             }
             setupNavigationBar()
@@ -101,6 +105,7 @@ import SnapKit
         private func setupNavigationBar() {
             navigationBar.translatesAutoresizingMaskIntoConstraints = false
             view.addSubview(navigationBar)
+            navigationBar.backgroundColor = UIColor(hex: "F5F5F5")
             
             let navigationItem = UINavigationItem(title: "커뮤니티")
             navigationBar.setItems([navigationItem], animated: false)
