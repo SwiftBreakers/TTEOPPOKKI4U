@@ -286,7 +286,6 @@ class DetailViewController: UIViewController, UISearchBarDelegate {
     }
     
     @objc func moveToMap() {
-        
         guard let keyword = card?.queryName else { return }
         
         NetworkManager.shared.fetchAPI(query: keyword) {[weak self] stores in

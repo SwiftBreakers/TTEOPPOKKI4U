@@ -14,6 +14,7 @@
 		25CCA3B82C1AE272008F81A3 /* CommunityLocalTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25CCA3B72C1AE272008F81A3 /* CommunityLocalTableViewCell.swift */; };
 		611578D02C0DCAAB0096BC43 /* UserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611578CF2C0DCAAB0096BC43 /* UserModel.swift */; };
 		6116167A2C1BD7A3008A2FA2 /* RecommendViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611616792C1BD7A3008A2FA2 /* RecommendViewModel.swift */; };
+		6116167E2C1C218C008A2FA2 /* ReportViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6116167D2C1C218B008A2FA2 /* ReportViewController.swift */; };
 		611644302C08FFFC009FFDA5 /* GreetingHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6116442F2C08FFFC009FFDA5 /* GreetingHeaderView.swift */; };
 		611644322C09000F009FFDA5 /* GreetingBodyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611644312C09000F009FFDA5 /* GreetingBodyView.swift */; };
 		611644352C09039F009FFDA5 /* SignViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611644342C09039F009FFDA5 /* SignViewModel.swift */; };
@@ -40,6 +41,9 @@
 		618DEE062C12516A006B95A8 /* UserManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 618DEE052C12516A006B95A8 /* UserManager.swift */; };
 		618DEE092C125D9D006B95A8 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 618DEE082C125D9D006B95A8 /* Kingfisher */; };
 		619D771A2C085EC80043EF82 /* GreetingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 619D77192C085EC80043EF82 /* GreetingViewController.swift */; };
+		61AB7EF32C1E5E9D00C51ECA /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 61AB7EF22C1E5E9D00C51ECA /* GoogleService-Info.plist */; };
+		61AB7EF62C1E60FD00C51ECA /* CustomTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61AB7EF52C1E60FD00C51ECA /* CustomTextField.swift */; };
+		61AB7EF82C1E745200C51ECA /* CustomTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61AB7EF72C1E745200C51ECA /* CustomTextView.swift */; };
 		61DAC4E02C05C3A700DFC575 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61DAC4DF2C05C3A700DFC575 /* MapViewController.swift */; };
 		61DAC4E22C05C3C100DFC575 /* CommunityViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61DAC4E12C05C3C100DFC575 /* CommunityViewController.swift */; };
 		61DAC4E42C05C3CF00DFC575 /* MyPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61DAC4E32C05C3CF00DFC575 /* MyPageViewController.swift */; };
@@ -72,6 +76,7 @@
 		8D580A532C08C8420057D370 /* MyReviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D580A522C08C8420057D370 /* MyReviewViewController.swift */; };
 		8D60C7AD2C105EFC00CAFD0C /* StoreViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D60C7AC2C105EFC00CAFD0C /* StoreViewController.swift */; };
 		8D78CDE02C0E077D00051D50 /* WriteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D78CDDF2C0E077D00051D50 /* WriteViewController.swift */; };
+		8D899FE02C1C3F0500FEBE77 /* BookmarkCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D899FDF2C1C3F0500FEBE77 /* BookmarkCell.swift */; };
 		8D9A305A2C180D99004E7F1B /* ScrapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D9A30592C180D99004E7F1B /* ScrapViewModel.swift */; };
 		8DA4C3822C09BFA8008AB975 /* Review.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DA4C3812C09BFA8008AB975 /* Review.swift */; };
 		8DA4C3842C0A0ACF008AB975 /* ReviewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DA4C3832C0A0ACF008AB975 /* ReviewCell.swift */; };
@@ -111,6 +116,7 @@
 		25CCA3B72C1AE272008F81A3 /* CommunityLocalTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityLocalTableViewCell.swift; sourceTree = "<group>"; };
 		611578CF2C0DCAAB0096BC43 /* UserModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserModel.swift; sourceTree = "<group>"; };
 		611616792C1BD7A3008A2FA2 /* RecommendViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecommendViewModel.swift; sourceTree = "<group>"; };
+		6116167D2C1C218B008A2FA2 /* ReportViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportViewController.swift; sourceTree = "<group>"; };
 		6116442F2C08FFFC009FFDA5 /* GreetingHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GreetingHeaderView.swift; sourceTree = "<group>"; };
 		611644312C09000F009FFDA5 /* GreetingBodyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GreetingBodyView.swift; sourceTree = "<group>"; };
 		611644342C09039F009FFDA5 /* SignViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignViewModel.swift; sourceTree = "<group>"; };
@@ -135,6 +141,9 @@
 		617BCCC82C1982CC008D8D48 /* DiffableSectionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiffableSectionModel.swift; sourceTree = "<group>"; };
 		618DEE052C12516A006B95A8 /* UserManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserManager.swift; sourceTree = "<group>"; };
 		619D77192C085EC80043EF82 /* GreetingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GreetingViewController.swift; sourceTree = "<group>"; };
+		61AB7EF22C1E5E9D00C51ECA /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		61AB7EF52C1E60FD00C51ECA /* CustomTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextField.swift; sourceTree = "<group>"; };
+		61AB7EF72C1E745200C51ECA /* CustomTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextView.swift; sourceTree = "<group>"; };
 		61DAC4DF2C05C3A700DFC575 /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		61DAC4E12C05C3C100DFC575 /* CommunityViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityViewController.swift; sourceTree = "<group>"; };
 		61DAC4E32C05C3CF00DFC575 /* MyPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageViewController.swift; sourceTree = "<group>"; };
@@ -157,6 +166,7 @@
 		8D580A522C08C8420057D370 /* MyReviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyReviewViewController.swift; sourceTree = "<group>"; };
 		8D60C7AC2C105EFC00CAFD0C /* StoreViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreViewController.swift; sourceTree = "<group>"; };
 		8D78CDDF2C0E077D00051D50 /* WriteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WriteViewController.swift; sourceTree = "<group>"; };
+		8D899FDF2C1C3F0500FEBE77 /* BookmarkCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkCell.swift; sourceTree = "<group>"; };
 		8D9A30592C180D99004E7F1B /* ScrapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrapViewModel.swift; sourceTree = "<group>"; };
 		8DA4C3812C09BFA8008AB975 /* Review.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Review.swift; sourceTree = "<group>"; };
 		8DA4C3832C0A0ACF008AB975 /* ReviewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewCell.swift; sourceTree = "<group>"; };
@@ -296,6 +306,7 @@
 				619D77192C085EC80043EF82 /* GreetingViewController.swift */,
 				61DAC4DF2C05C3A700DFC575 /* MapViewController.swift */,
 				61DAC4E12C05C3C100DFC575 /* CommunityViewController.swift */,
+				6116167D2C1C218B008A2FA2 /* ReportViewController.swift */,
 				25CCA3B72C1AE272008F81A3 /* CommunityLocalTableViewCell.swift */,
 				61DAC4E32C05C3CF00DFC575 /* MyPageViewController.swift */,
 				8DB30F312C07794E00503139 /* PersonalInfoViewController.swift */,
@@ -413,6 +424,15 @@
 			path = Manage;
 			sourceTree = "<group>";
 		};
+		61AB7EF42C1E60F100C51ECA /* View */ = {
+			isa = PBXGroup;
+			children = (
+				61AB7EF52C1E60FD00C51ECA /* CustomTextField.swift */,
+				61AB7EF72C1E745200C51ECA /* CustomTextView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
 		8D580A412C082AA30057D370 /* Font */ = {
 			isa = PBXGroup;
 			children = (
@@ -440,6 +460,7 @@
 				8DB30F2A2C07731400503139 /* MyPageView.swift */,
 				8DB30F282C0772DE00503139 /* PersonalInfoView.swift */,
 				8D580A502C08AAF70057D370 /* ScrapCell.swift */,
+				8D899FDF2C1C3F0500FEBE77 /* BookmarkCell.swift */,
 				8DA4C3832C0A0ACF008AB975 /* ReviewCell.swift */,
 			);
 			path = MyPage;
@@ -471,6 +492,7 @@
 		8DB30F252C07704800503139 /* Config */ = {
 			isa = PBXGroup;
 			children = (
+				61AB7EF42C1E60F100C51ECA /* View */,
 				8D580A412C082AA30057D370 /* Font */,
 				8DB30F262C07705D00503139 /* ThemeColor.swift */,
 				8D580A2F2C0826B40057D370 /* ThemeFont.swift */,
@@ -625,6 +647,7 @@
 			files = (
 				61DC69092C16A7EF003DEB73 /* UIViewController+Extension.swift in Sources */,
 				611644352C09039F009FFDA5 /* SignViewModel.swift in Sources */,
+				61AB7EF82C1E745200C51ECA /* CustomTextView.swift in Sources */,
 				9C82B94F2C0F2D27008FA84E /* NetworkManager.swift in Sources */,
 				61DAC4E22C05C3C100DFC575 /* CommunityViewController.swift in Sources */,
 				617357262C1364940007B92A /* ReviewModel.swift in Sources */,
@@ -643,6 +666,7 @@
 				61DAC4E22C05C3C100DFC575 /* CommunityViewController.swift in Sources */,
 				CE3F36352C08469700532901 /* RecommendCardView.swift in Sources */,
 				9C82B9512C0F2D55008FA84E /* ResponseStore.swift in Sources */,
+				8D899FE02C1C3F0500FEBE77 /* BookmarkCell.swift in Sources */,
 				8D580A302C0826B40057D370 /* ThemeFont.swift in Sources */,
 				8D2E862F2C1B2D7000967B13 /* BookmarkList.swift in Sources */,
 				CE3F36382C0846C800532901 /* RecommendModel.swift in Sources */,
@@ -660,6 +684,7 @@
 				619D771A2C085EC80043EF82 /* GreetingViewController.swift in Sources */,
 				61DAC5002C06CCB000DFC575 /* Secret.swift in Sources */,
 				8D580A4F2C0893A40057D370 /* ScrapList.swift in Sources */,
+				6116167E2C1C218C008A2FA2 /* ReportViewController.swift in Sources */,
 				9C82B9552C0F3046008FA84E /* PinStoreView.swift in Sources */,
 				8DB30F242C07700E00503139 /* UIColor+Extension.swift in Sources */,
 				8DB30F212C076B8B00503139 /* MyPageModel.swift in Sources */,
@@ -687,6 +712,7 @@
 				617BCCC92C1982CC008D8D48 /* DiffableSectionModel.swift in Sources */,
 				8D580A512C08AAF70057D370 /* ScrapCell.swift in Sources */,
 				8DB30F292C0772DE00503139 /* PersonalInfoView.swift in Sources */,
+				61AB7EF62C1E60FD00C51ECA /* CustomTextField.swift in Sources */,
 				613D869B2C05BFF80039E771 /* SceneDelegate.swift in Sources */,
 				9C82B9572C0F31A0008FA84E /* MapViewModel.swift in Sources */,
 				8D2E862D2C1AD5DD00967B13 /* BookmarkViewModel.swift in Sources */,

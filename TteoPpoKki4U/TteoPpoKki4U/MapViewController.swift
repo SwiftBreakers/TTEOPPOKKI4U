@@ -14,7 +14,7 @@ import FirebaseFirestore
 import FirebaseAuth
 
 class MapViewController: UIViewController, PinStoreViewDelegate {
-        
+    
     let mapView = MapView()
     lazy var storeInfoView: PinStoreView = {
         let view = PinStoreView()
@@ -26,7 +26,7 @@ class MapViewController: UIViewController, PinStoreViewDelegate {
     var locationManager: CLLocationManager = CLLocationManager()
     var userLocation: CLLocation = CLLocation()
     var storeList: [Document] = []
-
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -36,6 +36,12 @@ class MapViewController: UIViewController, PinStoreViewDelegate {
         
         mapView.searchBar.delegate = self
         storeInfoView.delegate = self
+        navigationController?.navigationBar.isHidden = true
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        tabBarController?.tabBar.isHidden = false        
     }
     
     func setConstraints() {
@@ -54,20 +60,20 @@ class MapViewController: UIViewController, PinStoreViewDelegate {
     
     func setMapView() {
         mapView.map.delegate = self
-     
+        
         // 위치 관리자 설정
         locationManager.delegate = self
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
         locationManager.requestWhenInUseAuthorization()
-
+        
         // 위치 업데이트 시작
         findMyLocation()
         locationManager.startUpdatingLocation()
     }
     
     func findMyLocation() {
-        mapView.map.showsUserLocation = true
         centerMapOnLocation(location: userLocation)
+        mapView.map.showsUserLocation = true
         mapView.map.setUserTrackingMode(.follow, animated: true)
     }
     
@@ -82,16 +88,15 @@ class MapViewController: UIViewController, PinStoreViewDelegate {
         }
     }
     
-     func centerMapOnLocation(location: CLLocation) {
+    func centerMapOnLocation(location: CLLocation) {
         let regionRadius: CLLocationDistance = 1000
         
         let coordinateRegion = MKCoordinateRegion(center: location.coordinate,
                                                   latitudinalMeters: regionRadius, longitudinalMeters: regionRadius)
         mapView.map.setRegion(coordinateRegion, animated: true)
     }
-  
-     func searchLocation(query: String) {
-         print(#function)
+    
+    func searchLocation(query: String) {
         let request = MKLocalSearch.Request()
         request.naturalLanguageQuery = query
         let search = MKLocalSearch(request: request)
@@ -100,7 +105,7 @@ class MapViewController: UIViewController, PinStoreViewDelegate {
                 print("Error searching for location: \(String(describing: error))")
                 self.showMessage(title: "잘못된 지역명입니다.", message: "올바른 지역명 또는 장소명을 입력해 주세요.")
                 return
-            } 
+            }
             if let mapItem = response.mapItems.first {
                 let coordinate = mapItem.placemark.coordinate
                 let location = CLLocation(latitude: coordinate.latitude, longitude: coordinate.longitude)
@@ -243,7 +248,7 @@ class MapViewController: UIViewController, PinStoreViewDelegate {
 extension MapViewController: UISearchBarDelegate, CLLocationManagerDelegate, MKMapViewDelegate  {
     // MARK: - searchBar
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        searchBar.resignFirstResponder()
+        mapView.searchBar.resignFirstResponder()
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -330,5 +335,5 @@ extension MapViewController: UISearchBarDelegate, CLLocationManagerDelegate, MKM
         storeInfoView.isHidden = true
         view.transform = CGAffineTransform.identity
     }
-
+    
 }

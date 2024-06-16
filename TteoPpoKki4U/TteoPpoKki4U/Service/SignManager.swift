@@ -105,7 +105,6 @@ class SignManager {
     // Google 로그아웃
     func signOutGoogle(completion: @escaping (Error?) -> Void) {
         GIDSignIn.sharedInstance.signOut()
-        print("DEBUG: Google 로그아웃 성공")
         completion(nil)
     }
     
@@ -139,35 +138,35 @@ class SignManager {
     
     // 로그인된 서비스 확인 및 로그아웃
     func signOutCurrentUser(completion: @escaping (Result<Void, Error>) -> Void) {
-            if let user = Auth.auth().currentUser {
-                for provider in user.providerData {
-                    switch provider.providerID {
-                    case "apple.com":
-                        signOutApple { error in
-                            if let error = error {
-                                completion(.failure(error))
-                            } else {
-                                self.signOut(completion: completion)
-                            }
+        if let user = Auth.auth().currentUser {
+            for provider in user.providerData {
+                switch provider.providerID {
+                case "apple.com":
+                    signOutApple { error in
+                        if let error = error {
+                            completion(.failure(error))
+                        } else {
+                            self.signOut(completion: completion)
                         }
-                    case "google.com":
-                        signOutGoogle { error in
-                            if let error = error {
-                                completion(.failure(error))
-                            } else {
-                                self.signOut(completion: completion)
-                            }
-                        }
-                    default:
-                        break
                     }
+                case "google.com":
+                    signOutGoogle { error in
+                        if let error = error {
+                            completion(.failure(error))
+                        } else {
+                            self.signOut(completion: completion)
+                        }
+                    }
+                default:
+                    break
                 }
-            } else {
-                let error = NSError(domain: "FirebaseService", code: -1, userInfo: [NSLocalizedDescriptionKey: "로그인된 사용자가 없습니다."])
-                completion(.failure(error))
             }
+        } else {
+            let error = NSError(domain: "FirebaseService", code: -1, userInfo: [NSLocalizedDescriptionKey: "로그인된 사용자가 없습니다."])
+            completion(.failure(error))
         }
-
+    }
+    
 }
 
 

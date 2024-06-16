@@ -44,7 +44,7 @@ class ScrapViewModel {
         }
     }
     
-    func deleteScrap(uid: String, shopAddress: String) {
+    func deleteScrap(uid: String, shopAddress: String, completion: @escaping () -> Void) {
         storeManager.deleteScrap(uid: uid, shopAddress: shopAddress) { querySnapshot, error in
             if let error = error {
                 print(error.localizedDescription)
@@ -55,6 +55,7 @@ class ScrapViewModel {
                     let id = doc.documentID
                     
                     scrappedCollection.document(id).delete()
+                    completion()
                 }
             }
         }
