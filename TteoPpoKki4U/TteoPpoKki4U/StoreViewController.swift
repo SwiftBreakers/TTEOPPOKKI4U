@@ -39,9 +39,14 @@ class StoreViewController: UIViewController {
         configureUI()
         locationLabel.text = addressText
         storeNameLabel.text = shopTitleText
+       
+        tabBarController?.tabBar.isHidden = true
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         fetchRequest()
         bind()
-        tabBarController?.tabBar.isHidden = true
     }
     
     private func fetchRequest() {

@@ -23,8 +23,8 @@ class WriteViewController: UIViewController {
     var starButtons: [UIButton] = []
     var selectedRating = 0
     
-    let titleTextField = UITextField()
-    let contentTextView = UITextView()
+    let titleTextField = CustomTextField(placeholder: "제목",target: self, action: #selector(doneButtonTapped))
+    let contentTextView = CustomTextView(target: self, action: #selector(doneButtonTapped))
     let addImageButton = UIButton()
     let cancelButton = UIButton()
     let submitButton = UIButton()
@@ -138,7 +138,6 @@ class WriteViewController: UIViewController {
         }
         
         // 제목 텍스트 필드 설정
-        titleTextField.placeholder = "제목"
         titleTextField.borderStyle = .roundedRect
         view.addSubview(titleTextField)
         titleTextField.snp.makeConstraints { make in
@@ -361,6 +360,10 @@ class WriteViewController: UIViewController {
         }
         
         containerView.removeFromSuperview()
+    }
+    
+    @objc func doneButtonTapped() {
+        view.endEditing(true)
     }
     
     func uploadImage(image: UIImage, index: Int) -> AnyPublisher<String, Error> {
