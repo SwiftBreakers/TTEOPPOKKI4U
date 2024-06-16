@@ -41,9 +41,9 @@
 		618DEE062C12516A006B95A8 /* UserManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 618DEE052C12516A006B95A8 /* UserManager.swift */; };
 		618DEE092C125D9D006B95A8 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 618DEE082C125D9D006B95A8 /* Kingfisher */; };
 		619D771A2C085EC80043EF82 /* GreetingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 619D77192C085EC80043EF82 /* GreetingViewController.swift */; };
-		61AB7EF32C1E5E9D00C51ECA /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 61AB7EF22C1E5E9D00C51ECA /* GoogleService-Info.plist */; };
 		61AB7EF62C1E60FD00C51ECA /* CustomTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61AB7EF52C1E60FD00C51ECA /* CustomTextField.swift */; };
 		61AB7EF82C1E745200C51ECA /* CustomTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61AB7EF72C1E745200C51ECA /* CustomTextView.swift */; };
+		61AB7EFA2C1E809C00C51ECA /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 61AB7EF92C1E809C00C51ECA /* GoogleService-Info.plist */; };
 		61DAC4E02C05C3A700DFC575 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61DAC4DF2C05C3A700DFC575 /* MapViewController.swift */; };
 		61DAC4E22C05C3C100DFC575 /* CommunityViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61DAC4E12C05C3C100DFC575 /* CommunityViewController.swift */; };
 		61DAC4E42C05C3CF00DFC575 /* MyPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61DAC4E32C05C3CF00DFC575 /* MyPageViewController.swift */; };
@@ -103,7 +103,6 @@
 		CE3F363A2C08474700532901 /* RecommendViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE3F36392C08474700532901 /* RecommendViewController.swift */; };
 		CE3F36422C1036D700532901 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE3F36412C1036D700532901 /* DetailViewController.swift */; };
 		CE3F36472C14286400532901 /* SkeletonView in Frameworks */ = {isa = PBXBuildFile; productRef = CE3F36462C14286400532901 /* SkeletonView */; };
-		CE40040E2C1BDA93009E1142 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = CE40040D2C1BDA93009E1142 /* GoogleService-Info.plist */; };
 		CE4004102C1D1D46009E1142 /* DetailCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE40040F2C1D1D46009E1142 /* DetailCollectionViewCell.swift */; };
 		CE4004122C1D1EED009E1142 /* CustomAlertViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE4004112C1D1EED009E1142 /* CustomAlertViewController.swift */; };
 /* End PBXBuildFile section */
@@ -141,9 +140,9 @@
 		617BCCC82C1982CC008D8D48 /* DiffableSectionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiffableSectionModel.swift; sourceTree = "<group>"; };
 		618DEE052C12516A006B95A8 /* UserManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserManager.swift; sourceTree = "<group>"; };
 		619D77192C085EC80043EF82 /* GreetingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GreetingViewController.swift; sourceTree = "<group>"; };
-		61AB7EF22C1E5E9D00C51ECA /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		61AB7EF52C1E60FD00C51ECA /* CustomTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextField.swift; sourceTree = "<group>"; };
 		61AB7EF72C1E745200C51ECA /* CustomTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextView.swift; sourceTree = "<group>"; };
+		61AB7EF92C1E809C00C51ECA /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../teamp/TteoPpoKki4U/TteoPpoKki4U/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		61DAC4DF2C05C3A700DFC575 /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		61DAC4E12C05C3C100DFC575 /* CommunityViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityViewController.swift; sourceTree = "<group>"; };
 		61DAC4E32C05C3CF00DFC575 /* MyPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageViewController.swift; sourceTree = "<group>"; };
@@ -191,7 +190,6 @@
 		CE3F36372C0846C800532901 /* RecommendModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendModel.swift; sourceTree = "<group>"; };
 		CE3F36392C08474700532901 /* RecommendViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendViewController.swift; sourceTree = "<group>"; };
 		CE3F36412C1036D700532901 /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
-		CE40040D2C1BDA93009E1142 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		CE40040F2C1D1D46009E1142 /* DetailCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailCollectionViewCell.swift; sourceTree = "<group>"; };
 		CE4004112C1D1EED009E1142 /* CustomAlertViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAlertViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -321,7 +319,7 @@
 				613D86A32C05BFF90039E771 /* LaunchScreen.storyboard */,
 				613D86A62C05BFF90039E771 /* Info.plist */,
 				61DAC4FF2C06CCB000DFC575 /* Secret.swift */,
-				CE40040D2C1BDA93009E1142 /* GoogleService-Info.plist */,
+				61AB7EF92C1E809C00C51ECA /* GoogleService-Info.plist */,
 			);
 			path = TteoPpoKki4U;
 			sourceTree = "<group>";
@@ -628,7 +626,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8D580A472C082AB60057D370 /* Pretendard-Medium.ttf in Resources */,
-				CE40040E2C1BDA93009E1142 /* GoogleService-Info.plist in Resources */,
+				61AB7EFA2C1E809C00C51ECA /* GoogleService-Info.plist in Resources */,
 				613D86A22C05BFF90039E771 /* Assets.xcassets in Resources */,
 				8D580A492C082AB60057D370 /* Pretendard-Regular.ttf in Resources */,
 				8D580A4A2C082AB60057D370 /* Pretendard-ExtraLight.ttf in Resources */,
@@ -864,7 +862,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = LRKR7469VU;
+				DEVELOPMENT_TEAM = LA95MXQ3R5;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = TteoPpoKki4U/Info.plist;
 				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "";
@@ -897,7 +895,7 @@
 				CODE_SIGN_ENTITLEMENTS = TteoPpoKki4U/TteoPpoKki4U.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = LRKR7469VU;
+				DEVELOPMENT_TEAM = LA95MXQ3R5;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = TteoPpoKki4U/Info.plist;
 				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "";
