@@ -61,17 +61,15 @@ final class GreetingViewController: UIViewController {
     }
     
     private func bind() {
-        viewModel.loginPublisher.sink { [weak self] completion in
-            switch completion {
-            case .finished:
-                return
+        viewModel.loginPublisher.sink { [weak self] result in
+            switch result {
+            case .success():
+                let scene = UIApplication.shared.connectedScenes.first
+                if let sd: SceneDelegate = (scene?.delegate as? SceneDelegate) {
+                    sd.switchToMainTabBarController()
+                }
             case .failure(let error):
                 self?.showMessage(title: "에러 발생", message: "\(error.localizedDescription)발생했습니다.")
-            }
-        } receiveValue: { _ in
-            let scene = UIApplication.shared.connectedScenes.first
-            if let sd: SceneDelegate = (scene?.delegate as? SceneDelegate) {
-                sd.switchToMainTabBarController()
             }
         }.store(in: &cancellables)
     }

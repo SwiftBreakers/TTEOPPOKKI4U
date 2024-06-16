@@ -22,8 +22,8 @@ class SignViewModel: NSObject {
         self.signManager = signManager
     }
     
-    var loginPublisher = PassthroughSubject<Void, Error>()
-    var logoutPublisher = PassthroughSubject<Void, Error>()
+    var loginPublisher = PassthroughSubject<Result<Void, Error>, Never>()
+    var logoutPublisher = PassthroughSubject<Result<Void, Error>, Never>()
     
     private var currentNonce: String?
     
@@ -48,7 +48,7 @@ class SignViewModel: NSObject {
     func googleLoginDidTapped(presentViewController: UIViewController) {
         GIDSignIn.sharedInstance.signIn(withPresenting: presentViewController) { [weak self] signInResult, error in
             if let error = error {
-                self?.loginPublisher.send(completion: .failure(error))
+                self?.loginPublisher.send(.failure(error))
                 return
             }
             
@@ -61,7 +61,7 @@ class SignViewModel: NSObject {
             
             Auth.auth().signIn(with: credential) { result, error in
                 if let error = error {
-                    self?.loginPublisher.send(completion: .failure(error))
+                    self?.loginPublisher.send(.failure(error))
                     return
                 }
                 
@@ -72,25 +72,26 @@ class SignViewModel: NSObject {
                 
                 self?.signManager.fetchUserData(uid: uid) { error, snapshot in
                     if let error = error {
-                        self?.loginPublisher.send(completion: .failure(error))
+                        self?.loginPublisher.send(.failure(error))
                         return
                     }
                     
                     if let snapshot = snapshot {
-                        let userData = snapshot.value as! [String: Any]
-                        let isBlockInt = userData[db_isBlock] as? Int ?? 0
-                        let isBlock = isBlockInt != 0
-                        if isBlock {
-                            let error = NSError(domain: "", code: 403, userInfo: [NSLocalizedDescriptionKey: "현재 계정은 계정차단 관련 문제가 "])
-                            self?.loginPublisher.send(completion: .failure(error))
-                            self?.signOut()
+                        if let userData = snapshot.value as? [String: Any] {
+                            let isBlockInt = userData[db_isBlock] as? Int ?? 0
+                            let isBlock = isBlockInt != 0
+                            if isBlock {
+                                let error = NSError(domain: "", code: 403, userInfo: [NSLocalizedDescriptionKey: "현재 계정은 계정차단 관련 문제가 "])
+                                self?.loginPublisher.send(.failure(error))
+                                self?.signOut()
+                            } else {
+                                self?.loginPublisher.send(.success(()))
+                            }
                         } else {
-                            self?.loginPublisher.send(())
+                            let model = UserModel(uid: user.uid, email: email!, isBlock: false, nickName: "", profileImageUrl: "https://firebasestorage.googleapis.com/v0/b/tteoppokki4u.appspot.com/o/dummyProfile%2FdefaultImage.png?alt=media&token=b4aab21e-e19a-42b7-9d17-d92a3801a327")
+                            self?.signManager.saveUserData(user: model)
+                            self?.loginPublisher.send(.success(()))
                         }
-                    } else {
-                        let model = UserModel(uid: user.uid, email: email!, isBlock: false, nickName: "", profileImageUrl: "https://firebasestorage.googleapis.com/v0/b/tteoppokki4u.appspot.com/o/dummyProfile%2FdefaultImage.png?alt=media&token=b4aab21e-e19a-42b7-9d17-d92a3801a327")
-                        self?.signManager.saveUserData(user: model)
-                        self?.loginPublisher.send(())
                     }
                 }
             }
@@ -101,9 +102,9 @@ class SignViewModel: NSObject {
         signManager.signOutCurrentUser { [weak self] result in
             switch result {
             case .success:
-                self?.logoutPublisher.send()
+                self?.logoutPublisher.send(.success(()))
             case .failure(let error):
-                self?.logoutPublisher.send(completion: .failure(error))
+                self?.logoutPublisher.send(.failure(error))
             }
         }
     }
@@ -135,7 +136,7 @@ extension SignViewModel: ASAuthorizationControllerDelegate, ASAuthorizationContr
     }
     
     func authorizationController(controller: ASAuthorizationController, didCompleteWithError error: any Error) {
-        loginPublisher.send(completion: .failure(error))
+        loginPublisher.send( .failure(error))
     }
     
     func authorizationController(controller: ASAuthorizationController, didCompleteWithAuthorization authorization: ASAuthorization) {
@@ -156,32 +157,31 @@ extension SignViewModel: ASAuthorizationControllerDelegate, ASAuthorizationContr
                     let email = credential.email ?? ""
                     self?.signManager.fetchUserData(uid: user.uid) { error, snapshot in
                         if let error = error {
-                            self?.loginPublisher.send(completion: .failure(error))
+                            self?.loginPublisher.send(.failure(error))
+                            return
                         }
                         
                         if let snapshot = snapshot {
-                            if snapshot.exists() {
-                                let userData = snapshot.value as! [String: Any]
+                            if let userData = snapshot.value as? [String: Any] {
                                 let isBlockInt = userData[db_isBlock] as? Int ?? 0
                                 let isBlock = isBlockInt != 0
                                 if isBlock {
                                     let error = NSError(domain: "", code: 403, userInfo: [NSLocalizedDescriptionKey: "현재 계정은 계정차단 관련 문제가 "])
-                                    self?.loginPublisher.send(completion: .failure(error))
+                                    self?.loginPublisher.send(.failure(error))
                                     self?.signOut()
                                 } else {
-                                    self?.loginPublisher.send(())
+                                    self?.loginPublisher.send(.success(()))
                                 }
                             } else {
                                 let model = UserModel(uid: user.uid, email: email, isBlock: false, nickName: "", profileImageUrl: "https://firebasestorage.googleapis.com/v0/b/tteoppokki4u.appspot.com/o/dummyProfile%2FdefaultImage.png?alt=media&token=b4aab21e-e19a-42b7-9d17-d92a3801a327")
                                 self?.signManager.saveUserData(user: model)
-                                self?.loginPublisher.send(())
+                                self?.loginPublisher.send(.success(()))
                             }
-                            
                         }
                     }
                 }
             case .failure(let error):
-                self?.loginPublisher.send(completion: .failure(error))
+                self?.loginPublisher.send(.failure(error))
             }
         }
     }

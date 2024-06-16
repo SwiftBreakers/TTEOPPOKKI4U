@@ -70,21 +70,19 @@ class MyPageViewController: UIViewController {
     
     private func bind() {
         signVM.logoutPublisher
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] completion in
-            switch completion {
-            case .finished:
-                return
-            case .failure(let error):
-                self?.showMessage(title: "에러 발생", message: "\(error.localizedDescription)이 발생했습니다.")
-            }
-        } receiveValue: { _ in
-            let scene = UIApplication.shared.connectedScenes.first
-            if let sd: SceneDelegate = (scene?.delegate as? SceneDelegate) {
-                sd.switchToGreetingViewController()
-            }
-        }.store(in: &cancellables)
+            .sink { [weak self] result in
+                switch result {
+                case .success():
+                    let scene = UIApplication.shared.connectedScenes.first
+                    if let sd: SceneDelegate = (scene?.delegate as? SceneDelegate) {
+                        sd.switchToGreetingViewController()
+                    }
+                case .failure(let error ):
+                    self?.showMessage(title: "에러 발생", message: "\(error.localizedDescription)이 발생했습니다.")
+                }
+            }.store(in: &cancellables)
     }
+    
 }
 
 extension MyPageViewController: UICollectionViewDataSource, UICollectionViewDelegate {
