@@ -22,15 +22,23 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     private lazy var manageVC = ManageViewController(viewModel: manageViewModel)
     
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
-        configureInitialViewController()
-        
-        guard let windowScene = (scene as? UIWindowScene) else { return }
-        
-        let window = UIWindow(windowScene: windowScene)
-        self.window = window
-        window.makeKeyAndVisible()
-        configureInitialViewController()
-    }
+            guard let windowScene = (scene as? UIWindowScene) else { return }
+            
+            let window = UIWindow(windowScene: windowScene)
+            self.window = window
+            
+            let loadingVC = UIViewController()
+            loadingVC.view.backgroundColor = .white // 로딩 화면 배경색 설정
+            let activityIndicator = UIActivityIndicatorView(style: .large)
+            activityIndicator.center = loadingVC.view.center
+            activityIndicator.startAnimating()
+            loadingVC.view.addSubview(activityIndicator)
+            
+            window.rootViewController = loadingVC
+            window.makeKeyAndVisible()
+            
+            configureInitialViewController()
+        }
     
     func configureInitialViewController() {
         let auth = Auth.auth().currentUser
@@ -67,7 +75,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             },
             viewModel: signViewModel)
         
-        let mapVC = MapViewController()
+        let mapVC = UINavigationController(rootViewController: MapViewController())
         let recommendVC = UINavigationController(rootViewController: RecommendViewController())
         let communityVC = UINavigationController(rootViewController: CommunityViewController())
         let mypageVC = UINavigationController(rootViewController: MyPageViewController(signOutTapped: { [weak signViewModel, weak self] in

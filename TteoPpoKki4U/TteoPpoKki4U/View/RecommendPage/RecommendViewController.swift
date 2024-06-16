@@ -27,6 +27,9 @@ public class RecommendViewController: UIViewController {
         Task {
             await viewModel.fetchData()
         }
+        let backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: self, action: nil)
+        backBarButtonItem.tintColor = ThemeColor.mainOrange  // 색상 변경
+            self.navigationItem.backBarButtonItem = backBarButtonItem
     }
     
     public override func viewDidDisappear(_ animated: Bool) {
@@ -74,6 +77,7 @@ public class RecommendViewController: UIViewController {
     }
 }
 
+
 extension RecommendViewController: VerticalCardSwiperDatasource, VerticalCardSwiperDelegate {
     public func numberOfCards(verticalCardSwiperView: VerticalCardSwiperView) -> Int {
         return viewModel.numberOfCards
@@ -82,6 +86,8 @@ extension RecommendViewController: VerticalCardSwiperDatasource, VerticalCardSwi
     public func cardForItemAt(verticalCardSwiperView: VerticalCardSwiperView, cardForItemAt index: Int) -> CardCell {
         let cell = verticalCardSwiperView.dequeueReusableCell(withReuseIdentifier: "MyCardCell", for: index) as! MyCardCell
         let card = viewModel.card(at: index)
+        // RecommendCardView에서 커스텀얼럿을 띄우기 위한 코드
+        cell.customAlertViewController = self
         cell.configure(with: card)
         return cell
         

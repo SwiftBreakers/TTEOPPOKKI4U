@@ -9,8 +9,6 @@ import UIKit
 import SnapKit
 
 
-   
-
     final class CommunityViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
         
         //바닥 제약 조정
@@ -69,37 +67,18 @@ import SnapKit
             }
             setupNavigationBar()
             setupLayout()
-          
+            
             setupConstraints()
             styleViews()
             
             
             
             
-    
-            
-        }
-        
-        override func viewDidAppear(_ animated: Bool) {
-            super.viewDidAppear(animated)
-            
-        }
-        
-        //셀 누를때 메서드 호출(메뉴알러트)
-        @objc func handleLongPress(_ gestureRecognizer: UILongPressGestureRecognizer) {
-            if gestureRecognizer.state != .began {
-                return
-            }
-
-            let point = gestureRecognizer.location(in: tableView)
-            if let indexPath = tableView.indexPathForRow(at: point) {
-                let cell = tableView.cellForRow(at: indexPath)
-               
-            }
         }
 
+       
         
-        
+
         //여기서부터 상단 바
         
         private func setupNavigationBar() {
@@ -139,75 +118,100 @@ import SnapKit
             }
        
         
-       
+ 
         
         
-        //사진추가버튼 끝
         
         
-        private func setupConstraints() {
-            
-            tableView.snp.makeConstraints { make in
-                //바닥 제약을 변수에 저장하고 조정하는
-                    tableViewBottomConstraint = make.bottom.equalTo(view.safeAreaLayoutGuide).constraint.layoutConstraints.first
-                    make.top.left.right.equalTo(view.safeAreaLayoutGuide)
-                }
-            
-            inputContainerView.snp.makeConstraints { make in
-                inputContainerViewBottomConstraint = make.bottom.equalTo(view.safeAreaLayoutGuide).constraint.layoutConstraints.first
-                make.left.right.bottom.equalToSuperview()
-                make.height.equalTo(80)  // Adjust the height as needed
-            }
-            
-           
-            
-           
-            
-            
+    
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+    }
+    
+    //셀 누를때 메서드 호출(메뉴알러트)
+    @objc func handleLongPress(_ gestureRecognizer: UILongPressGestureRecognizer) {
+        if gestureRecognizer.state != .began {
+            return
         }
         
-        private func styleViews() {
-            inputContainerView.backgroundColor = .lightGray  // Customize color as needed
-            inputTextField.borderStyle = .roundedRect
-            sendButton.backgroundColor = .black  // Customize button color as needed
-            sendButton.setTitleColor(.white, for: .normal)
-        }
-        
-        //하단 바 끝
-        
-        //    func numberOfSections(in tableView: UITableView) -> Int {
-        //            return data.count
-        //        }
-        //
-        
-       
-        
-        
-        func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-            return data.count
-            //        return messages.count
-        }
-        
-        func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-            //        let cell = CommunityTableViewCell()
-            //        cell.titleLabel.text = "안녕하세요 이것저것 다 좋아하지만 떡볶이마을을 가장 추천해요."
-            //        cell.titleLabel2.text = "IOS 김건응"
-            
-            
-            let cell = tableView.dequeueReusableCell(withIdentifier: "CommunityLocalTableViewCell", for: indexPath) as! CommunityLocalTableViewCell
-            
-            cell.titleLabel.text = data[indexPath.row].text
-            cell.titleLabel2.text = data[indexPath.row].name// 데이터 소스 배열의 텍스트 설정
-            
-            return cell
+        let point = gestureRecognizer.location(in: tableView)
+        if let indexPath = tableView.indexPathForRow(at: point) {
+            let cell = tableView.cellForRow(at: indexPath)
             
         }
+    }
+    
+    
+    
+
+    //사진추가버튼 끝
+    
+    
+    private func setupConstraints() {
+        
+        tableView.snp.makeConstraints { make in
+            //바닥 제약을 변수에 저장하고 조정하는
+            tableViewBottomConstraint = make.bottom.equalTo(view.safeAreaLayoutGuide).constraint.layoutConstraints.first
+            make.top.left.right.equalTo(view.safeAreaLayoutGuide)
+        }
+        
+        inputContainerView.snp.makeConstraints { make in
+            inputContainerViewBottomConstraint = make.bottom.equalTo(view.safeAreaLayoutGuide).constraint.layoutConstraints.first
+            make.left.right.bottom.equalToSuperview()
+            make.height.equalTo(80)  // Adjust the height as needed
+        }
+        
+        
+        
+        
         
         
     }
+    
+    private func styleViews() {
+        inputContainerView.backgroundColor = .lightGray  // Customize color as needed
+        inputTextField.borderStyle = .roundedRect
+        sendButton.backgroundColor = .black  // Customize button color as needed
+        sendButton.setTitleColor(.white, for: .normal)
+    }
+    
+    //하단 바 끝
+    
+    //    func numberOfSections(in tableView: UITableView) -> Int {
+    //            return data.count
+    //        }
+    //
+    
+    
+    
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return data.count
+        //        return messages.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        //        let cell = CommunityTableViewCell()
+        //        cell.titleLabel.text = "안녕하세요 이것저것 다 좋아하지만 떡볶이마을을 가장 추천해요."
+        //        cell.titleLabel2.text = "IOS 김건응"
+        
+        
+        let cell = tableView.dequeueReusableCell(withIdentifier: "CommunityLocalTableViewCell", for: indexPath) as! CommunityLocalTableViewCell
+        
+        cell.titleLabel.text = data[indexPath.row].text
+        cell.titleLabel2.text = data[indexPath.row].name// 데이터 소스 배열의 텍스트 설정
+        
+        return cell
+        
+    }
+    
+    
+}
 
 extension CommunityViewController {
-
+    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let detailVC = CommunityChattingViewController()
         //
@@ -216,14 +220,14 @@ extension CommunityViewController {
         navigationController?.pushViewController(detailVC, animated: true)
         
         //탭바를 숨겼다 다시 꺼내기
-//        tabBarController?.tabBar.isHidden = true
+        //        tabBarController?.tabBar.isHidden = true
         
     }
 }
 
 
-        
-    
+
+
 
 
 
