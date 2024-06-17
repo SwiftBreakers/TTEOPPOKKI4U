@@ -11,11 +11,14 @@ import SnapKit
 
 class DetailedReviewViewController: UIViewController {
     
-    var storeName: String?
-    var reviewTitle: String?
-    var starRating: Int?
-    var reviewContent: String?
-    var reviewImages: [String]?
+    var userData: ReviewModel?
+    private var storeName: String?
+    private var reviewTitle: String?
+    private var starRating: Int?
+    private var reviewContent: String?
+    private var reviewImages: [String]?
+    private var uid: String?
+    private var reportCount: Int?
     
     private lazy var storeNameLabel = UILabel()
     private lazy var reviewTitleLabel = UILabel()
@@ -43,7 +46,48 @@ class DetailedReviewViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.backgroundColor = .systemBackground
+        view.backgroundColor = .white
+        
+        setData(data: userData!)
+        configureUI()
+        configureImageScrollView()
+    }
+    
+    deinit {
+        print("DetailedReviewViewController is being deinitialized")
+        
+        userData = nil
+        storeName = nil
+        reviewTitle = nil
+        starRating = nil
+        reviewContent = nil
+        reviewImages = nil
+        uid = nil
+        reportCount = nil
+        
+        imageView.kf.cancelDownloadTask()
+        imageView.image = nil
+        
+        scrollView.removeFromSuperview()
+        stackView.arrangedSubviews.forEach { $0.removeFromSuperview() }
+        stackView.removeFromSuperview()
+    }
+    
+    private func setData(data: ReviewModel) {
+        storeName = data.storeName
+        reviewTitle = data.title
+        starRating = Int(data.rating)
+        reviewContent = data.content
+        reviewImages = data.imageURL
+        uid = data.uid
+        reportCount = data.reportCount
+    }
+    
+    private func configureUI() {
+        storeNameLabel.text = storeName
+        reviewTitleLabel.text = reviewTitle
+        starRatingLabel.text = "⭐️ \(starRating ?? 0)"
+        reviewContentLabel.text = reviewContent
         
         storeNameLabel.font = ThemeFont.fontMedium(size: 24)
         storeNameLabel.textAlignment = .center
@@ -102,36 +146,27 @@ class DetailedReviewViewController: UIViewController {
             make.leading.trailing.equalToSuperview().inset(20)
         }
         
-        configureUI()
-        configureImageScrollView()
-    }
-    
-    private func configureUI() {
-        storeNameLabel.text = storeName
-        reviewTitleLabel.text = reviewTitle
-        starRatingLabel.text = "⭐️ \(starRating ?? 0)"
-        reviewContentLabel.text = reviewContent
     }
     
     private func configureImageScrollView() {
         guard let imageURLs = reviewImages else { return }
-
+        
         if imageURLs.count == 1, let imageURL = imageURLs.first {
             scrollView.removeFromSuperview()
             view.addSubview(imageView)
-
+            
             imageView.contentMode = .scaleAspectFill
             imageView.clipsToBounds = true
             imageView.layer.cornerRadius = 10
             imageView.layer.masksToBounds = true
             imageView.kf.setImage(with: URL(string: imageURL))
-
+            
             imageView.snp.makeConstraints { make in
                 make.top.equalTo(starRatingLabel.snp.bottom).offset(20)
                 make.leading.trailing.equalToSuperview().inset(20)  // 스크롤뷰와 동일한 사이즈
                 make.height.equalTo(imageView.snp.width).multipliedBy(0.75)
             }
-
+            
             reviewContentLabel.snp.remakeConstraints { make in
                 make.top.equalTo(imageView.snp.bottom).offset(20)
                 make.leading.trailing.equalToSuperview().inset(20)
@@ -144,22 +179,22 @@ class DetailedReviewViewController: UIViewController {
                 make.leading.trailing.equalToSuperview().inset(20)
                 make.height.equalTo(200)
             }
-
+            
             stackView.snp.remakeConstraints { make in
                 make.edges.equalToSuperview()
                 make.height.equalTo(scrollView.snp.height)
             }
-
+            
             addImagesToStackView(imageURLs)
         }
     }
-
+    
     private func addImagesToStackView(_ imageURLs: [String]) {
         for imageView in stackView.arrangedSubviews {
             stackView.removeArrangedSubview(imageView)
             imageView.removeFromSuperview()
         }
-
+        
         for imageURL in imageURLs {
             let imageView = UIImageView()
             imageView.contentMode = .scaleAspectFill
@@ -181,22 +216,11 @@ class DetailedReviewViewController: UIViewController {
     }
     
     @objc private func reportButtonTapped() {
-        let alert = UIAlertController(title: "신고", message: "이 리뷰를 신고하시겠습니까?", preferredStyle: .alert)
-        
-        // 텍스트 필드 추가
-        alert.addTextField { textField in
-            textField.placeholder = "신고 사유를 입력해 주세요"
+        showMessageWithCancel(title: "신고하기", message: "해당 리뷰를 신고하시겠습니까?") { [weak self]  in
+            let reportVC = ReportViewController()
+            reportVC.userData = self?.userData
+            self?.present(reportVC, animated: true)
         }
-        
-        alert.addAction(UIAlertAction(title: "예", style: .default, handler: { _ in
-            if let reason = alert.textFields?.first?.text {
-                print("신고 사유: \(reason)")
-            }
-            self.showMessage(title: "신고", message: "리뷰가 신고되었습니다.")
-        }))
-        alert.addAction(UIAlertAction(title: "아니오", style: .cancel, handler: nil))
-        
-        present(alert, animated: true, completion: nil)
     }
     
     private func showMessage(title: String, message: String) {

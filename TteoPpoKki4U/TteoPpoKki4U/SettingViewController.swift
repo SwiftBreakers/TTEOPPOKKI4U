@@ -19,7 +19,7 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
         let button = UIButton(type: .system)
         let image = UIImage(systemName: "chevron.backward.2")
         button.setImage(image, for: .normal)
-        button.tintColor = .systemGray
+        button.tintColor = .gray
         button.addTarget(nil, action: #selector(backButtonTapped), for: .touchUpInside)
         return button
     }()
@@ -74,7 +74,7 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
         let deleteUserLabel = UILabel()
         deleteUserLabel.text = "회원탈퇴"
         deleteUserLabel.font = UIFont(name: "ThemeFont.fontMedium", size: 18)
-        deleteUserLabel.textColor = .systemRed
+        deleteUserLabel.textColor = .red
         deleteUserLabel.textAlignment = .center
         
         cell.contentView.addSubview(deleteUserLabel)
@@ -119,15 +119,15 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
             //firebase 회원탈퇴
             let user = Auth.auth().currentUser
             
-            user?.delete { error in
+            user?.delete { [weak self] error in
                 if let error = error {
-                    print("\(error.localizedDescription)")
+                    self?.showMessage(title: "에러발생", message: "로그아웃 후 재접속하여\n다시 시도해주세요.")
                 } else {
 
                    let ref = Database.database().reference()
                     ref.child("users").child(user!.uid).removeValue { error, _ in
                         if let error = error {
-                            print(error)
+                            self?.showMessage(title: "에러발생", message: "\(error)")
                         }
                     }
                     

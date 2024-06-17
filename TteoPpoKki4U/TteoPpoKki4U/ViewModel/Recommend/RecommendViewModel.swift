@@ -18,7 +18,7 @@ public class CardViewModel: ObservableObject {
     private var db: Firestore!
     private var storage: Storage!
     private var cancellables = Set<AnyCancellable>()
-    var userID = Auth.auth().currentUser!.uid
+    
     @Published var isBookmarked: Bool = false
     
     
@@ -49,12 +49,16 @@ public class CardViewModel: ObservableObject {
                         let longDescription2 = data["longDescription2"] as? String ?? "No LongDescription2"
                         let shopAddress = data["shopAddress"] as? String ?? "No ShopAddress"
                         let queryName = data["queryName"] as? String ?? "No queryName"
-                        let collectionImageURL1 = data["collectionImageURL1"] as? String ?? ""
-                        let collectionImageURL2 = data["collectionImageURL2"] as? String ?? ""
-                        let collectionImageURL3 = data["collectionImageURL3"] as? String ?? ""
-                        let collectionImageURL4 = data["collectionImageURL4"] as? String ?? ""
+                        let collectionImageURL1String = data["collectionImageURL1"] as? String ?? ""
+                        let collectionImageURL2String = data["collectionImageURL2"] as? String ?? ""
+                        let collectionImageURL3String = data["collectionImageURL3"] as? String ?? ""
+                        let collectionImageURL4String = data["collectionImageURL4"] as? String ?? ""
                         // gs:// URL을 HTTP(S) URL로 변환
                         let imageURL = try await self.convertGSURLToHTTPURL(gsURL: imageURLString)
+                        let collectionImageURL1 = try await self.convertGSURLToHTTPURL(gsURL: collectionImageURL1String)
+                        let collectionImageURL2 = try await self.convertGSURLToHTTPURL(gsURL: collectionImageURL2String)
+                        let collectionImageURL3 = try await self.convertGSURLToHTTPURL(gsURL: collectionImageURL3String)
+                        let collectionImageURL4 = try await self.convertGSURLToHTTPURL(gsURL: collectionImageURL4String)
                         
                         await self.fetchBookmarkStatus(title: title)
                         
@@ -91,8 +95,9 @@ public class CardViewModel: ObservableObject {
     }
     
     func fetchBookmarkStatus(title: String) async {
+        guard let uid = Auth.auth().currentUser?.uid else { return }
             let query = bookmarkedCollection
-                .whereField(db_uid, isEqualTo: userID)
+                .whereField(db_uid, isEqualTo: uid)
                 .whereField(db_title, isEqualTo: title)
             
             do {
@@ -109,8 +114,8 @@ public class CardViewModel: ObservableObject {
             }
         }
     func createBookmarkItem(title: String, imageURL: String) {
-        
-        bookmarkedCollection.addDocument(data: [db_title: title, db_imageURL: imageURL, db_uid: userID]) { error in
+        guard let uid = Auth.auth().currentUser?.uid else { return }
+        bookmarkedCollection.addDocument(data: [db_title: title, db_imageURL: imageURL, db_uid: uid]) { error in
             if let error = error {
                 print("Error adding document: \(error)")
             } else {
@@ -119,8 +124,9 @@ public class CardViewModel: ObservableObject {
         }
     }
     func deleteBookmarkItem(title: String) {
+        guard let uid = Auth.auth().currentUser?.uid else { return }
         bookmarkedCollection
-            .whereField(db_uid, isEqualTo: userID)
+            .whereField(db_uid, isEqualTo: uid)
             .whereField(db_title, isEqualTo: title)
             .getDocuments { (querySnapshot, error) in
                 if let error = error {

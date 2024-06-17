@@ -33,7 +33,7 @@ public class MyCardCell: CardCell {
             }
         }
     }
-    var userID = Auth.auth().currentUser!.uid
+   
     
     override init(frame: CGRect) {
         super.init(frame: frame)

@@ -97,7 +97,7 @@ class WriteViewController: UIViewController {
     }
     
     func setupUI() {
-        view.backgroundColor = .systemBackground
+        view.backgroundColor = .white
         
         // 별점 라벨
         let starLabel = UILabel()
@@ -162,7 +162,7 @@ class WriteViewController: UIViewController {
         
         // 이미지 추가 버튼
         addImageButton.setImage(UIImage(systemName: "camera"), for: .normal)
-        addImageButton.backgroundColor = .systemGray5
+        addImageButton.backgroundColor = .lightGray
         addImageButton.layer.cornerRadius = 5
         addImageButton.addTarget(self, action: #selector(addImageButtonTapped), for: .touchUpInside)
         view.addSubview(addImageButton)
@@ -197,7 +197,7 @@ class WriteViewController: UIViewController {
         cancelButton.setTitle("취소", for: .normal)
         cancelButton.titleLabel?.font = ThemeFont.fontBold()
         cancelButton.setTitleColor(.white, for: .normal)
-        cancelButton.backgroundColor = .systemGray
+        cancelButton.backgroundColor = .gray
         cancelButton.layer.cornerRadius = 5
         cancelButton.addTarget(self, action: #selector(cancelButtonTapped), for: .touchUpInside)
         view.addSubview(cancelButton)
@@ -341,7 +341,7 @@ class WriteViewController: UIViewController {
         
         let removeButton = UIButton(type: .custom)
         removeButton.setImage(UIImage(systemName: "xmark.circle.fill"), for: .normal)
-        removeButton.tintColor = .systemGray6
+        removeButton.tintColor = .lightGray
         removeButton.addTarget(self, action: #selector(removeImageButtonTapped(_:)), for: .touchUpInside)
         containerView.addSubview(removeButton)
         removeButton.snp.makeConstraints { make in

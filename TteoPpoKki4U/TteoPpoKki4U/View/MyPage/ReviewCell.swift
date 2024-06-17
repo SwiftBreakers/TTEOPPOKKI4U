@@ -16,7 +16,7 @@ class ReviewCell: UICollectionViewCell {
     private let ratingLabel: UILabel = {
         let label = UILabel()
         label.font = ThemeFont.fontMedium(size: 14)
-        label.textColor = .systemGray
+        label.textColor = .gray
         return label
     }()
     
@@ -37,7 +37,7 @@ class ReviewCell: UICollectionViewCell {
     private let deleteButton: UIButton = {
         let button = UIButton()
         button.setImage(UIImage(systemName: "xmark.app.fill"), for: .normal)
-        button.tintColor = .systemGray3
+        button.tintColor = .gray
         return button
     }()
     
