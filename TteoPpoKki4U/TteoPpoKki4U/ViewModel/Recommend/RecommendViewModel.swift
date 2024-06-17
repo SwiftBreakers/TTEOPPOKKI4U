@@ -49,12 +49,16 @@ public class CardViewModel: ObservableObject {
                         let longDescription2 = data["longDescription2"] as? String ?? "No LongDescription2"
                         let shopAddress = data["shopAddress"] as? String ?? "No ShopAddress"
                         let queryName = data["queryName"] as? String ?? "No queryName"
-                        let collectionImageURL1 = data["collectionImageURL1"] as? String ?? ""
-                        let collectionImageURL2 = data["collectionImageURL2"] as? String ?? ""
-                        let collectionImageURL3 = data["collectionImageURL3"] as? String ?? ""
-                        let collectionImageURL4 = data["collectionImageURL4"] as? String ?? ""
+                        let collectionImageURL1String = data["collectionImageURL1"] as? String ?? ""
+                        let collectionImageURL2String = data["collectionImageURL2"] as? String ?? ""
+                        let collectionImageURL3String = data["collectionImageURL3"] as? String ?? ""
+                        let collectionImageURL4String = data["collectionImageURL4"] as? String ?? ""
                         // gs:// URL을 HTTP(S) URL로 변환
                         let imageURL = try await self.convertGSURLToHTTPURL(gsURL: imageURLString)
+                        let collectionImageURL1 = try await self.convertGSURLToHTTPURL(gsURL: collectionImageURL1String)
+                        let collectionImageURL2 = try await self.convertGSURLToHTTPURL(gsURL: collectionImageURL2String)
+                        let collectionImageURL3 = try await self.convertGSURLToHTTPURL(gsURL: collectionImageURL3String)
+                        let collectionImageURL4 = try await self.convertGSURLToHTTPURL(gsURL: collectionImageURL4String)
                         
                         await self.fetchBookmarkStatus(title: title)
                         

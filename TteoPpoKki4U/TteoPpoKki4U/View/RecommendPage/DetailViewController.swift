@@ -19,6 +19,14 @@ class DetailViewController: UIViewController, UISearchBarDelegate {
     let descriptionLabel = UILabel()
     let longDescription1Label = UILabel()
     let longDescription2Label = UILabel()
+    let collectionImageURL1 = UILabel()
+    let collectionImageView1 = UIImageView()
+    let collectionImageURL2 = UILabel()
+    let collectionImageView2 = UIImageView()
+    let collectionImageURL3 = UILabel()
+    let collectionImageView3 = UIImageView()
+    let collectionImageURL4 = UILabel()
+    let collectionImageView4 = UIImageView()
     let contentView = UIView()
     let scrollView: UIScrollView = {
         let scrollView = UIScrollView()
@@ -65,9 +73,10 @@ class DetailViewController: UIViewController, UISearchBarDelegate {
             UIEdgeInsets(top: 0, left: Self.insetX, bottom: 0, right: Self.insetX)
         }
     }
-    private var items = (0...3).map { _ in
-      MyModel(color: randomColor, isDimmed: true)
-    }
+    //    private var items = (0...3).map { _ in
+    //      MyModel(color: randomColor, isDimmed: true)
+    //    }
+    var items: [Item] = []
     private var previousIndex: Int?
     
     override func viewDidLoad() {
@@ -75,9 +84,15 @@ class DetailViewController: UIViewController, UISearchBarDelegate {
         setupViews()
         configureView()
         setupCollectionView()
-//        navigationController?.hidesBarsOnSwipe = true
+        //        navigationController?.hidesBarsOnSwipe = true
         makeBarButton()
         bind()
+        items = [
+            Item(imageURL: URL(string: card!.collectionImageURL1)!, isDimmed: false),
+            Item(imageURL: URL(string: card!.collectionImageURL2)!, isDimmed: false),
+            Item(imageURL: URL(string: card!.collectionImageURL3)!, isDimmed: false),
+            Item(imageURL: URL(string: card!.collectionImageURL4)!, isDimmed: false)
+        ]
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -291,7 +306,7 @@ class DetailViewController: UIViewController, UISearchBarDelegate {
         NetworkManager.shared.fetchAPI(query: keyword) {[weak self] stores in
             
             guard let tabBarController = self?.tabBarController else { return }
-                   tabBarController.selectedIndex = 1
+            tabBarController.selectedIndex = 1
             
             if let navController = tabBarController.selectedViewController as? UINavigationController,
                let mapVC = navController.viewControllers.first as? MapViewController {
@@ -305,42 +320,49 @@ class DetailViewController: UIViewController, UISearchBarDelegate {
 extension DetailViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         self.items.count
-      }
-      func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-          let cell = collectionView.dequeueReusableCell(withReuseIdentifier: DetailCollectionViewCell.identifier, for: indexPath) as! DetailCollectionViewCell
-          cell.prepare(color: self.items[indexPath.item].color, isDimmed: self.items[indexPath.item].isDimmed)
+    }
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: DetailCollectionViewCell.identifier, for: indexPath) as! DetailCollectionViewCell
+        let item = self.items[indexPath.item]
+        cell.prepare(imageURL: item.imageURL, isDimmed: item.isDimmed)
         return cell
-      }
+    }
 }
 extension DetailViewController: UICollectionViewDelegateFlowLayout {
-  func scrollViewWillEndDragging(
-    _ scrollView: UIScrollView,
-    withVelocity velocity: CGPoint,
-    targetContentOffset: UnsafeMutablePointer<CGPoint>
-  ) {
-    let scrolledOffsetX = targetContentOffset.pointee.x + scrollView.contentInset.left
-    let cellWidth = Const.itemSize.width + Const.itemSpacing
-    let index = round(scrolledOffsetX / cellWidth)
-    targetContentOffset.pointee = CGPoint(x: index * cellWidth - scrollView.contentInset.left, y: scrollView.contentInset.top)
-  }
-  
-  func scrollViewDidScroll(_ scrollView: UIScrollView) {
-    let scrolledOffset = scrollView.contentOffset.x + scrollView.contentInset.left
-    let cellWidth = Const.itemSize.width + Const.itemSpacing
-    let index = Int(round(scrolledOffset / cellWidth))
-    self.items[index].isDimmed = false
     
-    defer {
-      self.previousIndex = index
-      self.collectionView.reloadData()
+    func scrollViewWillEndDragging(
+        _ scrollView: UIScrollView,
+        withVelocity velocity: CGPoint,
+        targetContentOffset: UnsafeMutablePointer<CGPoint>
+    ) {
+        let scrolledOffsetX = targetContentOffset.pointee.x + scrollView.contentInset.left
+        let cellWidth = Const.itemSize.width + Const.itemSpacing
+        let index = round(scrolledOffsetX / cellWidth)
+        targetContentOffset.pointee = CGPoint(x: index * cellWidth - scrollView.contentInset.left, y: scrollView.contentInset.top)
     }
     
-    guard
-      let previousIndex = self.previousIndex,
-      previousIndex != index
-    else { return }
-    self.items[previousIndex].isDimmed = true
-  }
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let scrolledOffset = scrollView.contentOffset.x + scrollView.contentInset.left
+        let cellWidth = Const.itemSize.width + Const.itemSpacing
+        let index = Int(round(scrolledOffset / cellWidth))
+        
+        // index가 items 배열의 유효한 인덱스인지 확인
+        guard index >= 0 && index < items.count else { return }
+
+        if let previousIndex = previousIndex, previousIndex != index {
+            // previousIndex도 유효한 인덱스인지 확인
+            if previousIndex >= 0 && previousIndex < items.count {
+                items[previousIndex].isDimmed = true
+            }
+            items[index].isDimmed = false
+            collectionView.reloadItems(at: [IndexPath(item: previousIndex, section: 0), IndexPath(item: index, section: 0)])
+            self.previousIndex = index
+        } else {
+            items[index].isDimmed = false
+            self.previousIndex = index
+        }
+    }
+
 }
 private var randomColor: UIColor {
     UIColor(red: CGFloat(drand48()), green: CGFloat(drand48()), blue: CGFloat(drand48()), alpha: 1.0)}
