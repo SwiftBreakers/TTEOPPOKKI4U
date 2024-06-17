@@ -35,4 +35,30 @@ class ManageManager {
         reviewCollection.whereField(db_uid, isEqualTo: uid).getDocuments(completion: completion)
     }
     
+    func addReport(data: [String: Any]) async throws {
+        return try await withCheckedThrowingContinuation { continuation in
+            reportCollection.addDocument(data: data) { error in
+                if let error = error {
+                    continuation.resume(throwing: error)
+                } else {
+                    continuation.resume(returning: ())
+                }
+            }
+        }
+    }
+    
+    func getSpecificReview(uid: String, storeAddress: String, title: String) async throws -> QuerySnapshot? {
+        return try await withCheckedThrowingContinuation { continuation in
+            reviewCollection.whereField(db_uid, isEqualTo: uid)
+                .whereField(db_storeAddress, isEqualTo: storeAddress)
+                .whereField(db_title, isEqualTo: title)
+                .getDocuments { querySnapshot, error in
+                    if let error = error {
+                        continuation.resume(throwing: error)
+                    } else {
+                        continuation.resume(returning: querySnapshot)
+                    }
+                }
+        }
+    }
 }

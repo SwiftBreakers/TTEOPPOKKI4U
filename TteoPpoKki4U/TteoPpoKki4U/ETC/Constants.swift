@@ -34,4 +34,13 @@ let db_shopAddress = "shopAddress"
 
 //0613 moremirim 임의 추가 변경 가능
 let bookmarkedCollection = Firestore.firestore().collection("Bookmarked")
+
 let reportCollection = Firestore.firestore().collection("report")
+let db_isRelated = "isRelated"
+let db_isCommercial = "isCommercial"
+let db_isPrivacy = "isPrivacy"
+let db_isIllegal = "isIllegal"
+let db_isSpam = "isSpam"
+let db_isSexual = "isSexual"
+let db_isEtc = "isEtc"
+let db_reportedUID = "reportedUID"

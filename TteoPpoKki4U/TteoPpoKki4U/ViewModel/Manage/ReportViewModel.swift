@@ -15,25 +15,32 @@ class ReportViewModel {
     
     var managePublisher = PassthroughSubject<Void, Error>()
     
-    func addReportCount(uid: String, storeAddress: String, title: String, completion: @escaping () -> Void) {
-        manageManager.getSpecificReview(uid: uid, storeAddress: storeAddress, title: title) { [weak self] querySnapshot, error in
-            
-            if let error = error {
-                self?.managePublisher.send(completion: .failure(error))
-            }
-            
-            if let documents = querySnapshot?.documents {
-                for doc in documents {
-                    let id = doc.documentID
-                    let data = doc.data()
-                    guard let reportCount = data[db_reportCount] as? Int else { return }
-                    let count = [db_reportCount: reportCount + 1]
-                    reviewCollection.document(id).setData(count, merge: true)
-                    self?.managePublisher.send(())
-                    completion()
-                }
+    func addReportCount(uid: String, storeAddress: String, title: String) async throws {
+        let querySnapshot = try await manageManager.getSpecificReview(uid: uid, storeAddress: storeAddress, title: title)
+        
+        if let documents = querySnapshot?.documents {
+            for doc in documents {
+                let id = doc.documentID
+                let data = doc.data()
+                guard let reportCount = data[db_reportCount] as? Int else { return }
+                let count = [db_reportCount: reportCount + 1]
+                try await reviewCollection.document(id).setData(count, merge: true)
+                managePublisher.send(())
             }
         }
     }
     
+    func addReport(reportData: [String: Any]) async throws {
+        try await manageManager.addReport(data: reportData)
+        managePublisher.send(())
+    }
+    
+    func addReportAndIncreaseCount(uid: String, storeAddress: String, title: String, reportData: [String: Any]) async {
+        do {
+            try await addReportCount(uid: uid, storeAddress: storeAddress, title: title)
+            try await addReport(reportData: reportData)
+        } catch {
+            managePublisher.send(completion: .failure(error))
+        }
+    }
 }
