@@ -43,7 +43,7 @@ class DetailedReviewViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.backgroundColor = .systemBackground
+        view.backgroundColor = .white
         
         storeNameLabel.font = ThemeFont.fontMedium(size: 24)
         storeNameLabel.textAlignment = .center

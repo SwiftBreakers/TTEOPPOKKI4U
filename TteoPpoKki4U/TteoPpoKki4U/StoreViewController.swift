@@ -78,7 +78,7 @@ class StoreViewController: UIViewController {
         
         let image = UIImage(systemName: "chevron.backward.2")
         backButton.setImage(image, for: .normal)
-        backButton.tintColor = .systemGray
+        backButton.tintColor = .gray
         backButton.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
         view.addSubview(backButton)
         

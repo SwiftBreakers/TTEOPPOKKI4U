@@ -29,14 +29,14 @@ class PersonalInfoViewController: UIViewController, PHPickerViewControllerDelega
         let button = UIButton(type: .system)
         let image = UIImage(systemName: "chevron.backward.2")
         button.setImage(image, for: .normal)
-        button.tintColor = .systemGray
+        button.tintColor = .gray
         button.addTarget(nil, action: #selector(backButtonTapped), for: .touchUpInside)
         return button
     }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = .systemBackground
+        self.view.backgroundColor = .white
         
         setupProfileImageView()
         setupUserNameTextField()
