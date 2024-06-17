@@ -46,6 +46,18 @@ class PersonalInfoViewController: UIViewController, PHPickerViewControllerDelega
         navigationController?.isNavigationBarHidden = true
     }
     
+    deinit {
+        profileImage = nil
+        gotProfileImage = nil
+        profileName = nil
+        
+        profileImageView.kf.cancelDownloadTask()
+        profileImageView.image = nil
+        
+        userNameTextField = nil
+        saveButton = nil
+    }
+    
     func getImage() {
         profileImageView.kf.setImage(with: URL(string: gotProfileImage!))
     }

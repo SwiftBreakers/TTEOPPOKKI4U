@@ -18,7 +18,7 @@ public class CardViewModel: ObservableObject {
     private var db: Firestore!
     private var storage: Storage!
     private var cancellables = Set<AnyCancellable>()
-    var userID = Auth.auth().currentUser!.uid
+    
     @Published var isBookmarked: Bool = false
     
     
@@ -91,8 +91,9 @@ public class CardViewModel: ObservableObject {
     }
     
     func fetchBookmarkStatus(title: String) async {
+        guard let uid = Auth.auth().currentUser?.uid else { return }
             let query = bookmarkedCollection
-                .whereField(db_uid, isEqualTo: userID)
+                .whereField(db_uid, isEqualTo: uid)
                 .whereField(db_title, isEqualTo: title)
             
             do {
@@ -109,8 +110,8 @@ public class CardViewModel: ObservableObject {
             }
         }
     func createBookmarkItem(title: String, imageURL: String) {
-        
-        bookmarkedCollection.addDocument(data: [db_title: title, db_imageURL: imageURL, db_uid: userID]) { error in
+        guard let uid = Auth.auth().currentUser?.uid else { return }
+        bookmarkedCollection.addDocument(data: [db_title: title, db_imageURL: imageURL, db_uid: uid]) { error in
             if let error = error {
                 print("Error adding document: \(error)")
             } else {
@@ -119,8 +120,9 @@ public class CardViewModel: ObservableObject {
         }
     }
     func deleteBookmarkItem(title: String) {
+        guard let uid = Auth.auth().currentUser?.uid else { return }
         bookmarkedCollection
-            .whereField(db_uid, isEqualTo: userID)
+            .whereField(db_uid, isEqualTo: uid)
             .whereField(db_title, isEqualTo: title)
             .getDocuments { (querySnapshot, error) in
                 if let error = error {

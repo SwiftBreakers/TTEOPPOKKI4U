@@ -125,7 +125,7 @@ class ManageViewModel {
     }
     
     func deactivateReview(uid: String, storeAddress: String, title: String, completion: @escaping () -> Void) {
-       
+        
         let data = [db_isActive: false]
         
         manageManager.getSpecificReview(uid: uid, storeAddress: storeAddress, title: title) { [weak self] querySnapshot, error in
@@ -145,5 +145,7 @@ class ManageViewModel {
         }
         
     }
+    
+    
 }
 
