@@ -33,6 +33,14 @@ class MapView: UIView {
         bar.layer.cornerRadius = 20
         return bar
     }()
+    let findMyLocationBtn: UIButton = {
+        let btn = UIButton()
+        btn.setImage(UIImage(systemName: "safari"), for: .normal)
+        btn.backgroundColor = ThemeColor.mainGreen
+        btn.tintColor = .black
+        btn.layer.cornerRadius = 22
+        return btn
+    }()
     lazy var compassBtn: MKCompassButton = {
         let btn = MKCompassButton(mapView: map)
         btn.frame.origin = CGPoint(x: self.frame.maxX - 40, y: 20)
@@ -53,7 +61,7 @@ class MapView: UIView {
     
     
     func setConstraints() {
-        [map, searchBar, compassBtn].forEach {
+        [map, searchBar, findMyLocationBtn, compassBtn].forEach {
             self.addSubview($0)
         }
         
@@ -67,9 +75,15 @@ class MapView: UIView {
             make.height.equalTo(50)
         }
         
-        compassBtn.snp.makeConstraints { make in
+        findMyLocationBtn.snp.makeConstraints { make in
             make.top.equalTo(searchBar.snp.bottom).offset(10)
             make.trailing.equalTo(safeAreaLayoutGuide).inset(20)
+            make.height.width.equalTo(compassBtn.snp.width)
+        }
+        
+        compassBtn.snp.makeConstraints { make in
+            make.top.equalTo(findMyLocationBtn.snp.bottom).offset(10)
+            make.centerX.equalTo(findMyLocationBtn.snp.centerX)
         }
         
     }

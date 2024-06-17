@@ -197,5 +197,6 @@ final class MapViewModel {
                 }
             }
     }
+
 }
 

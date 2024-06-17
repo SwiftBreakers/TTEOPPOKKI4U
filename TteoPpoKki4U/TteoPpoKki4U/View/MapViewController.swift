@@ -10,7 +10,7 @@ import SnapKit
 import MapKit
 import CoreLocation
 
-class MapViewController: UIViewController, PinStoreViewDelegate {
+class MapViewController: UIViewController {
     
     let mapView = MapView()
     lazy var storeInfoView: PinStoreView = {
@@ -30,10 +30,10 @@ class MapViewController: UIViewController, PinStoreViewDelegate {
         
         setConstraints()
         setMapView()
+        setClickEvents()
         bind()
         
         mapView.searchBar.delegate = self
-        storeInfoView.delegate = self
         navigationController?.navigationBar.isHidden = true
         tabBarController?.tabBar.backgroundColor = .white
         
@@ -45,24 +45,6 @@ class MapViewController: UIViewController, PinStoreViewDelegate {
         tabBarController?.tabBar.isHidden = false
     }
     
-    
-    
-    @objc func appWillEnterForeground() {
-        updatePinImages()
-    }
-    
-    func updatePinImages() {
-        for annotation in mapView.map.annotations {
-            if let annotationView = mapView.map.view(for: annotation) as? MKPinAnnotationView {
-                if annotation.subtitle == "검색한 장소" {
-                    annotationView.image = UIImage(named: "mainPin")
-                } else {
-                    annotationView.image = UIImage(named: "pin")
-                }
-            }
-        }
-        
-    }
 
     func setConstraints() {
         [mapView, storeInfoView].forEach {
@@ -78,7 +60,7 @@ class MapViewController: UIViewController, PinStoreViewDelegate {
         }
     }
     
-    func setMapView() {
+    private func setMapView() {
         mapView.map.delegate = self
         
         // 위치 관리자 설정
@@ -91,7 +73,13 @@ class MapViewController: UIViewController, PinStoreViewDelegate {
         locationManager.startUpdatingLocation()
     }
     
-    func findMyLocation() {
+    private func setClickEvents() {
+        storeInfoView.scrapButton.addTarget(self, action: #selector(scrapButtonTapped), for: .touchUpInside)
+        mapView.findMyLocationBtn.addTarget(self, action: #selector(findMyLocationBtnTapped), for: .touchUpInside)
+//        findFriendButton.addTarget(self, action: #selector(findFriendButtonTapped), for: .touchUpInside)
+    }
+    
+    private func findMyLocation() {
         centerMapOnLocation(location: userLocation)
         mapView.map.showsUserLocation = true
         mapView.map.setUserTrackingMode(.follow, animated: true)
@@ -163,16 +151,37 @@ class MapViewController: UIViewController, PinStoreViewDelegate {
         mapView.map.addAnnotation(annotation)
     }
     
+    @objc func appWillEnterForeground() {
+        updatePinImages()
+    }
+    
+    func updatePinImages() {
+        for annotation in mapView.map.annotations {
+            if let annotationView = mapView.map.view(for: annotation) as? MKPinAnnotationView {
+                if annotation.subtitle == "검색한 장소" {
+                    annotationView.image = UIImage(named: "mainPin")
+                } else {
+                    annotationView.image = UIImage(named: "pin")
+                }
+            }
+        }
+        
+    }
+    
+    @objc func scrapButtonTapped(_ view: PinStoreView) {
+        let name = view.titleLabel.text ?? ""
+        viewModel.scrap(name, upon: storeInfoView.isScrapped)
+        storeInfoView.isScrapped.toggle()
+    }
+    
+    @objc func findMyLocationBtnTapped() {
+        findMyLocation()
+    }
+    
     private func getDistance(with latitude: Double, _ longitude: Double) -> CLLocationDistance {
         let storeLocation = CLLocation(latitude: latitude, longitude: longitude)
         let distance = userLocation.distance(from: storeLocation)
         return distance
-    }
-    
-    func pinStoreViewDidTapScrapButton(_ view: PinStoreView) {
-        let name = view.titleLabel.text ?? ""
-        viewModel.scrap(name, upon: storeInfoView.isScrapped)
-        storeInfoView.isScrapped.toggle()
     }
 
     private func bind() {
