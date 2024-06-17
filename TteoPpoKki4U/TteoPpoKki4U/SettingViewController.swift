@@ -19,7 +19,7 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
         let button = UIButton(type: .system)
         let image = UIImage(systemName: "chevron.backward.2")
         button.setImage(image, for: .normal)
-        button.tintColor = .systemGray
+        button.tintColor = .gray
         button.addTarget(nil, action: #selector(backButtonTapped), for: .touchUpInside)
         return button
     }()
@@ -74,7 +74,7 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
         let deleteUserLabel = UILabel()
         deleteUserLabel.text = "회원탈퇴"
         deleteUserLabel.font = UIFont(name: "ThemeFont.fontMedium", size: 18)
-        deleteUserLabel.textColor = .systemRed
+        deleteUserLabel.textColor = .red
         deleteUserLabel.textAlignment = .center
         
         cell.contentView.addSubview(deleteUserLabel)

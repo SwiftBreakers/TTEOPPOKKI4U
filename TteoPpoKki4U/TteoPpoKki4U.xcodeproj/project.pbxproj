@@ -45,7 +45,6 @@
 		619FE8F02C1F183300745A0A /* ReportViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 619FE8EF2C1F183300745A0A /* ReportViewModel.swift */; };
 		61AB7EF62C1E60FD00C51ECA /* CustomTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61AB7EF52C1E60FD00C51ECA /* CustomTextField.swift */; };
 		61AB7EF82C1E745200C51ECA /* CustomTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61AB7EF72C1E745200C51ECA /* CustomTextView.swift */; };
-		61AB7EFA2C1E809C00C51ECA /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 61AB7EF92C1E809C00C51ECA /* GoogleService-Info.plist */; };
 		61DAC4E02C05C3A700DFC575 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61DAC4DF2C05C3A700DFC575 /* MapViewController.swift */; };
 		61DAC4E22C05C3C100DFC575 /* CommunityViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61DAC4E12C05C3C100DFC575 /* CommunityViewController.swift */; };
 		61DAC4E42C05C3CF00DFC575 /* MyPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61DAC4E32C05C3CF00DFC575 /* MyPageViewController.swift */; };
@@ -91,6 +90,7 @@
 		8DB30F2E2C07767100503139 /* MyPageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DB30F2D2C07767100503139 /* MyPageViewModel.swift */; };
 		8DB30F302C07771400503139 /* MyPageSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DB30F2F2C07771400503139 /* MyPageSection.swift */; };
 		8DB30F322C07794E00503139 /* PersonalInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DB30F312C07794E00503139 /* PersonalInfoViewController.swift */; };
+		8DD4D5D72C205A92008BE9B6 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8DD4D5D62C205A92008BE9B6 /* GoogleService-Info.plist */; };
 		8DD5CBB72C107BFD004F27BD /* ReviewTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DD5CBB62C107BFD004F27BD /* ReviewTableViewCell.swift */; };
 		8DD5CBB92C107C82004F27BD /* DetailedReviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DD5CBB82C107C82004F27BD /* DetailedReviewViewController.swift */; };
 		9C82B94F2C0F2D27008FA84E /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C82B94E2C0F2D27008FA84E /* NetworkManager.swift */; };
@@ -146,7 +146,6 @@
 		619FE8EF2C1F183300745A0A /* ReportViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportViewModel.swift; sourceTree = "<group>"; };
 		61AB7EF52C1E60FD00C51ECA /* CustomTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextField.swift; sourceTree = "<group>"; };
 		61AB7EF72C1E745200C51ECA /* CustomTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextView.swift; sourceTree = "<group>"; };
-		61AB7EF92C1E809C00C51ECA /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../teamp/TteoPpoKki4U/TteoPpoKki4U/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		61DAC4DF2C05C3A700DFC575 /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		61DAC4E12C05C3C100DFC575 /* CommunityViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityViewController.swift; sourceTree = "<group>"; };
 		61DAC4E32C05C3CF00DFC575 /* MyPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageViewController.swift; sourceTree = "<group>"; };
@@ -182,6 +181,7 @@
 		8DB30F2D2C07767100503139 /* MyPageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageViewModel.swift; sourceTree = "<group>"; };
 		8DB30F2F2C07771400503139 /* MyPageSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageSection.swift; sourceTree = "<group>"; };
 		8DB30F312C07794E00503139 /* PersonalInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonalInfoViewController.swift; sourceTree = "<group>"; };
+		8DD4D5D62C205A92008BE9B6 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		8DD5CBB62C107BFD004F27BD /* ReviewTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewTableViewCell.swift; sourceTree = "<group>"; };
 		8DD5CBB82C107C82004F27BD /* DetailedReviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailedReviewViewController.swift; sourceTree = "<group>"; };
 		9C82B94E2C0F2D27008FA84E /* NetworkManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NetworkManager.swift; path = TteoPpoKki4U/Service/NetworkManager.swift; sourceTree = SOURCE_ROOT; };
@@ -331,7 +331,7 @@
 				613D86A32C05BFF90039E771 /* LaunchScreen.storyboard */,
 				613D86A62C05BFF90039E771 /* Info.plist */,
 				61DAC4FF2C06CCB000DFC575 /* Secret.swift */,
-				61AB7EF92C1E809C00C51ECA /* GoogleService-Info.plist */,
+				8DD4D5D62C205A92008BE9B6 /* GoogleService-Info.plist */,
 			);
 			path = TteoPpoKki4U;
 			sourceTree = "<group>";
@@ -648,7 +648,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8D580A472C082AB60057D370 /* Pretendard-Medium.ttf in Resources */,
-				61AB7EFA2C1E809C00C51ECA /* GoogleService-Info.plist in Resources */,
+				8DD4D5D72C205A92008BE9B6 /* GoogleService-Info.plist in Resources */,
 				613D86A22C05BFF90039E771 /* Assets.xcassets in Resources */,
 				8D580A492C082AB60057D370 /* Pretendard-Regular.ttf in Resources */,
 				8D580A4A2C082AB60057D370 /* Pretendard-ExtraLight.ttf in Resources */,

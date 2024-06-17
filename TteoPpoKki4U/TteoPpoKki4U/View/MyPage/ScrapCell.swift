@@ -34,7 +34,7 @@ class ScrapCell: UICollectionViewCell {
         addressLabel.font = ThemeFont.fontMedium(size: 14)
         addressLabel.numberOfLines = 0
         deleteButton.setImage(UIImage(systemName: "xmark.circle.fill"), for: .normal)
-        deleteButton.tintColor = .systemGray4
+        deleteButton.tintColor = .lightGray
         deleteButton.addTarget(self, action: #selector(deleteButtonTapped), for: .touchUpInside)
         
         contentView.addSubview(titleLabel)

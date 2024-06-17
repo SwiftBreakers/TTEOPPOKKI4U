@@ -37,7 +37,7 @@ class MyPageViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.backgroundColor = .systemBackground
+        view.backgroundColor = .white
         title = "마이페이지"
         
         view.addSubview(myPageView)

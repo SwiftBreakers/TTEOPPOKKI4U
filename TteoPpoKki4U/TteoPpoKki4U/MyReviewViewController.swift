@@ -25,7 +25,7 @@ class MyReviewViewController: UIViewController {
         let button = UIButton(type: .system)
         let image = UIImage(systemName: "chevron.backward.2")
         button.setImage(image, for: .normal)
-        button.tintColor = .systemGray
+        button.tintColor = .gray
         button.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
         return button
     }()
@@ -69,7 +69,7 @@ class MyReviewViewController: UIViewController {
     }
     
     private func setupViews() {
-        view.backgroundColor = .systemBackground
+        view.backgroundColor = .white
         view.addSubview(collectionView)
         view.addSubview(backButton)
         
