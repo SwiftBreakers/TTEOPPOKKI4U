@@ -35,7 +35,7 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
         tableView.dataSource = self
         tableView.delegate = self
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
-        
+        tableView.backgroundColor = .white
         view.addSubview(tableView)
         
         // SnapKit을 사용하여 테이블 뷰 레이아웃 설정
@@ -78,7 +78,7 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
         deleteUserLabel.textAlignment = .center
         
         cell.contentView.addSubview(deleteUserLabel)
-        
+        cell.backgroundColor = .white
         deleteUserLabel.snp.makeConstraints { make in
             make.center.equalTo(cell.contentView)
         }

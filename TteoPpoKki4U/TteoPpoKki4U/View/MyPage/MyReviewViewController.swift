@@ -17,6 +17,7 @@ class MyReviewViewController: UIViewController {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.delegate = self
         collectionView.dataSource = self
+        collectionView.backgroundColor = .white
         collectionView.register(ReviewCell.self, forCellWithReuseIdentifier: ReviewCell.identifier)
         return collectionView
     }()
@@ -38,6 +39,7 @@ class MyReviewViewController: UIViewController {
         super.viewDidLoad()
         setupViews()
         navigationController?.navigationBar.isHidden = true
+        view.backgroundColor = .white
     }
     
     override func viewWillAppear(_ animated: Bool) {

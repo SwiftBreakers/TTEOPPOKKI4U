@@ -11,8 +11,19 @@ import UIKit
 class ScrapCell: UICollectionViewCell {
     
     weak var delegate: ScrapCellDelegate?
-    private var titleLabel: UILabel!
-    private var addressLabel: UILabel!
+    private var titleLabel: UILabel = {
+        let label = UILabel()
+        label.font = ThemeFont.fontBold(size: 17)
+        label.textColor = .black
+        return label
+    }()
+    private var addressLabel: UILabel = {
+        let label = UILabel()
+        label.font = ThemeFont.fontMedium(size: 14)
+        label.textColor = .black
+        label.numberOfLines = 0
+        return label
+    }()
     private var deleteButton: UIButton!
     
     override init(frame: CGRect) {
@@ -26,13 +37,7 @@ class ScrapCell: UICollectionViewCell {
     }
     
     func setupViews() {
-        titleLabel = UILabel()
-        addressLabel = UILabel()
         deleteButton = UIButton(type: .system)
-        
-        titleLabel.font = ThemeFont.fontBold(size: 17)
-        addressLabel.font = ThemeFont.fontMedium(size: 14)
-        addressLabel.numberOfLines = 0
         deleteButton.setImage(UIImage(systemName: "xmark.circle.fill"), for: .normal)
         deleteButton.tintColor = .lightGray
         deleteButton.addTarget(self, action: #selector(deleteButtonTapped), for: .touchUpInside)

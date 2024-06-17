@@ -19,6 +19,10 @@ class CustomTextField: UITextField {
         clearButtonMode = .whileEditing
         autocorrectionType = .no
         spellCheckingType = .no
+        backgroundColor = .white
+        layer.borderWidth = 1
+        layer.cornerRadius = 10
+        layer.borderColor = #colorLiteral(red: 0.7364070391, green: 0.7364070391, blue: 0.7364070391, alpha: 1).cgColor
         
         self.keyboardType = keyboardType
         

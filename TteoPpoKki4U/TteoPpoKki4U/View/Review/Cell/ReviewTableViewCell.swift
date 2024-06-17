@@ -9,17 +9,26 @@ import UIKit
 
 class ReviewTableViewCell: UITableViewCell {
     
-    let reviewTitleLabel = UILabel()
-    let starRatingLabel = UILabel()
+    lazy var reviewTitleLabel: UILabel = {
+        let label = UILabel()
+        label.font = ThemeFont.fontRegular(size: 17)
+        label.textColor = .black
+        return label
+    }()
+    
+    lazy var starRatingLabel : UILabel = {
+        let label = UILabel()
+        label.font = ThemeFont.fontRegular(size: 17)
+        label.textColor = .black
+        return label
+    }()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        
+        self.backgroundColor = .white
+        self.selectionStyle = .none
         contentView.addSubview(reviewTitleLabel)
         contentView.addSubview(starRatingLabel)
-        
-        reviewTitleLabel.font = ThemeFont.fontRegular(size: 17)
-        starRatingLabel.font = ThemeFont.fontRegular(size: 17)
         
         reviewTitleLabel.snp.makeConstraints { make in
             make.leading.equalToSuperview().inset(20)

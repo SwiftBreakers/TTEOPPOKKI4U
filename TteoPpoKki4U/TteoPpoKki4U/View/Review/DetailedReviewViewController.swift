@@ -20,10 +20,37 @@ class DetailedReviewViewController: UIViewController {
     private var uid: String?
     private var reportCount: Int?
     
-    private lazy var storeNameLabel = UILabel()
-    private lazy var reviewTitleLabel = UILabel()
-    private lazy var starRatingLabel = UILabel()
-    private lazy var reviewContentLabel = UILabel()
+    private lazy var storeNameLabel: UILabel = {
+        let label = UILabel()
+        label.font = ThemeFont.fontMedium(size: 24)
+        label.textAlignment = .center
+        label.textColor = .black
+        return label
+    }()
+
+    private lazy var reviewTitleLabel: UILabel = {
+        let label = UILabel()
+        label.font = ThemeFont.fontMedium(size: 20)
+        label.textAlignment = .center
+        label.textColor = .black
+        return label
+    }()
+
+    private lazy var starRatingLabel: UILabel = {
+        let label = UILabel()
+        label.font = ThemeFont.fontRegular()
+        label.textAlignment = .center
+        label.textColor = .black
+        return label
+    }()
+
+    private lazy var reviewContentLabel: UILabel = {
+        let label = UILabel()
+        label.font = ThemeFont.fontRegular()
+        label.textColor = .black
+        label.numberOfLines = 0
+        return label
+    }()
     private lazy var scrollView = UIScrollView()
     private lazy var stackView = UIStackView()
     private lazy var imageView = UIImageView()
@@ -89,16 +116,13 @@ class DetailedReviewViewController: UIViewController {
         starRatingLabel.text = "⭐️ \(starRating ?? 0)"
         reviewContentLabel.text = reviewContent
         
-        storeNameLabel.font = ThemeFont.fontMedium(size: 24)
-        storeNameLabel.textAlignment = .center
+        
         view.addSubview(storeNameLabel)
         
-        reviewTitleLabel.font = ThemeFont.fontMedium(size: 20)
-        reviewTitleLabel.textAlignment = .center
+        
         view.addSubview(reviewTitleLabel)
         
-        starRatingLabel.font = ThemeFont.fontRegular()
-        starRatingLabel.textAlignment = .center
+        
         view.addSubview(starRatingLabel)
         
         scrollView.isPagingEnabled = true
@@ -109,8 +133,7 @@ class DetailedReviewViewController: UIViewController {
         stackView.distribution = .fillEqually
         scrollView.addSubview(stackView)
         
-        reviewContentLabel.font = ThemeFont.fontRegular()
-        reviewContentLabel.numberOfLines = 0
+        
         view.addSubview(reviewContentLabel)
         
         view.addSubview(reportButton)
