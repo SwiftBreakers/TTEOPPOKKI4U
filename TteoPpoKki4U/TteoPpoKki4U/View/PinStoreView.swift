@@ -29,6 +29,7 @@ class PinStoreView: UIView {
     let titleLabel: UILabel = {
         let label = UILabel()
         label.font = ThemeFont.fontMedium(size: 24)
+        label.textColor = .black
         return label
     }()
     lazy var scrapButton: UIButton = {
@@ -41,6 +42,7 @@ class PinStoreView: UIView {
     let addressLabel: UILabel = {
         let label = UILabel()
         label.font = ThemeFont.fontRegular()
+        label.textColor = .black
         return label
     }()
     let line: UIView = {
@@ -72,16 +74,16 @@ class PinStoreView: UIView {
         stv.distribution = .equalSpacing
         return stv
     }()
-    let findFriendButton: UIButton = {
-        let bt = UIButton()
-        bt.setTitle("친구 찾기", for: .normal)
-        bt.setTitleColor(.white, for: .normal)
-        bt.titleLabel?.font = ThemeFont.fontBold(size: 16)
-        bt.titleLabel?.textAlignment = .center
-        bt.backgroundColor = ThemeColor.mainOrange
-        bt.layer.cornerRadius = 8
-        return bt
-    }()
+//    let findFriendButton: UIButton = {
+//        let bt = UIButton()
+//        bt.setTitle("친구 찾기", for: .normal)
+//        bt.setTitleColor(.white, for: .normal)
+//        bt.titleLabel?.font = ThemeFont.fontBold(size: 16)
+//        bt.titleLabel?.textAlignment = .center
+//        bt.backgroundColor = ThemeColor.mainOrange
+//        bt.layer.cornerRadius = 8
+//        return bt
+//    }()
     
     
     override init(frame: CGRect) {
@@ -102,7 +104,7 @@ class PinStoreView: UIView {
             stackView.addArrangedSubview($0)
         }
         
-        [titleLabel, scrapButton, addressLabel, line, stackView, findFriendButton].forEach {
+        [titleLabel, scrapButton, addressLabel, line, stackView/*, findFriendButton*/].forEach {
             self.addSubview($0)
         }
         
@@ -134,13 +136,14 @@ class PinStoreView: UIView {
         stackView.snp.makeConstraints { make in
             make.top.equalTo(line.snp.bottom).offset(10)
             make.horizontalEdges.equalTo(line.snp.horizontalEdges).inset(5)
+            make.bottom.equalToSuperview().inset(20)   // 친구찾기 버튼 복구 시 삭제하기
         }
         
-        findFriendButton.snp.makeConstraints { make in
-            make.top.equalTo(stackView.snp.bottom).offset(15)
-            make.horizontalEdges.bottom.equalToSuperview().inset(20)
-            make.height.equalTo(40)
-        }
+//        findFriendButton.snp.makeConstraints { make in
+//            make.top.equalTo(stackView.snp.bottom).offset(15)
+//            make.horizontalEdges.bottom.equalToSuperview().inset(20)
+//            make.height.equalTo(40)
+//        }
     }
 
     
@@ -150,7 +153,7 @@ class PinStoreView: UIView {
         titleLabel.addGestureRecognizer(tapGesture)
         
         scrapButton.addTarget(self, action: #selector(scrapButtonTapped), for: .touchUpInside)
-        findFriendButton.addTarget(self, action: #selector(findFriendButtonTapped), for: .touchUpInside)
+//        findFriendButton.addTarget(self, action: #selector(findFriendButtonTapped), for: .touchUpInside)
     }
     
     // uilabel 텍스트 앞에 아이콘 넣기
@@ -193,9 +196,9 @@ class PinStoreView: UIView {
         delegate?.pinStoreViewDidTapScrapButton(self)
     }
     
-    @objc func findFriendButtonTapped() {
-        print("CommunityViewController로 이동")
-    }
+//    @objc func findFriendButtonTapped() {
+//        print("CommunityViewController로 이동")
+//    }
 }
 
 protocol PinStoreViewDelegate: AnyObject {

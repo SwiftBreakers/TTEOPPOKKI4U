@@ -22,9 +22,11 @@ class MapView: UIView {
     }()
     let searchBar: UISearchBar = {
         let bar = UISearchBar()
+        bar.backgroundColor = .white
         bar.placeholder = "장소명 또는 지역명을 입력해주세요"
-        bar.searchTextField.backgroundColor = .clear
+        bar.searchTextField.textColor = .black
         bar.searchTextField.borderStyle = .none
+        bar.searchTextField.backgroundColor = .white
         bar.clipsToBounds = true
         bar.layer.cornerRadius = 20
         return bar
