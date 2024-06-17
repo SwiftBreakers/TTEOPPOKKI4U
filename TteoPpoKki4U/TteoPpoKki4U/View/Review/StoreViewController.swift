@@ -13,12 +13,32 @@ class StoreViewController: UIViewController {
     
     // UI Components
     private let backButton = UIButton()
-    private let storeNameLabel = UILabel()
+    private let storeNameLabel: UILabel = {
+        let label = UILabel()
+        label.font = ThemeFont.fontMedium(size: 24)
+        label.textAlignment = .center
+        label.textColor = .black
+        return label
+    }()
     private let scrollView = UIScrollView()
     private let stackView = UIStackView()
-    private let locationLabel = UILabel()
+    private let locationLabel: UILabel = {
+        let label = UILabel()
+        label.font = ThemeFont.fontRegular(size: 17)
+        label.textAlignment = .center
+        label.textColor = .black
+        return label
+    }()
+    
+    
     private let goReviewButton = UIButton()
-    private let tableView = UITableView()
+    private let tableView: UITableView = {
+        let tableView = UITableView()
+        tableView.register(ReviewTableViewCell.self, forCellReuseIdentifier: "ReviewTableViewCell")
+        tableView.rowHeight = 50
+        tableView.backgroundColor = .white
+        return tableView
+    }()
     
     var addressText: String?
     var shopTitleText: String?
@@ -84,8 +104,6 @@ class StoreViewController: UIViewController {
         
         // Setup Title Label
         storeNameLabel.text = storeName
-        storeNameLabel.font = ThemeFont.fontMedium(size: 24)
-        storeNameLabel.textAlignment = .center
         view.addSubview(storeNameLabel)
         
         // Setup Scroll View and Stack View
@@ -111,8 +129,6 @@ class StoreViewController: UIViewController {
         
         // Setup Location Label
         locationLabel.text = storeLocation
-        locationLabel.font = ThemeFont.fontRegular(size: 17)
-        locationLabel.textAlignment = .center
         view.addSubview(locationLabel)
         
         // Setup Review Button
@@ -125,11 +141,8 @@ class StoreViewController: UIViewController {
         view.addSubview(goReviewButton)
         goReviewButton.addTarget(self, action: #selector(goReviewButtonTapped), for: .touchUpInside)
         
-        // Setup Table View
         tableView.delegate = self
         tableView.dataSource = self
-        tableView.register(ReviewTableViewCell.self, forCellReuseIdentifier: "ReviewTableViewCell")
-        tableView.rowHeight = 50
         view.addSubview(tableView)
     }
     

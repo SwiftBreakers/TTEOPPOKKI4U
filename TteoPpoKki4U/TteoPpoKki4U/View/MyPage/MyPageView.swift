@@ -23,6 +23,7 @@ class MyPageView: UIView {
         let label = UILabel()
         label.font = ThemeFont.fontRegular(size: 20)
         label.text = "떡볶이왕"
+        label.textColor = .black
         label.textAlignment = .center
         label.numberOfLines = 0
         return label

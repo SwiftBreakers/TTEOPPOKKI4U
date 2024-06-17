@@ -10,6 +10,7 @@ class ReviewCell: UICollectionViewCell {
     private let titleLabel: UILabel = {
         let label = UILabel()
         label.font = ThemeFont.fontBold(size: 17)
+        label.textColor = .black
         return label
     }()
     
@@ -23,6 +24,7 @@ class ReviewCell: UICollectionViewCell {
     private let contentLabel: UILabel = {
         let label = UILabel()
         label.font = ThemeFont.fontRegular(size: 14)
+        label.textColor = .black
         label.numberOfLines = 0
         return label
     }()
@@ -44,6 +46,7 @@ class ReviewCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupViews()
+        self.backgroundColor = .white
     }
     
     required init?(coder: NSCoder) {

@@ -215,6 +215,7 @@ class DetailViewController: UIViewController, UISearchBarDelegate {
         
         shopAddressLabel.text = "주소"
         shopAddressLabel.font = ThemeFont.fontBold(size: 18)
+        shopAddressLabel.textColor = .black
         
         shopAddressButton.setTitleColor(.black, for: .normal)
         shopAddressButton.titleLabel?.font = ThemeFont.fontRegular(size: 18)
@@ -224,10 +225,12 @@ class DetailViewController: UIViewController, UISearchBarDelegate {
         longDescription1Label.font = ThemeFont.fontRegular(size: 16)
         longDescription1Label.numberOfLines = 100
         longDescription1Label.textAlignment = .left
+        longDescription1Label.textColor = .black
         
         longDescription2Label.font = ThemeFont.fontRegular(size: 16)
         longDescription2Label.numberOfLines = 100
         longDescription2Label.textAlignment = .left
+        longDescription2Label.textColor = .black
         
         view.addSubview(scrollView)
         
@@ -311,7 +314,7 @@ class DetailViewController: UIViewController, UISearchBarDelegate {
             if let navController = tabBarController.selectedViewController as? UINavigationController,
                let mapVC = navController.viewControllers.first as? MapViewController {
                 mapVC.searchLocation(query: self!.card!.queryName, for: [])
-                mapVC.storeInfoView.isHidden = false
+                //mapVC.storeInfoView.isHidden = false
             }
             
         }
