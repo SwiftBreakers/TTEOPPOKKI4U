@@ -61,6 +61,7 @@ class MapViewController: UIViewController, PinStoreViewDelegate {
                 }
             }
         }
+        
     }
 
     func setConstraints() {
