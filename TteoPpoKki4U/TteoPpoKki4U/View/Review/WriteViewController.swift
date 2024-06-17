@@ -28,6 +28,12 @@ class WriteViewController: UIViewController {
     let addImageButton = UIButton()
     let cancelButton = UIButton()
     let submitButton = UIButton()
+    let starLabel: UILabel = {
+        let label = UILabel()
+        label.font = ThemeFont.fontMedium(size: 24)
+        label.textColor = .black
+        return label
+    }()
     
     var selectedImages: [UIImage] = []
     let imageScrollView = UIScrollView()
@@ -100,7 +106,6 @@ class WriteViewController: UIViewController {
         view.backgroundColor = .white
         
         // 별점 라벨
-        let starLabel = UILabel()
         if isEditMode {
             starLabel.text = "별점 리뷰 수정"
             submitButton.setTitle("리뷰 수정", for: .normal)
@@ -108,7 +113,7 @@ class WriteViewController: UIViewController {
             starLabel.text = "별점 리뷰 작성"
             submitButton.setTitle("리뷰 등록", for: .normal)
         }
-        starLabel.font = ThemeFont.fontMedium(size: 24)
+        
         view.addSubview(starLabel)
         starLabel.snp.makeConstraints { make in
             make.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(24)
@@ -289,11 +294,19 @@ class WriteViewController: UIViewController {
     }
     
     @objc func cancelButtonTapped() {
-            navigationController?.popViewController(animated: true)
+        navigationController?.popViewController(animated: true)
     }
     
     @objc func submitButtonTapped() {
-        reviewTapped()
+        if titleTextField.text?.isEmpty ?? true {
+            showMessage(title: "제목이 없습니다", message: "제목을 입력해주세요.")
+        } else if contentTextView.text?.isEmpty ?? true {
+            showMessage(title: "내용이 없습니다", message: "내용을 입력해주세요.")
+        } else if selectedRating == 0 {
+           showMessage(title: "별점이 없습니다", message: "별점을 추가해주세요")
+        } else {
+            reviewTapped()
+        }
     }
     
     @objc func addImageButtonTapped() {

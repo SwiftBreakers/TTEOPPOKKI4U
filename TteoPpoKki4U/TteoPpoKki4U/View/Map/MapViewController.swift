@@ -2,7 +2,7 @@
 //  MapViewController.swift
 //  TteoPpoKki4U
 //
-//  Created by Dongik Song on 5/28/24.
+//  Created by 박준영 on 5/28/24.
 //
 
 import UIKit

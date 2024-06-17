@@ -21,6 +21,7 @@ class ReportViewController: UIViewController {
         let label = UILabel()
         label.text = "리뷰 신고하기"
         label.font = ThemeFont.fontBold()
+        label.textColor = .black
         return label
     }()
     
@@ -28,6 +29,7 @@ class ReportViewController: UIViewController {
         let label = UILabel()
         label.text = "리뷰를 신고하는 이유를 알려주세요."
         label.font = ThemeFont.fontBold(size: 15)
+        label.textColor = .black
         return label
     }()
     
