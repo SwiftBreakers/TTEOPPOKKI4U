@@ -310,7 +310,7 @@ class DetailViewController: UIViewController, UISearchBarDelegate {
             
             if let navController = tabBarController.selectedViewController as? UINavigationController,
                let mapVC = navController.viewControllers.first as? MapViewController {
-                mapVC.searchLocation(query: self!.card!.queryName)
+                mapVC.searchLocation(query: self!.card!.queryName, for: [])
                 mapVC.storeInfoView.isHidden = false
             }
             

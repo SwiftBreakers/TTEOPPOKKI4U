@@ -6,30 +6,197 @@
 //
 
 import Foundation
+import FirebaseAuth
 
+final class MapViewModel {
+    private var stores: [Document] = []
+    private(set) var state: State = .pending {
+        didSet { didChangeState?(self) }
+    }
+    
+    enum State {
+        case pending
+        case didStoresLoaded(forKeyword: String, stores: [Document])
+        case didLoadedStore(store: ShopView)
+        case didLoadedWithError(error: StoreError)
+    }
+    
+    enum StoreError: Error {
+        case noStore
+    }
+    
+    var didChangeState: ((MapViewModel) -> Void)?
+    
+    func loadStores(with name: String) {
+        NetworkManager.shared.fetchAPI(query: "\(name) 분식") { [weak self] stores in
+            self?.stores = stores
+            self?.state = .didStoresLoaded(forKeyword: name, stores: stores)
+        }
+    }
+    
+    func loadStore(with name: String) {
+        guard let store = findStore(with: name) else {
+            self.state = .didLoadedWithError(error: StoreError.noStore)
+            return
+        }
+        let storeName = store.placeName
+//        fetchScrapStatus(shopName: storeName) { [weak self] isScrapped in
+//            guard let self else { return }
+//            fetchRatings(for: storeName) { (ratings, error) in
+//                guard let ratings, error == nil else { return }
+//                let averageRating = self.getAverageRating(ratings: ratings)
+//                let presentable = ShopViewPresentable(
+//                    title: storeName,
+//                    address: store.addressName,
+//                    rating: self.getAverageRating(ratings: ratings),
+//                    reviews: ratings.count,
+//                    latitude: Double(store.x) ?? 0.0,
+//                    longitude: Double(store.y) ?? 0.0,
+//                    isScrapped: isScrapped
+//                )
+//                self.state = .didLoadedStore(store: presentable)
+//            }
+//        }
+        Task {
+            async let isScrapped = getScrap(for: storeName)
+            async let ratings = getRatings(for: storeName)
+            let presentable = await ShopView(
+                title: storeName,
+                address: store.addressName,
+                rating: getAverageRating(ratings: ratings),
+                reviews: ratings.count,
+                latitude: Double(store.x) ?? 0.0,
+                longitude: Double(store.y) ?? 0.0,
+                isScrapped: isScrapped
+            )
+            await MainActor.run {
+                state = .didLoadedStore(store: presentable)
+            }
+        }
+    }
+    
+    private func getScrap(for storeName: String) async -> Bool {
+        await withCheckedContinuation { continuation in
+            fetchScrapStatus(shopName: storeName) {
+                continuation.resume(returning: $0)
+            }
+        }
+    }
+    
+    private func getRatings(for storeName: String) async -> [Float] {
+        await withCheckedContinuation { continuation in
+            fetchRatings(for: storeName) { ratings, error in
+                guard let ratings, error == nil else { return }
+                continuation.resume(returning: ratings)
+            }
+        }
+    }
+    
+    func scrap(_ storeName: String, upon isAlreadyScrapped: Bool) {
+        guard let store = findStore(with: storeName) else { return }
+        isAlreadyScrapped ? undoScrap(store) : scrap(store)
+    }
+    
+    // MARK: - Helpers
+    
+    private func scrap(_ store: Document) {
+        createScrapItem(shopName: store.placeName, shopAddress: store.addressName)
+    }
+    
+    private func undoScrap(_ store: Document) {
+        deleteScrapItem(shopName: store.placeName)
+    }
+    
+    private func findStore(with name: String) -> Document? {
+        stores.first { $0.placeName == name }
+    }
+    
+    private func getAverageRating(ratings: [Float]) -> Float {
+        let count = ratings.count
+        var sum: Float = 0.0
+        
+        for rating in ratings {
+            sum += rating
+        }
+        if count == 0 {
+            return 0.0
+        } else {
+            return sum / Float(count)
+        }
+    }
+    
+    private func createScrapItem(shopName: String, shopAddress: String) {
+        guard let userID = Auth.auth().currentUser?.uid else { return }
+        scrappedCollection.addDocument(
+            data: [
+                db_shopName: shopName,
+                db_shopAddress: shopAddress,
+                db_uid: userID
+            ]
+        ) { error in
+            if let error {
+                print("Error adding document: \(error)")
+            }
+        }
+    }
+    
+    private func deleteScrapItem(shopName: String) {
+        guard let userID = Auth.auth().currentUser?.uid else { return }
+        
+        scrappedCollection
+            .whereField(db_uid, isEqualTo: userID)
+            .whereField(db_shopName, isEqualTo: shopName)
+            .getDocuments { (querySnapshot, error) in
+                if let error {
+                    print("Error getting documents: \(error)")
+                } else {
+                    for document in querySnapshot!.documents {
+                        scrappedCollection.document(document.documentID).delete() { error in
+                            if let error {
+                                print("Error removing document: \(error)")
+                            }
+                        }
+                    }
+                }
+            }
+    }
+    
+    private func fetchScrapStatus(shopName: String, completion: @escaping (Bool) -> Void) {
+        guard let userID = Auth.auth().currentUser?.uid else { return }
+        scrappedCollection
+            .whereField(db_uid, isEqualTo: userID)
+            .whereField(db_shopName, isEqualTo: shopName)
+            .getDocuments { (querySnapshot, error) in
+                if let error {
+                    print("Error getting documents: \(error)")
+                    completion(false)
+                } else {
+                    if let documents = querySnapshot?.documents, !documents.isEmpty {
+                        completion(true)
+                    } else {
+                        completion(false)
+                    }
+                }
+            }
+    }
+    
+    private func fetchRatings(for storeName: String, completion: @escaping ([Float]?, Error?) -> Void) {
+        reviewCollection
+            .whereField(db_storeName, isEqualTo: storeName)
+            .getDocuments { (querySnapshot, error) in
+                if let error = error {
+                    completion(nil, error)
+                } else {
+                    var ratings: [Float] = []
+                    for document in querySnapshot!.documents {
+                        if let rating = document.get(db_rating) as? Float {
+                            ratings.append(rating)
+                        }
+                    }
+                    completion(ratings, nil)
+                }
+            }
+    }
 
-class MapViewModel {
-    // View에서 이벤트를 발생시켜서 viewModel INPUT으로 전달
-
-    // input
-    // - 지도 화면 진입할 때
-    // - searchBar에서 Enter 눌렀을 때 : searchBar.text
-    // - annotation pin 눌렀을 때 : storeList에서 클릭한 pin의 타이틀과 같은 데이터
-    // - scrapButton 눌렀을 때
-    // - 매장명 눌렀을 때
-    // - 친구찾기 버튼 눌렀을 때
-    
-    // ViewModel은 INPUT을 받아서 실질적인 작업을 한다음에 OUTPUT을 업데이트함
-    
-    // output
-    // view에 보여져야할 데이터들.
-    // - 내 위치 기반으로 한 지도 화면
-    // - storeList
-    // - Pinstoreview 데이터 채워져서 나타나야 함
-    // - scrapButton 누를 때마다 색깔 달라져야 함(firebase 관리는 viewmodel에서)
-    // - 가게 상세 페이지로 이동
-    // - 채팅방 페이지로 이동(아직 구현 안 됨)
-    
-    // View는 ViewModel의 Output을 옵저브(구경)하고 있다가 데이터가 바뀌면 View를 업데이트 해줌.
 }
 

@@ -34,7 +34,7 @@ class BookmarkCell: UICollectionViewCell {
             // titleLabel 설정
             titleLabel.textColor = .white
             titleLabel.font = UIFont.systemFont(ofSize: 16, weight: .bold)
-            titleLabel.numberOfLines = 1
+            titleLabel.numberOfLines = 0
             contentView.addSubview(titleLabel)
 
             // bookmarkIcon 설정
