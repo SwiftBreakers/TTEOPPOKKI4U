@@ -216,11 +216,7 @@ extension StoreViewController: UITableViewDelegate, UITableViewDataSource {
         
         let item = viewModel.userReview[indexPath.row]
         let detailedReviewVC = DetailedReviewViewController()
-        detailedReviewVC.storeName = item.storeName
-        detailedReviewVC.reviewTitle = item.title
-        detailedReviewVC.starRating = Int(item.rating)
-        detailedReviewVC.reviewContent = item.content
-        detailedReviewVC.reviewImages = item.imageURL
+        detailedReviewVC.userData = item
         navigationController?.pushViewController(detailedReviewVC, animated: true)
     }
     

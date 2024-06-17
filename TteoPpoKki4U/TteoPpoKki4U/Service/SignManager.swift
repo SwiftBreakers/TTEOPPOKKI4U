@@ -20,18 +20,20 @@ class SignManager {
     // MARK: - SignIn
     
     func saveApple(appleCredential: ASAuthorizationAppleIDCredential, nonce: String, completion: @escaping (Result<AuthDataResult?, Error>) -> Void) {
+        guard let appleToken = appleCredential.identityToken,
+              let tokenString = String(data: appleToken, encoding: .utf8) else {
+            completion(.failure(NSError(domain: "AppleSignIn", code: -1, userInfo: [NSLocalizedDescriptionKey: "Unable to fetch identity token"])))
+            return
+        }
         
-        let appleToken = String(data: appleCredential.identityToken!, encoding: .utf8)!
-        
-        let credential = OAuthProvider.appleCredential(withIDToken: appleToken,
-                                                       rawNonce: nonce,
-                                                       fullName: appleCredential.fullName)
+        let credential = OAuthProvider.appleCredential(withIDToken: tokenString, rawNonce: nonce, fullName: appleCredential.fullName)
         
         Auth.auth().signIn(with: credential) { result, error in
             if let error = error {
                 completion(.failure(error))
+            } else {
+                completion(.success(result))
             }
-            completion(.success(result))
         }
     }
     
@@ -39,15 +41,15 @@ class SignManager {
         let ref = Database.database().reference()
         let userData: [String: Any] = [
             db_uid: user.uid,
-            db_nickName: "",
+            db_nickName: user.nickName,
             db_email: user.email,
-            db_profileImageUrl: "https://firebasestorage.googleapis.com/v0/b/tteoppokki4u.appspot.com/o/dummyProfile%2FdefaultImage.png?alt=media&token=b4aab21e-e19a-42b7-9d17-d92a3801a327",
+            db_profileImageUrl: user.profileImageUrl,
             db_isBlock: user.isBlock
         ]
         ref.child("users").child(user.uid).setValue(userData)
     }
     
-    func fetchUserData(uid: String, completion: @escaping ((any Error)?, DataSnapshot?) -> Void) {
+    func fetchUserData(uid: String, completion: @escaping (Error?, DataSnapshot?) -> Void) {
         let ref = Database.database().reference()
         ref.child("users").child(uid).getData(completion: completion)
     }
@@ -55,12 +57,10 @@ class SignManager {
     func sha256(_ input: String) -> String {
         let inputData = Data(input.utf8)
         let hashedData = SHA256.hash(data: inputData)
-        let hashString = hashedData.compactMap { String(format: "%02x", $0) }.joined()
-        return hashString
+        return hashedData.compactMap { String(format: "%02x", $0) }.joined()
     }
     
     func randomNonceString(length: Int = 32) -> String {
-        precondition(length > 0)
         let charset: [Character] = Array("0123456789ABCDEFGHIJKLMNOPQRSTUVXYZabcdefghijklmnopqrstuvwxyz-._")
         var result = ""
         var remainingLength = length
@@ -93,9 +93,8 @@ class SignManager {
     // MARK: - SignOut
     
     func signOut(completion: @escaping (Result<Void, Error>) -> Void) {
-        let firebaseAuth = Auth.auth()
         do {
-            try firebaseAuth.signOut()
+            try Auth.auth().signOut()
             completion(.success(()))
         } catch let signOutError {
             completion(.failure(signOutError))
@@ -128,6 +127,7 @@ class SignManager {
                 completion(nil)
             case .revoked, .notFound:
                 // Consider the user logged out if the credential is revoked or not found
+                UserDefaults.standard.removeObject(forKey: "appleAuthorizedUserIdKey")
                 completion(nil)
             default:
                 let unknownError = NSError(domain: "AppleSignOut", code: -1, userInfo: [NSLocalizedDescriptionKey: "Unknown Apple credential state."])
@@ -166,7 +166,6 @@ class SignManager {
             completion(.failure(error))
         }
     }
-    
 }
 
 

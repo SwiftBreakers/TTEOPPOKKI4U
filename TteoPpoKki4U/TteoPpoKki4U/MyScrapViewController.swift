@@ -47,6 +47,10 @@ class MyScrapViewController: UIViewController {
         bind()
     }
     
+    deinit{
+        cancellables.removeAll()
+    }
+    
     private func getData() {
         guard let uid = Auth.auth().currentUser?.uid else {
             return

@@ -26,7 +26,11 @@ class MyPageViewController: UIViewController {
     
     convenience init(signOutTapped: @escaping () -> Void, viewModel: SignViewModel) {
         self.init()
-        self.signOutTapped = signOutTapped
+        self.signOutTapped = {
+            DispatchQueue.main.async {
+                signOutTapped()
+            }
+        }
         self.signVM = viewModel
     }
     
@@ -71,14 +75,16 @@ class MyPageViewController: UIViewController {
     private func bind() {
         signVM.logoutPublisher
             .sink { [weak self] result in
-                switch result {
-                case .success():
-                    let scene = UIApplication.shared.connectedScenes.first
-                    if let sd: SceneDelegate = (scene?.delegate as? SceneDelegate) {
-                        sd.switchToGreetingViewController()
+                DispatchQueue.main.async {
+                    switch result {
+                    case .success():
+                        let scene = UIApplication.shared.connectedScenes.first
+                        if let sd: SceneDelegate = (scene?.delegate as? SceneDelegate) {
+                            sd.switchToGreetingViewController()
+                        }
+                    case .failure(let error):
+                        self?.showMessage(title: "에러 발생", message: "\(error.localizedDescription)이 발생했습니다.")
                     }
-                case .failure(let error ):
-                    self?.showMessage(title: "에러 발생", message: "\(error.localizedDescription)이 발생했습니다.")
                 }
             }.store(in: &cancellables)
     }
@@ -121,12 +127,14 @@ extension MyPageViewController: UICollectionViewDataSource, UICollectionViewDele
             let settingVC = SettingViewController()
             navigationController?.pushViewController(settingVC, animated: true)
         case [2, 1]:
-            showMessageWithCancel(title: "로그아웃", message: "정말로 로그아웃 하시겠습니까?") { [weak self] in
-                self?.signOutTapped!()
+                showMessageWithCancel(title: "로그아웃", message: "정말로 로그아웃 하시겠습니까?") { [weak self] in
+                    DispatchQueue.main.async {
+                        self?.signOutTapped!()
+                    }
+                }
+            default:
+                return
             }
-        default:
-            return
-        }
     }
 }
 

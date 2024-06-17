@@ -6,31 +6,32 @@
 //
 
 import UIKit
+import FirebaseAuth
 
 class ReportViewController: UIViewController {
     
-    private let closeButton: UIButton = {
+    private lazy var closeButton: UIButton = {
         let button = UIButton()
         button.setImage(UIImage(systemName: "xmark"), for: .normal)
         button.addTarget(self, action: #selector(closeButtonTapped), for: .touchUpInside)
         return button
     }()
     
-    private let titleLabel: UILabel = {
+    private lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.text = "리뷰 신고하기"
         label.font = ThemeFont.fontBold()
         return label
     }()
     
-    private let reasonTitleLabel: UILabel = {
+    private lazy var reasonTitleLabel: UILabel = {
         let label = UILabel()
         label.text = "리뷰를 신고하는 이유를 알려주세요."
         label.font = ThemeFont.fontBold(size: 15)
         return label
     }()
     
-    private let reasonSubtitleLabel: UILabel = {
+    private lazy var reasonSubtitleLabel: UILabel = {
         let label = UILabel()
         label.text = "타당한 근거 없이 신고된 내용은 관리자 확인 후 반영되지 않을 수 있습니다."
         label.font = ThemeFont.fontELight(size: 12)
@@ -38,27 +39,21 @@ class ReportViewController: UIViewController {
         return label
     }()
     
-    private let reasons: [String] = [
-        "음란성, 욕설 등 부적절한 내용",
-        "부적절한 홍보 또는 광고",
-        "리뷰와 관련없는 사진 게시",
-        "개인정보 유출 위험",
-        "리뷰 작성 취지에 맞지 않는 내용(복사글 등)",
-        "저작권 도용 의심(사진 등)",
-        "기타(하단 내용 작성)"
+    private lazy var reasons: [String] = [
+        "리뷰와 관련 없는 사진 또는 글",
+        "상업적 목적의 광고, 홍보글",
+        "개인정보 유출 혹은 우려",
+        "도용 혹은 저작권 침해 사진 또는 글",
+        "무분별한 복사 혹은 도배글",
+        "폭력성, 음란성 등 부적절한 내용",
+        "기타(하단에 작성해주세요.)"
     ]
     
     private var reasonButtons: [UIButton] = []
     
-    private let textView: UITextView = {
-        let textView = UITextView()
-        textView.layer.borderColor = UIColor.gray.cgColor
-        textView.layer.borderWidth = 1
-        textView.layer.cornerRadius = 5
-        return textView
-    }()
+    private lazy var textView = CustomTextView(target: self, action: #selector(doneButtonTapped))
     
-    private let reportButton: UIButton = {
+    private lazy var reportButton: UIButton = {
         let button = UIButton()
         button.setTitle("신고하기", for: .normal)
         button.backgroundColor = .lightGray
@@ -66,6 +61,10 @@ class ReportViewController: UIViewController {
         button.addTarget(self, action: #selector(reportButtonTapped), for: .touchUpInside)
         return button
     }()
+    
+    var userData: ReviewModel?
+    
+    let viewModel = ReportViewModel()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -119,6 +118,11 @@ class ReportViewController: UIViewController {
         }
         
         view.addSubview(textView)
+        
+        textView.layer.borderColor = UIColor.gray.cgColor
+        textView.layer.borderWidth = 1
+        textView.layer.cornerRadius = 5
+        
         textView.snp.makeConstraints { make in
             make.top.equalTo(lastView.snp.bottom).offset(16)
             make.leading.equalTo(view.safeAreaLayoutGuide).offset(16)
@@ -151,7 +155,22 @@ class ReportViewController: UIViewController {
     }
     
     @objc private func reportButtonTapped() {
+        guard let uid = Auth.auth().currentUser?.uid else { return }
         
+        if uid == userData!.uid {
+            showMessage(title: "오류", message: "본인의 게시글은 신고 할 수 없습니다.")
+        } else {
+            viewModel.addReportCount(uid: userData!.uid, storeAddress: userData!.storeAddress, title: userData!.title) { [weak self] in
+                self?.showMessage(title: "신고가 완료 되었습니다", message: "신고 내용은 관리자 검토후 반영 됩니다.", completion: {
+                    self?.dismiss(animated: true)
+                })
+                
+            }
+        }
+    }
+    
+    @objc private func doneButtonTapped() {
+        self.view.endEditing(true)
     }
     
     @objc private func checkBoxButtonTapped(_ sender: UIButton) {

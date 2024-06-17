@@ -119,15 +119,15 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
             //firebase 회원탈퇴
             let user = Auth.auth().currentUser
             
-            user?.delete { error in
+            user?.delete { [weak self] error in
                 if let error = error {
-                    print("\(error.localizedDescription)")
+                    self?.showMessage(title: "에러발생", message: "로그아웃 후 재접속하여\n다시 시도해주세요.")
                 } else {
 
                    let ref = Database.database().reference()
                     ref.child("users").child(user!.uid).removeValue { error, _ in
                         if let error = error {
-                            print(error)
+                            self?.showMessage(title: "에러발생", message: "\(error)")
                         }
                     }
                     

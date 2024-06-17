@@ -11,7 +11,6 @@ import KakaoSDKAuth
 import KakaoSDKUser
 import GoogleSignIn
 import FirebaseAuth
-import Firebase
 import Combine
 
 class SignViewModel: NSObject {
@@ -81,9 +80,11 @@ class SignViewModel: NSObject {
                             let isBlockInt = userData[db_isBlock] as? Int ?? 0
                             let isBlock = isBlockInt != 0
                             if isBlock {
-                                let error = NSError(domain: "", code: 403, userInfo: [NSLocalizedDescriptionKey: "현재 계정은 계정차단 관련 문제가 "])
+                                let error = NSError(domain: "", code: 403, userInfo: [NSLocalizedDescriptionKey: "현재 계정은 계정차단 관련 문제가 있습니다."])
                                 self?.loginPublisher.send(.failure(error))
-                                self?.signOut()
+                                self?.signOut {
+                                    // Completion handler for sign out
+                                }
                             } else {
                                 self?.loginPublisher.send(.success(()))
                             }
@@ -98,45 +99,39 @@ class SignViewModel: NSObject {
         }
     }
     
-    func signOut() {
+    func signOut(completion: @escaping () -> Void) {
         signManager.signOutCurrentUser { [weak self] result in
             switch result {
             case .success:
                 self?.logoutPublisher.send(.success(()))
+                completion()
             case .failure(let error):
                 self?.logoutPublisher.send(.failure(error))
+                completion()
             }
         }
     }
     
     func checkUserisBlock(uid: String, completion: @escaping (Bool) -> Void) {
         signManager.fetchUserData(uid: uid) { error, dataSnapshot in
-            if let dataSnapshot = dataSnapshot {
-                if let userData = dataSnapshot.value as? [String: Any] {
-                    let isBlockInt = userData[db_isBlock] as? Int ?? 0
-                    let isBlock = isBlockInt != 0
-                    if isBlock {
-                        completion(isBlock)
-                    } else {
-                        completion(isBlock)
-                    }
-                }
+            if let dataSnapshot = dataSnapshot, let userData = dataSnapshot.value as? [String: Any] {
+                let isBlockInt = userData[db_isBlock] as? Int ?? 0
+                completion(isBlockInt != 0)
+            } else {
+                completion(false)
             }
         }
     }
-    
 }
 
-
-
-extension SignViewModel: ASAuthorizationControllerDelegate, ASAuthorizationControllerPresentationContextProviding{
+extension SignViewModel: ASAuthorizationControllerDelegate, ASAuthorizationControllerPresentationContextProviding {
     
     func presentationAnchor(for controller: ASAuthorizationController) -> ASPresentationAnchor {
         return UIApplication.shared.windows.first!
     }
     
-    func authorizationController(controller: ASAuthorizationController, didCompleteWithError error: any Error) {
-        loginPublisher.send( .failure(error))
+    func authorizationController(controller: ASAuthorizationController, didCompleteWithError error: Error) {
+        loginPublisher.send(.failure(error))
     }
     
     func authorizationController(controller: ASAuthorizationController, didCompleteWithAuthorization authorization: ASAuthorization) {
@@ -148,9 +143,9 @@ extension SignViewModel: ASAuthorizationControllerDelegate, ASAuthorizationContr
             UserDefaults.standard.set(userID, forKey: "appleAuthorizedUserIdKey")
         }
         
-        let nonce = currentNonce
+        let nonce = currentNonce ?? ""
         
-        signManager.saveApple(appleCredential: credential, nonce: nonce!) { [weak self] result in
+        signManager.saveApple(appleCredential: credential, nonce: nonce) { [weak self] result in
             switch result {
             case .success(let result):
                 if let user = result?.user {
@@ -161,22 +156,22 @@ extension SignViewModel: ASAuthorizationControllerDelegate, ASAuthorizationContr
                             return
                         }
                         
-                        if let snapshot = snapshot {
-                            if let userData = snapshot.value as? [String: Any] {
-                                let isBlockInt = userData[db_isBlock] as? Int ?? 0
-                                let isBlock = isBlockInt != 0
-                                if isBlock {
-                                    let error = NSError(domain: "", code: 403, userInfo: [NSLocalizedDescriptionKey: "현재 계정은 계정차단 관련 문제가 "])
-                                    self?.loginPublisher.send(.failure(error))
-                                    self?.signOut()
-                                } else {
-                                    self?.loginPublisher.send(.success(()))
+                        if let snapshot = snapshot, let userData = snapshot.value as? [String: Any] {
+                            let isBlockInt = userData[db_isBlock] as? Int ?? 0
+                            let isBlock = isBlockInt != 0
+                            if isBlock {
+                                let error = NSError(domain: "", code: 403, userInfo: [NSLocalizedDescriptionKey: "현재 계정은 계정차단 관련 문제가 있습니다."])
+                                self?.loginPublisher.send(.failure(error))
+                                self?.signOut {
+                                    // Completion handler for sign out
                                 }
                             } else {
-                                let model = UserModel(uid: user.uid, email: email, isBlock: false, nickName: "", profileImageUrl: "https://firebasestorage.googleapis.com/v0/b/tteoppokki4u.appspot.com/o/dummyProfile%2FdefaultImage.png?alt=media&token=b4aab21e-e19a-42b7-9d17-d92a3801a327")
-                                self?.signManager.saveUserData(user: model)
                                 self?.loginPublisher.send(.success(()))
                             }
+                        } else {
+                            let model = UserModel(uid: user.uid, email: email, isBlock: false, nickName: "", profileImageUrl: "https://firebasestorage.googleapis.com/v0/b/tteoppokki4u.appspot.com/o/dummyProfile%2FdefaultImage.png?alt=media&token=b4aab21e-e19a-42b7-9d17-d92a3801a327")
+                            self?.signManager.saveUserData(user: model)
+                            self?.loginPublisher.send(.success(()))
                         }
                     }
                 }
@@ -185,6 +180,4 @@ extension SignViewModel: ASAuthorizationControllerDelegate, ASAuthorizationContr
             }
         }
     }
-    
-    
 }
