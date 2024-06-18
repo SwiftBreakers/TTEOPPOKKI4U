@@ -24,6 +24,10 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
         return button
     }()
     
+    
+    let signManager = SignManager()
+    lazy var viewModel = SignViewModel(signManager: signManager)
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -117,26 +121,16 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
         alert.addAction(UIAlertAction(title: "취소", style: .cancel, handler: nil))
         alert.addAction(UIAlertAction(title: "확인", style: .destructive, handler: { _ in
             //firebase 회원탈퇴
-            let user = Auth.auth().currentUser
-            
-            user?.delete { [weak self] error in
-                if let error = error {
-                    self?.showMessage(title: "에러발생", message: "로그아웃 후 재접속하여\n다시 시도해주세요.")
-                } else {
-
-                   let ref = Database.database().reference()
-                    ref.child("users").child(user!.uid).removeValue { error, _ in
-                        if let error = error {
-                            self?.showMessage(title: "에러발생", message: "\(error)")
-                        }
-                    }
-                    
+            self.viewModel.deleteUserAccount { result in
+                switch result {
+                case .success:
                     let scene = UIApplication.shared.connectedScenes.first
                     if let sd: SceneDelegate = (scene?.delegate as? SceneDelegate) {
                         sd.switchToGreetingViewController()
-                        
-                        print("회원탈퇴 처리")
                     }
+                case .failure(let error):
+                    // 오류 처리
+                    print("회원 탈퇴 오류: \(error)")
                 }
             }
         }))
