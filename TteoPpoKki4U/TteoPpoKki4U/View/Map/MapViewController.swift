@@ -10,7 +10,7 @@ import SnapKit
 import MapKit
 import CoreLocation
 
-class MapViewController: UIViewController {
+class MapViewController: UIViewController, PinStoreViewDelegate {
     
     let mapView = MapView()
     lazy var storeInfoView: PinStoreView = {
@@ -34,6 +34,7 @@ class MapViewController: UIViewController {
         bind()
         
         mapView.searchBar.delegate = self
+        storeInfoView.delegate = self
         navigationController?.navigationBar.isHidden = true
         tabBarController?.tabBar.backgroundColor = .white
         
@@ -74,9 +75,7 @@ class MapViewController: UIViewController {
     }
     
     private func setClickEvents() {
-        storeInfoView.scrapButton.addTarget(self, action: #selector(scrapButtonTapped), for: .touchUpInside)
         mapView.findMyLocationBtn.addTarget(self, action: #selector(findMyLocationBtnTapped), for: .touchUpInside)
-//        findFriendButton.addTarget(self, action: #selector(findFriendButtonTapped), for: .touchUpInside)
     }
     
     private func findMyLocation() {
@@ -168,7 +167,8 @@ class MapViewController: UIViewController {
         
     }
     
-    @objc func scrapButtonTapped(_ view: PinStoreView) {
+    func scrapButtonTapped(_ view: PinStoreView) {
+        print(#function)
         let name = view.titleLabel.text ?? ""
         viewModel.scrap(name, upon: storeInfoView.isScrapped)
         storeInfoView.isScrapped.toggle()

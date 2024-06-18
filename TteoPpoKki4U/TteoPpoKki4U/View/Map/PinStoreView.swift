@@ -10,6 +10,8 @@ import SnapKit
 
 class PinStoreView: UIView {
     
+    weak var delegate: PinStoreViewDelegate?
+    
     var isScrapped = false {
         didSet {
             if isScrapped {
@@ -148,6 +150,8 @@ class PinStoreView: UIView {
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(titleLabelTapped))
         titleLabel.isUserInteractionEnabled = true
         titleLabel.addGestureRecognizer(tapGesture)
+        
+        scrapButton.addTarget(self, action: #selector(scrapButtonTapped), for: .touchUpInside)
     }
     
     // uilabel 텍스트 앞에 아이콘 넣기
@@ -185,7 +189,13 @@ class PinStoreView: UIView {
     
         currentViewController?.navigationController?.pushViewController(storeVC, animated: true)
     }
-
+    
+    @objc func scrapButtonTapped() {
+        delegate?.scrapButtonTapped(self)
+    }
 }
 
 
+protocol PinStoreViewDelegate: AnyObject {
+    func scrapButtonTapped(_ view: PinStoreView)
+}
