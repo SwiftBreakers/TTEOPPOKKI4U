@@ -27,9 +27,6 @@ public class RecommendViewController: UIViewController {
         Task {
             await viewModel.fetchData()
         }
-        let backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: self, action: nil)
-        backBarButtonItem.tintColor = ThemeColor.mainOrange  // 색상 변경
-            self.navigationItem.backBarButtonItem = backBarButtonItem
     }
     
     public override func viewDidDisappear(_ animated: Bool) {
@@ -38,6 +35,7 @@ public class RecommendViewController: UIViewController {
     }
     public override func viewWillAppear(_ animated: Bool) {
         cardSwiper.reloadData()
+        navigationController?.navigationBar.isHidden = true
     }
     
     private func setupCardSwiper() {
