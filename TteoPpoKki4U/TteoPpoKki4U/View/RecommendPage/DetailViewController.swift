@@ -332,6 +332,11 @@ class DetailViewController: UIViewController, UISearchBarDelegate {
         //     }
         
         // }
+        UIPasteboard.general.string = shopAddressButton.titleLabel?.text!
+        
+        let clipBoardImage = UIImageView()
+        clipBoardImage.image = UIImage(named: "clipBoard")
+        showCustomAlert(image: clipBoardImage.image!, message: "복사를 완료했어요.")
     }
 }
 extension DetailViewController: UICollectionViewDataSource {

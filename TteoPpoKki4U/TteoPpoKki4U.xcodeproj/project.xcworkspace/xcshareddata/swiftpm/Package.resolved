@@ -1,5 +1,5 @@
 {
-  "originHash" : "c7a846698f2ecd578651594ae5a0dfa416e6c192ab6ee64ce6247b78f186fcfc",
+  "originHash" : "905450f9d249a9d8b68b8b61d2dbb63c862808fd0de4c6d2778d919fa0164f99",
   "pins" : [
     {
       "identity" : "abseil-cpp-binary",
@@ -197,15 +197,6 @@
       "state" : {
         "revision" : "b7e1104502eca3a213b46303391ca4d3bc8ddec1",
         "version" : "2.30910.0"
-      }
-    },
-    {
-      "identity" : "naveridlogin-sdk-ios",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/naver/naveridlogin-sdk-ios",
-      "state" : {
-        "branch" : "master",
-        "revision" : "d8d2128b8bcef8cd93068a058ea898d6dbb7d486"
       }
     },
     {

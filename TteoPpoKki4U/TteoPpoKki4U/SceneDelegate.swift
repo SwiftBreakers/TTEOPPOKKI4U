@@ -23,9 +23,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         guard let windowScene = (scene as? UIWindowScene) else { return }
-        
+    
         let window = UIWindow(windowScene: windowScene)
         self.window = window
+        
         
         let loadingVC = UIViewController()
         loadingVC.view.backgroundColor = .white // 로딩 화면 배경색 설정

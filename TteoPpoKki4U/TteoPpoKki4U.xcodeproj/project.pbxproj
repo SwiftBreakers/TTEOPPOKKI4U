@@ -52,7 +52,6 @@
 		61DAC4E02C05C3A700DFC575 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61DAC4DF2C05C3A700DFC575 /* MapViewController.swift */; };
 		61DAC4E22C05C3C100DFC575 /* CommunityViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61DAC4E12C05C3C100DFC575 /* CommunityViewController.swift */; };
 		61DAC4E42C05C3CF00DFC575 /* MyPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61DAC4E32C05C3CF00DFC575 /* MyPageViewController.swift */; };
-		61DAC4E72C05C77400DFC575 /* NaverThirdPartyLogin in Frameworks */ = {isa = PBXBuildFile; productRef = 61DAC4E62C05C77400DFC575 /* NaverThirdPartyLogin */; };
 		61DAC4EA2C05C7D800DFC575 /* KakaoSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 61DAC4E92C05C7D800DFC575 /* KakaoSDK */; };
 		61DAC4EC2C05C7D800DFC575 /* KakaoSDKAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 61DAC4EB2C05C7D800DFC575 /* KakaoSDKAuth */; };
 		61DAC4EE2C05C7D800DFC575 /* KakaoSDKUser in Frameworks */ = {isa = PBXBuildFile; productRef = 61DAC4ED2C05C7D800DFC575 /* KakaoSDKUser */; };
@@ -122,6 +121,7 @@
 		610717A62C21364600626649 /* AuthKey_RS7QZ647UQ_public.p8 */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = AuthKey_RS7QZ647UQ_public.p8; sourceTree = "<group>"; };
 		610717A82C2137F600626649 /* AppleTokenResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleTokenResponse.swift; sourceTree = "<group>"; };
 		610717AA2C213D5C00626649 /* AuthKey_RS7QZ647UQ.p8 */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = AuthKey_RS7QZ647UQ.p8; sourceTree = "<group>"; };
+		610717AC2C2156B200626649 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		611578CF2C0DCAAB0096BC43 /* UserModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserModel.swift; sourceTree = "<group>"; };
 		611616792C1BD7A3008A2FA2 /* RecommendViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecommendViewModel.swift; sourceTree = "<group>"; };
 		6116167D2C1C218B008A2FA2 /* ReportViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportViewController.swift; sourceTree = "<group>"; };
@@ -212,7 +212,6 @@
 			files = (
 				61DAC4F62C06B57500DFC575 /* FirebaseAnalytics in Frameworks */,
 				6173572F2C1383C00007B92A /* YPImagePicker in Frameworks */,
-				61DAC4E72C05C77400DFC575 /* NaverThirdPartyLogin in Frameworks */,
 				61395F3C2C14C7AD006E7EBD /* ProgressHUD in Frameworks */,
 				6173571F2C12AE470007B92A /* FirebaseMessaging in Frameworks */,
 				613D86B82C05C0DC0039E771 /* SnapKit in Frameworks */,
@@ -391,6 +390,7 @@
 				61ECFE842C21141F0067B1E1 /* GoogleService-Info.plist */,
 				610717AA2C213D5C00626649 /* AuthKey_RS7QZ647UQ.p8 */,
 				610717A62C21364600626649 /* AuthKey_RS7QZ647UQ_public.p8 */,
+				610717AC2C2156B200626649 /* PrivacyInfo.xcprivacy */,
 			);
 			path = TteoPpoKki4U;
 			sourceTree = "<group>";
@@ -643,7 +643,6 @@
 			name = TteoPpoKki4U;
 			packageProductDependencies = (
 				613D86B72C05C0DC0039E771 /* SnapKit */,
-				61DAC4E62C05C77400DFC575 /* NaverThirdPartyLogin */,
 				61DAC4E92C05C7D800DFC575 /* KakaoSDK */,
 				61DAC4EB2C05C7D800DFC575 /* KakaoSDKAuth */,
 				61DAC4ED2C05C7D800DFC575 /* KakaoSDKUser */,
@@ -691,7 +690,6 @@
 			mainGroup = 613D868C2C05BFF80039E771;
 			packageReferences = (
 				613D86B62C05C0DC0039E771 /* XCRemoteSwiftPackageReference "SnapKit" */,
-				61DAC4E52C05C77400DFC575 /* XCRemoteSwiftPackageReference "naveridlogin-sdk-ios" */,
 				61DAC4E82C05C7D800DFC575 /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */,
 				61DAC4EF2C05C80F00DFC575 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */,
 				61DAC4F42C06B57500DFC575 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
@@ -977,9 +975,13 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.TeamSwiftbreakers.TteoPpoKki4U;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -1010,9 +1012,13 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.TeamSwiftbreakers.TteoPpoKki4U;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
@@ -1078,14 +1084,6 @@
 			requirement = {
 				kind = upToNextMajorVersion;
 				minimumVersion = 7.11.0;
-			};
-		};
-		61DAC4E52C05C77400DFC575 /* XCRemoteSwiftPackageReference "naveridlogin-sdk-ios" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/naver/naveridlogin-sdk-ios";
-			requirement = {
-				branch = master;
-				kind = branch;
 			};
 		};
 		61DAC4E82C05C7D800DFC575 /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */ = {
@@ -1160,11 +1158,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 618DEE072C125D9D006B95A8 /* XCRemoteSwiftPackageReference "Kingfisher" */;
 			productName = Kingfisher;
-		};
-		61DAC4E62C05C77400DFC575 /* NaverThirdPartyLogin */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 61DAC4E52C05C77400DFC575 /* XCRemoteSwiftPackageReference "naveridlogin-sdk-ios" */;
-			productName = NaverThirdPartyLogin;
 		};
 		61DAC4E92C05C7D800DFC575 /* KakaoSDK */ = {
 			isa = XCSwiftPackageProductDependency;
