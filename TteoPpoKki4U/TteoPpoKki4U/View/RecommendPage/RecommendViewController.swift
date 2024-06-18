@@ -46,6 +46,7 @@ public class RecommendViewController: UIViewController {
         cardSwiper.delegate = self
         cardSwiper.register(MyCardCell.self, forCellWithReuseIdentifier: "MyCardCell")
         cardSwiper.isSkeletonable = true
+        cardSwiper.isSideSwipingEnabled = false
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
             let animation = SkeletonAnimationBuilder().makeSlidingAnimation(withDirection: .leftRight)
             self.cardSwiper.showAnimatedGradientSkeleton(usingGradient: .init(baseColor: .systemGray5), animation: animation, transition: .crossDissolve(1.0))
