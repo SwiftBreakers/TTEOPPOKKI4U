@@ -83,6 +83,7 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
         
         cell.contentView.addSubview(deleteUserLabel)
         cell.backgroundColor = .white
+        cell.selectionStyle = .none
         deleteUserLabel.snp.makeConstraints { make in
             make.center.equalTo(cell.contentView)
         }
