@@ -65,8 +65,8 @@ final class MapViewModel {
                 address: store.addressName,
                 rating: getAverageRating(ratings: ratings),
                 reviews: ratings.count,
-                latitude: Double(store.x) ?? 0.0,
-                longitude: Double(store.y) ?? 0.0,
+                latitude: Double(store.y) ?? 0.0,
+                longitude: Double(store.x) ?? 0.0,
                 isScrapped: isScrapped
             )
             await MainActor.run {

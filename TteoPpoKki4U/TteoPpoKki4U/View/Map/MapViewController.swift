@@ -39,6 +39,7 @@ class MapViewController: UIViewController, PinStoreViewDelegate {
         tabBarController?.tabBar.backgroundColor = .white
         
         NotificationCenter.default.addObserver(self, selector: #selector(appWillEnterForeground), name: UIApplication.willEnterForegroundNotification, object: nil)
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
