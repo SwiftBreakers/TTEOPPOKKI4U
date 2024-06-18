@@ -304,20 +304,20 @@ class DetailViewController: UIViewController, UISearchBarDelegate {
     }
     
     @objc func moveToMap() {
-        guard let keyword = card?.queryName else { return }
+        // guard let keyword = card?.queryName else { return }
         
-        NetworkManager.shared.fetchAPI(query: keyword) {[weak self] stores in
+        // NetworkManager.shared.fetchAPI(query: keyword) {[weak self] stores in
             
-            guard let tabBarController = self?.tabBarController else { return }
-            tabBarController.selectedIndex = 1
+        //     guard let tabBarController = self?.tabBarController else { return }
+        //     tabBarController.selectedIndex = 1
             
-            if let navController = tabBarController.selectedViewController as? UINavigationController,
-               let mapVC = navController.viewControllers.first as? MapViewController {
-                mapVC.searchLocation(query: self!.card!.queryName, for: [])
-                //mapVC.storeInfoView.isHidden = false
-            }
+        //     if let navController = tabBarController.selectedViewController as? UINavigationController,
+        //        let mapVC = navController.viewControllers.first as? MapViewController {
+        //         mapVC.searchLocation(query: self!.card!.queryName, for: [])
+        //         //mapVC.storeInfoView.isHidden = false
+        //     }
             
-        }
+        // }
     }
 }
 extension DetailViewController: UICollectionViewDataSource {
@@ -367,5 +367,3 @@ extension DetailViewController: UICollectionViewDelegateFlowLayout {
     }
 
 }
-private var randomColor: UIColor {
-    UIColor(red: CGFloat(drand48()), green: CGFloat(drand48()), blue: CGFloat(drand48()), alpha: 1.0)}
