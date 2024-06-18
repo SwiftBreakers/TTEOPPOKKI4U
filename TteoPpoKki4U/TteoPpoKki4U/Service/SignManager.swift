@@ -14,6 +14,8 @@ import CryptoKit
 import KakaoSDKAuth
 import KakaoSDKUser
 import GoogleSignIn
+import SwiftJWT
+import Alamofire
 
 class SignManager {
     
@@ -25,16 +27,84 @@ class SignManager {
             completion(.failure(NSError(domain: "AppleSignIn", code: -1, userInfo: [NSLocalizedDescriptionKey: "Unable to fetch identity token"])))
             return
         }
-        
+
         let credential = OAuthProvider.appleCredential(withIDToken: tokenString, rawNonce: nonce, fullName: appleCredential.fullName)
-        
+
         Auth.auth().signIn(with: credential) { result, error in
             if let error = error {
                 completion(.failure(error))
             } else {
-                completion(.success(result))
+                // JWT 토큰 생성 및 출력
+                let jwtToken = self.makeJWT()
+                print("JWT Token: \(jwtToken)")
+                
+                // authorizationCode를 사용하여 refreshToken을 가져와서 저장
+                if let code = appleCredential.authorizationCode, let codeString = String(data: code, encoding: .utf8) {
+                    self.getAppleRefreshToken(code: codeString) { refreshToken in
+                        guard let refreshToken = refreshToken else {
+                            print("Failed to fetch Apple refresh token")
+                            completion(.failure(NSError(domain: "AppleSignIn", code: -1, userInfo: [NSLocalizedDescriptionKey: "Failed to fetch Apple refresh token"])))
+                            return
+                        }
+                        print("Successfully fetched Apple refresh token: \(refreshToken)")
+                        UserDefaults.standard.set(refreshToken, forKey: "appleRefreshToken")
+                        // 저장된 refreshToken 확인
+                        if let storedToken = UserDefaults.standard.string(forKey: "appleRefreshToken") {
+                            print("Stored Refresh Token: \(storedToken)")
+                        } else {
+                            print("Failed to store refresh token")
+                        }
+                        completion(.success(result))
+                    }
+                } else {
+                    completion(.failure(NSError(domain: "AppleSignIn", code: -1, userInfo: [NSLocalizedDescriptionKey: "Unable to fetch authorization code"])))
+                }
             }
         }
+    }
+    
+    func getAppleRefreshToken(code: String, completionHandler: @escaping (String?) -> Void) {
+        // JWT 토큰 생성
+        let clientSecret = self.makeJWT()
+        guard let url = URL(string: "https://appleid.apple.com/auth/token") else {
+            print("Failed to create URL")
+            completionHandler(nil)
+            return
+        }
+
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        let bodyParameters = [
+            "client_id": "com.TeamSwiftbreakers.TteoPpoKki4U", // 여기에는 실제 번들 ID를 넣어야 합니다.
+            "client_secret": clientSecret,
+            "code": code,
+            "grant_type": "authorization_code"
+        ]
+
+        request.httpBody = bodyParameters
+            .map { "\($0.key)=\($0.value)" }
+            .joined(separator: "&")
+            .data(using: .utf8)
+        request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
+
+        let task = URLSession.shared.dataTask(with: request) { data, response, error in
+            guard let data = data, error == nil else {
+                print("Failed to make request: \(error?.localizedDescription ?? "No error description")")
+                completionHandler(nil)
+                return
+            }
+
+            do {
+                let decoder = JSONDecoder()
+                let response = try decoder.decode(AppleTokenResponse.self, from: data)
+                completionHandler(response.refresh_token)
+            } catch {
+                print("Failed to decode response: \(error.localizedDescription)")
+                completionHandler(nil)
+            }
+        }
+
+        task.resume()
     }
     
     func saveUserData(user: UserModel) {
@@ -90,9 +160,54 @@ class SignManager {
         return result
     }
     
+    // client_secret 생성
+    func makeJWT() -> String {
+        let myHeader = Header(kid: "RS7QZ647UQ") // Apple Key ID
+        
+        struct MyClaims: Claims {
+            let iss: String
+            let iat: Int
+            let exp: Int
+            let aud: String
+            let sub: String
+        }
+        
+        let nowDate = Date()
+        let iat = Int(nowDate.timeIntervalSince1970)
+        let exp = iat + 3600 // 1 hour expiration
+        
+        let myClaims = MyClaims(
+            iss: "LA95MXQ3R5", // Apple Team ID
+            iat: iat,
+            exp: exp,
+            aud: "https://appleid.apple.com",
+            sub: "com.TeamSwiftbreakers.TteoPpoKki4U" // App Bundle ID
+        )
+        
+        var myJWT = JWT(header: myHeader, claims: myClaims)
+        
+        // Load the private key from .p8 file
+        guard let url = Bundle.main.url(forResource: "AuthKey_RS7QZ647UQ", withExtension: "p8") else {
+            print("Failed to find the .p8 file.")
+            return ""
+        }
+        
+        do {
+            let privateKey = try Data(contentsOf: url)
+            let jwtSigner = JWTSigner.es256(privateKey: privateKey)
+            let signedJWT = try myJWT.sign(using: jwtSigner)
+            
+            print("🗝 signedJWT - \(signedJWT)")
+            return signedJWT
+        } catch {
+            print("Failed to sign JWT: \(error)")
+            return ""
+        }
+    }
+    
     // MARK: - SignOut
     
-    func signOut(completion: @escaping (Result<Void, Error>) -> Void) {
+    private func signOut(completion: @escaping (Result<Void, Error>) -> Void) {
         do {
             try Auth.auth().signOut()
             completion(.success(()))
@@ -146,7 +261,16 @@ class SignManager {
                         if let error = error {
                             completion(.failure(error))
                         } else {
-                            self.signOut(completion: completion)
+                            // Revoke the Apple token
+                            guard let refreshToken = UserDefaults.standard.string(forKey: "appleRefreshToken") else {
+                                completion(.failure(NSError(domain: "AppleSignOut", code: -1, userInfo: [NSLocalizedDescriptionKey: "Failed to get refresh token"])))
+                                return
+                            }
+                            print("Using Refresh Token: \(refreshToken)") // 추가 디버깅 로그
+                            let clientSecret = self.makeJWT()
+                            self.revokeAppleToken(clientSecret: clientSecret, token: refreshToken) {
+                                self.signOut(completion: completion)
+                            }
                         }
                     }
                 case "google.com":
@@ -166,6 +290,85 @@ class SignManager {
             completion(.failure(error))
         }
     }
+    
+    
+    func revokeAppleToken(clientSecret: String, token: String, completionHandler: @escaping () -> Void) {
+        let url = "https://appleid.apple.com/auth/revoke?client_id=com.TeamSwiftbreakers.TteoPpoKki4U&client_secret=\(clientSecret)&token=\(token)&token_type_hint=refresh_token"
+        let header: HTTPHeaders = ["Content-Type": "application/x-www-form-urlencoded"]
+        
+        AF.request(url,
+                   method: .post,
+                   headers: header)
+        .validate(statusCode: 200..<600)
+        .responseData { response in
+            guard let statusCode = response.response?.statusCode else { return }
+            if statusCode == 200 {
+                print("애플 토큰 삭제 성공!")
+                completionHandler()
+            } else {
+                print("애플 토큰 삭제 실패, 상태 코드: \(statusCode)")
+            }
+        }
+    }
+    
+    func deleteCurrentUser(completion: @escaping (Result<Void, Error>) -> Void) {
+        if let user = Auth.auth().currentUser {
+            for provider in user.providerData {
+                switch provider.providerID {
+                case "apple.com":
+                    signOutApple { error in
+                        if let error = error {
+                            completion(.failure(error))
+                        } else {
+                            // Revoke the Apple token
+                            guard let refreshToken = UserDefaults.standard.string(forKey: "appleRefreshToken") else {
+                                completion(.failure(NSError(domain: "AppleSignOut", code: -1, userInfo: [NSLocalizedDescriptionKey: "Failed to get refresh token"])))
+                                return
+                            }
+                            print("Using Refresh Token: \(refreshToken)") // 추가 디버깅 로그
+                            let clientSecret = self.makeJWT()
+                            self.revokeAppleToken(clientSecret: clientSecret, token: refreshToken) {
+                                self.deleteUserFromDatabase(uid: user.uid, completion: completion)
+                            }
+                        }
+                    }
+                case "google.com":
+                    signOutGoogle { error in
+                        if let error = error {
+                            completion(.failure(error))
+                        } else {
+                            self.deleteUserFromDatabase(uid: user.uid, completion: completion)
+                        }
+                    }
+                default:
+                    break
+                }
+            }
+        } else {
+            let error = NSError(domain: "FirebaseService", code: -1, userInfo: [NSLocalizedDescriptionKey: "로그인된 사용자가 없습니다."])
+            completion(.failure(error))
+        }
+    }
+    
+    private func deleteUserFromDatabase(uid: String, completion: @escaping (Result<Void, Error>) -> Void) {
+        let ref = Database.database().reference()
+        ref.child("users").child(uid).removeValue { error, _ in
+            if let error = error {
+                completion(.failure(error))
+            } else {
+                if let user = Auth.auth().currentUser {
+                    user.delete { error in
+                        if let error = error {
+                            completion(.failure(error))
+                        } else {
+                            completion(.success(()))
+                        }
+                    }
+                } else {
+                    completion(.failure(NSError(domain: "FirebaseService", code: -1, userInfo: [NSLocalizedDescriptionKey: "로그인된 사용자가 없습니다."])))
+                }
+            }
+        }
+    }
+    
 }
-
-

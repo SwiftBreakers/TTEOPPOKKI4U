@@ -22,6 +22,7 @@ class GreetingHeaderView: UIView {
         label.text = "떡볶이 4U"
         label.font = ThemeFont.fontBold(size: 24)
         label.textAlignment = .center
+        label.textColor = .black
         return label
     }()
     

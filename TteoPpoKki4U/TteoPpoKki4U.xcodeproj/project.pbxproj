@@ -12,6 +12,10 @@
 		25CCA3B32C1ADB2D008F81A3 /* CommunityData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25CCA3B22C1ADB2D008F81A3 /* CommunityData.swift */; };
 		25CCA3B62C1ADE75008F81A3 /* CommunityChattingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25CCA3B52C1ADE75008F81A3 /* CommunityChattingViewController.swift */; };
 		25CCA3B82C1AE272008F81A3 /* CommunityLocalTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25CCA3B72C1AE272008F81A3 /* CommunityLocalTableViewCell.swift */; };
+		610717A32C2131A400626649 /* SwiftJWT in Frameworks */ = {isa = PBXBuildFile; productRef = 610717A22C2131A400626649 /* SwiftJWT */; };
+		610717A72C21364600626649 /* AuthKey_RS7QZ647UQ_public.p8 in Resources */ = {isa = PBXBuildFile; fileRef = 610717A62C21364600626649 /* AuthKey_RS7QZ647UQ_public.p8 */; };
+		610717A92C2137F600626649 /* AppleTokenResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 610717A82C2137F600626649 /* AppleTokenResponse.swift */; };
+		610717AB2C213D5C00626649 /* AuthKey_RS7QZ647UQ.p8 in Resources */ = {isa = PBXBuildFile; fileRef = 610717AA2C213D5C00626649 /* AuthKey_RS7QZ647UQ.p8 */; };
 		611578D02C0DCAAB0096BC43 /* UserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611578CF2C0DCAAB0096BC43 /* UserModel.swift */; };
 		6116167A2C1BD7A3008A2FA2 /* RecommendViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611616792C1BD7A3008A2FA2 /* RecommendViewModel.swift */; };
 		6116167E2C1C218C008A2FA2 /* ReportViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6116167D2C1C218B008A2FA2 /* ReportViewController.swift */; };
@@ -115,6 +119,9 @@
 		25CCA3B22C1ADB2D008F81A3 /* CommunityData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityData.swift; sourceTree = "<group>"; };
 		25CCA3B52C1ADE75008F81A3 /* CommunityChattingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityChattingViewController.swift; sourceTree = "<group>"; };
 		25CCA3B72C1AE272008F81A3 /* CommunityLocalTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityLocalTableViewCell.swift; sourceTree = "<group>"; };
+		610717A62C21364600626649 /* AuthKey_RS7QZ647UQ_public.p8 */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = AuthKey_RS7QZ647UQ_public.p8; sourceTree = "<group>"; };
+		610717A82C2137F600626649 /* AppleTokenResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleTokenResponse.swift; sourceTree = "<group>"; };
+		610717AA2C213D5C00626649 /* AuthKey_RS7QZ647UQ.p8 */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = AuthKey_RS7QZ647UQ.p8; sourceTree = "<group>"; };
 		611578CF2C0DCAAB0096BC43 /* UserModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserModel.swift; sourceTree = "<group>"; };
 		611616792C1BD7A3008A2FA2 /* RecommendViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecommendViewModel.swift; sourceTree = "<group>"; };
 		6116167D2C1C218B008A2FA2 /* ReportViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportViewController.swift; sourceTree = "<group>"; };
@@ -211,6 +218,7 @@
 				613D86B82C05C0DC0039E771 /* SnapKit in Frameworks */,
 				61DAC4FC2C06B57500DFC575 /* FirebaseFirestore in Frameworks */,
 				61DAC4EA2C05C7D800DFC575 /* KakaoSDK in Frameworks */,
+				610717A32C2131A400626649 /* SwiftJWT in Frameworks */,
 				61DAC4EE2C05C7D800DFC575 /* KakaoSDKUser in Frameworks */,
 				61DAC4EC2C05C7D800DFC575 /* KakaoSDKAuth in Frameworks */,
 				61DAC4FA2C06B57500DFC575 /* FirebaseDatabase in Frameworks */,
@@ -248,6 +256,7 @@
 			isa = PBXGroup;
 			children = (
 				611578CF2C0DCAAB0096BC43 /* UserModel.swift */,
+				610717A82C2137F600626649 /* AppleTokenResponse.swift */,
 			);
 			path = Sign;
 			sourceTree = "<group>";
@@ -380,6 +389,8 @@
 				613D86A62C05BFF90039E771 /* Info.plist */,
 				61DAC4FF2C06CCB000DFC575 /* Secret.swift */,
 				61ECFE842C21141F0067B1E1 /* GoogleService-Info.plist */,
+				610717AA2C213D5C00626649 /* AuthKey_RS7QZ647UQ.p8 */,
+				610717A62C21364600626649 /* AuthKey_RS7QZ647UQ_public.p8 */,
 			);
 			path = TteoPpoKki4U;
 			sourceTree = "<group>";
@@ -648,6 +659,7 @@
 				6173571E2C12AE470007B92A /* FirebaseMessaging */,
 				6173572E2C1383C00007B92A /* YPImagePicker */,
 				61395F3B2C14C7AD006E7EBD /* ProgressHUD */,
+				610717A22C2131A400626649 /* SwiftJWT */,
 			);
 			productName = TteoPpoKki4U;
 			productReference = 613D86952C05BFF80039E771 /* TteoPpoKki4U.app */;
@@ -688,6 +700,7 @@
 				CE3F36452C14286400532901 /* XCRemoteSwiftPackageReference "SkeletonView" */,
 				6173572D2C1383C00007B92A /* XCRemoteSwiftPackageReference "YPImagePicker" */,
 				61395F3A2C14C7AD006E7EBD /* XCRemoteSwiftPackageReference "ProgressHUD" */,
+				610717A12C2131A400626649 /* XCRemoteSwiftPackageReference "Swift-JWT" */,
 			);
 			productRefGroup = 613D86962C05BFF80039E771 /* Products */;
 			projectDirPath = "";
@@ -703,8 +716,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				610717A72C21364600626649 /* AuthKey_RS7QZ647UQ_public.p8 in Resources */,
 				8D580A472C082AB60057D370 /* Pretendard-Medium.ttf in Resources */,
 				61ECFE852C21141F0067B1E1 /* GoogleService-Info.plist in Resources */,
+				610717AB2C213D5C00626649 /* AuthKey_RS7QZ647UQ.p8 in Resources */,
 				613D86A22C05BFF90039E771 /* Assets.xcassets in Resources */,
 				8D580A492C082AB60057D370 /* Pretendard-Regular.ttf in Resources */,
 				8D580A4A2C082AB60057D370 /* Pretendard-ExtraLight.ttf in Resources */,
@@ -754,6 +769,7 @@
 				619FE8EC2C1F147F00745A0A /* ReportModel.swift in Sources */,
 				9C82B95B2C0F54D7008FA84E /* Double+Extension.swift in Sources */,
 				611644382C0909D4009FFDA5 /* SignManager.swift in Sources */,
+				610717A92C2137F600626649 /* AppleTokenResponse.swift in Sources */,
 				8DD5CBB72C107BFD004F27BD /* ReviewTableViewCell.swift in Sources */,
 				61DC69072C15CC38003DEB73 /* StoreManager.swift in Sources */,
 				617BCCBA2C1912CD008D8D48 /* GreetingBottomView.swift in Sources */,
@@ -1024,6 +1040,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		610717A12C2131A400626649 /* XCRemoteSwiftPackageReference "Swift-JWT" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Kitura/Swift-JWT.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 4.0.1;
+			};
+		};
 		61395F3A2C14C7AD006E7EBD /* XCRemoteSwiftPackageReference "ProgressHUD" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/relatedcode/ProgressHUD.git";
@@ -1107,6 +1131,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		610717A22C2131A400626649 /* SwiftJWT */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 610717A12C2131A400626649 /* XCRemoteSwiftPackageReference "Swift-JWT" */;
+			productName = SwiftJWT;
+		};
 		61395F3B2C14C7AD006E7EBD /* ProgressHUD */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 61395F3A2C14C7AD006E7EBD /* XCRemoteSwiftPackageReference "ProgressHUD" */;

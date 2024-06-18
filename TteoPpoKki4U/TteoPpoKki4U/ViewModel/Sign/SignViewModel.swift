@@ -12,6 +12,8 @@ import KakaoSDKUser
 import GoogleSignIn
 import FirebaseAuth
 import Combine
+import Alamofire
+import SwiftJWT
 
 class SignViewModel: NSObject {
     
@@ -31,7 +33,6 @@ class SignViewModel: NSObject {
         let request = provider.createRequest()
         
         let nonce = signManager.randomNonceString()
-        
         currentNonce = nonce
         
         request.requestedScopes = [.fullName, .email]
@@ -122,18 +123,68 @@ class SignViewModel: NSObject {
             }
         }
     }
+    
+    // client_refreshToken
+    func getAppleRefreshToken(code: String, completionHandler: @escaping (String?) -> Void) {
+        
+        guard let secret = UserDefaults.standard.string(forKey: "AppleClientSecret") else {return}
+        
+        let url = "https://appleid.apple.com/auth/token?client_id=YOUR_BUNDLE_ID&client_secret=\(secret)&code=\(code)&grant_type=authorization_code"
+        let header: HTTPHeaders = ["Content-Type": "application/x-www-form-urlencoded"]
+        
+        print("🗝 clientSecret - \(UserDefaults.standard.string(forKey: "AppleClientSecret") ?? "")")
+        print("🗝 authCode - \(code)")
+        
+        let a = AF.request(url, method: .post, encoding: JSONEncoding.default, headers: header)
+            .validate(statusCode: 200..<500)
+            .responseData { response in
+                print("🗝 response - \(response.description)")
+                
+                switch response.result {
+                case .success(let output):
+                    //                print("🗝 ouput - \(output)")
+                    let decoder = JSONDecoder()
+                    if let decodedData = try? decoder.decode(AppleTokenResponse.self, from: output){
+                        //                    print("🗝 output2 - \(decodedData.refresh_token)")
+                        
+                        if decodedData.refresh_token == nil{
+                            self.loginPublisher.send(.success(()))
+                        }else{
+                            completionHandler(decodedData.refresh_token)
+                        }
+                    }
+                    
+                case .failure(_):
+                    self.loginPublisher.send(.success(()))
+                }
+            }
+    }
+    
+    func deleteUserAccount(completion: @escaping (Result<Void, Error>) -> Void) {
+        signManager.deleteCurrentUser { result in
+            switch result {
+            case .success:
+                print("회원 탈퇴 성공")
+                completion(.success(()))
+            case .failure(let error):
+                print("회원 탈퇴 실패: \(error)")
+                completion(.failure(error))
+            }
+        }
+    }
+    
 }
 
 extension SignViewModel: ASAuthorizationControllerDelegate, ASAuthorizationControllerPresentationContextProviding {
-    
+
     func presentationAnchor(for controller: ASAuthorizationController) -> ASPresentationAnchor {
         return UIApplication.shared.windows.first!
     }
-    
+
     func authorizationController(controller: ASAuthorizationController, didCompleteWithError error: Error) {
         loginPublisher.send(.failure(error))
     }
-    
+
     func authorizationController(controller: ASAuthorizationController, didCompleteWithAuthorization authorization: ASAuthorization) {
         guard let credential = authorization.credential as? ASAuthorizationAppleIDCredential else { return }
         
@@ -142,7 +193,7 @@ extension SignViewModel: ASAuthorizationControllerDelegate, ASAuthorizationContr
         if UserDefaults.standard.string(forKey: "appleAuthorizedUserIdKey") == nil {
             UserDefaults.standard.set(userID, forKey: "appleAuthorizedUserIdKey")
         }
-        
+
         let nonce = currentNonce ?? ""
         
         signManager.saveApple(appleCredential: credential, nonce: nonce) { [weak self] result in
