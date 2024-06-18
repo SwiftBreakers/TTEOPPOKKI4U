@@ -274,7 +274,7 @@ class WriteViewController: UIViewController {
                     viewModel.createReview(userDict: dictionary) {
                         ProgressHUD.remove()
                         self.showMessage(title: "리뷰 등록", message: "리뷰가 등록 되었습니다") {
-                            self.dismiss(animated: true, completion: nil)
+                            self.navigationController?.popViewController(animated: true)
                         }
                     }
                 }

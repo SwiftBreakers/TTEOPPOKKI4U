@@ -27,9 +27,6 @@ public class RecommendViewController: UIViewController {
         Task {
             await viewModel.fetchData()
         }
-        let backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: self, action: nil)
-        backBarButtonItem.tintColor = ThemeColor.mainOrange  // 색상 변경
-            self.navigationItem.backBarButtonItem = backBarButtonItem
     }
     
     public override func viewDidDisappear(_ animated: Bool) {
@@ -38,6 +35,7 @@ public class RecommendViewController: UIViewController {
     }
     public override func viewWillAppear(_ animated: Bool) {
         cardSwiper.reloadData()
+        navigationController?.navigationBar.isHidden = true
     }
     
     private func setupCardSwiper() {
@@ -46,6 +44,7 @@ public class RecommendViewController: UIViewController {
         cardSwiper.delegate = self
         cardSwiper.register(MyCardCell.self, forCellWithReuseIdentifier: "MyCardCell")
         cardSwiper.isSkeletonable = true
+        cardSwiper.isSideSwipingEnabled = false
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
             let animation = SkeletonAnimationBuilder().makeSlidingAnimation(withDirection: .leftRight)
             self.cardSwiper.showAnimatedGradientSkeleton(usingGradient: .init(baseColor: .systemGray5), animation: animation, transition: .crossDissolve(1.0))

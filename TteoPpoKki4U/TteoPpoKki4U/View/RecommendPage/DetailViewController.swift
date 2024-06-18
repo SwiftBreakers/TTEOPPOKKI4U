@@ -81,10 +81,16 @@ class DetailViewController: UIViewController, UISearchBarDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        
+        
+        
+        
         setupViews()
         configureView()
         setupCollectionView()
         //        navigationController?.hidesBarsOnSwipe = true
+        
         makeBarButton()
         bind()
         items = [
@@ -94,14 +100,22 @@ class DetailViewController: UIViewController, UISearchBarDelegate {
             Item(imageURL: URL(string: card!.collectionImageURL4)!, isDimmed: false)
         ]
     }
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        navigationController?.navigationBar.isHidden = false
+        navigationController?.navigationBar.tintColor = ThemeColor.mainOrange
+        navigationController?.navigationBar.barTintColor = .white
+        let backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: self, action: nil)
+        self.navigationItem.backBarButtonItem = backBarButtonItem
+        
         if let title = card?.title {
             Task {
                 await viewModel.fetchBookmarkStatus(title: title)
             }
         }
     }
+    
     func setupCollectionView() {
         collectionView.delegate = self
         collectionView.dataSource = self
@@ -109,7 +123,7 @@ class DetailViewController: UIViewController, UISearchBarDelegate {
         collectionView.frame = view.bounds
         collectionView.isPagingEnabled = false
         collectionView.contentInset = .zero
-        collectionView.backgroundColor = .systemGray6
+        collectionView.backgroundColor = .white
         collectionView.clipsToBounds = true
         collectionView.contentInsetAdjustmentBehavior = .never
         collectionView.contentInset = Const.collectionViewContentInset
@@ -307,16 +321,16 @@ class DetailViewController: UIViewController, UISearchBarDelegate {
         // guard let keyword = card?.queryName else { return }
         
         // NetworkManager.shared.fetchAPI(query: keyword) {[weak self] stores in
-            
+        
         //     guard let tabBarController = self?.tabBarController else { return }
         //     tabBarController.selectedIndex = 1
-            
+        
         //     if let navController = tabBarController.selectedViewController as? UINavigationController,
         //        let mapVC = navController.viewControllers.first as? MapViewController {
         //         mapVC.searchLocation(query: self!.card!.queryName, for: [])
         //         //mapVC.storeInfoView.isHidden = false
         //     }
-            
+        
         // }
     }
 }
@@ -351,7 +365,7 @@ extension DetailViewController: UICollectionViewDelegateFlowLayout {
         
         // index가 items 배열의 유효한 인덱스인지 확인
         guard index >= 0 && index < items.count else { return }
-
+        
         if let previousIndex = previousIndex, previousIndex != index {
             // previousIndex도 유효한 인덱스인지 확인
             if previousIndex >= 0 && previousIndex < items.count {
@@ -365,5 +379,5 @@ extension DetailViewController: UICollectionViewDelegateFlowLayout {
             self.previousIndex = index
         }
     }
-
+    
 }
