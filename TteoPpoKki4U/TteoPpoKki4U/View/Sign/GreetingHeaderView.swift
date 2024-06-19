@@ -12,7 +12,7 @@ class GreetingHeaderView: UIView {
     
     private lazy var logoImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.image = #imageLiteral(resourceName: "drawedTPK")
+        imageView.image = #imageLiteral(resourceName: "logo_bgremoved")
         imageView.contentMode = .scaleAspectFit
         imageView.layer.cornerRadius = 10
         imageView.clipsToBounds = true
@@ -22,7 +22,7 @@ class GreetingHeaderView: UIView {
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.text = "떡볶이 4U"
-        label.font = ThemeFont.fontBold(size: 24)
+        label.font = ThemeFont.fontBold(size: 28)
         label.textAlignment = .center
         label.textColor = .black
         return label
@@ -43,14 +43,15 @@ class GreetingHeaderView: UIView {
         self.addSubview(titleLabel)
         
         logoImageView.snp.makeConstraints { make in
-            make.top.equalToSuperview().offset(40)
+            make.top.equalToSuperview().offset(20)
             make.centerX.equalToSuperview()
-            make.width.height.equalTo(100)
+            make.width.height.equalTo(170)
         }
         
         titleLabel.snp.makeConstraints { make in
-            make.top.equalTo(logoImageView.snp.bottom).offset(20)
+            make.top.equalTo(logoImageView.snp.bottom).offset(10)
             make.centerX.equalToSuperview()
+            make.bottom.equalToSuperview().inset(20)
         }
         
     }

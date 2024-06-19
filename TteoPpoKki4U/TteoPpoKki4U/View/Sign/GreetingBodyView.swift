@@ -15,17 +15,36 @@ class GreetingBodyView: UIView {
     
     private lazy var appleLoginButton: ASAuthorizationAppleIDButton = {
         let button = ASAuthorizationAppleIDButton(type: .signIn, style: .black)
+        button.cornerRadius = 10
         button.addTarget(self, action: #selector(appleButtonDidTapped), for: .touchUpInside)
         return button
     }()
     
-    private lazy var googleLoginButton: GIDSignInButton = {
-        let button = GIDSignInButton()
-        button.style = .wide
-        button.colorScheme = .light
+//    private lazy var googleLoginButton: GIDSignInButton = {
+//        let button = GIDSignInButton()
+//        button.style = .wide
+//        button.colorScheme = .light
+//        button.layer.cornerRadius = 10
+//        button.addTarget(self, action: #selector(googleButtonDidTapped), for: .touchUpInside)
+//        return button
+//    }()
+    
+    private lazy var googleLoginButton: UIButton = {
+        let button = UIButton()
+        button.backgroundColor = UIColor(hexString: "F2F2F2")
+        button.setImage(UIImage(named: "ios_neutral_sq_SI"), for: .normal)
+        button.setImage(UIImage(named: "ios_neutral_sq_SI"), for: .highlighted)
         button.layer.cornerRadius = 10
         button.addTarget(self, action: #selector(googleButtonDidTapped), for: .touchUpInside)
         return button
+    }()
+    
+    private lazy var seperateLabel: UILabel = {
+        let label = UILabel()
+        label.text = "or continue with"
+        label.textColor = .gray
+        label.font = ThemeFont.fontRegular(size: 12)
+        return label
     }()
     
     private lazy var guestLoginButton: UIButton = {
@@ -74,28 +93,33 @@ class GreetingBodyView: UIView {
     }
     
     private func layout() {
-        [appleLoginButton, googleLoginButton, guestLoginButton].forEach { button in
+        [appleLoginButton, googleLoginButton, seperateLabel, guestLoginButton].forEach { button in
             self.addSubview(button)
         }
         
         appleLoginButton.snp.makeConstraints { make in
             make.top.equalToSuperview().offset(20)
-            make.leading.equalToSuperview().offset(20)
-            make.trailing.equalToSuperview().offset(-20)
+            make.leading.equalToSuperview().offset(30)
+            make.trailing.equalToSuperview().offset(-30)
             make.height.equalTo(50)
         }
             
         googleLoginButton.snp.makeConstraints { make in
             make.top.equalTo(appleLoginButton.snp.bottom).offset(20)
-            make.leading.equalToSuperview().offset(17)
-            make.trailing.equalToSuperview().offset(-17)
-            make.height.equalTo(65)
+            make.leading.equalToSuperview().offset(30)
+            make.trailing.equalToSuperview().offset(-30)
+            make.height.equalTo(50)
+        }
+        
+        seperateLabel.snp.makeConstraints { make in
+            make.top.equalTo(googleLoginButton.snp.bottom).offset(20)
+            make.centerX.equalToSuperview()
         }
         
         guestLoginButton.snp.makeConstraints { make in
-            make.top.equalTo(googleLoginButton.snp.bottom).offset(20)
-            make.leading.equalToSuperview().offset(20)
-            make.trailing.equalToSuperview().offset(-20)
+            make.top.equalTo(seperateLabel.snp.bottom).offset(20)
+            make.leading.equalToSuperview().offset(30)
+            make.trailing.equalToSuperview().offset(-30)
             make.height.equalTo(50)
         }
         

@@ -11,14 +11,14 @@ class ReviewTableViewCell: UITableViewCell {
     
     lazy var reviewTitleLabel: UILabel = {
         let label = UILabel()
-        label.font = ThemeFont.fontRegular(size: 17)
+        label.font = ThemeFont.fontRegular(size: 18)
         label.textColor = .black
         return label
     }()
     
     lazy var starRatingLabel : UILabel = {
         let label = UILabel()
-        label.font = ThemeFont.fontRegular(size: 17)
+        label.font = ThemeFont.fontRegular(size: 18)
         label.textColor = .black
         return label
     }()
@@ -27,18 +27,20 @@ class ReviewTableViewCell: UITableViewCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         self.backgroundColor = .white
         self.selectionStyle = .none
+        self.separatorInset.left = 15
+        self.separatorInset.right = 15
         contentView.addSubview(reviewTitleLabel)
         contentView.addSubview(starRatingLabel)
         
         reviewTitleLabel.snp.makeConstraints { make in
-            make.leading.equalToSuperview().inset(20)
+            make.leading.equalToSuperview().offset(25)
             make.centerY.equalToSuperview()
         }
         
         starRatingLabel.snp.makeConstraints { make in
             make.leading.equalTo(reviewTitleLabel.snp.trailing).offset(10)
             make.centerY.equalTo(reviewTitleLabel)
-            make.trailing.equalToSuperview().inset(20)
+            make.trailing.equalToSuperview().inset(25)
         }
         
     }

@@ -93,7 +93,7 @@ class StoreViewController: UIViewController {
     }
     
     private func setupViews() {
-        view.backgroundColor = .white
+        view.backgroundColor = .white //UIColor(hexString: "FFF6F0")
         
         // Setup Back Button
         
@@ -110,6 +110,7 @@ class StoreViewController: UIViewController {
         // Setup Scroll View and Stack View
         scrollView.showsHorizontalScrollIndicator = true
         scrollView.showsVerticalScrollIndicator = false
+        scrollView.backgroundColor = .white
         view.addSubview(scrollView)
         
         stackView.axis = .horizontal
@@ -144,6 +145,8 @@ class StoreViewController: UIViewController {
         
         tableView.delegate = self
         tableView.dataSource = self
+        tableView.layer.borderWidth = 1
+        tableView.layer.borderColor = ThemeColor.mainOrange.cgColor
         view.addSubview(tableView)
     }
     
@@ -181,7 +184,8 @@ class StoreViewController: UIViewController {
         // Table View Constraints
         tableView.snp.makeConstraints { make in
             make.top.equalTo(locationLabel.snp.bottom).offset(40)
-            make.leading.trailing.equalToSuperview()
+            make.leading.equalToSuperview().offset(-2)
+            make.trailing.equalToSuperview().offset(2)
             make.bottom.equalTo(goReviewButton.snp.top).offset(-20)
         }
         

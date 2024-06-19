@@ -1,11 +1,11 @@
 {
   "images" : [
     {
-      "filename" : "clipBoard.svg",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
+      "filename" : "clipBoard.svg",
       "idiom" : "universal",
       "scale" : "2x"
     },
