@@ -17,6 +17,7 @@ final class GreetingViewController: UIViewController {
         let view = GreetingBodyView()
         view.appleTapped = appleTapped
         view.googleTapped = googleTapped
+        view.guestTapped = guestTapped
         return view
     }()
     
@@ -40,15 +41,17 @@ final class GreetingViewController: UIViewController {
     private var appleTapped: (() -> Void)!
     private var googleTapped: (() -> Void)!
     private var hiddenTapped: (() -> Void)!
+    private var guestTapped: (() -> Void)!
     
     var viewModel: SignViewModel!
     private var cancellables = Set<AnyCancellable>()
     
-    convenience init(appleTapped: @escaping () -> Void, googleTapped: @escaping () -> Void, hiddenTapped: @escaping () -> Void, viewModel: SignViewModel) {
+    convenience init(appleTapped: @escaping () -> Void, googleTapped: @escaping () -> Void, hiddenTapped: @escaping () -> Void, guestTapped: @escaping () -> Void, viewModel: SignViewModel) {
         self.init()
         self.appleTapped = appleTapped
         self.googleTapped = googleTapped
         self.hiddenTapped = hiddenTapped
+        self.guestTapped = guestTapped
         self.viewModel = viewModel
     }
     
