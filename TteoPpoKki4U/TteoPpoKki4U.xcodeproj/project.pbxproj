@@ -110,7 +110,6 @@
 		CE3F36472C14286400532901 /* SkeletonView in Frameworks */ = {isa = PBXBuildFile; productRef = CE3F36462C14286400532901 /* SkeletonView */; };
 		CE4004102C1D1D46009E1142 /* DetailCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE40040F2C1D1D46009E1142 /* DetailCollectionViewCell.swift */; };
 		CE4004122C1D1EED009E1142 /* CustomAlertViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE4004112C1D1EED009E1142 /* CustomAlertViewController.swift */; };
-		CE771C972C225DE6004415CA /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = CE771C962C225DE6004415CA /* GoogleService-Info.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -204,7 +203,6 @@
 		CE3F36412C1036D700532901 /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		CE40040F2C1D1D46009E1142 /* DetailCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailCollectionViewCell.swift; sourceTree = "<group>"; };
 		CE4004112C1D1EED009E1142 /* CustomAlertViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAlertViewController.swift; sourceTree = "<group>"; };
-		CE771C962C225DE6004415CA /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -957,7 +955,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 4757X33ZF7;
+				DEVELOPMENT_TEAM = LA95MXQ3R5;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = TteoPpoKki4U/Info.plist;
 				INFOPLIST_KEY_NSCameraUsageDescription = "리뷰 작성을 위해 동의가 필요합니다.";
@@ -995,7 +993,7 @@
 				CODE_SIGN_ENTITLEMENTS = TteoPpoKki4U/TteoPpoKki4U.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 4757X33ZF7;
+				DEVELOPMENT_TEAM = LA95MXQ3R5;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = TteoPpoKki4U/Info.plist;
 				INFOPLIST_KEY_NSCameraUsageDescription = "리뷰 작성을 위해 동의가 필요합니다.";

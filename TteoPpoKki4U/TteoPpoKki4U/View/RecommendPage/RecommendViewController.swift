@@ -23,10 +23,6 @@ public class RecommendViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .white
         setupCardSwiper()
-        bind()
-        Task {
-            await viewModel.fetchData()
-        }
     }
     
     public override func viewDidDisappear(_ animated: Bool) {
@@ -34,7 +30,10 @@ public class RecommendViewController: UIViewController {
         cancellables.removeAll()
     }
     public override func viewWillAppear(_ animated: Bool) {
-        cardSwiper.reloadData()
+        Task {
+            await viewModel.fetchData()
+        }
+        bind()
         navigationController?.navigationBar.isHidden = true
     }
     
