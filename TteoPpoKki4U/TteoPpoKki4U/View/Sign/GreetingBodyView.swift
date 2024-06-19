@@ -21,12 +21,28 @@ class GreetingBodyView: UIView {
     
     private lazy var googleLoginButton: GIDSignInButton = {
         let button = GIDSignInButton()
+        button.style = .wide
+        button.colorScheme = .light
+        button.layer.cornerRadius = 10
         button.addTarget(self, action: #selector(googleButtonDidTapped), for: .touchUpInside)
+        return button
+    }()
+    
+    private lazy var guestLoginButton: UIButton = {
+        let button = UIButton()
+        button.setImage(UIImage(systemName: "person.crop.circle"), for: .normal)
+        button.tintColor = .white
+        button.setTitle("    게스트로 로그인", for: .normal)
+        button.titleLabel?.font = ThemeFont.fontBold()
+        button.backgroundColor = ThemeColor.mainOrange
+        button.layer.cornerRadius = 10
+        button.addTarget(self, action: #selector(guestButtonDidTapped), for: .touchUpInside)
         return button
     }()
     
     var appleTapped: (() -> Void)?
     var googleTapped: (() -> Void)?
+    var guestTapped: (() -> Void)?
     
     override init(frame: CGRect) {
         super.init(frame: .zero)
@@ -39,7 +55,7 @@ class GreetingBodyView: UIView {
     }
     
     private func layout() {
-        [appleLoginButton, googleLoginButton].forEach { button in
+        [appleLoginButton, googleLoginButton, guestLoginButton].forEach { button in
             self.addSubview(button)
         }
         
@@ -52,6 +68,13 @@ class GreetingBodyView: UIView {
             
         googleLoginButton.snp.makeConstraints { make in
             make.top.equalTo(appleLoginButton.snp.bottom).offset(20)
+            make.leading.equalToSuperview().offset(17)
+            make.trailing.equalToSuperview().offset(-17)
+            make.height.equalTo(65)
+        }
+        
+        guestLoginButton.snp.makeConstraints { make in
+            make.top.equalTo(googleLoginButton.snp.bottom).offset(20)
             make.leading.equalToSuperview().offset(20)
             make.trailing.equalToSuperview().offset(-20)
             make.height.equalTo(50)
@@ -67,4 +90,7 @@ class GreetingBodyView: UIView {
         googleTapped?()
     }
     
+    @objc func guestButtonDidTapped() {
+        guestTapped?()
+    }
 }

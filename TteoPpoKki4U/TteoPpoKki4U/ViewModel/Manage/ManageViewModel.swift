@@ -71,7 +71,17 @@ class ManageViewModel {
                             print("error")
                             return
                         }
-                        let reviewData = ReviewModel(uid: uid, title: title, storeAddress: storeAddress, storeName: storeName, content: content, rating: rating, imageURL: imageURL, isActive: isActive, createdAt: createdAt, updatedAt: updatedAt, reportCount: reportCount)
+                        let reviewData = ReviewModel(uid: uid,
+                                                     title: title,
+                                                     storeAddress: storeAddress,
+                                                     storeName: storeName,
+                                                     content: content,
+                                                     rating: rating,
+                                                     imageURL: imageURL,
+                                                     isActive: isActive,
+                                                     createdAt: createdAt,
+                                                     updatedAt: updatedAt,
+                                                     reportCount: reportCount)
                         self?.userReview.append(reviewData)
                         self?.managePublisher.send(())
                     }

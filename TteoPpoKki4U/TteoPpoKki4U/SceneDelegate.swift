@@ -82,6 +82,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                         self.greetingVC.present(self.manageVC, animated: true)
                     }
                 })
+            }, guestTapped: {
+                self.switchToMainTabBarController()
             },
             viewModel: signViewModel)
         
@@ -135,6 +137,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                             self.greetingVC.present(self.manageVC, animated: true)
                         }
                     })
+                }, guestTapped: {
+                    self.switchToMainTabBarController()
                 },
                 viewModel: signViewModel)
             self.window?.rootViewController = self.greetingVC
