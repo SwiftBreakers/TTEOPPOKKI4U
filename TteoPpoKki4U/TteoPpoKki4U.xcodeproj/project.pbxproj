@@ -955,7 +955,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = LA95MXQ3R5;
+				DEVELOPMENT_TEAM = 4757X33ZF7;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = TteoPpoKki4U/Info.plist;
 				INFOPLIST_KEY_NSCameraUsageDescription = "리뷰 작성을 위해 동의가 필요합니다.";
@@ -993,7 +993,7 @@
 				CODE_SIGN_ENTITLEMENTS = TteoPpoKki4U/TteoPpoKki4U.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = LA95MXQ3R5;
+				DEVELOPMENT_TEAM = 4757X33ZF7;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = TteoPpoKki4U/Info.plist;
 				INFOPLIST_KEY_NSCameraUsageDescription = "리뷰 작성을 위해 동의가 필요합니다.";
