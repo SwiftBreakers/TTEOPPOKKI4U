@@ -20,6 +20,7 @@ public class CardViewModel: ObservableObject {
     private var cancellables = Set<AnyCancellable>()
     
     @Published var isBookmarked: Bool = false
+    private var bookmarkStatus: [String: Bool] = [:]
     
     
     public var numberOfCards: Int {
@@ -37,7 +38,7 @@ public class CardViewModel: ObservableObject {
         let cardRef = db.collection("recommendMain")
         do {
             let querySnapshot = try await cardRef.getDocuments()
-            
+            var fetchedCards: [Card] = []
             let cards = try await withThrowingTaskGroup(of: Card?.self) { taskGroup in
                 for document in querySnapshot.documents {
                     taskGroup.addTask {
@@ -53,6 +54,7 @@ public class CardViewModel: ObservableObject {
                         let collectionImageURL2String = data["collectionImageURL2"] as? String ?? ""
                         let collectionImageURL3String = data["collectionImageURL3"] as? String ?? ""
                         let collectionImageURL4String = data["collectionImageURL4"] as? String ?? ""
+                        let order = data["order"] as? Int ?? 0
                         // gs:// URL을 HTTP(S) URL로 변환
                         let imageURL = try await self.convertGSURLToHTTPURL(gsURL: imageURLString)
                         let collectionImageURL1 = try await self.convertGSURLToHTTPURL(gsURL: collectionImageURL1String)
@@ -62,20 +64,19 @@ public class CardViewModel: ObservableObject {
                         
                         await self.fetchBookmarkStatus(title: title)
                         
-                        return Card(title: title, description: description, longDescription1: longDescription1, longDescription2: longDescription2, imageURL: imageURL, shopAddress: shopAddress, queryName: queryName, collectionImageURL1: collectionImageURL1, collectionImageURL2: collectionImageURL2, collectionImageURL3: collectionImageURL3, collectionImageURL4: collectionImageURL4)
+                        return Card(title: title, description: description, longDescription1: longDescription1, longDescription2: longDescription2, imageURL: imageURL, shopAddress: shopAddress, queryName: queryName, collectionImageURL1: collectionImageURL1, collectionImageURL2: collectionImageURL2, collectionImageURL3: collectionImageURL3, collectionImageURL4: collectionImageURL4, order: order)
                     }
                 }
-                var newCards: [Card] = []
                 for try await card in taskGroup {
                     if let card = card {
-                        newCards.append(card)
+                        fetchedCards.append(card)
                     }
                 }
-                return newCards
+                return fetchedCards
             }
             
             DispatchQueue.main.async {
-                self.cards = cards
+                self.cards = fetchedCards.sorted(by: { $0.order < $1.order })
             }
         } catch {
             print("Error getting documents: \(error)")

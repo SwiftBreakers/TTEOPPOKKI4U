@@ -20,10 +20,7 @@ public struct Card {
     var collectionImageURL2: String
     var collectionImageURL3: String
     var collectionImageURL4: String
-}
-
-public struct DetailImage {
-    var imageURL: String
+    var order: Int
 }
 
 struct Item {
