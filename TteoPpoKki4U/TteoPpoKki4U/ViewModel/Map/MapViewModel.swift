@@ -23,6 +23,7 @@ final class MapViewModel {
     
     enum StoreError: Error {
         case noStore
+        case noUID
     }
     
     var didChangeState: ((MapViewModel) -> Void)?
@@ -126,7 +127,9 @@ final class MapViewModel {
     }
     
     private func createScrapItem(shopName: String, shopAddress: String) {
-        guard let userID = Auth.auth().currentUser?.uid else { return }
+        guard let userID = Auth.auth().currentUser?.uid else { 
+            self.state = .didLoadedWithError(error: .noUID)
+            return }
         scrappedCollection.addDocument(
             data: [
                 db_shopName: shopName,
@@ -141,7 +144,9 @@ final class MapViewModel {
     }
     
     private func deleteScrapItem(shopName: String) {
-        guard let userID = Auth.auth().currentUser?.uid else { return }
+        guard let userID = Auth.auth().currentUser?.uid else { 
+            self.state = .didLoadedWithError(error: .noUID)
+            return }
         
         scrappedCollection
             .whereField(db_uid, isEqualTo: userID)
@@ -162,7 +167,9 @@ final class MapViewModel {
     }
     
     private func fetchScrapStatus(shopName: String, completion: @escaping (Bool) -> Void) {
-        guard let userID = Auth.auth().currentUser?.uid else { return }
+        guard let userID = Auth.auth().currentUser?.uid else { 
+            completion(false)
+            return }
         scrappedCollection
             .whereField(db_uid, isEqualTo: userID)
             .whereField(db_shopName, isEqualTo: shopName)
