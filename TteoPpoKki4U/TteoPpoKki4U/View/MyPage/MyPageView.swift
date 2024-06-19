@@ -11,7 +11,7 @@ class MyPageView: UIView {
     
     let userProfile: UIImageView = {
         let view = UIImageView()
-        view.image = UIImage(named: "defaultImage")
+        view.image = #imageLiteral(resourceName: "personIcon")
 //        view.backgroundColor = ThemeColor.mainGreen
         view.layer.cornerRadius = 60
         view.clipsToBounds = true
@@ -22,7 +22,7 @@ class MyPageView: UIView {
     let userNameLabel: UILabel = {
         let label = UILabel()
         label.font = ThemeFont.fontRegular(size: 20)
-        label.text = "떡볶이왕"
+        label.text = "로그인이 필요합니다."
         label.textColor = .black
         label.textAlignment = .center
         label.numberOfLines = 0

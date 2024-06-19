@@ -169,7 +169,6 @@ class MapViewController: UIViewController, PinStoreViewDelegate {
     }
     
     func scrapButtonTapped(_ view: PinStoreView) {
-        print(#function)
         let name = view.titleLabel.text ?? ""
         viewModel.scrap(name, upon: storeInfoView.isScrapped)
         storeInfoView.isScrapped.toggle()
@@ -210,6 +209,12 @@ class MapViewController: UIViewController, PinStoreViewDelegate {
             case let .didLoadedWithError(error):
                 // do something with error
                 print(error)
+                if error == .noUID {
+                    DispatchQueue.main.async { 
+                        self.showMessage(title: "안내", message: "로그인이 필요한 기능입니다.")
+                        self.storeInfoView.isScrapped = false
+                    }
+                }
                 
             default: break
             }

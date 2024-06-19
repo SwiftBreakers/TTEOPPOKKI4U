@@ -113,6 +113,7 @@ extension MyPageViewController: UICollectionViewDataSource, UICollectionViewDele
         
         switch indexPath {
         case [0, 0]:
+            guard let uid = Auth.auth().currentUser?.uid else { return }
             let personalInfoVC = PersonalInfoViewController()
             personalInfoVC.gotProfileImage = currentImageUrl
             personalInfoVC.profileName = currentName
@@ -124,6 +125,7 @@ extension MyPageViewController: UICollectionViewDataSource, UICollectionViewDele
             let MyReviewVC = MyReviewViewController()
             navigationController?.pushViewController(MyReviewVC, animated: true)
         case [2, 0]:
+            guard let uid = Auth.auth().currentUser?.uid else { return }
             let settingVC = SettingViewController()
             navigationController?.pushViewController(settingVC, animated: true)
         case [2, 1]:
