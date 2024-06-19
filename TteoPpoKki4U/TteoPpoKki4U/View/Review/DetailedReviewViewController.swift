@@ -8,6 +8,7 @@
 import UIKit
 import Kingfisher
 import SnapKit
+import FirebaseAuth
 
 class DetailedReviewViewController: UIViewController {
     
@@ -239,11 +240,17 @@ class DetailedReviewViewController: UIViewController {
     }
     
     @objc private func reportButtonTapped() {
-        showMessageWithCancel(title: "신고하기", message: "해당 리뷰를 신고하시겠습니까?") { [weak self]  in
-            let reportVC = ReportViewController()
-            reportVC.userData = self?.userData
-            self?.present(reportVC, animated: true)
+        if let uid = Auth.auth().currentUser?.uid {
+            showMessageWithCancel(title: "신고하기", message: "해당 리뷰를 신고하시겠습니까?") { [weak self]  in
+                let reportVC = ReportViewController()
+                reportVC.userData = self?.userData
+                self?.present(reportVC, animated: true)
+            }
+        } else {
+            showMessage(title: "안내", message: "로그인이 필요한 기능입니다.")
         }
+        
+        
     }
     
     private func showMessage(title: String, message: String) {

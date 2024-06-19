@@ -30,13 +30,32 @@ class GreetingBodyView: UIView {
     
     private lazy var guestLoginButton: UIButton = {
         let button = UIButton()
-        button.setImage(UIImage(systemName: "person.crop.circle"), for: .normal)
-        button.tintColor = .white
-        button.setTitle("    게스트로 로그인", for: .normal)
-        button.titleLabel?.font = ThemeFont.fontBold()
-        button.backgroundColor = ThemeColor.mainOrange
-        button.layer.cornerRadius = 10
+        var configuration = UIButton.Configuration.filled()
+        
+        configuration.image = UIImage(systemName: "person.crop.circle")
+        configuration.imagePadding = 8
+        configuration.imagePlacement = .leading
+        
+        configuration.baseForegroundColor = .white
+        configuration.baseBackgroundColor = ThemeColor.mainOrange
+        configuration.cornerStyle = .medium
+        
+        var container = AttributeContainer()
+        container.font = ThemeFont.fontBold()
+        configuration.attributedTitle = AttributedString("게스트로 로그인", attributes: container)
+        
+        button.configuration = configuration
+        
+        // 상태 업데이트 핸들러를 사용하여 클릭 시 tintColor를 유지
+        button.configurationUpdateHandler = { button in
+            var updatedConfiguration = button.configuration
+            updatedConfiguration?.image = UIImage(systemName: "person.crop.circle")?.withRenderingMode(.alwaysTemplate)
+            updatedConfiguration?.baseForegroundColor = .white
+            button.configuration = updatedConfiguration
+        }
+        
         button.addTarget(self, action: #selector(guestButtonDidTapped), for: .touchUpInside)
+        
         return button
     }()
     
