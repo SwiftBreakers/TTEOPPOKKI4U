@@ -7,6 +7,7 @@
 import UIKit
 import SnapKit
 import Combine
+import FirebaseAuth
 
 class DetailViewController: UIViewController, UISearchBarDelegate {
     
@@ -160,24 +161,30 @@ class DetailViewController: UIViewController, UISearchBarDelegate {
         navigationItem.rightBarButtonItems = [barShareButton, barBookmarkButton]
     }
     @objc func bookmarkButtonTapped() {
-        if isBookmarked {
-            if let image = UIImage(named: "bookmark0")?.withRenderingMode(.alwaysTemplate) {
-                barBookmarkButton.image = image
-                barBookmarkButton.tintColor = ThemeColor.mainOrange
+        if let uid = Auth.auth().currentUser?.uid {
+            if isBookmarked {
+                if let image = UIImage(named: "bookmark0")?.withRenderingMode(.alwaysTemplate) {
+                    barBookmarkButton.image = image
+                    barBookmarkButton.tintColor = ThemeColor.mainOrange
+                }
+                let bookmark0Image = UIImageView()
+                bookmark0Image.image = .bookmark0
+                showCustomAlert(image: bookmark0Image.image!, message: "북마크에서 삭제 되었어요.")
+                viewModel.deleteBookmarkItem(title: titleLabel.text!)
+            } else {
+                if let image = UIImage(named: "bookmark1")?.withRenderingMode(.alwaysTemplate) {
+                    barBookmarkButton.image = image
+                    barBookmarkButton.tintColor = ThemeColor.mainOrange
+                }
+                let bookmark1Image = UIImageView()
+                bookmark1Image.image = .bookmark1
+                showCustomAlert(image: bookmark1Image.image!, message: "북마크에 추가 되었어요.")
+                viewModel.createBookmarkItem(title: titleLabel.text!, imageURL: imageURL.text!)
             }
-            let bookmark0Image = UIImageView()
-            bookmark0Image.image = .bookmark0
-            showCustomAlert(image: bookmark0Image.image!, message: "북마크에서 삭제 되었어요.")
-            viewModel.deleteBookmarkItem(title: titleLabel.text!)
         } else {
-            if let image = UIImage(named: "bookmark1")?.withRenderingMode(.alwaysTemplate) {
-                barBookmarkButton.image = image
-                barBookmarkButton.tintColor = ThemeColor.mainOrange
-            }
-            let bookmark1Image = UIImageView()
-            bookmark1Image.image = .bookmark1
-            showCustomAlert(image: bookmark1Image.image!, message: "북마크에 추가 되었어요.")
-            viewModel.createBookmarkItem(title: titleLabel.text!, imageURL: imageURL.text!)
+            let userXImage = UIImageView()
+            userXImage.image = .userX
+            showCustomAlert(image: userXImage.image!, message: "로그인이 필요한 기능입니다.")
         }
     }
     private func bind() {
