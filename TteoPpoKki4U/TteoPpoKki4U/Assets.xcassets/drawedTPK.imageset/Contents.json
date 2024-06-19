@@ -1,11 +1,15 @@
 {
   "images" : [
     {
+<<<<<<< HEAD:TteoPpoKki4U/TteoPpoKki4U/Assets.xcassets/drawedTPK.imageset/Contents.json
       "filename" : "drawedTPK.jpg",
+=======
+>>>>>>> 2239901ce77fc5d47a78fccd4cf258db25d9776a:TteoPpoKki4U/TteoPpoKki4U/Assets.xcassets/60.imageset/Contents.json
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
+      "filename" : "60.png",
       "idiom" : "universal",
       "scale" : "2x"
     },

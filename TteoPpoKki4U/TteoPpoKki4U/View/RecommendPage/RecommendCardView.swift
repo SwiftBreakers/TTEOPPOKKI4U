@@ -112,20 +112,25 @@ public class MyCardCell: CardCell {
     
     @objc func bookmarkTapped() {
         guard let viewController = customAlertViewController else { return }
-        
-        if isBookmarked {
-            bookmarkButton.setImage(.bookmark0, for: .normal)
-            viewModel.deleteBookmarkItem(title: titleLabel.text!)
-            let bookmark0Image = UIImageView()
-            bookmark0Image.image = .bookmark0
-            viewController.showCustomAlert(image: bookmark0Image.image!, message: "북마크에서 삭제 되었어요.")
-            
+        if let uid = Auth.auth().currentUser?.uid {
+            if isBookmarked {
+                bookmarkButton.setImage(.bookmark0, for: .normal)
+                viewModel.deleteBookmarkItem(title: titleLabel.text!)
+                let bookmark0Image = UIImageView()
+                bookmark0Image.image = .bookmark0
+                viewController.showCustomAlert(image: bookmark0Image.image!, message: "북마크에서 삭제 되었어요.")
+                
+            } else {
+                bookmarkButton.setImage(.bookmark1, for: .normal)
+                viewModel.createBookmarkItem(title: titleLabel.text!, imageURL: imageURL.text!)
+                let bookmark1Image = UIImageView()
+                bookmark1Image.image = .bookmark1
+                viewController.showCustomAlert(image: bookmark1Image.image!, message: "북마크에 추가 되었어요.")
+            }
         } else {
-            bookmarkButton.setImage(.bookmark1, for: .normal)
-            viewModel.createBookmarkItem(title: titleLabel.text!, imageURL: imageURL.text!)
-            let bookmark1Image = UIImageView()
-            bookmark1Image.image = .bookmark1
-            viewController.showCustomAlert(image: bookmark1Image.image!, message: "북마크에 추가 되었어요.")
+            let userXImage = UIImageView()
+            userXImage.image = .userX
+            viewController.showCustomAlert(image: userXImage.image!, message: "로그인이 필요한 기능입니다.")
         }
     }
     
