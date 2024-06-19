@@ -8,6 +8,7 @@
 import UIKit
 import SnapKit
 import Combine
+import FirebaseAuth
 
 class StoreViewController: UIViewController {
     
@@ -59,7 +60,7 @@ class StoreViewController: UIViewController {
         configureUI()
         locationLabel.text = addressText
         storeNameLabel.text = shopTitleText
-       
+        
         tabBarController?.tabBar.isHidden = true
     }
     
@@ -137,7 +138,7 @@ class StoreViewController: UIViewController {
         goReviewButton.setTitleColor(.white, for: .normal)
         goReviewButton.backgroundColor = ThemeColor.mainOrange
         goReviewButton.layer.cornerRadius = 10
-    
+        
         view.addSubview(goReviewButton)
         goReviewButton.addTarget(self, action: #selector(goReviewButtonTapped), for: .touchUpInside)
         
@@ -201,10 +202,14 @@ class StoreViewController: UIViewController {
     }
     
     @objc private func goReviewButtonTapped() {
-        let writeVC = WriteViewController()
-        writeVC.addressText = addressText
-        writeVC.storeTitleText = shopTitleText
-        navigationController?.pushViewController(writeVC, animated: true)
+        if let uid = Auth.auth().currentUser?.uid {
+            let writeVC = WriteViewController()
+            writeVC.addressText = addressText
+            writeVC.storeTitleText = shopTitleText
+            navigationController?.pushViewController(writeVC, animated: true)
+        } else {
+            showMessage(title: "안내", message: "로그인이 필요한 기능입니다.")
+        }
     }
     
 }

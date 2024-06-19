@@ -211,7 +211,7 @@ class MapViewController: UIViewController, PinStoreViewDelegate {
                 print(error)
                 if error == .noUID {
                     DispatchQueue.main.async { 
-                        self.showMessage(title: "로그인이 필요한 기능입니다.", message: "")
+                        self.showMessage(title: "안내", message: "로그인이 필요한 기능입니다.")
                         self.storeInfoView.isScrapped = false
                     }
                 }
