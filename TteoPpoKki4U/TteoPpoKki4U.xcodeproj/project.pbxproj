@@ -67,6 +67,7 @@
 		8D1410012C12BF900062E527 /* UIResponder+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D1410002C12BF900062E527 /* UIResponder+Extension.swift */; };
 		8D2E862D2C1AD5DD00967B13 /* BookmarkViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D2E862C2C1AD5DD00967B13 /* BookmarkViewModel.swift */; };
 		8D2E862F2C1B2D7000967B13 /* BookmarkList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D2E862E2C1B2D7000967B13 /* BookmarkList.swift */; };
+		8D36A85E2C225FA100FD38F5 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8D36A85D2C225FA100FD38F5 /* GoogleService-Info.plist */; };
 		8D3BA8412C15D5F1007597F2 /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D3BA8402C15D5F1007597F2 /* SettingViewController.swift */; };
 		8D580A302C0826B40057D370 /* ThemeFont.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D580A2F2C0826B40057D370 /* ThemeFont.swift */; };
 		8D580A472C082AB60057D370 /* Pretendard-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8D580A422C082AB50057D370 /* Pretendard-Medium.ttf */; };
@@ -162,6 +163,7 @@
 		8D1410002C12BF900062E527 /* UIResponder+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIResponder+Extension.swift"; sourceTree = "<group>"; };
 		8D2E862C2C1AD5DD00967B13 /* BookmarkViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkViewModel.swift; sourceTree = "<group>"; };
 		8D2E862E2C1B2D7000967B13 /* BookmarkList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkList.swift; sourceTree = "<group>"; };
+		8D36A85D2C225FA100FD38F5 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		8D3BA8402C15D5F1007597F2 /* SettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
 		8D580A2F2C0826B40057D370 /* ThemeFont.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeFont.swift; sourceTree = "<group>"; };
 		8D580A422C082AB50057D370 /* Pretendard-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Medium.ttf"; sourceTree = "<group>"; };
@@ -386,8 +388,8 @@
 				613D86A12C05BFF90039E771 /* Assets.xcassets */,
 				613D86A32C05BFF90039E771 /* LaunchScreen.storyboard */,
 				613D86A62C05BFF90039E771 /* Info.plist */,
+				8D36A85D2C225FA100FD38F5 /* GoogleService-Info.plist */,
 				61DAC4FF2C06CCB000DFC575 /* Secret.swift */,
-				CE771C962C225DE6004415CA /* GoogleService-Info.plist */,
 				610717AA2C213D5C00626649 /* AuthKey_RS7QZ647UQ.p8 */,
 				610717A62C21364600626649 /* AuthKey_RS7QZ647UQ_public.p8 */,
 				610717AC2C2156B200626649 /* PrivacyInfo.xcprivacy */,
@@ -721,7 +723,7 @@
 				8D580A492C082AB60057D370 /* Pretendard-Regular.ttf in Resources */,
 				8D580A4A2C082AB60057D370 /* Pretendard-ExtraLight.ttf in Resources */,
 				613D86A52C05BFF90039E771 /* Base in Resources */,
-				CE771C972C225DE6004415CA /* GoogleService-Info.plist in Resources */,
+				8D36A85E2C225FA100FD38F5 /* GoogleService-Info.plist in Resources */,
 				8D580A4B2C082AB60057D370 /* Pretendard-Bold.ttf in Resources */,
 				8D580A482C082AB60057D370 /* Pretendard-Black.ttf in Resources */,
 			);

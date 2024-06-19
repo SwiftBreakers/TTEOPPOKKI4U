@@ -12,8 +12,10 @@ class GreetingHeaderView: UIView {
     
     private lazy var logoImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.image = UIImage(named: "mainlogo")
+        imageView.image = #imageLiteral(resourceName: "drawedTPK")
         imageView.contentMode = .scaleAspectFit
+        imageView.layer.cornerRadius = 10
+        imageView.clipsToBounds = true
         return imageView
     }()
     
