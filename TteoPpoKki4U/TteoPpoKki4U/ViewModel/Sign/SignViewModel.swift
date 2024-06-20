@@ -159,14 +159,51 @@ class SignViewModel: NSObject {
     }
     
     func deleteUserAccount(completion: @escaping (Result<Void, Error>) -> Void) {
-        signManager.deleteCurrentUser { result in
-            switch result {
-            case .success:
-                print("회원 탈퇴 성공")
-                completion(.success(()))
-            case .failure(let error):
-                print("회원 탈퇴 실패: \(error)")
-                completion(.failure(error))
+        guard let user = Auth.auth().currentUser else {
+            let error = NSError(domain: "FirebaseService", code: -1, userInfo: [NSLocalizedDescriptionKey: "로그인된 사용자가 없습니다."])
+            completion(.failure(error))
+            return
+        }
+
+        for provider in user.providerData {
+            switch provider.providerID {
+            case "apple.com":
+                reauthenticateAppleUser { [weak self] result in
+                    switch result {
+                    case .success(let credential):
+                        user.reauthenticate(with: credential) { _, error in
+                            if let error = error {
+                                completion(.failure(error))
+                            } else {
+                                self?.signManager.performDelete(user: user, completion: completion)
+                            }
+                        }
+                    case .failure(let error):
+                        completion(.failure(error))
+                    }
+                }
+            case "google.com":
+                var credential: AuthCredential?
+                if let idToken = UserDefaults.standard.string(forKey: "googleIDToken"),
+                   let accessToken = UserDefaults.standard.string(forKey: "googleAccessToken") {
+                    credential = GoogleAuthProvider.credential(withIDToken: idToken, accessToken: accessToken)
+                }
+
+                guard let authCredential = credential else {
+                    let error = NSError(domain: "FirebaseService", code: -1, userInfo: [NSLocalizedDescriptionKey: "재인증을 위한 자격 증명을 가져올 수 없습니다."])
+                    completion(.failure(error))
+                    return
+                }
+
+                user.reauthenticate(with: authCredential) { _, error in
+                    if let error = error {
+                        completion(.failure(error))
+                    } else {
+                        self.signManager.performDelete(user: user, completion: completion)
+                    }
+                }
+            default:
+                break
             }
         }
     }
@@ -176,6 +213,7 @@ class SignViewModel: NSObject {
         let request = provider.createRequest()
         
         let nonce = signManager.randomNonceString()
+        currentNonce = nonce
         UserDefaults.standard.set(nonce, forKey: "appleRawNonce")
         request.nonce = signManager.sha256(nonce)
         request.requestedScopes = [.fullName, .email]
@@ -269,6 +307,5 @@ extension SignViewModel: ASAuthorizationControllerDelegate, ASAuthorizationContr
             }
         }
     }
-    
     
 }

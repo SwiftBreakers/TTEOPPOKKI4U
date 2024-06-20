@@ -27,13 +27,13 @@ class SignManager {
             completion(.failure(NSError(domain: "AppleSignIn", code: -1, userInfo: [NSLocalizedDescriptionKey: "Unable to fetch identity token"])))
             return
         }
-
+        
         // 전달된 nonce를 사용하여 자격 증명 생성
         let credential = OAuthProvider.appleCredential(withIDToken: tokenString, rawNonce: nonce, fullName: nil)
         
         print("Created User Apple Credential: \(credential)")
         
-
+        
         Auth.auth().signIn(with: credential) { result, error in
             if let error = error {
                 completion(.failure(error))
@@ -333,7 +333,7 @@ class SignManager {
             }
         }
     }
-   
+    
     
     func deleteCurrentUser(completion: @escaping (Result<Void, Error>) -> Void) {
         guard let user = Auth.auth().currentUser else {
@@ -341,7 +341,7 @@ class SignManager {
             completion(.failure(error))
             return
         }
-
+        
         for provider in user.providerData {
             switch provider.providerID {
             case "apple.com":
@@ -368,7 +368,7 @@ class SignManager {
                     credential = GoogleAuthProvider.credential(withIDToken: idToken, accessToken: accessToken)
                     print("Delete User Google Credential: \(credential)")
                 }
-
+                
                 guard let authCredential = credential else {
                     let error = NSError(domain: "FirebaseService", code: -1, userInfo: [NSLocalizedDescriptionKey: "재인증을 위한 자격 증명을 가져올 수 없습니다."])
                     completion(.failure(error))
@@ -391,8 +391,8 @@ class SignManager {
             }
         }
     }
-
-    private func performDelete(user: FirebaseAuth.User, completion: @escaping (Result<Void, Error>) -> Void) {
+    
+    func performDelete(user: FirebaseAuth.User, completion: @escaping (Result<Void, Error>) -> Void) {
         for provider in user.providerData {
             switch provider.providerID {
             case "apple.com":
@@ -400,12 +400,10 @@ class SignManager {
                     if let error = error {
                         completion(.failure(error))
                     } else {
-                        // Revoke the Apple token
                         guard let refreshToken = UserDefaults.standard.string(forKey: "appleRefreshToken") else {
                             completion(.failure(NSError(domain: "AppleSignOut", code: -1, userInfo: [NSLocalizedDescriptionKey: "Failed to get refresh token"])))
                             return
                         }
-                        print("Using Refresh Token: \(refreshToken)") // 추가 디버깅 로그
                         let clientSecret = self.makeJWT()
                         self.revokeAppleToken(clientSecret: clientSecret, token: refreshToken) {
                             self.deleteUserFromDatabase(uid: user.uid, completion: completion)
