@@ -115,6 +115,12 @@ class DetailViewController: UIViewController, UISearchBarDelegate {
                 await viewModel.fetchBookmarkStatus(title: title)
             }
         }
+        setLabelLineSpacing()
+    }
+    
+    private func setLabelLineSpacing() {
+        longDescription1Label.setLineSpacing(lineSpacing: 15)
+        longDescription2Label.setLineSpacing(lineSpacing: 15)
     }
     
     func setupCollectionView() {
