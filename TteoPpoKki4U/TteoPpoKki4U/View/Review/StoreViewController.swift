@@ -16,7 +16,7 @@ class StoreViewController: UIViewController {
     private let backButton = UIButton()
     private let storeNameLabel: UILabel = {
         let label = UILabel()
-        label.font = ThemeFont.fontMedium(size: 24)
+        label.font = ThemeFont.fontBold(size: 24)
         label.textAlignment = .center
         label.textColor = .black
         return label
@@ -25,13 +25,11 @@ class StoreViewController: UIViewController {
     private let stackView = UIStackView()
     private let locationLabel: UILabel = {
         let label = UILabel()
-        label.font = ThemeFont.fontRegular(size: 17)
+        label.font = ThemeFont.fontRegular(size: 16)
+        label.textColor = .darkGray
         label.textAlignment = .center
-        label.textColor = .black
         return label
     }()
-    
-    
     private let goReviewButton = UIButton()
     private let tableView: UITableView = {
         let tableView = UITableView()
@@ -39,6 +37,16 @@ class StoreViewController: UIViewController {
         tableView.rowHeight = 50
         tableView.backgroundColor = .white
         return tableView
+    }()
+    private let seperateView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .systemGray6
+        return view
+    }()
+    private let reviewCountLabel: UILabel = {
+        let label = UILabel()
+        label.font = ThemeFont.fontMedium()
+        return label
     }()
     
     var addressText: String?
@@ -77,8 +85,16 @@ class StoreViewController: UIViewController {
     private func bind() {
         viewModel.$userReview
             .receive(on: DispatchQueue.main)
-            .sink { _ in
-                self.tableView.reloadData()
+            .sink { array in
+                self.reviewCountLabel.text = "리뷰 \(array.count)개"
+                if array.count == 0 {
+                    self.tableView.setEmptyMsg("아직 작성한 리뷰가 없어요!\n첫 리뷰를 작성해 주세요.")
+                    self.tableView.reloadData()
+                } else {
+                    self.tableView.restore()
+                    self.tableView.reloadData()
+                }
+                
             }.store(in: &cancellables)
         
         viewModel.reviewPublisher.sink { completion in
@@ -93,15 +109,7 @@ class StoreViewController: UIViewController {
     }
     
     private func setupViews() {
-        view.backgroundColor = .white //UIColor(hexString: "FFF6F0")
-        
-        // Setup Back Button
-        
-        let image = UIImage(systemName: "chevron.backward.2")
-        backButton.setImage(image, for: .normal)
-        backButton.tintColor = .gray
-        backButton.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
-        view.addSubview(backButton)
+        view.backgroundColor = .white
         
         // Setup Title Label
         storeNameLabel.text = storeName
@@ -145,27 +153,31 @@ class StoreViewController: UIViewController {
         
         tableView.delegate = self
         tableView.dataSource = self
-        tableView.layer.borderWidth = 1
-        tableView.layer.borderColor = ThemeColor.mainOrange.cgColor
         view.addSubview(tableView)
+        
+        // Setup Back Button
+        let image = UIImage(systemName: "chevron.backward.2")
+        backButton.setImage(image, for: .normal)
+        backButton.tintColor = .gray
+        backButton.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
+        view.addSubview(backButton)
+        
+        view.addSubview(seperateView)
+        view.addSubview(reviewCountLabel)
     }
     
     private func setupConstraints() {
-        // Back Button Constraints
-        backButton.snp.makeConstraints { make in
-            make.top.equalTo(view.safeAreaLayoutGuide).offset(20)
-            make.leading.equalToSuperview().offset(20)
-        }
+
         
         // Title Label Constraints
         storeNameLabel.snp.makeConstraints { make in
-            make.centerY.equalTo(backButton.snp.centerY)
             make.centerX.equalToSuperview()
+            make.top.equalTo(scrollView.snp.bottom).offset(20)
         }
         
         // Scroll View Constraints
         scrollView.snp.makeConstraints { make in
-            make.top.equalTo(backButton.snp.bottom).offset(40)
+            make.top.equalTo(view.safeAreaLayoutGuide)
             make.leading.trailing.equalToSuperview()
             make.height.equalTo(view.snp.width).multipliedBy(0.8 * 0.75) // 4:3 aspect ratio of the image views
         }
@@ -177,16 +189,27 @@ class StoreViewController: UIViewController {
         
         // Location Label Constraints
         locationLabel.snp.makeConstraints { make in
-            make.top.equalTo(scrollView.snp.bottom).offset(20)
+            make.top.equalTo(storeNameLabel.snp.bottom).offset(10)
             make.leading.trailing.equalToSuperview().inset(20)
+        }
+        
+        seperateView.snp.makeConstraints { make in
+            make.top.equalTo(locationLabel.snp.bottom).offset(60)
+            make.horizontalEdges.equalToSuperview()
+            make.height.equalTo(6)
+        }
+        
+        reviewCountLabel.snp.makeConstraints { make in
+            make.top.equalTo(seperateView.snp.bottom).offset(20)
+            make.leading.equalTo(view.safeAreaLayoutGuide).offset(20)
         }
         
         // Table View Constraints
         tableView.snp.makeConstraints { make in
-            make.top.equalTo(locationLabel.snp.bottom).offset(40)
-            make.leading.equalToSuperview().offset(-2)
-            make.trailing.equalToSuperview().offset(2)
-            make.bottom.equalTo(goReviewButton.snp.top).offset(-20)
+            make.top.equalTo(reviewCountLabel.snp.bottom).offset(10)
+            make.leading.equalToSuperview()
+            make.trailing.equalToSuperview()
+            make.bottom.equalTo(goReviewButton.snp.top).offset(-10)
         }
         
         // Review Button Constraints
@@ -194,6 +217,12 @@ class StoreViewController: UIViewController {
             make.bottom.equalTo(view.safeAreaLayoutGuide).offset(-20)
             make.leading.trailing.equalToSuperview().inset(40)
             make.height.equalTo(50)
+        }
+        
+        // Back Button Constraints
+        backButton.snp.makeConstraints { make in
+            make.top.equalTo(view.safeAreaLayoutGuide).offset(10)
+            make.leading.equalTo(view.safeAreaLayoutGuide).offset(20)
         }
     }
     
@@ -206,7 +235,7 @@ class StoreViewController: UIViewController {
     }
     
     @objc private func goReviewButtonTapped() {
-        if let uid = Auth.auth().currentUser?.uid {
+        if let _ = Auth.auth().currentUser?.uid {
             let writeVC = WriteViewController()
             writeVC.addressText = addressText
             writeVC.storeTitleText = shopTitleText

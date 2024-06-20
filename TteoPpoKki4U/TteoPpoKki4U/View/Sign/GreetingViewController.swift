@@ -90,7 +90,7 @@ final class GreetingViewController: UIViewController {
         }
         
         greetingBodyView.snp.makeConstraints { make in
-            make.top.equalTo(greetingHeaderView.snp.bottom).offset(40)
+            make.top.equalTo(greetingHeaderView.snp.bottom).offset(80)
             make.leading.trailing.equalToSuperview()
         }
         

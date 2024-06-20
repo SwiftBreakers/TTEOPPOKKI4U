@@ -103,7 +103,7 @@ class WriteViewController: UIViewController {
     }
     
     func setupUI() {
-        view.backgroundColor = .white //UIColor(hexString: "FFF6F0")
+        view.backgroundColor = .white
         
         // 별점 라벨
         if isEditMode {
@@ -144,7 +144,7 @@ class WriteViewController: UIViewController {
         
         // 제목 텍스트 필드 설정
         titleTextField.borderStyle = .roundedRect
-        titleTextField.layer.borderColor = ThemeColor.mainOrange.cgColor //UIColor.white.cgColor
+        titleTextField.layer.borderColor = ThemeColor.mainOrange.cgColor
         view.addSubview(titleTextField)
         titleTextField.snp.makeConstraints { make in
             make.top.equalTo(starStackView.snp.bottom).offset(50)
@@ -155,7 +155,7 @@ class WriteViewController: UIViewController {
         
         // 내용 텍스트 뷰 설정
         contentTextView.layer.borderWidth = 1
-        contentTextView.layer.borderColor = ThemeColor.mainOrange.cgColor  //UIColor.white.cgColor
+        contentTextView.layer.borderColor = ThemeColor.mainOrange.cgColor
         contentTextView.layer.cornerRadius = 10
         contentTextView.font = UIFont.systemFont(ofSize: 17)
         contentTextView.textContainerInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
@@ -170,13 +170,13 @@ class WriteViewController: UIViewController {
         // 이미지 추가 버튼
         addImageButton.setImage(UIImage(systemName: "camera"), for: .normal)
         addImageButton.backgroundColor = .lightGray
-        addImageButton.layer.cornerRadius = 5
+        addImageButton.layer.cornerRadius = 10
         addImageButton.addTarget(self, action: #selector(addImageButtonTapped), for: .touchUpInside)
         view.addSubview(addImageButton)
         addImageButton.snp.makeConstraints { make in
             make.top.equalTo(contentTextView.snp.bottom).offset(20)
             make.left.equalToSuperview().offset(20)
-            make.width.height.equalTo(60)
+            make.width.height.equalTo(90)
         }
         // MARK: - 여기 스크롤 되는지 모르겠음....
         // 이미지 스크롤뷰 설정

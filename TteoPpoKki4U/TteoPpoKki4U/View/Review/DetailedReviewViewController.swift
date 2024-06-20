@@ -50,7 +50,6 @@ class DetailedReviewViewController: UIViewController {
         label.font = ThemeFont.fontRegular()
         label.textColor = .black
         label.numberOfLines = 0
-        label.layer.borderWidth = 2
         return label
     }()
     private lazy var scrollView = UIScrollView()

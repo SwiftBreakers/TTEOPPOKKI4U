@@ -24,6 +24,11 @@ class MyScrapViewController: UIViewController {
         button.addTarget(nil, action: #selector(backButtonTapped), for: .touchUpInside)
         return button
     }()
+    var defaultView: UIImageView = {
+        let image = UIImageView()
+        image.image = UIImage(named: "ttukbokki4u1n")
+        return image
+    }()
     
     let scrapViewModel = ScrapViewModel()
     let bookmarkViewModel = BookmarkViewModel()
@@ -61,8 +66,14 @@ class MyScrapViewController: UIViewController {
     private func bind() {
         scrapViewModel.$scrapArray
             .receive(on: DispatchQueue.main)
-            .sink { _ in
-                self.collectionView.reloadData()
+            .sink { array in
+                if array.count == 0 {
+                    self.collectionView.setEmptyMsg("아직 스크랩한 가게가 없어요!\n가게들을 찾아 스크랩해 보세요.")
+                    self.collectionView.reloadData()
+                } else {
+                    self.collectionView.restore()
+                    self.collectionView.reloadData()
+                }
             }
             .store(in: &cancellables)
         
@@ -77,8 +88,14 @@ class MyScrapViewController: UIViewController {
         
         bookmarkViewModel.$bookmarkArray
             .receive(on: DispatchQueue.main)
-            .sink { _ in
-                self.collectionView.reloadData()
+            .sink { array in
+                if array.count == 0 {
+                    self.collectionView.setEmptyMsg("아직 북마크한 추천글이 없어요!\n추천글을 읽고 북마크해 보세요.")
+                    self.collectionView.reloadData()
+                } else {
+                    self.collectionView.restore()
+                    self.collectionView.reloadData()
+                }
             }
             .store(in: &cancellables)
     }
@@ -152,6 +169,7 @@ class MyScrapViewController: UIViewController {
             self?.getData()
         }
     }
+    
 }
 
 extension MyScrapViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {

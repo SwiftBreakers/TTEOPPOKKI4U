@@ -172,10 +172,12 @@ class PinStoreView: UIView {
     }
     
     func bind(title: String, address: String, isScrapped: Bool, rating: Float, reviews: Int, distance: String) {
+        let formattedRating = String(format: "%.1f", rating)
+        
         titleLabel.text = title
         addressLabel.text = address
         self.isScrapped = isScrapped
-        ratingLabel.attributedText = makeIconBeforeText(icon: "star", label: " \(rating)")
+        ratingLabel.attributedText = makeIconBeforeText(icon: "star", label: formattedRating)
         reviewsLabel.attributedText = makeIconBeforeText(icon: "text.bubble", label: " \(reviews)개")
         distanceLabel.attributedText = makeIconBeforeText(icon: "arrow.turn.down.right", label: distance)
     }
