@@ -28,8 +28,8 @@ class PinStoreView: UIView {
     
     let titleLabel: UILabel = {
         let label = UILabel()
-        label.font = ThemeFont.fontMedium(size: 24)
-        label.textColor = .black
+        label.font = ThemeFont.fontBold(size: 22)
+        label.textColor = ThemeColor.mainBlack
         return label
     }()
     lazy var scrapButton: UIButton = {
@@ -42,7 +42,7 @@ class PinStoreView: UIView {
     let addressLabel: UILabel = {
         let label = UILabel()
         label.font = ThemeFont.fontRegular()
-        label.textColor = .black
+        label.textColor = ThemeColor.mainBlack
         return label
     }()
     let line: UIView = {

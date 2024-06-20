@@ -14,7 +14,7 @@ class CustomTextField: UITextField {
         self.placeholder = placeholder
         leftViewMode = .always
         borderStyle = .none
-        textColor = .black
+        textColor = ThemeColor.mainBlack
         keyboardAppearance = .light
         clearButtonMode = .whileEditing
         autocorrectionType = .no

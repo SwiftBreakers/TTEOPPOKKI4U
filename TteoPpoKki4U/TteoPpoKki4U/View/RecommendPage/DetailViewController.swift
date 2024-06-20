@@ -236,9 +236,9 @@ class DetailViewController: UIViewController, UISearchBarDelegate {
         
         shopAddressLabel.text = "주소"
         shopAddressLabel.font = ThemeFont.fontBold(size: 18)
-        shopAddressLabel.textColor = .black
+        shopAddressLabel.textColor = ThemeColor.mainBlack
         
-        shopAddressButton.setTitleColor(.black, for: .normal)
+        shopAddressButton.setTitleColor(ThemeColor.mainBlack, for: .normal)
         shopAddressButton.titleLabel?.font = ThemeFont.fontRegular(size: 18)
         shopAddressButton.titleLabel?.numberOfLines = 2
         shopAddressButton.addTarget(self, action: #selector(moveToMap), for: .touchUpInside)
@@ -246,12 +246,12 @@ class DetailViewController: UIViewController, UISearchBarDelegate {
         longDescription1Label.font = ThemeFont.fontRegular(size: 16)
         longDescription1Label.numberOfLines = 100
         longDescription1Label.textAlignment = .left
-        longDescription1Label.textColor = .black
+        longDescription1Label.textColor = ThemeColor.mainBlack
         
         longDescription2Label.font = ThemeFont.fontRegular(size: 16)
         longDescription2Label.numberOfLines = 100
         longDescription2Label.textAlignment = .left
-        longDescription2Label.textColor = .black
+        longDescription2Label.textColor = ThemeColor.mainBlack
         
         view.addSubview(scrollView)
         

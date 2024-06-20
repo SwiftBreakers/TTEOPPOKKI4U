@@ -14,13 +14,13 @@ class ScrapCell: UICollectionViewCell {
     private var titleLabel: UILabel = {
         let label = UILabel()
         label.font = ThemeFont.fontBold(size: 17)
-        label.textColor = .black
+        label.textColor = ThemeColor.mainBlack
         return label
     }()
     private var addressLabel: UILabel = {
         let label = UILabel()
         label.font = ThemeFont.fontMedium(size: 14)
-        label.textColor = .black
+        label.textColor = ThemeColor.mainBlack
         label.numberOfLines = 0
         return label
     }()

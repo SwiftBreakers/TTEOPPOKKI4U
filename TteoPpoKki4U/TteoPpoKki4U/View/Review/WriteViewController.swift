@@ -31,7 +31,7 @@ class WriteViewController: UIViewController {
     let starLabel: UILabel = {
         let label = UILabel()
         label.font = ThemeFont.fontMedium(size: 24)
-        label.textColor = .black
+        label.textColor = ThemeColor.mainBlack
         return label
     }()
     

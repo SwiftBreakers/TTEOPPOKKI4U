@@ -13,7 +13,7 @@ class ManageTableViewCell: UITableViewCell {
     lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 16)
-        label.textColor = .black
+        label.textColor = ThemeColor.mainBlack
         return label
     }()
     

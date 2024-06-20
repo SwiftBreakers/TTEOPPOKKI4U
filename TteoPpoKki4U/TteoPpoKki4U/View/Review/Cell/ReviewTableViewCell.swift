@@ -12,14 +12,14 @@ class ReviewTableViewCell: UITableViewCell {
     lazy var reviewTitleLabel: UILabel = {
         let label = UILabel()
         label.font = ThemeFont.fontRegular(size: 18)
-        label.textColor = .black
+        label.textColor = ThemeColor.mainBlack
         return label
     }()
     
     lazy var starRatingLabel : UILabel = {
         let label = UILabel()
         label.font = ThemeFont.fontRegular(size: 18)
-        label.textColor = .black
+        label.textColor = ThemeColor.mainBlack
         return label
     }()
     

@@ -118,14 +118,15 @@ class MyScrapViewController: UIViewController {
     func setupSegmentedControl() {
         segmentedControl = UISegmentedControl(items: ["스크랩", "북마크"])
         segmentedControl.selectedSegmentIndex = 0
+        print(self.segmentedControl.bounds.size.width)
         segmentedControl.addTarget(self, action: #selector(segmentChanged), for: .valueChanged)
         
         view.addSubview(segmentedControl)
         
         segmentedControl.snp.makeConstraints { make in
             make.top.equalTo(backButton.snp.bottom).offset(10)
-            make.leading.trailing.equalToSuperview().inset(20)
-            make.height.equalTo(30)
+            make.leading.trailing.equalToSuperview()
+            make.height.equalTo(35)
         }
     }
     

@@ -18,7 +18,7 @@ class StoreViewController: UIViewController {
         let label = UILabel()
         label.font = ThemeFont.fontBold(size: 24)
         label.textAlignment = .center
-        label.textColor = .black
+        label.textColor = ThemeColor.mainBlack
         return label
     }()
     private let scrollView = UIScrollView()
@@ -130,6 +130,22 @@ class StoreViewController: UIViewController {
             let imageView = UIImageView(image: UIImage(named: imageName))
             imageView.contentMode = .scaleAspectFill
             imageView.clipsToBounds = true
+            
+            // 그라데이션 설정
+            let gradientLayer = CAGradientLayer()
+            gradientLayer.frame = imageView.bounds
+            
+            let colors: [CGColor] = [
+                .init(red: 0, green: 0, blue: 0, alpha: 0.5),
+                .init(red: 0, green: 0, blue: 0, alpha: 0.0)
+            ]
+            gradientLayer.colors = colors
+            
+            gradientLayer.startPoint = CGPoint(x: 0.5, y: 0.0)
+            gradientLayer.endPoint = CGPoint(x: 0.5, y: 1.0)
+            gradientLayer.locations = [0.0, 0.1]
+            scrollView.layer.addSublayer(gradientLayer)
+            
             stackView.addArrangedSubview(imageView)
             imageView.snp.makeConstraints { make in
                 make.width.equalTo(view.snp.width).multipliedBy(0.8)
@@ -158,12 +174,15 @@ class StoreViewController: UIViewController {
         // Setup Back Button
         let image = UIImage(systemName: "chevron.backward.2")
         backButton.setImage(image, for: .normal)
-        backButton.tintColor = .gray
+        backButton.tintColor = .white
         backButton.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
         view.addSubview(backButton)
         
         view.addSubview(seperateView)
         view.addSubview(reviewCountLabel)
+    
+        
+
     }
     
     private func setupConstraints() {
