@@ -64,6 +64,7 @@
 		61DAC5002C06CCB000DFC575 /* Secret.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61DAC4FF2C06CCB000DFC575 /* Secret.swift */; };
 		61DC69072C15CC38003DEB73 /* StoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61DC69062C15CC38003DEB73 /* StoreManager.swift */; };
 		61DC69092C16A7EF003DEB73 /* UIViewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61DC69082C16A7EF003DEB73 /* UIViewController+Extension.swift */; };
+		61F8AED12C23D658000AED2D /* MessageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61F8AED02C23D658000AED2D /* MessageModel.swift */; };
 		8D1410012C12BF900062E527 /* UIResponder+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D1410002C12BF900062E527 /* UIResponder+Extension.swift */; };
 		8D2E862D2C1AD5DD00967B13 /* BookmarkViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D2E862C2C1AD5DD00967B13 /* BookmarkViewModel.swift */; };
 		8D2E862F2C1B2D7000967B13 /* BookmarkList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D2E862E2C1B2D7000967B13 /* BookmarkList.swift */; };
@@ -159,6 +160,7 @@
 		61DAC4FF2C06CCB000DFC575 /* Secret.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Secret.swift; sourceTree = "<group>"; };
 		61DC69062C15CC38003DEB73 /* StoreManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreManager.swift; sourceTree = "<group>"; };
 		61DC69082C16A7EF003DEB73 /* UIViewController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extension.swift"; sourceTree = "<group>"; };
+		61F8AED02C23D658000AED2D /* MessageModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageModel.swift; sourceTree = "<group>"; };
 		8D1410002C12BF900062E527 /* UIResponder+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIResponder+Extension.swift"; sourceTree = "<group>"; };
 		8D2E862C2C1AD5DD00967B13 /* BookmarkViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkViewModel.swift; sourceTree = "<group>"; };
 		8D2E862E2C1B2D7000967B13 /* BookmarkList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkList.swift; sourceTree = "<group>"; };
@@ -305,6 +307,7 @@
 			isa = PBXGroup;
 			children = (
 				25CCA3B22C1ADB2D008F81A3 /* CommunityData.swift */,
+				61F8AED02C23D658000AED2D /* MessageModel.swift */,
 			);
 			path = Community;
 			sourceTree = "<group>";
@@ -764,6 +767,7 @@
 				8DB30F1E2C076AE900503139 /* MyPageCollectionViewCell.swift in Sources */,
 				CE4004122C1D1EED009E1142 /* CustomAlertViewController.swift in Sources */,
 				617BCCC42C195E4B008D8D48 /* ManageManager.swift in Sources */,
+				61F8AED12C23D658000AED2D /* MessageModel.swift in Sources */,
 				619FE8EC2C1F147F00745A0A /* ReportModel.swift in Sources */,
 				9C82B95B2C0F54D7008FA84E /* Double+Extension.swift in Sources */,
 				611644382C0909D4009FFDA5 /* SignManager.swift in Sources */,
