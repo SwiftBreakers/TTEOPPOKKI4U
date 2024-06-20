@@ -67,7 +67,6 @@
 		8D1410012C12BF900062E527 /* UIResponder+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D1410002C12BF900062E527 /* UIResponder+Extension.swift */; };
 		8D2E862D2C1AD5DD00967B13 /* BookmarkViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D2E862C2C1AD5DD00967B13 /* BookmarkViewModel.swift */; };
 		8D2E862F2C1B2D7000967B13 /* BookmarkList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D2E862E2C1B2D7000967B13 /* BookmarkList.swift */; };
-		8D36A85E2C225FA100FD38F5 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8D36A85D2C225FA100FD38F5 /* GoogleService-Info.plist */; };
 		8D3BA8412C15D5F1007597F2 /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D3BA8402C15D5F1007597F2 /* SettingViewController.swift */; };
 		8D580A302C0826B40057D370 /* ThemeFont.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D580A2F2C0826B40057D370 /* ThemeFont.swift */; };
 		8D580A472C082AB60057D370 /* Pretendard-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8D580A422C082AB50057D370 /* Pretendard-Medium.ttf */; };
@@ -110,6 +109,9 @@
 		CE3F36472C14286400532901 /* SkeletonView in Frameworks */ = {isa = PBXBuildFile; productRef = CE3F36462C14286400532901 /* SkeletonView */; };
 		CE4004102C1D1D46009E1142 /* DetailCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE40040F2C1D1D46009E1142 /* DetailCollectionViewCell.swift */; };
 		CE4004122C1D1EED009E1142 /* CustomAlertViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE4004112C1D1EED009E1142 /* CustomAlertViewController.swift */; };
+		CE771C992C22E65E004415CA /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = CE771C982C22E65E004415CA /* GoogleService-Info.plist */; };
+		CE771C9B2C22FB41004415CA /* FullscreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE771C9A2C22FB41004415CA /* FullscreenViewController.swift */; };
+		CE771C9D2C22FDBA004415CA /* FullscreenPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE771C9C2C22FDBA004415CA /* FullscreenPageViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -162,7 +164,6 @@
 		8D1410002C12BF900062E527 /* UIResponder+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIResponder+Extension.swift"; sourceTree = "<group>"; };
 		8D2E862C2C1AD5DD00967B13 /* BookmarkViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkViewModel.swift; sourceTree = "<group>"; };
 		8D2E862E2C1B2D7000967B13 /* BookmarkList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkList.swift; sourceTree = "<group>"; };
-		8D36A85D2C225FA100FD38F5 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		8D3BA8402C15D5F1007597F2 /* SettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
 		8D580A2F2C0826B40057D370 /* ThemeFont.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeFont.swift; sourceTree = "<group>"; };
 		8D580A422C082AB50057D370 /* Pretendard-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Medium.ttf"; sourceTree = "<group>"; };
@@ -203,6 +204,9 @@
 		CE3F36412C1036D700532901 /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		CE40040F2C1D1D46009E1142 /* DetailCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailCollectionViewCell.swift; sourceTree = "<group>"; };
 		CE4004112C1D1EED009E1142 /* CustomAlertViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAlertViewController.swift; sourceTree = "<group>"; };
+		CE771C982C22E65E004415CA /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
+		CE771C9A2C22FB41004415CA /* FullscreenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = FullscreenViewController.swift; path = TteoPpoKki4U/View/RecommendPage/FullscreenViewController.swift; sourceTree = SOURCE_ROOT; };
+		CE771C9C2C22FDBA004415CA /* FullscreenPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FullscreenPageViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -386,8 +390,8 @@
 				613D86A12C05BFF90039E771 /* Assets.xcassets */,
 				613D86A32C05BFF90039E771 /* LaunchScreen.storyboard */,
 				613D86A62C05BFF90039E771 /* Info.plist */,
-				8D36A85D2C225FA100FD38F5 /* GoogleService-Info.plist */,
 				61DAC4FF2C06CCB000DFC575 /* Secret.swift */,
+				CE771C982C22E65E004415CA /* GoogleService-Info.plist */,
 				610717AA2C213D5C00626649 /* AuthKey_RS7QZ647UQ.p8 */,
 				610717A62C21364600626649 /* AuthKey_RS7QZ647UQ_public.p8 */,
 				610717AC2C2156B200626649 /* PrivacyInfo.xcprivacy */,
@@ -601,6 +605,8 @@
 			isa = PBXGroup;
 			children = (
 				611EE67D2C20C0AB0096D903 /* Cell */,
+				CE771C9A2C22FB41004415CA /* FullscreenViewController.swift */,
+				CE771C9C2C22FDBA004415CA /* FullscreenPageViewController.swift */,
 				CE3F36392C08474700532901 /* RecommendViewController.swift */,
 				CE3F36342C08469700532901 /* RecommendCardView.swift */,
 				CE3F36412C1036D700532901 /* DetailViewController.swift */,
@@ -721,7 +727,7 @@
 				8D580A492C082AB60057D370 /* Pretendard-Regular.ttf in Resources */,
 				8D580A4A2C082AB60057D370 /* Pretendard-ExtraLight.ttf in Resources */,
 				613D86A52C05BFF90039E771 /* Base in Resources */,
-				8D36A85E2C225FA100FD38F5 /* GoogleService-Info.plist in Resources */,
+				CE771C992C22E65E004415CA /* GoogleService-Info.plist in Resources */,
 				8D580A4B2C082AB60057D370 /* Pretendard-Bold.ttf in Resources */,
 				8D580A482C082AB60057D370 /* Pretendard-Black.ttf in Resources */,
 			);
@@ -736,9 +742,11 @@
 			files = (
 				61DC69092C16A7EF003DEB73 /* UIViewController+Extension.swift in Sources */,
 				611644352C09039F009FFDA5 /* SignViewModel.swift in Sources */,
+				CE771C9D2C22FDBA004415CA /* FullscreenPageViewController.swift in Sources */,
 				61AB7EF82C1E745200C51ECA /* CustomTextView.swift in Sources */,
 				9C82B94F2C0F2D27008FA84E /* NetworkManager.swift in Sources */,
 				61DAC4E22C05C3C100DFC575 /* CommunityViewController.swift in Sources */,
+				CE771C9B2C22FB41004415CA /* FullscreenViewController.swift in Sources */,
 				617357262C1364940007B92A /* ReviewModel.swift in Sources */,
 				617BCCBC2C191897008D8D48 /* ManageViewController.swift in Sources */,
 				611644322C09000F009FFDA5 /* GreetingBodyView.swift in Sources */,

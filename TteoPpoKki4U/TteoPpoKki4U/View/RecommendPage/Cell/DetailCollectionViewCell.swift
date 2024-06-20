@@ -12,7 +12,7 @@ import Kingfisher
 class DetailCollectionViewCell: UICollectionViewCell {
     static let identifier = "DetailCollectionViewCell"
 
-    private var imageView: UIImageView = {
+    var imageView: UIImageView = {
         let view = UIImageView()
         view.contentMode = .scaleAspectFit
         view.clipsToBounds = true

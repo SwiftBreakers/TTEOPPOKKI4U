@@ -74,24 +74,14 @@ class DetailViewController: UIViewController, UISearchBarDelegate {
             UIEdgeInsets(top: 0, left: Self.insetX, bottom: 0, right: Self.insetX)
         }
     }
-    //    private var items = (0...3).map { _ in
-    //      MyModel(color: randomColor, isDimmed: true)
-    //    }
     var items: [Item] = []
     private var previousIndex: Int?
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        
-        
-        
-        
         setupViews()
         configureView()
         setupCollectionView()
-        //        navigationController?.hidesBarsOnSwipe = true
-        
         makeBarButton()
         bind()
         items = [
@@ -355,6 +345,26 @@ extension DetailViewController: UICollectionViewDataSource {
         let item = self.items[indexPath.item]
         cell.prepare(imageURL: item.imageURL, isDimmed: item.isDimmed)
         return cell
+    }
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let cell = collectionView.cellForItem(at: indexPath) as! DetailCollectionViewCell
+        let image = cell.imageView.image
+        
+        let fullscreenPageVC = FullscreenPageViewController(transitionStyle: .scroll, navigationOrientation: .horizontal, options: nil)
+            fullscreenPageVC.modalPresentationStyle = .fullScreen
+            fullscreenPageVC.imageURLs = getAllImageURLs() // 모든 이미지 배열을 전달
+            fullscreenPageVC.currentIndex = indexPath.item
+            
+            self.present(fullscreenPageVC, animated: true, completion: nil)
+    }
+    func getAllImageURLs() -> [URL] {
+        // 여기서 모든 이미지를 반환합니다.
+        return [
+            URL(string: card!.collectionImageURL1)!,
+            URL(string: card!.collectionImageURL2)!,
+            URL(string: card!.collectionImageURL3)!,
+            URL(string: card!.collectionImageURL4)!
+        ]
     }
 }
 extension DetailViewController: UICollectionViewDelegateFlowLayout {
