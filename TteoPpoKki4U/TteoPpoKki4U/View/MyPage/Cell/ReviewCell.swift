@@ -10,7 +10,7 @@ class ReviewCell: UICollectionViewCell {
     private let titleLabel: UILabel = {
         let label = UILabel()
         label.font = ThemeFont.fontBold(size: 17)
-        label.textColor = .black
+        label.textColor = ThemeColor.mainBlack
         return label
     }()
     
@@ -24,7 +24,7 @@ class ReviewCell: UICollectionViewCell {
     private let contentLabel: UILabel = {
         let label = UILabel()
         label.font = ThemeFont.fontRegular(size: 14)
-        label.textColor = .black
+        label.textColor = ThemeColor.mainBlack
         label.numberOfLines = 0
         return label
     }()

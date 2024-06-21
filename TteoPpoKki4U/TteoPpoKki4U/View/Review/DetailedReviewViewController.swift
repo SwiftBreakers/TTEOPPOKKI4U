@@ -25,7 +25,7 @@ class DetailedReviewViewController: UIViewController {
         let label = UILabel()
         label.font = ThemeFont.fontMedium(size: 24)
         label.textAlignment = .center
-        label.textColor = .black
+        label.textColor = ThemeColor.mainBlack
         return label
     }()
 
@@ -33,7 +33,7 @@ class DetailedReviewViewController: UIViewController {
         let label = UILabel()
         label.font = ThemeFont.fontMedium(size: 20)
         label.textAlignment = .center
-        label.textColor = .black
+        label.textColor = ThemeColor.mainBlack
         return label
     }()
 
@@ -41,15 +41,16 @@ class DetailedReviewViewController: UIViewController {
         let label = UILabel()
         label.font = ThemeFont.fontRegular()
         label.textAlignment = .center
-        label.textColor = .black
+        label.textColor = ThemeColor.mainBlack
         return label
     }()
 
     private lazy var reviewContentLabel: UILabel = {
         let label = UILabel()
         label.font = ThemeFont.fontRegular()
-        label.textColor = .black
+        label.textColor = ThemeColor.mainBlack
         label.numberOfLines = 0
+        label.setLineSpacing(lineSpacing: 5)
         return label
     }()
     private lazy var scrollView = UIScrollView()

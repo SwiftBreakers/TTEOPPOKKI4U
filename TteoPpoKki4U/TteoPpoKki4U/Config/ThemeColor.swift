@@ -10,5 +10,6 @@ import UIKit
 class ThemeColor {
     static let mainOrange = UIColor(hexString: "FE724C")
     static let mainGreen = UIColor(hexString: "549956")
+    static let mainBlack = UIColor(hexString: "353535")
 }
 

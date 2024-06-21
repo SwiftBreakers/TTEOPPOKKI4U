@@ -26,7 +26,7 @@ class MapView: UIView {
         bar.barTintColor = .white
         bar.searchTextField.attributedPlaceholder = NSAttributedString(string: "장소명 또는 지역명을 입력해 주세요", attributes: [NSAttributedString.Key.foregroundColor: UIColor.gray])
         bar.searchTextField.leftView?.tintColor = .gray
-        bar.searchTextField.textColor = .black
+        bar.searchTextField.textColor = ThemeColor.mainBlack
         bar.searchTextField.borderStyle = .none
         bar.searchTextField.backgroundColor = .white
         bar.clipsToBounds = true

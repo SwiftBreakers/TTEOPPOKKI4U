@@ -23,15 +23,15 @@ class WriteViewController: UIViewController {
     var starButtons: [UIButton] = []
     var selectedRating = 0
     
-    let titleTextField = CustomTextField(placeholder: "제목",target: self, action: #selector(doneButtonTapped))
-    let contentTextView = CustomTextView(target: self, action: #selector(doneButtonTapped))
+    let titleTextField = CustomTextField(placeholder: "제목",target: WriteViewController.self, action: #selector(doneButtonTapped))
+    let contentTextView = CustomTextView(target: WriteViewController.self, action: #selector(doneButtonTapped))
     let addImageButton = UIButton()
     let cancelButton = UIButton()
     let submitButton = UIButton()
     let starLabel: UILabel = {
         let label = UILabel()
         label.font = ThemeFont.fontMedium(size: 24)
-        label.textColor = .black
+        label.textColor = ThemeColor.mainBlack
         return label
     }()
     
@@ -144,17 +144,19 @@ class WriteViewController: UIViewController {
         
         // 제목 텍스트 필드 설정
         titleTextField.borderStyle = .roundedRect
+        titleTextField.layer.borderColor = ThemeColor.mainOrange.cgColor
         view.addSubview(titleTextField)
         titleTextField.snp.makeConstraints { make in
             make.top.equalTo(starStackView.snp.bottom).offset(50)
             make.left.equalToSuperview().offset(20)
             make.right.equalToSuperview().offset(-20)
+            make.height.equalTo(40)
         }
         
         // 내용 텍스트 뷰 설정
         contentTextView.layer.borderWidth = 1
-        contentTextView.layer.borderColor = UIColor.lightGray.cgColor
-        contentTextView.layer.cornerRadius = 5
+        contentTextView.layer.borderColor = ThemeColor.mainOrange.cgColor
+        contentTextView.layer.cornerRadius = 10
         contentTextView.font = UIFont.systemFont(ofSize: 17)
         contentTextView.textContainerInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
         view.addSubview(contentTextView)
@@ -168,13 +170,13 @@ class WriteViewController: UIViewController {
         // 이미지 추가 버튼
         addImageButton.setImage(UIImage(systemName: "camera"), for: .normal)
         addImageButton.backgroundColor = .lightGray
-        addImageButton.layer.cornerRadius = 5
+        addImageButton.layer.cornerRadius = 10
         addImageButton.addTarget(self, action: #selector(addImageButtonTapped), for: .touchUpInside)
         view.addSubview(addImageButton)
         addImageButton.snp.makeConstraints { make in
             make.top.equalTo(contentTextView.snp.bottom).offset(20)
             make.left.equalToSuperview().offset(20)
-            make.width.height.equalTo(60)
+            make.width.height.equalTo(90)
         }
         // MARK: - 여기 스크롤 되는지 모르겠음....
         // 이미지 스크롤뷰 설정
