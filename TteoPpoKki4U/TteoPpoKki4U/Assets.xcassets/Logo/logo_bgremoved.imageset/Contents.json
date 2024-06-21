@@ -1,11 +1,11 @@
 {
   "images" : [
     {
-      "filename" : "mainlogo.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
+      "filename" : "logo_bgremoved.png",
       "idiom" : "universal",
       "scale" : "2x"
     },

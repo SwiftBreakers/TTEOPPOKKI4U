@@ -1,11 +1,11 @@
 {
   "images" : [
     {
-      "filename" : "ttukbokki4u1n.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
+      "filename" : "personIcon.png",
       "idiom" : "universal",
       "scale" : "2x"
     },

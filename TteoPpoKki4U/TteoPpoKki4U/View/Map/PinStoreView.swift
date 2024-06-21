@@ -28,8 +28,8 @@ class PinStoreView: UIView {
     
     let titleLabel: UILabel = {
         let label = UILabel()
-        label.font = ThemeFont.fontMedium(size: 24)
-        label.textColor = .black
+        label.font = ThemeFont.fontBold(size: 22)
+        label.textColor = ThemeColor.mainBlack
         return label
     }()
     lazy var scrapButton: UIButton = {
@@ -42,7 +42,7 @@ class PinStoreView: UIView {
     let addressLabel: UILabel = {
         let label = UILabel()
         label.font = ThemeFont.fontRegular()
-        label.textColor = .black
+        label.textColor = ThemeColor.mainBlack
         return label
     }()
     let line: UIView = {
@@ -172,10 +172,12 @@ class PinStoreView: UIView {
     }
     
     func bind(title: String, address: String, isScrapped: Bool, rating: Float, reviews: Int, distance: String) {
+        let formattedRating = String(format: "%.1f", rating)
+        
         titleLabel.text = title
         addressLabel.text = address
         self.isScrapped = isScrapped
-        ratingLabel.attributedText = makeIconBeforeText(icon: "star", label: " \(rating)")
+        ratingLabel.attributedText = makeIconBeforeText(icon: "star", label: formattedRating)
         reviewsLabel.attributedText = makeIconBeforeText(icon: "text.bubble", label: " \(reviews)개")
         distanceLabel.attributedText = makeIconBeforeText(icon: "arrow.turn.down.right", label: distance)
     }

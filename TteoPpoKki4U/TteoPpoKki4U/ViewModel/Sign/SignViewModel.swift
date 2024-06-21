@@ -133,7 +133,7 @@ class SignViewModel: NSObject {
         //print("🗝 clientSecret - \(UserDefaults.standard.string(forKey: "AppleClientSecret") ?? "")")
         // print("🗝 authCode - \(code)")
         
-        let a = AF.request(url, method: .post, encoding: JSONEncoding.default, headers: header)
+        let _ = AF.request(url, method: .post, encoding: JSONEncoding.default, headers: header)
             .validate(statusCode: 200..<500)
             .responseData { response in
                 // print("🗝 response - \(response.description)")

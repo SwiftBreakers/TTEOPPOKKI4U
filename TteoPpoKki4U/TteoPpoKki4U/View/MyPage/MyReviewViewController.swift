@@ -54,8 +54,14 @@ class MyReviewViewController: UIViewController {
     
     private func bind() {
         viewModel.$userReview
-            .sink { _ in
-                self.collectionView.reloadData()
+            .sink { array in
+                if array.count == 0 {
+                    self.collectionView.setEmptyMsg("내가 작성한 리뷰가 없어요!\n첫 리뷰를 작성해 보세요.")
+                    self.collectionView.reloadData()
+                } else {
+                    self.collectionView.restore()
+                    self.collectionView.reloadData()
+                }
             }.store(in: &cancellables)
         
         viewModel.reviewPublisher.sink { completion in
