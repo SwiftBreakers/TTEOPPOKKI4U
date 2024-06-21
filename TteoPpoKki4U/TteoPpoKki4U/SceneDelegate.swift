@@ -89,7 +89,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         let mapVC = UINavigationController(rootViewController: MapViewController())
         let recommendVC = UINavigationController(rootViewController: RecommendViewController())
-        let communityVC = UINavigationController(rootViewController: CommunityViewController())
+        let communityVC = UINavigationController(rootViewController: ChannelVC(currentUser: Auth.auth().currentUser!))
         let mypageVC = UINavigationController(rootViewController: MyPageViewController(signOutTapped: { [weak signViewModel, weak self] in
             signViewModel?.signOut {
                 DispatchQueue.main.async {
