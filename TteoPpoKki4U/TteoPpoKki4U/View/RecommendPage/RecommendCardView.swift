@@ -107,7 +107,6 @@ public class MyCardCell: CardCell {
         imageView.layer.cornerRadius = 12
         imageView.clipsToBounds = true
         imageView.contentMode = .scaleAspectFill
-        
         self.layer.cornerRadius = 12
     }
     
