@@ -88,10 +88,10 @@ class StoreViewController: UIViewController {
             .sink { array in
                 self.reviewCountLabel.text = "리뷰 \(array.count)개"
                 if array.count == 0 {
-                    self.tableView.setEmptyMsg("아직 작성한 리뷰가 없어요!\n첫 리뷰를 작성해 주세요.")
+                    self.setEmptyMsg("아직 작성한 리뷰가 없어요!\n첫 리뷰를 작성해 주세요.")
                     self.tableView.reloadData()
                 } else {
-                    self.tableView.restore()
+                    self.restore()
                     self.tableView.reloadData()
                 }
                 
@@ -262,6 +262,30 @@ class StoreViewController: UIViewController {
         } else {
             showMessage(title: "안내", message: "로그인이 필요한 기능입니다.")
         }
+    }
+    
+    private func setEmptyMsg(_ msg: String) {
+        let container = UIView()
+        let msgLabel: UILabel = {
+            let label = UILabel()
+            label.text = msg
+            label.textColor = .gray
+            label.numberOfLines = 2
+            label.textAlignment = .center
+            label.font = ThemeFont.fontRegular()
+            label.sizeToFit()
+            return label
+        }()
+        container.addSubview(msgLabel)
+        tableView.backgroundView = container
+        
+        msgLabel.snp.makeConstraints { make in
+            make.center.equalToSuperview()
+        }
+    }
+
+    private func restore() {
+        tableView.backgroundView = nil
     }
     
 }
