@@ -135,4 +135,11 @@ class ReviewViewModel {
         }
     }
     
+    func timestampToString(value: Timestamp) -> String {
+        let date = value.dateValue()
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy.MM.dd"
+        let result = dateFormatter.string(from: date)
+        return result
+    }
 }

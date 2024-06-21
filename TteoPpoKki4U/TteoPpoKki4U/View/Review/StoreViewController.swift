@@ -9,6 +9,7 @@ import UIKit
 import SnapKit
 import Combine
 import FirebaseAuth
+import Kingfisher
 
 class StoreViewController: UIViewController {
     
@@ -88,7 +89,7 @@ class StoreViewController: UIViewController {
             .sink { array in
                 self.reviewCountLabel.text = "리뷰 \(array.count)개"
                 if array.count == 0 {
-                    self.setEmptyMsg("아직 작성한 리뷰가 없어요!\n첫 리뷰를 작성해 주세요.")
+                    self.setEmptyMsg("아직 작성한 리뷰가 없어요!\n  첫 리뷰를 작성해 주세요.")
                     self.tableView.reloadData()
                 } else {
                     self.restore()
@@ -136,7 +137,7 @@ class StoreViewController: UIViewController {
             gradientLayer.frame = imageView.bounds
             
             let colors: [CGColor] = [
-                .init(red: 0, green: 0, blue: 0, alpha: 0.5),
+                .init(red: 0, green: 0, blue: 0, alpha: 0.3),
                 .init(red: 0, green: 0, blue: 0, alpha: 0.0)
             ]
             gradientLayer.colors = colors
@@ -169,6 +170,7 @@ class StoreViewController: UIViewController {
         
         tableView.delegate = self
         tableView.dataSource = self
+        tableView.rowHeight = 70
         view.addSubview(tableView)
         
         // Setup Back Button
@@ -179,10 +181,8 @@ class StoreViewController: UIViewController {
         view.addSubview(backButton)
         
         view.addSubview(seperateView)
-        view.addSubview(reviewCountLabel)
-    
-        
 
+        view.addSubview(reviewCountLabel)
     }
     
     private func setupConstraints() {
@@ -274,6 +274,7 @@ class StoreViewController: UIViewController {
             label.textAlignment = .center
             label.font = ThemeFont.fontRegular()
             label.sizeToFit()
+            label.setLineSpacing(lineSpacing: 5)
             return label
         }()
         container.addSubview(msgLabel)
@@ -301,6 +302,11 @@ extension StoreViewController: UITableViewDelegate, UITableViewDataSource {
         let item = viewModel.userReview[indexPath.row]
         cell.reviewTitleLabel.text = item.title
         cell.starRatingLabel.text = "⭐️ \(item.rating)"
+        cell.createdAtLabel.text = viewModel.timestampToString(value: item.createdAt)
+        
+        if let thumbnail = item.imageURL.first {
+            cell.thumbnailImage.kf.setImage(with: URL(string: thumbnail))
+        }
         return cell
     }
     // MARK: - UITableViewDelegate Methods

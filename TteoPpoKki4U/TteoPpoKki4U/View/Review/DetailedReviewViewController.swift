@@ -9,6 +9,7 @@ import UIKit
 import Kingfisher
 import SnapKit
 import FirebaseAuth
+import FirebaseFirestore
 
 class DetailedReviewViewController: UIViewController {
     
@@ -20,10 +21,19 @@ class DetailedReviewViewController: UIViewController {
     private var reviewImages: [String]?
     private var uid: String?
     private var reportCount: Int?
+    private var createdAt: String?
     
+    private lazy var introLabel: UILabel = {
+        let label = UILabel()
+        label.text = "리뷰 전체보기"
+        label.font = ThemeFont.fontMedium(size: 20)
+        label.textAlignment = .center
+        label.textColor = ThemeColor.mainBlack
+        return label
+    }()
     private lazy var storeNameLabel: UILabel = {
         let label = UILabel()
-        label.font = ThemeFont.fontMedium(size: 24)
+        label.font = ThemeFont.fontBold(size: 24)
         label.textAlignment = .center
         label.textColor = ThemeColor.mainBlack
         return label
@@ -31,16 +41,17 @@ class DetailedReviewViewController: UIViewController {
 
     private lazy var reviewTitleLabel: UILabel = {
         let label = UILabel()
-        label.font = ThemeFont.fontMedium(size: 20)
-        label.textAlignment = .center
+        label.font = ThemeFont.fontMedium(size: 22)
+        label.textAlignment = .left
         label.textColor = ThemeColor.mainBlack
+        label.numberOfLines = 0
         return label
     }()
 
     private lazy var starRatingLabel: UILabel = {
         let label = UILabel()
-        label.font = ThemeFont.fontRegular()
-        label.textAlignment = .center
+        label.font = ThemeFont.fontRegular(size: 14)
+        label.textAlignment = .left
         label.textColor = ThemeColor.mainBlack
         return label
     }()
@@ -51,6 +62,14 @@ class DetailedReviewViewController: UIViewController {
         label.textColor = ThemeColor.mainBlack
         label.numberOfLines = 0
         label.setLineSpacing(lineSpacing: 5)
+        return label
+    }()
+    private lazy var createdAtLabel: UILabel = {
+        let label = UILabel()
+        label.font = ThemeFont.fontRegular(size: 14)
+        label.textColor = .gray
+        label.numberOfLines = 1
+        label.sizeToFit()
         return label
     }()
     private lazy var scrollView = UIScrollView()
@@ -93,6 +112,7 @@ class DetailedReviewViewController: UIViewController {
         reviewImages = nil
         uid = nil
         reportCount = nil
+        createdAt = nil
         
         imageView.kf.cancelDownloadTask()
         imageView.image = nil
@@ -110,6 +130,7 @@ class DetailedReviewViewController: UIViewController {
         reviewImages = data.imageURL
         uid = data.uid
         reportCount = data.reportCount
+        createdAt = timestampToString(value: data.createdAt)
     }
     
     private func configureUI() {
@@ -117,15 +138,18 @@ class DetailedReviewViewController: UIViewController {
         reviewTitleLabel.text = reviewTitle
         starRatingLabel.text = "⭐️ \(starRating ?? 0)"
         reviewContentLabel.text = reviewContent
+        createdAtLabel.text = createdAt
         
+        view.addSubview(backButton)
+        view.addSubview(introLabel)
+        view.addSubview(reportButton)
         
         view.addSubview(storeNameLabel)
         
-        
         view.addSubview(reviewTitleLabel)
-        
-        
+        view.addSubview(createdAtLabel)
         view.addSubview(starRatingLabel)
+        view.addSubview(reviewContentLabel)
         
         scrollView.isPagingEnabled = true
         view.addSubview(scrollView)
@@ -134,49 +158,62 @@ class DetailedReviewViewController: UIViewController {
         stackView.spacing = 10
         stackView.distribution = .fillEqually
         scrollView.addSubview(stackView)
+
         
-        
-        view.addSubview(reviewContentLabel)
-        
-        view.addSubview(reportButton)
-        view.addSubview(backButton)
-        
-        storeNameLabel.snp.makeConstraints { make in
+        backButton.snp.makeConstraints { make in
             make.top.equalTo(view.safeAreaLayoutGuide).offset(10)
+            make.leading.equalToSuperview().offset(20)
+        }
+        
+        introLabel.snp.makeConstraints { make in
+            make.centerY.equalTo(backButton)
             make.centerX.equalToSuperview()
         }
         
         reportButton.snp.makeConstraints { make in
-            make.centerY.equalTo(storeNameLabel)
+            make.centerY.equalTo(backButton)
             make.trailing.equalToSuperview().inset(20)
         }
         
-        backButton.snp.makeConstraints { make in
-            make.centerY.equalTo(storeNameLabel)
-            make.leading.equalToSuperview().offset(20)
+        storeNameLabel.snp.makeConstraints { make in
+            make.top.equalTo(backButton.snp.bottom).offset(40)
+            make.centerX.equalToSuperview()
         }
         
         reviewTitleLabel.snp.makeConstraints { make in
-            make.top.equalTo(storeNameLabel.snp.bottom).offset(40)
-            make.leading.trailing.equalToSuperview().inset(20)
+            make.top.equalTo(scrollView.snp.bottom).offset(40)
+            make.horizontalEdges.equalTo(view.safeAreaLayoutGuide).inset(20)
         }
         
         starRatingLabel.snp.makeConstraints { make in
             make.top.equalTo(reviewTitleLabel.snp.bottom).offset(10)
-            make.leading.trailing.equalToSuperview().inset(20)
+            make.leading.equalTo(view.safeAreaLayoutGuide).inset(20)
+        }
+        
+        createdAtLabel.snp.makeConstraints { make in
+            make.leading.equalTo(starRatingLabel.snp.trailing).offset(10)
+            make.centerY.equalTo(starRatingLabel)
+            //make.trailing.equalTo(view.safeAreaLayoutGuide).offset(-20)
+            //make.width.equalTo(80)
         }
         
         reviewContentLabel.snp.makeConstraints { make in
-            make.top.equalTo(scrollView.snp.bottom).offset(20)
-            make.leading.trailing.equalToSuperview().inset(20)
+            make.top.equalTo(starRatingLabel.snp.bottom).offset(30)
+            make.leading.trailing.equalTo(view.safeAreaLayoutGuide).inset(20)
         }
-        
+
     }
     
     private func configureImageScrollView() {
         guard let imageURLs = reviewImages else { return }
         
-        if imageURLs.count == 1, let imageURL = imageURLs.first {
+        if imageURLs.count == 0 {
+            scrollView.removeFromSuperview()
+            reviewTitleLabel.snp.remakeConstraints { make in
+                make.top.equalTo(storeNameLabel.snp.bottom).offset(20)
+                make.leading.trailing.equalTo(view.safeAreaLayoutGuide).inset(20)
+            }
+        } else if imageURLs.count == 1, let imageURL = imageURLs.first {
             scrollView.removeFromSuperview()
             view.addSubview(imageView)
             
@@ -187,20 +224,20 @@ class DetailedReviewViewController: UIViewController {
             imageView.kf.setImage(with: URL(string: imageURL))
             
             imageView.snp.makeConstraints { make in
-                make.top.equalTo(starRatingLabel.snp.bottom).offset(20)
+                make.top.equalTo(storeNameLabel.snp.bottom).offset(20)
                 make.leading.trailing.equalToSuperview().inset(20)  // 스크롤뷰와 동일한 사이즈
                 make.height.equalTo(imageView.snp.width).multipliedBy(0.75)
             }
             
-            reviewContentLabel.snp.remakeConstraints { make in
+            reviewTitleLabel.snp.remakeConstraints { make in
                 make.top.equalTo(imageView.snp.bottom).offset(20)
-                make.leading.trailing.equalToSuperview().inset(20)
+                make.leading.trailing.equalTo(view.safeAreaLayoutGuide).inset(20)
             }
         } else {
             view.addSubview(scrollView)
             
             scrollView.snp.remakeConstraints { make in
-                make.top.equalTo(starRatingLabel.snp.bottom).offset(20)
+                make.top.equalTo(storeNameLabel.snp.bottom).offset(20)
                 make.leading.trailing.equalToSuperview().inset(20)
                 make.height.equalTo(200)
             }
@@ -241,7 +278,7 @@ class DetailedReviewViewController: UIViewController {
     }
     
     @objc private func reportButtonTapped() {
-        if let uid = Auth.auth().currentUser?.uid {
+        if let _ = Auth.auth().currentUser?.uid {
             showMessageWithCancel(title: "신고하기", message: "해당 리뷰를 신고하시겠습니까?") { [weak self]  in
                 let reportVC = ReportViewController()
                 reportVC.userData = self?.userData
@@ -258,5 +295,13 @@ class DetailedReviewViewController: UIViewController {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "확인", style: .default, handler: nil))
         present(alert, animated: true, completion: nil)
+    }
+    
+    func timestampToString(value: Timestamp) -> String {
+        let date = value.dateValue()
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy.MM.dd"
+        let result = dateFormatter.string(from: date)
+        return result
     }
 }

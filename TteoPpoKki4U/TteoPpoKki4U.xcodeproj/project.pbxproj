@@ -227,7 +227,7 @@
 		CE3F36412C1036D700532901 /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		CE40040F2C1D1D46009E1142 /* DetailCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailCollectionViewCell.swift; sourceTree = "<group>"; };
 		CE4004112C1D1EED009E1142 /* CustomAlertViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAlertViewController.swift; sourceTree = "<group>"; };
-		CE771C982C22E65E004415CA /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
+		CE771C982C22E65E004415CA /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../GoogleService-Info.plist"; sourceTree = "<group>"; };
 		CE771C9A2C22FB41004415CA /* FullscreenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = FullscreenViewController.swift; path = TteoPpoKki4U/View/RecommendPage/FullscreenViewController.swift; sourceTree = SOURCE_ROOT; };
 		CE771C9C2C22FDBA004415CA /* FullscreenPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FullscreenPageViewController.swift; sourceTree = "<group>"; };
 		CE771CA72C240F23004415CA /* Channel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Channel.swift; sourceTree = "<group>"; };
@@ -464,7 +464,6 @@
 		613D86B02C05C06F0039E771 /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
-				CE771CA32C240EEA004415CA /* Chat */,
 				610717A02C2117B900626649 /* Map */,
 				CE4004032C1983E0009E1142 /* Recommend */,
 				617BCCC02C195E14008D8D48 /* Manage */,
@@ -689,13 +688,6 @@
 				CE771CCC2C243D69004415CA /* BaseViewController.swift */,
 				CE771CCA2C243D2B004415CA /* channelVC.swift */,
 				CE771CCE2C243D8E004415CA /* ChannelTableViewCell.swift */,
-			);
-			path = Chat;
-			sourceTree = "<group>";
-		};
-		CE771CA32C240EEA004415CA /* Chat */ = {
-			isa = PBXGroup;
-			children = (
 			);
 			path = Chat;
 			sourceTree = "<group>";
