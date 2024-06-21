@@ -22,7 +22,7 @@ public class CardViewModel: ObservableObject {
     @Published var isBookmarked: Bool = false
     private var bookmarkStatus: [String: Bool] = [:]
     
-    
+
     public var numberOfCards: Int {
         return cards.count
     }
@@ -38,6 +38,7 @@ public class CardViewModel: ObservableObject {
         let cardRef = db.collection("recommendMain")
         do {
             let querySnapshot = try await cardRef.getDocuments()
+            cards.removeAll()
             var fetchedCards: [Card] = []
             let cards = try await withThrowingTaskGroup(of: Card?.self) { taskGroup in
                 for document in querySnapshot.documents {

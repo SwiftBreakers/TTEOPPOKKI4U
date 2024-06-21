@@ -89,7 +89,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         let mapVC = UINavigationController(rootViewController: MapViewController())
         let recommendVC = UINavigationController(rootViewController: RecommendViewController())
-        let communityVC = UINavigationController(rootViewController: CommunityViewController())
+        let communityVC = UINavigationController(rootViewController: ChannelVC(currentUser: Auth.auth().currentUser!))
         let mypageVC = UINavigationController(rootViewController: MyPageViewController(signOutTapped: { [weak signViewModel, weak self] in
             signViewModel?.signOut {
                 DispatchQueue.main.async {
@@ -115,7 +115,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             image: UIImage(systemName: "person.crop.circle"),
             selectedImage: UIImage(systemName: "person.crop.circle.fill"))
         
-        tabbarController.viewControllers = [recommendVC, mapVC, mypageVC]
+        tabbarController.viewControllers = [recommendVC, mapVC, communityVC, mypageVC]
         
         window?.rootViewController = tabbarController
         tabbarController.tabBar.backgroundColor = .white
