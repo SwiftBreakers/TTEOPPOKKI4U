@@ -12,6 +12,8 @@ import Firebase
 
 struct Message: MessageType {
     
+    let userManager = UserManager()
+    
     let id: String?
     var messageId: String {
         return id ?? UUID().uuidString
@@ -31,15 +33,15 @@ struct Message: MessageType {
     var image: UIImage?
     var downloadURL: URL?
     
-    init(user: User, content: String) {
-        sender = Sender(senderId: user.uid, displayName: UserDefaultManager.displayName)
+    init(user: User, content: String, displayName: String) {
+        sender = Sender(senderId: user.uid, displayName: displayName)
         self.content = content
         sentDate = Date()
         id = nil
     }
     
-    init(user: User, image: UIImage) {
-        sender = Sender(senderId: user.uid, displayName: UserDefaultManager.displayName)
+    init(user: User, image: UIImage, displayName: String) {
+        sender = Sender(senderId: user.uid, displayName: displayName)
         self.image = image
         sentDate = Date()
         content = ""
@@ -66,6 +68,27 @@ struct Message: MessageType {
         }
     }
     
+    static func fetchDisplayName(userManager: UserManager, completion: @escaping (String?) -> Void) {
+        guard let uid = Auth.auth().currentUser?.uid else {
+            completion(nil)
+            return
+        }
+        
+        userManager.fetchUserData(uid: uid) { error, snapshot in
+            if let error = error {
+                print(error)
+                completion(nil)
+                return
+            }
+            guard let dictionary = snapshot?.value as? [String: Any] else {
+                completion(nil)
+                return
+            }
+            let currentName = (dictionary[db_nickName] as? String) ?? "Unknown"
+            completion(currentName)
+        }
+    }
+    
 }
 
 extension Message: DatabaseRepresentation {
@@ -87,12 +110,11 @@ extension Message: DatabaseRepresentation {
 }
 
 extension Message: Comparable {
-  static func == (lhs: Message, rhs: Message) -> Bool {
-    return lhs.id == rhs.id
-  }
+    static func == (lhs: Message, rhs: Message) -> Bool {
+        return lhs.id == rhs.id
+    }
 
-  static func < (lhs: Message, rhs: Message) -> Bool {
-    return lhs.sentDate < rhs.sentDate
-  }
+    static func < (lhs: Message, rhs: Message) -> Bool {
+        return lhs.sentDate < rhs.sentDate
+    }
 }
-

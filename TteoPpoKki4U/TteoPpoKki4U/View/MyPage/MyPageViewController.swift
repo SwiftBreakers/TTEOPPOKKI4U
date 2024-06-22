@@ -22,7 +22,7 @@ class MyPageViewController: UIViewController {
     
     private var cancellables = Set<AnyCancellable>()
     private var currentImageUrl: String?
-    private var currentName: String?
+    public var currentName: String?
     
     convenience init(signOutTapped: @escaping () -> Void, viewModel: SignViewModel) {
         self.init()

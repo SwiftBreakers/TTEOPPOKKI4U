@@ -11,6 +11,12 @@ import FirebaseAuth
 import Firebase
 
 class ChannelVC: BaseViewController {
+    
+    let uid = Auth.auth().currentUser?.uid
+    let userManager = UserManager()
+    var currentName: String?
+    let myPageView = MyPageView()
+    
     lazy var channelTableView: UITableView = {
         let view = UITableView()
         view.register(ChannelTableViewCell.self, forCellReuseIdentifier: ChannelTableViewCell.className)
@@ -21,7 +27,7 @@ class ChannelVC: BaseViewController {
     }()
     
     var channels = [Channel]()
-    private let currentUser: User
+    private var currentUser: User
     private let channelStream = ChannelFirestoreStream()
     private var currentChannelAlertController: UIAlertController?
     
@@ -42,10 +48,62 @@ class ChannelVC: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        checkNickname()
         configureViews()
         addToolBarItems()
         setupListener()
+    }
+    override func viewWillAppear(_ animated: Bool) {
+        tabBarController?.tabBar.isHidden = false
+    }
+    private func checkNickname() {
+        // 너 유저야?
+        if Auth.auth().currentUser != nil {
+            userManager.fetchUserData(uid: Auth.auth().currentUser!.uid) { [self] error, snapshot in
+                if let error = error {
+                    print(error)
+                }
+                guard let dictionary = snapshot?.value as? [String: Any] else { return }
+                currentName = (dictionary[db_nickName] as? String) ?? "Unknown"
+                // 유저면 닉네임 있어?
+                if currentName == ""  {
+                    showNameAlert(uid: uid!)
+                }
+            }
+        }
+    }
+    private func showNameAlert(uid: String) {
+        let alertController = UIAlertController(title: "Enter Name", message: "Please enter your name.", preferredStyle: .alert)
+        
+        alertController.addTextField { (textField) in
+            textField.placeholder = "Name"
+        }
+        
+        let confirmAction = UIAlertAction(title: "OK", style: .default) { [weak self] (_) in
+            if let textField = alertController.textFields?.first, let newName = textField.text, !newName.isEmpty {
+                self?.updateUserName(uid: uid, newName: newName)
+            }
+        }
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        
+        alertController.addAction(confirmAction)
+        alertController.addAction(cancelAction)
+        
+        self.present(alertController, animated: true, completion: nil)
+    }
+    
+    private func updateUserName(uid: String, newName: String) {
+        let ref = Database.database().reference().child("users/\(uid)")
+        ref.updateChildValues([db_nickName: newName]) { [weak self] (error, ref) in
+            if let error = error {
+                print("Failed to update name:", error)
+                return
+            }
+            self?.currentName = newName
+            self?.myPageView.userNameLabel.text = newName
+            print("Successfully updated name to \(newName)")
+        }
     }
     
     private func configureViews() {
@@ -58,9 +116,9 @@ class ChannelVC: BaseViewController {
     
     private func addToolBarItems() {
         toolbarItems = [
-          UIBarButtonItem(title: "로그아웃", style: .plain, target: self, action: #selector(didTapSignOutItem)),
-          UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil),
-          UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(didTapAddItem))
+            UIBarButtonItem(title: "로그아웃", style: .plain, target: self, action: #selector(didTapSignOutItem)),
+            UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil),
+            UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(didTapAddItem))
         ]
         navigationController?.isToolbarHidden = false
     }
@@ -157,6 +215,7 @@ extension ChannelVC: UITableViewDataSource, UITableViewDelegate {
         let channel = channels[indexPath.row]
         let viewController = ChatVC(user: currentUser, channel: channel)
         navigationController?.pushViewController(viewController, animated: true)
+        tableView.deselectRow(at: indexPath, animated: true)
     }
 }
 
