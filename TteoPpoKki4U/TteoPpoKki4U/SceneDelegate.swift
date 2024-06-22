@@ -15,6 +15,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     var window: UIWindow?
     
     private lazy var signManager = SignManager()
+    private lazy var userManager = UserManager()
     private lazy var signViewModel = SignViewModel(signManager: signManager)
     private lazy var manageManager = ManageManager()
     private lazy var manageViewModel = ManageViewModel(manageManager: manageManager)
@@ -68,6 +69,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
     
     func switchToMainTabBarController() {
+        guard let user = Auth.auth().currentUser else { return }
         let tabbarController = UITabBarController()
         
         greetingVC = GreetingViewController(

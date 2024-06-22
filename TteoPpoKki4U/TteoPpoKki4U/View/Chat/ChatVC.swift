@@ -26,15 +26,16 @@ class ChatVC: MessagesViewController {
     let chatFirestoreStream = ChatFirestoreStream()
     let channel: Channel
     var messages = [Message]()
+    private var currentDisplayName: String = "Unknown"
     private var isSendingPhoto = false {
-      didSet {
-        messageInputBar.leftStackViewItems.forEach { item in
-          guard let item = item as? InputBarButtonItem else {
-            return
-          }
-          item.isEnabled = !self.isSendingPhoto
+        didSet {
+            messageInputBar.leftStackViewItems.forEach { item in
+                guard let item = item as? InputBarButtonItem else {
+                    return
+                }
+                item.isEnabled = !self.isSendingPhoto
+            }
         }
-      }
     }
     
     init(user: User, channel: Channel) {
@@ -48,7 +49,7 @@ class ChatVC: MessagesViewController {
     required init?(coder: NSCoder) {
         fatalError()
     }
-
+    
     deinit {
         chatFirestoreStream.removeListener()
         navigationController?.navigationBar.prefersLargeTitles = true
@@ -56,6 +57,13 @@ class ChatVC: MessagesViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        fetchDisplayName { [weak self] displayName in
+            self?.currentDisplayName = displayName ?? "Unknown"
+            self?.messagesCollectionView.reloadData()
+            DispatchQueue.main.async {
+                self?.messagesCollectionView.scrollToLastItem()
+            }
+        }
         
         confirmDelegates()
         configure()
@@ -63,8 +71,25 @@ class ChatVC: MessagesViewController {
         removeOutgoingMessageAvatars()
         addCameraBarButtonToMessageInputBar()
         listenToMessages()
+        //        tabBarController?.tabBar.isHidden = true
     }
-
+    
+    private func fetchDisplayName(completion: @escaping (String?) -> Void) {
+        let userManager = UserManager()
+        userManager.fetchUserData(uid: Auth.auth().currentUser!.uid) { error, snapshot in
+            if let error = error {
+                print(error)
+                completion(nil)
+                return
+            }
+            guard let dictionary = snapshot?.value as? [String: Any] else {
+                completion(nil)
+                return
+            }
+            let currentName = (dictionary[db_nickName] as? String) ?? "Unknown"
+            completion(currentName)
+        }
+    }
     private func confirmDelegates() {
         messagesCollectionView.messagesDataSource = self
         messagesCollectionView.messagesLayoutDelegate = self
@@ -79,11 +104,17 @@ class ChatVC: MessagesViewController {
     }
     
     private func setupMessageInputBar() {
-        messageInputBar.inputTextView.tintColor = ThemeColor.mainOrange
-        messageInputBar.sendButton.setTitleColor(ThemeColor.mainOrange, for: .normal)
-        messageInputBar.inputTextView.placeholder = "Aa"
+        if Auth.auth().currentUser != nil {
+            messageInputBar.inputTextView.tintColor = ThemeColor.mainOrange
+            messageInputBar.sendButton.setTitleColor(ThemeColor.mainOrange, for: .normal)
+            messageInputBar.inputTextView.placeholder = "채팅을 입력해주세요!"
+        } else {
+            messageInputBar.inputTextView.tintColor = .systemGray
+            messageInputBar.sendButton.setTitleColor(.systemGray, for: .normal)
+            messageInputBar.inputTextView.placeholder = "채팅 입력을 위해 로그인해주세요!"
+        }
+        
     }
-    
     private func removeOutgoingMessageAvatars() {
         guard let layout = messagesCollectionView.collectionViewLayout as? MessagesCollectionViewFlowLayout else { return }
         layout.textMessageSizeCalculator.outgoingAvatarSize = .zero
@@ -122,17 +153,32 @@ class ChatVC: MessagesViewController {
     }
     
     private func loadImageAndUpdateCells(_ messages: [Message]) {
+        let dispatchGroup = DispatchGroup()
+        
         messages.forEach { message in
             var message = message
             if let url = message.downloadURL {
-                FirebaseStorageManager.downloadImage(url: url) { [weak self] image in
-                    guard let image = image else { return }
-                    message.image = image
-                    self?.insertNewMessage(message)
+                dispatchGroup.enter()
+                FirebaseStorageManager.downloadImage(url: url) { [weak self] result in
+                    defer { dispatchGroup.leave() }
+                    guard let self = self else { return }
+                    
+                    switch result {
+                    case .success(let image):
+                        message.image = image
+                        self.insertNewMessage(message)
+                    case .failure(let error):
+                        print("Failed to download image: \(error)")
+                        self.insertNewMessage(message)
+                    }
                 }
             } else {
                 insertNewMessage(message)
             }
+        }
+        
+        dispatchGroup.notify(queue: .main) { [weak self] in
+            self?.messagesCollectionView.scrollToLastItem(animated: true)
         }
     }
     
@@ -150,13 +196,10 @@ class ChatVC: MessagesViewController {
 }
 
 extension ChatVC: MessagesDataSource {
-    var currentSender: MessageKit.SenderType {
-        return Sender(senderId: user.uid, displayName: UserDefaultManager.displayName)
+    var currentSender: SenderType {
+        return Sender(senderId: user.uid, displayName: currentDisplayName)
     }
     
-//    func currentSender() -> SenderType {
-//        return Sender(senderId: user.uid, displayName: UserDefaultManager.displayName)
-//    }
     
     func numberOfSections(in messagesCollectionView: MessagesCollectionView) -> Int {
         return messages.count
@@ -205,16 +248,23 @@ extension ChatVC: MessagesDisplayDelegate {
 
 extension ChatVC: InputBarAccessoryViewDelegate {
     func inputBar(_ inputBar: InputBarAccessoryView, didPressSendButtonWith text: String) {
-        let message = Message(user: user, content: text)
-        
-        chatFirestoreStream.save(message) { [weak self] error in
-            if let error = error {
-                print(error)
+        Message.fetchDisplayName(userManager: UserManager()) { [weak self] displayName in
+            guard let displayName = displayName, let self = self else {
+                print("Failed to fetch display name")
                 return
             }
-            self?.messagesCollectionView.scrollToLastItem()
+            
+            let message = Message(user: self.user, content: text, displayName: displayName)
+            
+            self.chatFirestoreStream.save(message) { error in
+                if let error = error {
+                    print(error)
+                    return
+                }
+                self.messagesCollectionView.scrollToLastItem()
+            }
+            inputBar.inputTextView.text.removeAll()
         }
-        inputBar.inputTextView.text.removeAll()
     }
 }
 
@@ -225,9 +275,9 @@ extension ChatVC: UIImagePickerControllerDelegate, UINavigationControllerDelegat
         if let asset = info[.phAsset] as? PHAsset {
             let imageSize = CGSize(width: 500, height: 500)
             PHImageManager.default().requestImage(for: asset,
-                                                     targetSize: imageSize,
-                                                     contentMode: .aspectFit,
-                                                     options: nil) { image, _ in
+                                                  targetSize: imageSize,
+                                                  contentMode: .aspectFit,
+                                                  options: nil) { image, _ in
                 guard let image = image else { return }
                 self.sendPhoto(image)
             }
@@ -235,19 +285,41 @@ extension ChatVC: UIImagePickerControllerDelegate, UINavigationControllerDelegat
             sendPhoto(image)
         }
     }
-    
     private func sendPhoto(_ image: UIImage) {
+        guard !isSendingPhoto else { return }
         isSendingPhoto = true
-        FirebaseStorageManager.uploadImage(image: image, channel: channel) { [weak self] url in
+        
+       _ = FirebaseStorageManager.uploadImage(image: image, channel: channel, progress: { progress in
+            // 업로드 진행 상황을 처리할 수 있습니다. 예: progress bar 업데이트
+            print("Upload progress: \(progress * 100)%")
+        }, completion: { [weak self] result in
             self?.isSendingPhoto = false
-            guard let user = self?.user, let url = url else { return }
+            guard let self = self else { return }
             
-            var message = Message(user: user, image: image)
-            message.downloadURL = url
-            self?.chatFirestoreStream.save(message)
-            self?.messagesCollectionView.scrollToLastItem()
-        }
+            switch result {
+            case .success(let url):
+                Message.fetchDisplayName(userManager: UserManager()) { displayName in
+                    guard let displayName = displayName else {
+                        print("Failed to fetch display name")
+                        return
+                    }
+                    
+                    var message = Message(user: self.user, image: image, displayName: displayName)
+                    message.downloadURL = url
+                    self.chatFirestoreStream.save(message) { error in
+                        if let error = error {
+                            print(error)
+                            return
+                        }
+                        self.messagesCollectionView.scrollToLastItem(animated: true)
+                    }
+                }
+            case .failure(let error):
+                print("Failed to upload image: \(error)")
+            }
+        })
     }
+
     
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         picker.dismiss(animated: true)

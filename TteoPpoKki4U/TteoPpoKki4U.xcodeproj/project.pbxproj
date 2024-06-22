@@ -126,7 +126,6 @@
 		CE771CC12C2439CA004415CA /* ChannelFirestoreStream.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE771CC02C2439CA004415CA /* ChannelFirestoreStream.swift */; };
 		CE771CC32C243B06004415CA /* FirebaseStorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE771CC22C243B06004415CA /* FirebaseStorageManager.swift */; };
 		CE771CC52C243B3A004415CA /* UIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE771CC42C243B3A004415CA /* UIImage.swift */; };
-		CE771CC72C243B9B004415CA /* UserdefaultManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE771CC62C243B9B004415CA /* UserdefaultManager.swift */; };
 		CE771CC92C243C08004415CA /* Sender.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE771CC82C243C08004415CA /* Sender.swift */; };
 		CE771CCB2C243D2B004415CA /* channelVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE771CCA2C243D2B004415CA /* channelVC.swift */; };
 		CE771CCD2C243D69004415CA /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE771CCC2C243D69004415CA /* BaseViewController.swift */; };
@@ -240,7 +239,6 @@
 		CE771CC02C2439CA004415CA /* ChannelFirestoreStream.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelFirestoreStream.swift; sourceTree = "<group>"; };
 		CE771CC22C243B06004415CA /* FirebaseStorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseStorageManager.swift; sourceTree = "<group>"; };
 		CE771CC42C243B3A004415CA /* UIImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImage.swift; sourceTree = "<group>"; };
-		CE771CC62C243B9B004415CA /* UserdefaultManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserdefaultManager.swift; sourceTree = "<group>"; };
 		CE771CC82C243C08004415CA /* Sender.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sender.swift; sourceTree = "<group>"; };
 		CE771CCA2C243D2B004415CA /* channelVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = channelVC.swift; sourceTree = "<group>"; };
 		CE771CCC2C243D69004415CA /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
@@ -329,7 +327,6 @@
 				611644372C0909D4009FFDA5 /* SignManager.swift */,
 				9C82B94E2C0F2D27008FA84E /* NetworkManager.swift */,
 				618DEE052C12516A006B95A8 /* UserManager.swift */,
-				CE771CC62C243B9B004415CA /* UserdefaultManager.swift */,
 				61DC69062C15CC38003DEB73 /* StoreManager.swift */,
 				617BCCC32C195E4B008D8D48 /* ManageManager.swift */,
 				CE771CC22C243B06004415CA /* FirebaseStorageManager.swift */,
@@ -464,7 +461,6 @@
 		613D86B02C05C06F0039E771 /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
-				CE771CA32C240EEA004415CA /* Chat */,
 				610717A02C2117B900626649 /* Map */,
 				CE4004032C1983E0009E1142 /* Recommend */,
 				617BCCC02C195E14008D8D48 /* Manage */,
@@ -693,13 +689,6 @@
 			path = Chat;
 			sourceTree = "<group>";
 		};
-		CE771CA32C240EEA004415CA /* Chat */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Chat;
-			sourceTree = "<group>";
-		};
 		CE771CA62C240EFF004415CA /* ChatModel */ = {
 			isa = PBXGroup;
 			children = (
@@ -868,7 +857,6 @@
 				619FE8EC2C1F147F00745A0A /* ReportModel.swift in Sources */,
 				9C82B95B2C0F54D7008FA84E /* Double+Extension.swift in Sources */,
 				CE771CCF2C243D8E004415CA /* ChannelTableViewCell.swift in Sources */,
-				CE771CC72C243B9B004415CA /* UserdefaultManager.swift in Sources */,
 				611644382C0909D4009FFDA5 /* SignManager.swift in Sources */,
 				610717A92C2137F600626649 /* AppleTokenResponse.swift in Sources */,
 				8DD5CBB72C107BFD004F27BD /* ReviewTableViewCell.swift in Sources */,
