@@ -44,3 +44,6 @@ let db_isSpam = "isSpam"
 let db_isSexual = "isSexual"
 let db_isEtc = "isEtc"
 let db_reportedUID = "reportedUID"
+
+let channelCollection = Firestore.firestore().collection("channels")
+let db_channelName = "name"
