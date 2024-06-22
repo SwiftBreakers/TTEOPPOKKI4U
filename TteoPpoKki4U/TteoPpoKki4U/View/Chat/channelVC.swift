@@ -60,6 +60,9 @@ class ChannelVC: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = .white
+        channelTableView.backgroundColor = .white
+        
         checkNickname()
         configureViews()
         addToolBarItems()
@@ -67,7 +70,12 @@ class ChannelVC: BaseViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        tabBarController?.tabBar.isHidden = false
+        super.viewWillAppear(animated)
+        navigationController?.navigationBar.tintColor = ThemeColor.mainOrange
+        navigationController?.navigationBar.barTintColor = .white
+        navigationController?.navigationBar.titleTextAttributes = [
+            NSAttributedString.Key.foregroundColor: ThemeColor.mainOrange
+            ]
     }
     
     private func checkNickname() {
@@ -216,6 +224,8 @@ extension ChannelVC: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: ChannelTableViewCell.className, for: indexPath) as! ChannelTableViewCell
+        cell.backgroundColor = .white
+        cell.selectionStyle = .none
         cell.chatRoomLabel.text = channels[indexPath.row].name
         return cell
     }
