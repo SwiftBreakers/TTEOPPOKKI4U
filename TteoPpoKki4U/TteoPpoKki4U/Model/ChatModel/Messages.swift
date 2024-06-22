@@ -40,8 +40,23 @@ struct Message: MessageType {
         id = nil
     }
     
+    init(customUser: CustomUser, content: String, displayName: String) {
+        sender = Sender(senderId: customUser.uid, displayName: displayName)
+        self.content = content
+        sentDate = Date()
+        id = nil
+    }
+    
     init(user: User, image: UIImage, displayName: String) {
         sender = Sender(senderId: user.uid, displayName: displayName)
+        self.image = image
+        sentDate = Date()
+        content = ""
+        id = nil
+    }
+    
+    init(customUser: CustomUser, image: UIImage, displayName: String) {
+        sender = Sender(senderId: customUser.uid, displayName: displayName)
         self.image = image
         sentDate = Date()
         content = ""

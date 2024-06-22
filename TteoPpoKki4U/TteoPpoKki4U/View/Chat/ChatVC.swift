@@ -22,7 +22,8 @@ class ChatVC: MessagesViewController {
         return button
     }()
     
-    private let user: User
+    private let user: User?
+    private let customUser: CustomUser?
     let chatFirestoreStream = ChatFirestoreStream()
     let channel: Channel
     var messages = [Message]()
@@ -40,6 +41,16 @@ class ChatVC: MessagesViewController {
     
     init(user: User, channel: Channel) {
         self.user = user
+        self.customUser = nil
+        self.channel = channel
+        super.init(nibName: nil, bundle: nil)
+        
+        title = channel.name
+    }
+    
+    init(customUser: CustomUser, channel: Channel) {
+        self.user = nil
+        self.customUser = customUser
         self.channel = channel
         super.init(nibName: nil, bundle: nil)
         
@@ -67,29 +78,39 @@ class ChatVC: MessagesViewController {
         
         confirmDelegates()
         configure()
-        setupMessageInputBar()
         removeOutgoingMessageAvatars()
         addCameraBarButtonToMessageInputBar()
         listenToMessages()
-        //        tabBarController?.tabBar.isHidden = true
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        setupMessageInputBar()
     }
     
     private func fetchDisplayName(completion: @escaping (String?) -> Void) {
         let userManager = UserManager()
-        userManager.fetchUserData(uid: Auth.auth().currentUser!.uid) { error, snapshot in
-            if let error = error {
-                print(error)
-                completion(nil)
-                return
+        if let user = user {
+            userManager.fetchUserData(uid: user.uid) { error, snapshot in
+                if let error = error {
+                    print(error)
+                    completion(nil)
+                    return
+                }
+                guard let dictionary = snapshot?.value as? [String: Any] else {
+                    completion(nil)
+                    return
+                }
+                let currentName = (dictionary[db_nickName] as? String) ?? "Unknown"
+                completion(currentName)
             }
-            guard let dictionary = snapshot?.value as? [String: Any] else {
-                completion(nil)
-                return
-            }
-            let currentName = (dictionary[db_nickName] as? String) ?? "Unknown"
-            completion(currentName)
+        } else if let customUser = customUser {
+            completion(customUser.isGuest ? "Guest" : "Unknown")
+        } else {
+            completion(nil)
         }
     }
+    
     private func confirmDelegates() {
         messagesCollectionView.messagesDataSource = self
         messagesCollectionView.messagesLayoutDelegate = self
@@ -104,17 +125,17 @@ class ChatVC: MessagesViewController {
     }
     
     private func setupMessageInputBar() {
-        if Auth.auth().currentUser != nil {
+        if let user = user {
             messageInputBar.inputTextView.tintColor = ThemeColor.mainOrange
             messageInputBar.sendButton.setTitleColor(ThemeColor.mainOrange, for: .normal)
             messageInputBar.inputTextView.placeholder = "채팅을 입력해주세요!"
-        } else {
+        } else if customUser != nil {
             messageInputBar.inputTextView.tintColor = .systemGray
             messageInputBar.sendButton.setTitleColor(.systemGray, for: .normal)
             messageInputBar.inputTextView.placeholder = "채팅 입력을 위해 로그인해주세요!"
         }
-        
     }
+    
     private func removeOutgoingMessageAvatars() {
         guard let layout = messagesCollectionView.collectionViewLayout as? MessagesCollectionViewFlowLayout else { return }
         layout.textMessageSizeCalculator.outgoingAvatarSize = .zero
@@ -197,9 +218,14 @@ class ChatVC: MessagesViewController {
 
 extension ChatVC: MessagesDataSource {
     var currentSender: SenderType {
-        return Sender(senderId: user.uid, displayName: currentDisplayName)
+        if let user = user {
+            return Sender(senderId: user.uid, displayName: currentDisplayName)
+        } else if let customUser = customUser {
+            return Sender(senderId: customUser.uid, displayName: currentDisplayName)
+        } else {
+            fatalError("No valid user found.")
+        }
     }
-    
     
     func numberOfSections(in messagesCollectionView: MessagesCollectionView) -> Int {
         return messages.count
@@ -250,11 +276,19 @@ extension ChatVC: InputBarAccessoryViewDelegate {
     func inputBar(_ inputBar: InputBarAccessoryView, didPressSendButtonWith text: String) {
         Message.fetchDisplayName(userManager: UserManager()) { [weak self] displayName in
             guard let displayName = displayName, let self = self else {
-                print("Failed to fetch display name")
+                self?.showMessage(title: "로그인이 필요한 기능입니다.", message: "게스트는 메세지를 보낼 수 없습니다.")
                 return
             }
             
-            let message = Message(user: self.user, content: text, displayName: displayName)
+            var message: Message
+            if let user = self.user {
+                message = Message(user: user, content: text, displayName: displayName)
+            } else if let customUser = self.customUser {
+                message = Message(customUser: customUser, content: text, displayName: displayName)
+            } else {
+                print("No valid user found")
+                return
+            }
             
             self.chatFirestoreStream.save(message) { error in
                 if let error = error {
@@ -285,11 +319,12 @@ extension ChatVC: UIImagePickerControllerDelegate, UINavigationControllerDelegat
             sendPhoto(image)
         }
     }
+    
     private func sendPhoto(_ image: UIImage) {
         guard !isSendingPhoto else { return }
         isSendingPhoto = true
         
-       _ = FirebaseStorageManager.uploadImage(image: image, channel: channel, progress: { progress in
+        _ = FirebaseStorageManager.uploadImage(image: image, channel: channel, progress: { progress in
             // 업로드 진행 상황을 처리할 수 있습니다. 예: progress bar 업데이트
             print("Upload progress: \(progress * 100)%")
         }, completion: { [weak self] result in
@@ -304,7 +339,16 @@ extension ChatVC: UIImagePickerControllerDelegate, UINavigationControllerDelegat
                         return
                     }
                     
-                    var message = Message(user: self.user, image: image, displayName: displayName)
+                    var message: Message
+                    if let user = self.user {
+                        message = Message(user: user, image: image, displayName: displayName)
+                    } else if let customUser = self.customUser {
+                        message = Message(customUser: customUser, image: image, displayName: displayName)
+                    } else {
+                        print("No valid user found")
+                        return
+                    }
+                    
                     message.downloadURL = url
                     self.chatFirestoreStream.save(message) { error in
                         if let error = error {
@@ -319,7 +363,6 @@ extension ChatVC: UIImagePickerControllerDelegate, UINavigationControllerDelegat
             }
         })
     }
-
     
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         picker.dismiss(animated: true)

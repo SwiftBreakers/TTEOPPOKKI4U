@@ -23,17 +23,22 @@ public class RecommendViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .white
         setupCardSwiper()
+        Task {
+            await viewModel.fetchData()
+        }
+        bind()
     }
     
     public override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         cancellables.removeAll()
-    }
-    public override func viewWillAppear(_ animated: Bool) {
         Task {
             await viewModel.fetchData()
         }
         bind()
+    }
+    
+    public override func viewWillAppear(_ animated: Bool) {
         navigationController?.navigationBar.isHidden = true
     }
     
