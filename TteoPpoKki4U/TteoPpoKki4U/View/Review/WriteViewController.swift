@@ -143,8 +143,8 @@ class WriteViewController: UIViewController {
         }
         
         // 제목 텍스트 필드 설정
-        titleTextField.borderStyle = .roundedRect
-        titleTextField.layer.borderColor = ThemeColor.mainOrange.cgColor
+        titleTextField.font = ThemeFont.fontRegular()
+        titleTextField.delegate = self
         view.addSubview(titleTextField)
         titleTextField.snp.makeConstraints { make in
             make.top.equalTo(starStackView.snp.bottom).offset(50)
@@ -154,10 +154,10 @@ class WriteViewController: UIViewController {
         }
         
         // 내용 텍스트 뷰 설정
-        contentTextView.layer.borderWidth = 1
-        contentTextView.layer.borderColor = ThemeColor.mainOrange.cgColor
+
         contentTextView.layer.cornerRadius = 10
-        contentTextView.font = UIFont.systemFont(ofSize: 17)
+        contentTextView.font = ThemeFont.fontRegular()
+        contentTextView.delegate = self
         contentTextView.textContainerInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
         view.addSubview(contentTextView)
         contentTextView.snp.makeConstraints { make in
@@ -416,4 +416,32 @@ class WriteViewController: UIViewController {
             .collect()
             .eraseToAnyPublisher()
     }
+}
+
+extension WriteViewController: UITextFieldDelegate, UITextViewDelegate {
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        self.view.endEditing(true)
+    }
+    
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        textField.becomeFirstResponder()
+        textField.layer.borderColor = ThemeColor.mainOrange.cgColor
+    }
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        contentTextView.becomeFirstResponder()
+        textField.layer.borderColor =  #colorLiteral(red: 0.7364070391, green: 0.7364070391, blue: 0.7364070391, alpha: 1).cgColor
+        contentTextView.layer.borderColor = ThemeColor.mainOrange.cgColor
+    }
+    
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        textView.becomeFirstResponder()
+        textView.layer.borderColor = ThemeColor.mainOrange.cgColor
+    }
+    
+    func textViewDidEndEditing(_ textView: UITextView) {
+        textView.resignFirstResponder()
+        textView.layer.borderColor = #colorLiteral(red: 0.7364070391, green: 0.7364070391, blue: 0.7364070391, alpha: 1).cgColor
+    }
+
 }

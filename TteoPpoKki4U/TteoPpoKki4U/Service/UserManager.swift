@@ -58,7 +58,7 @@ class UserManager {
     }
     
     func getMyReview(uid: String, completion: @escaping(QuerySnapshot?, (Error)?) -> Void) {
-        reviewCollection.whereField(db_uid, isEqualTo: uid).order(by: "createdAt").getDocuments(completion: completion)
+        reviewCollection.whereField(db_uid, isEqualTo: uid).order(by: db_createdAt).getDocuments(completion: completion)
     }
     
     func getSpecificReview(uid: String, storeAddress: String, title: String, completion: @escaping(QuerySnapshot?, (Error)?) -> Void) {
