@@ -35,7 +35,7 @@ class StoreViewController: UIViewController {
     private let tableView: UITableView = {
         let tableView = UITableView()
         tableView.register(ReviewTableViewCell.self, forCellReuseIdentifier: "ReviewTableViewCell")
-        tableView.rowHeight = 50
+        tableView.rowHeight = 60
         tableView.backgroundColor = .white
         return tableView
     }()
@@ -96,6 +96,12 @@ class StoreViewController: UIViewController {
                     self.tableView.reloadData()
                 }
                 
+            }.store(in: &cancellables)
+        
+        viewModel.$userInfo
+            .receive(on: DispatchQueue.main)
+            .sink { _ in
+                self.tableView.reloadData()
             }.store(in: &cancellables)
         
         viewModel.reviewPublisher.sink { completion in
@@ -170,7 +176,7 @@ class StoreViewController: UIViewController {
         
         tableView.delegate = self
         tableView.dataSource = self
-        tableView.rowHeight = 70
+        tableView.rowHeight = 85
         view.addSubview(tableView)
         
         // Setup Back Button
@@ -300,7 +306,10 @@ extension StoreViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "ReviewTableViewCell", for: indexPath) as! ReviewTableViewCell
         let item = viewModel.userReview[indexPath.row]
+        viewModel.getUserInfo(uid: item.uid)
+        
         cell.reviewTitleLabel.text = item.title
+        cell.nicknameLabel.text = viewModel.userInfo.nickName
         cell.starRatingLabel.text = "⭐️ \(item.rating)"
         cell.createdAtLabel.text = viewModel.timestampToString(value: item.createdAt)
         
@@ -317,6 +326,7 @@ extension StoreViewController: UITableViewDelegate, UITableViewDataSource {
         let item = viewModel.userReview[indexPath.row]
         let detailedReviewVC = DetailedReviewViewController()
         detailedReviewVC.userData = item
+        detailedReviewVC.userInfo = viewModel.userInfo
         navigationController?.pushViewController(detailedReviewVC, animated: true)
     }
     

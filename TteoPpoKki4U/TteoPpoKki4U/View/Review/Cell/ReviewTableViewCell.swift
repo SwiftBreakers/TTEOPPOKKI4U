@@ -17,9 +17,17 @@ class ReviewTableViewCell: UITableViewCell {
         return label
     }()
     
-    lazy var starRatingLabel : UILabel = {
+    lazy var nicknameLabel: UILabel = {
         let label = UILabel()
-        label.font = ThemeFont.fontRegular(size: 14)
+        label.font = ThemeFont.fontMedium(size: 14)
+        label.textColor = ThemeColor.mainBlack
+        label.sizeToFit()
+        return label
+    }()
+    
+    lazy var starRatingLabel: UILabel = {
+        let label = UILabel()
+        label.font = ThemeFont.fontRegular(size: 12)
         label.textColor = ThemeColor.mainBlack
         label.sizeToFit()
         return label
@@ -48,6 +56,7 @@ class ReviewTableViewCell: UITableViewCell {
         self.separatorInset.left = 15
         self.separatorInset.right = 15
         contentView.addSubview(reviewTitleLabel)
+        contentView.addSubview(nicknameLabel)
         contentView.addSubview(starRatingLabel)
         contentView.addSubview(createdAtLabel)
         contentView.addSubview(thumbnailImage)
@@ -58,15 +67,21 @@ class ReviewTableViewCell: UITableViewCell {
             make.trailing.equalTo(thumbnailImage.snp.leading).inset(-20)
         }
         
-        starRatingLabel.snp.makeConstraints { make in
-            make.top.equalTo(reviewTitleLabel.snp.bottom).offset(5)
+        nicknameLabel.snp.makeConstraints { make in
+            make.top.equalTo(reviewTitleLabel.snp.bottom).offset(10)
             make.leading.equalTo(reviewTitleLabel.snp.leading)
+            //make.trailing.equalTo(thumbnailImage.snp.leading).inset(-20)
+        }
+        
+        starRatingLabel.snp.makeConstraints { make in
+            make.top.equalTo(nicknameLabel.snp.bottom).offset(5)
+            make.leading.equalTo(reviewTitleLabel.snp.leading)
+            make.bottom.equalToSuperview().inset(10)
         }
         
         createdAtLabel.snp.makeConstraints { make in
             make.leading.equalTo(starRatingLabel.snp.trailing).offset(10)
             make.centerY.equalTo(starRatingLabel)
-            make.bottom.equalToSuperview().inset(10)
         }
         
         thumbnailImage.snp.makeConstraints { make in

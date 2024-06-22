@@ -14,6 +14,7 @@ import FirebaseFirestore
 class DetailedReviewViewController: UIViewController {
     
     var userData: ReviewModel?
+    var userInfo: UserModel?
     private var storeName: String?
     private var reviewTitle: String?
     private var starRating: Int?
@@ -22,6 +23,8 @@ class DetailedReviewViewController: UIViewController {
     private var uid: String?
     private var reportCount: Int?
     private var createdAt: String?
+    private var userProfile: String?
+    private var userNickname: String?
     
     private lazy var introLabel: UILabel = {
         let label = UILabel()
@@ -38,7 +41,7 @@ class DetailedReviewViewController: UIViewController {
         label.textColor = ThemeColor.mainBlack
         return label
     }()
-
+    
     private lazy var reviewTitleLabel: UILabel = {
         let label = UILabel()
         label.font = ThemeFont.fontMedium(size: 22)
@@ -47,21 +50,30 @@ class DetailedReviewViewController: UIViewController {
         label.numberOfLines = 0
         return label
     }()
-
+    
+    private lazy var userProfileImage: UIImageView = {
+        let view = UIImageView()
+        view.layer.cornerRadius = self.view.frame.height / 2
+        view.contentMode = .scaleToFill
+        view.sizeToFit()
+        return view
+    }()
+    
+    private lazy var userNicknameLabel: UILabel = {
+        let label = UILabel()
+        label.font = ThemeFont.fontMedium(size: 16)
+        label.textColor = ThemeColor.mainBlack
+        label.textAlignment = .left
+        label.sizeToFit()
+        return label
+    }()
+    
     private lazy var starRatingLabel: UILabel = {
         let label = UILabel()
         label.font = ThemeFont.fontRegular(size: 14)
         label.textAlignment = .left
         label.textColor = ThemeColor.mainBlack
-        return label
-    }()
-
-    private lazy var reviewContentLabel: UILabel = {
-        let label = UILabel()
-        label.font = ThemeFont.fontRegular()
-        label.textColor = ThemeColor.mainBlack
-        label.numberOfLines = 0
-        label.setLineSpacing(lineSpacing: 5)
+        label.sizeToFit()
         return label
     }()
     private lazy var createdAtLabel: UILabel = {
@@ -72,6 +84,15 @@ class DetailedReviewViewController: UIViewController {
         label.sizeToFit()
         return label
     }()
+    private lazy var reviewContentLabel: UILabel = {
+        let label = UILabel()
+        label.font = ThemeFont.fontRegular()
+        label.textColor = ThemeColor.mainBlack
+        label.numberOfLines = 0
+        label.setLineSpacing(lineSpacing: 5)
+        return label
+    }()
+    
     private lazy var scrollView = UIScrollView()
     private lazy var stackView = UIStackView()
     private lazy var imageView = UIImageView()
@@ -97,6 +118,7 @@ class DetailedReviewViewController: UIViewController {
         view.backgroundColor = .white
         
         setData(data: userData!)
+        setUserData(info: userInfo!)
         configureUI()
         configureImageScrollView()
     }
@@ -113,7 +135,11 @@ class DetailedReviewViewController: UIViewController {
         uid = nil
         reportCount = nil
         createdAt = nil
+        userProfile = nil
+        userNickname = nil
         
+        userProfileImage.kf.cancelDownloadTask()
+        userProfileImage.image = nil
         imageView.kf.cancelDownloadTask()
         imageView.image = nil
         
@@ -133,9 +159,16 @@ class DetailedReviewViewController: UIViewController {
         createdAt = timestampToString(value: data.createdAt)
     }
     
+    private func setUserData(info: UserModel) {
+        userProfile = info.profileImageUrl
+        userNickname = info.nickName
+    }
+    
     private func configureUI() {
         storeNameLabel.text = storeName
         reviewTitleLabel.text = reviewTitle
+        userProfileImage.kf.setImage(with: URL(string: userProfile ?? ""), placeholder: UIImage(named: "ttukbokki4u1n"))
+        userNicknameLabel.text = userNickname
         starRatingLabel.text = "⭐️ \(starRating ?? 0)"
         reviewContentLabel.text = reviewContent
         createdAtLabel.text = createdAt
@@ -145,10 +178,12 @@ class DetailedReviewViewController: UIViewController {
         view.addSubview(reportButton)
         
         view.addSubview(storeNameLabel)
-        
+
         view.addSubview(reviewTitleLabel)
-        view.addSubview(createdAtLabel)
+        view.addSubview(userProfileImage)
+        view.addSubview(userNicknameLabel)
         view.addSubview(starRatingLabel)
+        view.addSubview(createdAtLabel)
         view.addSubview(reviewContentLabel)
         
         scrollView.isPagingEnabled = true
@@ -158,7 +193,7 @@ class DetailedReviewViewController: UIViewController {
         stackView.spacing = 10
         stackView.distribution = .fillEqually
         scrollView.addSubview(stackView)
-
+        
         
         backButton.snp.makeConstraints { make in
             make.top.equalTo(view.safeAreaLayoutGuide).offset(10)
@@ -185,9 +220,21 @@ class DetailedReviewViewController: UIViewController {
             make.horizontalEdges.equalTo(view.safeAreaLayoutGuide).inset(20)
         }
         
-        starRatingLabel.snp.makeConstraints { make in
+        userProfileImage.snp.makeConstraints { make in
             make.top.equalTo(reviewTitleLabel.snp.bottom).offset(10)
             make.leading.equalTo(view.safeAreaLayoutGuide).inset(20)
+            make.width.height.equalTo(40)
+        }
+        
+        userNicknameLabel.snp.makeConstraints { make in
+            make.top.equalTo(userProfileImage.snp.top)
+            make.leading.equalTo(userProfileImage.snp.trailing).offset(10)
+        }
+        
+        starRatingLabel.snp.makeConstraints { make in
+            make.top.equalTo(userNicknameLabel.snp.bottom).offset(5)
+            make.leading.equalTo(userProfileImage.snp.trailing).offset(10)
+            make.bottom.equalTo(userProfileImage.snp.bottom)
         }
         
         createdAtLabel.snp.makeConstraints { make in
@@ -201,8 +248,9 @@ class DetailedReviewViewController: UIViewController {
             make.top.equalTo(starRatingLabel.snp.bottom).offset(30)
             make.leading.trailing.equalTo(view.safeAreaLayoutGuide).inset(20)
         }
-
+        
     }
+
     
     private func configureImageScrollView() {
         guard let imageURLs = reviewImages else { return }
