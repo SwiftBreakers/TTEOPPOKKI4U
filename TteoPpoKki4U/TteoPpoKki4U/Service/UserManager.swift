@@ -16,7 +16,6 @@ class UserManager {
     
     func updateProfile(uid: String, nickName: String, profile: UIImage, completion: @escaping ((Result<(),Error>) -> Void)) {
         
-        
         let storageRef = Storage.storage().reference(forURL: "gs://tteoppokki4u.appspot.com")
         let storageProfileRef = storageRef.child(db_user_profile).child(uid)
         guard let imageData = profile.jpegData(compressionQuality: 0.3) else { return }

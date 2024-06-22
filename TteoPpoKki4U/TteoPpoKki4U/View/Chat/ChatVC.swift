@@ -22,23 +22,35 @@ class ChatVC: MessagesViewController {
         return button
     }()
     
-    private let user: User
+    private var user: User?
+    private var customUser: CustomUser?
     let chatFirestoreStream = ChatFirestoreStream()
     let channel: Channel
     var messages = [Message]()
+    private var currentDisplayName: String = "Unknown"
     private var isSendingPhoto = false {
-      didSet {
-        messageInputBar.leftStackViewItems.forEach { item in
-          guard let item = item as? InputBarButtonItem else {
-            return
-          }
-          item.isEnabled = !self.isSendingPhoto
+        didSet {
+            messageInputBar.leftStackViewItems.forEach { item in
+                guard let item = item as? InputBarButtonItem else {
+                    return
+                }
+                item.isEnabled = !self.isSendingPhoto
+            }
         }
-      }
     }
     
     init(user: User, channel: Channel) {
         self.user = user
+        self.customUser = nil
+        self.channel = channel
+        super.init(nibName: nil, bundle: nil)
+        
+        title = channel.name
+    }
+    
+    init(customUser: CustomUser, channel: Channel) {
+        self.user = nil
+        self.customUser = customUser
         self.channel = channel
         super.init(nibName: nil, bundle: nil)
         
@@ -48,23 +60,95 @@ class ChatVC: MessagesViewController {
     required init?(coder: NSCoder) {
         fatalError()
     }
-
+    
     deinit {
         chatFirestoreStream.removeListener()
         navigationController?.navigationBar.prefersLargeTitles = true
+        user = nil
+        customUser = nil
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        configureColor()
+        
+        fetchDisplayName { [weak self] displayName in
+            self?.currentDisplayName = displayName ?? "Unknown"
+            self?.messagesCollectionView.reloadData()
+            DispatchQueue.main.async {
+                self?.messagesCollectionView.scrollToLastItem()
+            }
+        }
         
         confirmDelegates()
-        configure()
-        setupMessageInputBar()
         removeOutgoingMessageAvatars()
         addCameraBarButtonToMessageInputBar()
         listenToMessages()
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTap))
+            messagesCollectionView.addGestureRecognizer(tapGesture)
     }
-
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        if let currentUser = Auth.auth().currentUser {
+            self.user = currentUser
+            self.customUser = nil
+        } else {
+            self.user = nil
+            self.customUser = CustomUser(guestUID: "guest")
+        }
+        
+        setupMessageInputBar()
+        tabBarController?.tabBar.isHidden = true
+        navigationController?.setToolbarHidden(true, animated: false)
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        tabBarController?.tabBar.isHidden = false
+        navigationController?.setToolbarHidden(false, animated: false)
+    }
+    
+    private func configureColor() {
+        view.backgroundColor = .white
+        messagesCollectionView.backgroundColor = .white
+        messageInputBar.backgroundColor = .white
+        messageInputBar.backgroundView.backgroundColor = .white
+        messageInputBar.inputTextView.backgroundColor = .white
+        messageInputBar.inputTextView.textColor = .black
+        navigationController?.navigationBar.tintColor = ThemeColor.mainOrange
+        navigationController?.navigationBar.barTintColor = .white
+        navigationController?.navigationBar.titleTextAttributes = [
+            NSAttributedString.Key.foregroundColor: ThemeColor.mainOrange
+        ]
+        title = channel.name
+        navigationController?.navigationBar.prefersLargeTitles = false
+    }
+    
+    private func fetchDisplayName(completion: @escaping (String?) -> Void) {
+        let userManager = UserManager()
+        if let user = user {
+            userManager.fetchUserData(uid: user.uid) { error, snapshot in
+                if let error = error {
+                    print(error)
+                    completion(nil)
+                    return
+                }
+                guard let dictionary = snapshot?.value as? [String: Any] else {
+                    completion(nil)
+                    return
+                }
+                let currentName = (dictionary[db_nickName] as? String) ?? "Unknown"
+                completion(currentName)
+            }
+        } else if let customUser = customUser {
+            completion(customUser.isGuest ? "Guest" : "Unknown")
+        } else {
+            completion(nil)
+        }
+    }
+    
     private func confirmDelegates() {
         messagesCollectionView.messagesDataSource = self
         messagesCollectionView.messagesLayoutDelegate = self
@@ -73,15 +157,16 @@ class ChatVC: MessagesViewController {
         messageInputBar.delegate = self
     }
     
-    private func configure() {
-        title = channel.name
-        navigationController?.navigationBar.prefersLargeTitles = false
-    }
-    
     private func setupMessageInputBar() {
-        messageInputBar.inputTextView.tintColor = ThemeColor.mainOrange
-        messageInputBar.sendButton.setTitleColor(ThemeColor.mainOrange, for: .normal)
-        messageInputBar.inputTextView.placeholder = "Aa"
+        if user != nil {
+            messageInputBar.inputTextView.tintColor = ThemeColor.mainOrange
+            messageInputBar.sendButton.setTitleColor(ThemeColor.mainOrange, for: .normal)
+            messageInputBar.inputTextView.placeholder = "채팅을 입력해주세요!"
+        } else if customUser != nil {
+            messageInputBar.inputTextView.tintColor = .systemGray
+            messageInputBar.sendButton.setTitleColor(.systemGray, for: .normal)
+            messageInputBar.inputTextView.placeholder = "채팅 입력을 위해 로그인해주세요!"
+        }
     }
     
     private func removeOutgoingMessageAvatars() {
@@ -122,17 +207,32 @@ class ChatVC: MessagesViewController {
     }
     
     private func loadImageAndUpdateCells(_ messages: [Message]) {
+        let dispatchGroup = DispatchGroup()
+        
         messages.forEach { message in
             var message = message
             if let url = message.downloadURL {
-                FirebaseStorageManager.downloadImage(url: url) { [weak self] image in
-                    guard let image = image else { return }
-                    message.image = image
-                    self?.insertNewMessage(message)
+                dispatchGroup.enter()
+                FirebaseStorageManager.downloadImage(url: url) { [weak self] result in
+                    defer { dispatchGroup.leave() }
+                    guard let self = self else { return }
+                    
+                    switch result {
+                    case .success(let image):
+                        message.image = image
+                        self.insertNewMessage(message)
+                    case .failure(let error):
+                        print("Failed to download image: \(error)")
+                        self.insertNewMessage(message)
+                    }
                 }
             } else {
                 insertNewMessage(message)
             }
+        }
+        
+        dispatchGroup.notify(queue: .main) { [weak self] in
+            self?.messagesCollectionView.scrollToLastItem(animated: true)
         }
     }
     
@@ -147,16 +247,23 @@ class ChatVC: MessagesViewController {
         }
         present(picker, animated: true)
     }
+    
+    @objc private func handleTap() {
+        view.endEditing(true)
+    }
+    
 }
 
 extension ChatVC: MessagesDataSource {
-    var currentSender: MessageKit.SenderType {
-        return Sender(senderId: user.uid, displayName: UserDefaultManager.displayName)
+    var currentSender: SenderType {
+        if let user = user {
+            return Sender(senderId: user.uid, displayName: currentDisplayName)
+        } else if let customUser = customUser {
+            return Sender(senderId: customUser.uid, displayName: currentDisplayName)
+        } else {
+            fatalError("No valid user found.")
+        }
     }
-    
-//    func currentSender() -> SenderType {
-//        return Sender(senderId: user.uid, displayName: UserDefaultManager.displayName)
-//    }
     
     func numberOfSections(in messagesCollectionView: MessagesCollectionView) -> Int {
         return messages.count
@@ -205,16 +312,31 @@ extension ChatVC: MessagesDisplayDelegate {
 
 extension ChatVC: InputBarAccessoryViewDelegate {
     func inputBar(_ inputBar: InputBarAccessoryView, didPressSendButtonWith text: String) {
-        let message = Message(user: user, content: text)
-        
-        chatFirestoreStream.save(message) { [weak self] error in
-            if let error = error {
-                print(error)
+        Message.fetchDisplayName(userManager: UserManager()) { [weak self] displayName in
+            guard let displayName = displayName, let self = self else {
+                self?.showMessage(title: "로그인이 필요한 기능입니다.", message: "게스트는 메세지를 보낼 수 없습니다.")
                 return
             }
-            self?.messagesCollectionView.scrollToLastItem()
+            
+            var message: Message
+            if let user = self.user {
+                message = Message(user: user, content: text, displayName: displayName)
+            } else if let customUser = self.customUser {
+                message = Message(customUser: customUser, content: text, displayName: displayName)
+            } else {
+                print("No valid user found")
+                return
+            }
+            
+            self.chatFirestoreStream.save(message) { error in
+                if let error = error {
+                    print(error)
+                    return
+                }
+                self.messagesCollectionView.scrollToLastItem()
+            }
+            inputBar.inputTextView.text.removeAll()
         }
-        inputBar.inputTextView.text.removeAll()
     }
 }
 
@@ -225,9 +347,9 @@ extension ChatVC: UIImagePickerControllerDelegate, UINavigationControllerDelegat
         if let asset = info[.phAsset] as? PHAsset {
             let imageSize = CGSize(width: 500, height: 500)
             PHImageManager.default().requestImage(for: asset,
-                                                     targetSize: imageSize,
-                                                     contentMode: .aspectFit,
-                                                     options: nil) { image, _ in
+                                                  targetSize: imageSize,
+                                                  contentMode: .aspectFit,
+                                                  options: nil) { image, _ in
                 guard let image = image else { return }
                 self.sendPhoto(image)
             }
@@ -237,16 +359,47 @@ extension ChatVC: UIImagePickerControllerDelegate, UINavigationControllerDelegat
     }
     
     private func sendPhoto(_ image: UIImage) {
+        guard !isSendingPhoto else { return }
         isSendingPhoto = true
-        FirebaseStorageManager.uploadImage(image: image, channel: channel) { [weak self] url in
+        
+        _ = FirebaseStorageManager.uploadImage(image: image, channel: channel, progress: { progress in
+            // 업로드 진행 상황을 처리할 수 있습니다. 예: progress bar 업데이트
+            print("Upload progress: \(progress * 100)%")
+        }, completion: { [weak self] result in
             self?.isSendingPhoto = false
-            guard let user = self?.user, let url = url else { return }
+            guard let self = self else { return }
             
-            var message = Message(user: user, image: image)
-            message.downloadURL = url
-            self?.chatFirestoreStream.save(message)
-            self?.messagesCollectionView.scrollToLastItem()
-        }
+            switch result {
+            case .success(let url):
+                Message.fetchDisplayName(userManager: UserManager()) { displayName in
+                    guard let displayName = displayName else {
+                        print("Failed to fetch display name")
+                        return
+                    }
+                    
+                    var message: Message
+                    if let user = self.user {
+                        message = Message(user: user, image: image, displayName: displayName)
+                    } else if let customUser = self.customUser {
+                        message = Message(customUser: customUser, image: image, displayName: displayName)
+                    } else {
+                        print("No valid user found")
+                        return
+                    }
+                    
+                    message.downloadURL = url
+                    self.chatFirestoreStream.save(message) { error in
+                        if let error = error {
+                            print(error)
+                            return
+                        }
+                        self.messagesCollectionView.scrollToLastItem(animated: true)
+                    }
+                }
+            case .failure(let error):
+                print("Failed to upload image: \(error)")
+            }
+        })
     }
     
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
