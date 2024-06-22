@@ -68,6 +68,8 @@ class ChatVC: MessagesViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        configureColor()
+        
         fetchDisplayName { [weak self] displayName in
             self?.currentDisplayName = displayName ?? "Unknown"
             self?.messagesCollectionView.reloadData()
@@ -77,7 +79,6 @@ class ChatVC: MessagesViewController {
         }
         
         confirmDelegates()
-        configure()
         removeOutgoingMessageAvatars()
         addCameraBarButtonToMessageInputBar()
         listenToMessages()
@@ -86,6 +87,30 @@ class ChatVC: MessagesViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         setupMessageInputBar()
+        tabBarController?.tabBar.isHidden = true
+        navigationController?.setToolbarHidden(true, animated: false)
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        tabBarController?.tabBar.isHidden = false
+        navigationController?.setToolbarHidden(false, animated: false)
+    }
+    
+    private func configureColor() {
+        view.backgroundColor = .white
+        messagesCollectionView.backgroundColor = .white
+        messageInputBar.backgroundColor = .white
+        messageInputBar.backgroundView.backgroundColor = .white
+        messageInputBar.inputTextView.backgroundColor = .white
+        messageInputBar.inputTextView.textColor = .black
+        navigationController?.navigationBar.tintColor = ThemeColor.mainOrange
+        navigationController?.navigationBar.barTintColor = .white
+        navigationController?.navigationBar.titleTextAttributes = [
+            NSAttributedString.Key.foregroundColor: ThemeColor.mainOrange
+            ]
+        title = channel.name
+        navigationController?.navigationBar.prefersLargeTitles = false
     }
     
     private func fetchDisplayName(completion: @escaping (String?) -> Void) {
@@ -117,11 +142,6 @@ class ChatVC: MessagesViewController {
         messagesCollectionView.messagesDisplayDelegate = self
         
         messageInputBar.delegate = self
-    }
-    
-    private func configure() {
-        title = channel.name
-        navigationController?.navigationBar.prefersLargeTitles = false
     }
     
     private func setupMessageInputBar() {
@@ -214,6 +234,8 @@ class ChatVC: MessagesViewController {
         }
         present(picker, animated: true)
     }
+    
+    
 }
 
 extension ChatVC: MessagesDataSource {
