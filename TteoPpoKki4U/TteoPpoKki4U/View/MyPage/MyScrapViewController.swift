@@ -68,7 +68,7 @@ class MyScrapViewController: UIViewController {
             .receive(on: DispatchQueue.main)
             .sink { array in
                 if array.count == 0 {
-                    self.collectionView.setEmptyMsg("아직 스크랩한 가게가 없어요!\n가게들을 찾아 스크랩해 보세요.")
+                    self.collectionView.setEmptyMsg(" 아직 스크랩한 가게가 없어요!\n가게들을 찾아 스크랩해 보세요.")
                     self.collectionView.reloadData()
                 } else {
                     self.collectionView.restore()
@@ -118,7 +118,6 @@ class MyScrapViewController: UIViewController {
     func setupSegmentedControl() {
         segmentedControl = UISegmentedControl(items: ["스크랩", "북마크"])
         segmentedControl.selectedSegmentIndex = 0
-        print(self.segmentedControl.bounds.size.width)
         segmentedControl.addTarget(self, action: #selector(segmentChanged), for: .valueChanged)
         
         view.addSubview(segmentedControl)

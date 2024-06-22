@@ -97,7 +97,7 @@ class MapViewController: UIViewController, PinStoreViewDelegate {
     }
     
     func centerMapOnLocation(location: CLLocation) {
-        let regionRadius: CLLocationDistance = 1000
+        let regionRadius: CLLocationDistance = 700
         let coordinateRegion = MKCoordinateRegion(center: location.coordinate,
                                                   latitudinalMeters: regionRadius,
                                                   longitudinalMeters: regionRadius)
@@ -271,7 +271,6 @@ extension MapViewController: UISearchBarDelegate, CLLocationManagerDelegate, MKM
         } else {
             annotationView?.image = UIImage(named: "pin")
         }
-        
         return annotationView
     }
     
@@ -281,7 +280,9 @@ extension MapViewController: UISearchBarDelegate, CLLocationManagerDelegate, MKM
               !name.isEmpty
         else { return }
         
-        view.transform = CGAffineTransform(scaleX: 1.5, y: 1.5)
+        UIView.animate(withDuration: 0.3, animations: {
+            view.transform = CGAffineTransform(scaleX: 1.5, y: 1.5)
+        })
         viewModel.loadStore(with: name)
     }
     
