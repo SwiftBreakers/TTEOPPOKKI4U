@@ -18,6 +18,7 @@
 		611644322C09000F009FFDA5 /* GreetingBodyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611644312C09000F009FFDA5 /* GreetingBodyView.swift */; };
 		611644352C09039F009FFDA5 /* SignViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611644342C09039F009FFDA5 /* SignViewModel.swift */; };
 		611644382C0909D4009FFDA5 /* SignManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611644372C0909D4009FFDA5 /* SignManager.swift */; };
+		6127E3552C2755130037F9E3 /* UIImageView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6127E3542C2755130037F9E3 /* UIImageView+Extension.swift */; };
 		61395F3C2C14C7AD006E7EBD /* ProgressHUD in Frameworks */ = {isa = PBXBuildFile; productRef = 61395F3B2C14C7AD006E7EBD /* ProgressHUD */; };
 		613D86992C05BFF80039E771 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 613D86982C05BFF80039E771 /* AppDelegate.swift */; };
 		613D869B2C05BFF80039E771 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 613D869A2C05BFF80039E771 /* SceneDelegate.swift */; };
@@ -141,6 +142,7 @@
 		611644342C09039F009FFDA5 /* SignViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignViewModel.swift; sourceTree = "<group>"; };
 		611644372C0909D4009FFDA5 /* SignManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignManager.swift; sourceTree = "<group>"; };
 		611644392C0922F0009FFDA5 /* TteoPpoKki4U.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = TteoPpoKki4U.entitlements; sourceTree = "<group>"; };
+		6127E3542C2755130037F9E3 /* UIImageView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+Extension.swift"; sourceTree = "<group>"; };
 		613D86952C05BFF80039E771 /* TteoPpoKki4U.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TteoPpoKki4U.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		613D86982C05BFF80039E771 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		613D869A2C05BFF80039E771 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -583,6 +585,7 @@
 				CE771CC42C243B3A004415CA /* UIImage.swift */,
 				9CC6D31B2C23C6AC004C85D8 /* UICollectionView+Extension.swift */,
 				9CC6D3212C245678004C85D8 /* UILabel+Extension.swift */,
+				6127E3542C2755130037F9E3 /* UIImageView+Extension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -825,6 +828,7 @@
 				61DAC5002C06CCB000DFC575 /* Secret.swift in Sources */,
 				CE771CBF2C243995004415CA /* StreamError.swift in Sources */,
 				CE771CA82C240F23004415CA /* Channel.swift in Sources */,
+				6127E3552C2755130037F9E3 /* UIImageView+Extension.swift in Sources */,
 				CE771CCD2C243D69004415CA /* BaseViewController.swift in Sources */,
 				CE771CB62C243861004415CA /* imageMediaItem.swift in Sources */,
 				8D580A4F2C0893A40057D370 /* ScrapList.swift in Sources */,
