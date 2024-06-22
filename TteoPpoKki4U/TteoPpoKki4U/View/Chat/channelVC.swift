@@ -56,6 +56,8 @@ class ChannelVC: BaseViewController {
     
     deinit {
         channelStream.removeListener()
+        currentUser = nil
+        customUser = nil
     }
     
     override func viewDidLoad() {
@@ -75,7 +77,7 @@ class ChannelVC: BaseViewController {
         navigationController?.navigationBar.barTintColor = .white
         navigationController?.navigationBar.titleTextAttributes = [
             NSAttributedString.Key.foregroundColor: ThemeColor.mainOrange
-            ]
+        ]
     }
     
     private func checkNickname() {

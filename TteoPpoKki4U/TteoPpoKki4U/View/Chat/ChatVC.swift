@@ -22,8 +22,8 @@ class ChatVC: MessagesViewController {
         return button
     }()
     
-    private let user: User?
-    private let customUser: CustomUser?
+    private var user: User?
+    private var customUser: CustomUser?
     let chatFirestoreStream = ChatFirestoreStream()
     let channel: Channel
     var messages = [Message]()
@@ -64,6 +64,8 @@ class ChatVC: MessagesViewController {
     deinit {
         chatFirestoreStream.removeListener()
         navigationController?.navigationBar.prefersLargeTitles = true
+        user = nil
+        customUser = nil
     }
     
     override func viewDidLoad() {
@@ -82,10 +84,21 @@ class ChatVC: MessagesViewController {
         removeOutgoingMessageAvatars()
         addCameraBarButtonToMessageInputBar()
         listenToMessages()
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTap))
+            messagesCollectionView.addGestureRecognizer(tapGesture)
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        
+        if let currentUser = Auth.auth().currentUser {
+            self.user = currentUser
+            self.customUser = nil
+        } else {
+            self.user = nil
+            self.customUser = CustomUser(guestUID: "guest")
+        }
+        
         setupMessageInputBar()
         tabBarController?.tabBar.isHidden = true
         navigationController?.setToolbarHidden(true, animated: false)
@@ -108,7 +121,7 @@ class ChatVC: MessagesViewController {
         navigationController?.navigationBar.barTintColor = .white
         navigationController?.navigationBar.titleTextAttributes = [
             NSAttributedString.Key.foregroundColor: ThemeColor.mainOrange
-            ]
+        ]
         title = channel.name
         navigationController?.navigationBar.prefersLargeTitles = false
     }
@@ -145,7 +158,7 @@ class ChatVC: MessagesViewController {
     }
     
     private func setupMessageInputBar() {
-        if let user = user {
+        if user != nil {
             messageInputBar.inputTextView.tintColor = ThemeColor.mainOrange
             messageInputBar.sendButton.setTitleColor(ThemeColor.mainOrange, for: .normal)
             messageInputBar.inputTextView.placeholder = "채팅을 입력해주세요!"
@@ -235,6 +248,9 @@ class ChatVC: MessagesViewController {
         present(picker, animated: true)
     }
     
+    @objc private func handleTap() {
+        view.endEditing(true)
+    }
     
 }
 
