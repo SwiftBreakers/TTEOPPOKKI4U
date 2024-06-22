@@ -11,6 +11,7 @@ import InputBarAccessoryView
 import Photos
 import FirebaseFirestore
 import FirebaseAuth
+import Kingfisher
 
 class ChatVC: MessagesViewController {
     
@@ -21,12 +22,15 @@ class ChatVC: MessagesViewController {
         button.addTarget(self, action: #selector(didTapCameraButton), for: .touchUpInside)
         return button
     }()
+    let chatFirestoreStream = ChatFirestoreStream()
+    let chatManager = ChatManager()
     
     private var user: User?
     private var customUser: CustomUser?
-    let chatFirestoreStream = ChatFirestoreStream()
     let channel: Channel
     var messages = [Message]()
+    private var profileImageUrls = [String: String]()
+    private var imageCache = [String: UIImage]()
     private var currentDisplayName: String = "Unknown"
     private var isSendingPhoto = false {
         didSet {
@@ -72,21 +76,28 @@ class ChatVC: MessagesViewController {
         super.viewDidLoad()
         configureColor()
         
-        fetchDisplayName { [weak self] displayName in
+        fetchDisplayNameAndProfileImage { [weak self] displayName, imageUrl in
             self?.currentDisplayName = displayName ?? "Unknown"
+            if let profileImageUrl = imageUrl, let userId = self?.user?.uid {
+                self?.profileImageUrls[userId] = profileImageUrl
+            }
             self?.messagesCollectionView.reloadData()
             DispatchQueue.main.async {
                 self?.messagesCollectionView.scrollToLastItem()
             }
         }
         
+        getSenderImage()
         confirmDelegates()
         removeOutgoingMessageAvatars()
         addCameraBarButtonToMessageInputBar()
         listenToMessages()
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTap))
-            messagesCollectionView.addGestureRecognizer(tapGesture)
+        messagesCollectionView.addGestureRecognizer(tapGesture)
+        
     }
+    
+    
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -126,26 +137,51 @@ class ChatVC: MessagesViewController {
         navigationController?.navigationBar.prefersLargeTitles = false
     }
     
-    private func fetchDisplayName(completion: @escaping (String?) -> Void) {
-        let userManager = UserManager()
-        if let user = user {
-            userManager.fetchUserData(uid: user.uid) { error, snapshot in
-                if let error = error {
-                    print(error)
-                    completion(nil)
-                    return
+    private func getSenderImage() {
+        chatManager.getSenders(channelName: channel.name) {[weak self] senderIds in
+            self?.fetchProfileImages(for: senderIds)
+        }
+    }
+    
+    private func fetchDisplayNameAndProfileImage(completion: @escaping (String?, String?) -> Void) {
+        fetchUserDataAndProfileImage { displayName, profileImageUrl, _ in
+            completion(displayName, profileImageUrl)
+        }
+    }
+    
+    private func fetchProfileImages(for senderIds: [String]) {
+        senderIds.forEach { senderId in
+            fetchUserDataAndProfileImage(for: senderId) { [weak self] _, imageUrl, _ in
+                if let profileImageUrl = imageUrl {
+                    self?.profileImageUrls[senderId] = profileImageUrl
+                    self?.messagesCollectionView.reloadData()  // Reload to update avatars
                 }
-                guard let dictionary = snapshot?.value as? [String: Any] else {
-                    completion(nil)
-                    return
-                }
-                let currentName = (dictionary[db_nickName] as? String) ?? "Unknown"
-                completion(currentName)
             }
-        } else if let customUser = customUser {
-            completion(customUser.isGuest ? "Guest" : "Unknown")
-        } else {
-            completion(nil)
+        }
+    }
+    
+    
+    private func fetchUserDataAndProfileImage(for uid: String? = nil, completion: @escaping (String?, String?, [String: Any]?) -> Void) {
+        let userId = uid ?? user?.uid
+        guard let userId = userId else {
+            completion(nil, nil, nil)
+            return
+        }
+        
+        let userManager = UserManager()
+        userManager.fetchUserData(uid: userId) { error, snapshot in
+            if let error = error {
+                print(error)
+                completion(nil, nil, nil)
+                return
+            }
+            guard let dictionary = snapshot?.value as? [String: Any] else {
+                completion(nil, nil, nil)
+                return
+            }
+            let currentName = (dictionary[db_nickName] as? String) ?? "Unknown"
+            let profileImageUrl = (dictionary["profileImageUrl"] as? String)
+            completion(currentName, profileImageUrl, dictionary)
         }
     }
     
@@ -200,11 +236,27 @@ class ChatVC: MessagesViewController {
             switch result {
             case .success(let messages):
                 self?.loadImageAndUpdateCells(messages)
+                self?.preloadProfileImages(for: messages)
             case .failure(let error):
                 print(error)
             }
         }
     }
+    
+    private func preloadProfileImages(for messages: [Message]) {
+        let uniqueSenderIds = Set(messages.map { $0.sender.senderId })
+        
+        uniqueSenderIds.forEach { senderId in
+            guard imageCache[senderId] == nil else { return }
+            fetchUserDataAndProfileImage(for: senderId) { [weak self] _, imageUrl, _ in
+                if let profileImageUrl = imageUrl {
+                    self?.profileImageUrls[senderId] = profileImageUrl
+                    self?.messagesCollectionView.reloadData()  // Reload to update avatars
+                }
+            }
+        }
+    }
+    
     
     private func loadImageAndUpdateCells(_ messages: [Message]) {
         let dispatchGroup = DispatchGroup()
@@ -250,6 +302,13 @@ class ChatVC: MessagesViewController {
     
     @objc private func handleTap() {
         view.endEditing(true)
+    }
+    
+    override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = super.collectionView(collectionView, cellForItemAt: indexPath) as! MessageContentCell
+        let message = messages[indexPath.section]
+        configureAvatarView(cell.avatarView, for: message, at: indexPath, in: collectionView as! MessagesCollectionView)
+        return cell
     }
     
 }
@@ -308,6 +367,65 @@ extension ChatVC: MessagesDisplayDelegate {
         let cornerDirection: MessageStyle.TailCorner = isFromCurrentSender(message: message) ? .bottomRight : .bottomLeft
         return .bubbleTail(cornerDirection, .curved)
     }
+    
+    func avatarFor(message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> MessageKit.Avatar {
+        let sender = message.sender
+        let initials = String(sender.displayName.prefix(2))
+        
+        if let cachedImage = imageCache[sender.senderId] {
+            return MessageKit.Avatar(image: cachedImage, initials: initials)
+        } else {
+            // Preloaded images should already be in the cache if available
+            return MessageKit.Avatar(initials: initials)
+        }
+    }
+    
+    func avatarSize(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> CGSize {
+        return CGSize(width: 30, height: 30)
+    }
+    
+    private func downloadImage(from url: String, completion: @escaping (UIImage?) -> Void) {
+        guard let imageUrl = URL(string: url) else {
+            completion(nil)
+            return
+        }
+        
+        let task = URLSession.shared.dataTask(with: imageUrl) { data, response, error in
+            if let data = data, let image = UIImage(data: data) {
+                completion(image)
+            } else {
+                completion(nil)
+            }
+        }
+        task.resume()
+    }
+    
+    func configureAvatarView(_ avatarView: AvatarView, for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) {
+        let sender = message.sender
+        let initials = String(sender.displayName.prefix(2))
+        
+        // 다른 사용자의 프로필 이미지 설정
+        if let imageUrl = profileImageUrls[sender.senderId], let url = URL(string: imageUrl) {
+            avatarView.kf.setImage(with: url, placeholder: nil, options: nil, progressBlock: nil) { result in
+                switch result {
+                case .success(let value):
+                    self.imageCache[sender.senderId] = value.image
+                    DispatchQueue.main.async {
+                        avatarView.set(avatar: MessageKit.Avatar(image: value.image, initials: initials))
+                    }
+                case .failure(let error):
+                    print("Error downloading image: \(error.localizedDescription)")
+                    DispatchQueue.main.async {
+                        avatarView.set(avatar: MessageKit.Avatar(initials: initials))
+                    }
+                }
+            }
+        } else {
+            avatarView.set(avatar: MessageKit.Avatar(initials: initials))
+        }
+    }
+    
+    
 }
 
 extension ChatVC: InputBarAccessoryViewDelegate {
