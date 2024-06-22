@@ -12,7 +12,7 @@ import Firebase
 
 class ChannelVC: BaseViewController {
     
-    let uid = Auth.auth().currentUser?.uid
+    let uid: String
     let userManager = UserManager()
     var currentName: String?
     let myPageView = MyPageView()
@@ -27,12 +27,24 @@ class ChannelVC: BaseViewController {
     }()
     
     var channels = [Channel]()
-    private var currentUser: User
+    private var currentUser: User?
+    private var customUser: CustomUser?
     private let channelStream = ChannelFirestoreStream()
     private var currentChannelAlertController: UIAlertController?
     
     init(currentUser: User) {
         self.currentUser = currentUser
+        self.customUser = nil
+        self.uid = currentUser.uid
+        super.init(nibName: nil, bundle: nil)
+        
+        title = "Channels"
+    }
+    
+    init(customUser: CustomUser) {
+        self.currentUser = nil
+        self.customUser = customUser
+        self.uid = customUser.uid
         super.init(nibName: nil, bundle: nil)
         
         title = "Channels"
@@ -53,25 +65,27 @@ class ChannelVC: BaseViewController {
         addToolBarItems()
         setupListener()
     }
+    
     override func viewWillAppear(_ animated: Bool) {
         tabBarController?.tabBar.isHidden = false
     }
+    
     private func checkNickname() {
-        // 너 유저야?
-        if Auth.auth().currentUser != nil {
-            userManager.fetchUserData(uid: Auth.auth().currentUser!.uid) { [self] error, snapshot in
+        // 유저 모드일 때만 닉네임 확인
+        if let user = currentUser {
+            userManager.fetchUserData(uid: user.uid) { [self] error, snapshot in
                 if let error = error {
                     print(error)
                 }
                 guard let dictionary = snapshot?.value as? [String: Any] else { return }
                 currentName = (dictionary[db_nickName] as? String) ?? "Unknown"
-                // 유저면 닉네임 있어?
                 if currentName == ""  {
-                    showNameAlert(uid: uid!)
+                    showNameAlert(uid: user.uid)
                 }
             }
         }
     }
+    
     private func showNameAlert(uid: String) {
         let alertController = UIAlertController(title: "Enter Name", message: "Please enter your name.", preferredStyle: .alert)
         
@@ -193,7 +207,6 @@ class ChannelVC: BaseViewController {
         channels.remove(at: index)
         channelTableView.deleteRows(at: [IndexPath(row: index, section: 0)], with: .automatic)
     }
-    
 }
 
 extension ChannelVC: UITableViewDataSource, UITableViewDelegate {
@@ -213,9 +226,15 @@ extension ChannelVC: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let channel = channels[indexPath.row]
-        let viewController = ChatVC(user: currentUser, channel: channel)
+        let viewController: ChatVC
+        if let user = currentUser {
+            viewController = ChatVC(user: user, channel: channel)
+        } else if let customUser = customUser {
+            viewController = ChatVC(customUser: customUser, channel: channel)
+        } else {
+            fatalError("No valid user found.")
+        }
         navigationController?.pushViewController(viewController, animated: true)
         tableView.deselectRow(at: indexPath, animated: true)
     }
 }
-
