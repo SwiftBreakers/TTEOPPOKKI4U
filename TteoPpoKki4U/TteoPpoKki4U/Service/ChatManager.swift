@@ -23,7 +23,7 @@ class ChatManager {
             
             var senderIds = Set<String>()
             for document in snapshot.documents {
-                let threadCollection = channelCollection.document(document.documentID).collection("thread")
+                let threadCollection = channelCollection.document(document.documentID).collection(db_thread)
                 threadCollection.getDocuments { (threadSnapshot, error) in
                     guard let threadSnapshot = threadSnapshot, error == nil else {
                         print("Error fetching thread: \(String(describing: error))")
@@ -31,7 +31,7 @@ class ChatManager {
                     }
                     
                     for threadDocument in threadSnapshot.documents {
-                        if let senderId = threadDocument.data()["senderId"] as? String {
+                        if let senderId = threadDocument.data()[db_senderId] as? String {
                             senderIds.insert(senderId)
                         }
                     }

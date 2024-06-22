@@ -122,7 +122,6 @@ extension MyReviewViewController: ReviewCellDelegate {
         let writeVC = WriteViewController()
         let item = viewModel.userReview[indexPath.row]
         writeVC.isEditMode = true
-        writeVC.isNavagtion = true
         writeVC.review = item
         
         navigationController?.pushViewController(writeVC, animated: true)
