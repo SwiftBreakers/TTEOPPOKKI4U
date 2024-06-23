@@ -63,12 +63,13 @@ final class MapViewModel {
             async let ratings = getRatings(for: storeName)
             let presentable = await ShopView(
                 title: storeName,
-                address: store.addressName,
+                address: store.roadAddressName,
                 rating: getAverageRating(ratings: ratings),
                 reviews: ratings.count,
                 latitude: Double(store.y) ?? 0.0,
                 longitude: Double(store.x) ?? 0.0,
-                isScrapped: isScrapped
+                isScrapped: isScrapped,
+                callNumber: store.phone
             )
             await MainActor.run {
                 state = .didLoadedStore(store: presentable)
@@ -101,7 +102,7 @@ final class MapViewModel {
     // MARK: - Helpers
     
     private func scrap(_ store: Document) {
-        createScrapItem(shopName: store.placeName, shopAddress: store.addressName)
+        createScrapItem(shopName: store.placeName, shopAddress: store.roadAddressName)
     }
     
     private func undoScrap(_ store: Document) {

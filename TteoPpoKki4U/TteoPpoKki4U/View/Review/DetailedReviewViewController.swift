@@ -50,15 +50,16 @@ class DetailedReviewViewController: UIViewController {
         label.numberOfLines = 0
         return label
     }()
-    
     private lazy var userProfileImage: UIImageView = {
         let view = UIImageView()
-        view.layer.cornerRadius = self.view.frame.height / 2
+        view.layer.cornerRadius = 22
+        view.layer.borderWidth = 1
+        view.layer.borderColor = UIColor.gray.cgColor
+        view.clipsToBounds = true
         view.contentMode = .scaleToFill
-        view.sizeToFit()
+        //view.sizeToFit()
         return view
     }()
-    
     private lazy var userNicknameLabel: UILabel = {
         let label = UILabel()
         label.font = ThemeFont.fontMedium(size: 16)
@@ -67,7 +68,6 @@ class DetailedReviewViewController: UIViewController {
         label.sizeToFit()
         return label
     }()
-    
     private lazy var starRatingLabel: UILabel = {
         let label = UILabel()
         label.font = ThemeFont.fontRegular(size: 14)
@@ -223,7 +223,7 @@ class DetailedReviewViewController: UIViewController {
         userProfileImage.snp.makeConstraints { make in
             make.top.equalTo(reviewTitleLabel.snp.bottom).offset(10)
             make.leading.equalTo(view.safeAreaLayoutGuide).inset(20)
-            make.width.height.equalTo(40)
+            make.width.height.equalTo(44)
         }
         
         userNicknameLabel.snp.makeConstraints { make in
@@ -248,7 +248,6 @@ class DetailedReviewViewController: UIViewController {
             make.top.equalTo(starRatingLabel.snp.bottom).offset(30)
             make.leading.trailing.equalTo(view.safeAreaLayoutGuide).inset(20)
         }
-        
     }
 
     

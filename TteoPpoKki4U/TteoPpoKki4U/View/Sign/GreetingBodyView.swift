@@ -50,47 +50,47 @@ class GreetingBodyView: UIView {
     private lazy var guestLoginButton: UIButton = {
         let button = UIButton(type: .system)
         
-        button.backgroundColor = .white
-        button.layer.borderWidth = 1
-        button.layer.borderColor = UIColor.lightGray.cgColor
-        button.layer.cornerRadius = 8
-        
-        button.setTitle("Sign in with guest", for: .normal)
-        button.setTitleColor(.gray, for: .normal)
-        button.titleLabel?.font = ThemeFont.fontBold()
-        
-        let image = UIImage(systemName: "person.crop.circle")?.withRenderingMode(.alwaysTemplate)
-        button.setImage(image, for: .normal)
-        button.tintColor = .gray
-        
-        // 이미지와 텍스트 사이 간격 설정
-        button.imageEdgeInsets = UIEdgeInsets(top: 0, left: -8, bottom: 0, right: 0)
-        button.titleEdgeInsets = UIEdgeInsets(top: 0, left: 8, bottom: 0, right: 0)
-        
-//        var configuration = UIButton.Configuration.plain()
-//
-//        configuration.image = UIImage(systemName: "person.crop.circle.fill")?.withTintColor(.gray)
-//        configuration.imagePadding = 8
-//        configuration.imagePlacement = .leading
+//        button.backgroundColor = .white
+//        button.layer.borderWidth = 1
+//        button.layer.borderColor = UIColor.lightGray.cgColor
+//        button.layer.cornerRadius = 8
 //        
-//        configuration.baseForegroundColor = .gray
-//        configuration.cornerStyle = .medium
-//        configuration.background.strokeWidth = 1
-//        configuration.background.strokeColor = .lightGray
+//        button.setTitle("Sign in with guest", for: .normal)
+//        button.setTitleColor(.gray, for: .normal)
+//        button.titleLabel?.font = ThemeFont.fontBold()
+//        
+//        let image = UIImage(systemName: "person.crop.circle")?.withRenderingMode(.alwaysTemplate)
+//        button.setImage(image, for: .normal)
+//        button.tintColor = .gray
+//        
+//        // 이미지와 텍스트 사이 간격 설정
+//        button.imageEdgeInsets = UIEdgeInsets(top: 0, left: -8, bottom: 0, right: 0)
+//        button.titleEdgeInsets = UIEdgeInsets(top: 0, left: 8, bottom: 0, right: 0)
         
-//        var container = AttributeContainer()
-//        container.font = ThemeFont.fontBold()
-//        configuration.attributedTitle = AttributedString("게스트로 로그인", attributes: container)
+        var configuration = UIButton.Configuration.plain()
+
+        configuration.image = UIImage(systemName: "person.crop.circle.fill")?.withTintColor(.gray)
+        configuration.imagePadding = 8
+        configuration.imagePlacement = .leading
         
-//        button.configuration = configuration
+        configuration.baseForegroundColor = .gray
+        configuration.cornerStyle = .medium
+        configuration.background.strokeWidth = 1
+        configuration.background.strokeColor = .lightGray
+        
+        var container = AttributeContainer()
+        container.font = ThemeFont.fontBold()
+        configuration.attributedTitle = AttributedString("게스트로 로그인", attributes: container)
+        
+        button.configuration = configuration
         
         // 상태 업데이트 핸들러를 사용하여 클릭 시 tintColor를 유지
-//        button.configurationUpdateHandler = { button in
-//            var updatedConfiguration = button.configuration
-//            updatedConfiguration?.image = UIImage(systemName: "person.crop.circle")?.withRenderingMode(.alwaysTemplate)
-//            updatedConfiguration?.baseForegroundColor = .white
-//            button.configuration = updatedConfiguration
-//        }
+        button.configurationUpdateHandler = { button in
+            var updatedConfiguration = button.configuration
+            updatedConfiguration?.image = UIImage(systemName: "person.crop.circle")?.withRenderingMode(.alwaysTemplate)
+            updatedConfiguration?.baseForegroundColor = .white
+            button.configuration = updatedConfiguration
+        }
         
         button.addTarget(self, action: #selector(guestButtonDidTapped), for: .touchUpInside)
         

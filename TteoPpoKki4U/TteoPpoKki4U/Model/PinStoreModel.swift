@@ -15,4 +15,5 @@ struct ShopView {
     let latitude: Double
     let longitude: Double
     let isScrapped: Bool
+    let callNumber: String?
 }

@@ -12,8 +12,9 @@ import FirebaseFirestore
 
 class StoreManager {
     
-    func requestStore(storeAddress: String, completion: @escaping(QuerySnapshot?, (Error)?) -> Void) {
-        reviewCollection.whereField(db_storeAddress, isEqualTo: storeAddress).whereField(db_isActive, isEqualTo: true).order(by: db_createdAt, descending: true).getDocuments(completion: completion)
+    func requestStore(storeName: String, storeAddress: String, completion: @escaping(QuerySnapshot?, (Error)?) -> Void) {
+        print(#function)
+        reviewCollection.whereField(db_storeAddress, isEqualTo: storeAddress).whereField(db_storeName, isEqualTo: storeName).whereField(db_isActive, isEqualTo: true).order(by: db_createdAt, descending: true).getDocuments(completion: completion)
     }
     
     func requestScrap(uid: String, completion: @escaping(QuerySnapshot?, (any Error)?) -> Void) {

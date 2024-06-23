@@ -25,6 +25,7 @@ class PinStoreView: UIView {
             }
         }
     }
+    var callNumberText: String?
     
     let titleLabel: UILabel = {
         let label = UILabel()
@@ -171,7 +172,7 @@ class PinStoreView: UIView {
         return mutableAttributedString
     }
     
-    func bind(title: String, address: String, isScrapped: Bool, rating: Float, reviews: Int, distance: String) {
+    func bind(title: String, address: String, isScrapped: Bool, rating: Float, reviews: Int, distance: String, callNumber: String) {
         let formattedRating = String(format: "%.1f", rating)
         
         titleLabel.text = title
@@ -180,14 +181,16 @@ class PinStoreView: UIView {
         ratingLabel.attributedText = makeIconBeforeText(icon: "star", label: formattedRating)
         reviewsLabel.attributedText = makeIconBeforeText(icon: "text.bubble", label: " \(reviews)개")
         distanceLabel.attributedText = makeIconBeforeText(icon: "arrow.turn.down.right", label: distance)
+        self.callNumberText = callNumber
     }
     
     @objc func titleLabelTapped() {
         let storeVC = StoreViewController()
         guard let address = addressLabel.text, let shopName = titleLabel.text else { return }
-        
+        print(address)
         storeVC.addressText = address
         storeVC.shopTitleText = shopName
+        storeVC.callNumberText = self.callNumberText
     
         currentViewController?.navigationController?.pushViewController(storeVC, animated: true)
     }

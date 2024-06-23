@@ -16,7 +16,7 @@ class ReviewViewModel {
     
     var reviewPublisher = PassthroughSubject<Void, Error>()
     @Published var userReview = [ReviewModel]()
-    @Published var userInfo = UserModel(uid: "", email: "", isBlock: false, nickName: "", profileImageUrl: "")
+    @Published var userInfo = [UserModel]()
 
     
     func createReview(userDict: [String: Any], completion: @escaping () -> Void) {
@@ -101,15 +101,21 @@ class ReviewViewModel {
         }
     }
     
-    func getStoreReview(storeAddress: String) {
-        storeManager.requestStore(storeAddress: storeAddress) { [weak self] querySnapshot, error in
-            self?.userReview.removeAll()
-            if let error = error {
-                self?.reviewPublisher.send(completion: .failure(error))
-            }
-            
-            if let snapshotDocuments = querySnapshot?.documents {
+    func getStoreReview(storeName: String, storeAddress: String) {
+            storeManager.requestStore(storeName: storeName, storeAddress: storeAddress) { [weak self] querySnapshot, error in
+                print(#function)
+                self?.userReview.removeAll()
+                self?.userInfo.removeAll()
+                if let error = error {
+                    self?.reviewPublisher.send(completion: .failure(error))
+                    return
+                }
+                
+                guard let snapshotDocuments = querySnapshot?.documents else { return }
+                
                 if !snapshotDocuments.isEmpty {
+                    let dispatchGroup = DispatchGroup()
+                    
                     for doc in snapshotDocuments {
                         let data = doc.data()
                         guard
@@ -126,34 +132,49 @@ class ReviewViewModel {
                             let reportCount = data[db_reportCount] as? Int
                         else {
                             print("error")
-                            return
+                            continue
                         }
-                        let reviewData = ReviewModel(uid: uid, title: title, storeAddress: storeAddress, storeName: storeName, content: content, rating: rating, imageURL: imageURL, isActive: isActive, createdAt: createdAt, updatedAt: updatedAt, reportCount: reportCount)
-                        self?.userReview.append(reviewData)
+                        
+                        dispatchGroup.enter()
+                        self?.getUserInfo(uid: uid) { userModel in
+                            let reviewData = ReviewModel(uid: uid, title: title, storeAddress: storeAddress, storeName: storeName, content: content, rating: rating, imageURL: imageURL, isActive: isActive, createdAt: createdAt, updatedAt: updatedAt, reportCount: reportCount)
+                            print("test: ", reviewData)
+                            self?.userReview.append(reviewData)
+                            print(self!.userReview)
+                            if let userModel = userModel {
+                                self?.userInfo.append(userModel)
+                            }
+                            dispatchGroup.leave()
+                        }
+                    }
+                    
+                    dispatchGroup.notify(queue: .main) {
                         self?.reviewPublisher.send(())
                     }
                 }
             }
         }
-    }
     
-    func getUserInfo(uid: String) {
-        UserManager().fetchUserData(uid: uid) { [self] error, snapshot in
+    func getUserInfo(uid: String, completion: @escaping (UserModel?) -> Void) {
+        userManager.fetchUserData(uid: uid) { error, snapshot in
             if let error = error {
                 self.reviewPublisher.send(completion: .failure(error))
+                completion(nil)
+                return
             }
-            guard let dictionary = snapshot?.value as? [String: [String: Any]] else { return }
             
-            for (uid, userDict) in dictionary {
-                let email = userDict[db_email] as? String ?? ""
-                let nickName = userDict[db_nickName] as? String ?? "익명의 떡볶커"
-                let profileImageUrl = userDict[db_profileImageUrl] as? String ?? "UIImage(named: ttukbokki4u1n)"
-                let isBlockInt = userDict[db_isBlock] as? Int ?? 0
+            if let dictionary = snapshot?.value as? [String: Any] {
+                let email = dictionary[db_email] as? String ?? ""
+                let nickName = dictionary[db_nickName] as! String == "" ? "익명의 떡볶커" : dictionary[db_nickName] as! String
+                let profileImageUrl = dictionary[db_profileImageUrl] as? String ?? ""
+                let isBlockInt = dictionary[db_isBlock] as? Int ?? 0
                 let isBlock = isBlockInt != 0
                 
                 let model = UserModel(uid: uid, email: email, isBlock: isBlock, nickName: nickName, profileImageUrl: profileImageUrl)
-                self.userInfo = model
-                self.reviewPublisher.send(())
+                completion(model)
+            } else {
+                let model = UserModel(uid: "", email: "", isBlock: false, nickName: "익명의 떡볶커", profileImageUrl: "")
+                completion(model)
             }
         }
     }
