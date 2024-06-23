@@ -9,6 +9,7 @@ import Foundation
 import MessageKit
 import UIKit
 import Firebase
+import CoreLocation
 
 struct Message: MessageType {
     
@@ -25,12 +26,16 @@ struct Message: MessageType {
         if let image = image {
             let mediaItem = ImageMediaItem(image: image)
             return .photo(mediaItem)
+        } else if let location = location {
+            let locationItem = Location(location: location)
+            return .location(locationItem)
         } else {
             return .text(content)
         }
     }
     
     var image: UIImage?
+    var location: CLLocation?
     var downloadURL: URL?
     
     init(user: User, content: String, displayName: String) {
@@ -63,6 +68,22 @@ struct Message: MessageType {
         id = nil
     }
     
+    init(user: User, location: CLLocation, displayName: String) {
+        sender = Sender(senderId: user.uid, displayName: displayName)
+        self.location = location
+        sentDate = Date()
+        content = ""
+        id = nil
+    }
+    
+    init(customUser: CustomUser, location: CLLocation, displayName: String) {
+        sender = Sender(senderId: customUser.uid, displayName: displayName)
+        self.location = location
+        sentDate = Date()
+        content = ""
+        id = nil
+    }
+    
     init?(document: QueryDocumentSnapshot) {
         let data = document.data()
         guard let sentDate = data["created"] as? Timestamp,
@@ -75,9 +96,15 @@ struct Message: MessageType {
         if let content = data["content"] as? String {
             self.content = content
             downloadURL = nil
+            location = nil
         } else if let urlString = data["url"] as? String, let url = URL(string: urlString) {
             downloadURL = url
             content = ""
+            location = nil
+        } else if let latitude = data["latitude"] as? CLLocationDegrees, let longitude = data["longitude"] as? CLLocationDegrees {
+            location = CLLocation(latitude: latitude, longitude: longitude)
+            content = ""
+            downloadURL = nil
         } else {
             return nil
         }
@@ -103,7 +130,6 @@ struct Message: MessageType {
             completion(currentName)
         }
     }
-    
 }
 
 extension Message: DatabaseRepresentation {
@@ -116,6 +142,9 @@ extension Message: DatabaseRepresentation {
         
         if let url = downloadURL {
             representation["url"] = url.absoluteString
+        } else if let location = location {
+            representation["latitude"] = location.coordinate.latitude
+            representation["longitude"] = location.coordinate.longitude
         } else {
             representation["content"] = content
         }

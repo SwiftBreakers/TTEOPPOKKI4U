@@ -11,7 +11,8 @@ import SnapKit
 class ChannelTableViewCell: UITableViewCell {
     lazy var chatRoomLabel: UILabel = {
         let label = UILabel()
-        label.textColor = ThemeColor.mainOrange
+        label.textColor = ThemeColor.mainBlack
+        label.font = ThemeFont.fontMedium(size: 18)
         return label
     }()
     
@@ -19,6 +20,7 @@ class ChannelTableViewCell: UITableViewCell {
         let button = UIButton()
         button.setImage(UIImage(systemName: "chevron.right"), for: .normal)
         button.isUserInteractionEnabled = false
+        button.tintColor = .gray
         return button
     }()
     

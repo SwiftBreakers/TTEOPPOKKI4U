@@ -85,6 +85,7 @@ class StoreViewController: UIViewController {
     
     private func bind() {
         viewModel.$userReview
+            .print()
             .receive(on: DispatchQueue.main)
             .sink { array in
                 self.reviewCountLabel.text = "리뷰 \(array.count)개"
