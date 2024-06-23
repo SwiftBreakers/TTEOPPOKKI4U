@@ -49,29 +49,23 @@ class GreetingBodyView: UIView {
     
     private lazy var guestLoginButton: UIButton = {
         let button = UIButton(type: .system)
-        // 버튼 텍스트 설정
-           button.setTitle("게스트로 로그인", for: .normal)
-           button.setTitleColor(.gray, for: .normal)
-           
-           // 버튼 이미지 설정
-           let image = UIImage(systemName: "person.crop.circle")?.withRenderingMode(.alwaysTemplate)
-           button.setImage(image, for: .normal)
-           button.tintColor = .gray // 이미지 색상 설정
-           
-           // 이미지와 텍스트 사이 간격 설정
-           button.imageEdgeInsets = UIEdgeInsets(top: 0, left: -8, bottom: 0, right: 0)
-           button.titleEdgeInsets = UIEdgeInsets(top: 0, left: 8, bottom: 0, right: 0)
-           
-           // 버튼 배경 색상 설정
-           button.backgroundColor = .white
-           
-           // 버튼 테두리 설정
-           button.layer.borderWidth = 1
-           button.layer.borderColor = UIColor.lightGray.cgColor
-           button.layer.cornerRadius = 8 // 원하는 코너 스타일 설정
-           
-           // 텍스트 폰트 설정
-           button.titleLabel?.font = ThemeFont.fontBold()
+        
+        button.backgroundColor = .white
+        button.layer.borderWidth = 1
+        button.layer.borderColor = UIColor.lightGray.cgColor
+        button.layer.cornerRadius = 8
+        
+        button.setTitle("Sign in with guest", for: .normal)
+        button.setTitleColor(.gray, for: .normal)
+        button.titleLabel?.font = ThemeFont.fontBold()
+        
+        let image = UIImage(systemName: "person.crop.circle")?.withRenderingMode(.alwaysTemplate)
+        button.setImage(image, for: .normal)
+        button.tintColor = .gray
+        
+        // 이미지와 텍스트 사이 간격 설정
+        button.imageEdgeInsets = UIEdgeInsets(top: 0, left: -8, bottom: 0, right: 0)
+        button.titleEdgeInsets = UIEdgeInsets(top: 0, left: 8, bottom: 0, right: 0)
         
 //        var configuration = UIButton.Configuration.plain()
 //

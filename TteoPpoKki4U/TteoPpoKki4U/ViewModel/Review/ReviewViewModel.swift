@@ -16,6 +16,8 @@ class ReviewViewModel {
     
     var reviewPublisher = PassthroughSubject<Void, Error>()
     @Published var userReview = [ReviewModel]()
+    @Published var userInfo = UserModel(uid: "", email: "", isBlock: false, nickName: "", profileImageUrl: "")
+
     
     func createReview(userDict: [String: Any], completion: @escaping () -> Void) {
         userManager.writeReview(userDict: userDict) { [weak self] error in
@@ -135,4 +137,32 @@ class ReviewViewModel {
         }
     }
     
+    func getUserInfo(uid: String) {
+        UserManager().fetchUserData(uid: uid) { [self] error, snapshot in
+            if let error = error {
+                self.reviewPublisher.send(completion: .failure(error))
+            }
+            guard let dictionary = snapshot?.value as? [String: [String: Any]] else { return }
+            
+            for (uid, userDict) in dictionary {
+                let email = userDict[db_email] as? String ?? ""
+                let nickName = userDict[db_nickName] as? String ?? "익명의 떡볶커"
+                let profileImageUrl = userDict[db_profileImageUrl] as? String ?? "UIImage(named: ttukbokki4u1n)"
+                let isBlockInt = userDict[db_isBlock] as? Int ?? 0
+                let isBlock = isBlockInt != 0
+                
+                let model = UserModel(uid: uid, email: email, isBlock: isBlock, nickName: nickName, profileImageUrl: profileImageUrl)
+                self.userInfo = model
+                self.reviewPublisher.send(())
+            }
+        }
+    }
+    
+    func timestampToString(value: Timestamp) -> String {
+        let date = value.dateValue()
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy.MM.dd"
+        let result = dateFormatter.string(from: date)
+        return result
+    }
 }

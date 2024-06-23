@@ -13,8 +13,9 @@ import FirebaseStorage
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
     var window: UIWindow?
-    
+    var currentUser: User?
     private lazy var signManager = SignManager()
+    private lazy var userManager = UserManager()
     private lazy var signViewModel = SignViewModel(signManager: signManager)
     private lazy var manageManager = ManageManager()
     private lazy var manageViewModel = ManageViewModel(manageManager: manageManager)
@@ -68,6 +69,16 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
     
     func switchToMainTabBarController() {
+        let user: User? = Auth.auth().currentUser
+            let customUser: CustomUser?
+            
+            if let user = user {
+                currentUser = user
+                customUser = nil
+            } else {
+                customUser = CustomUser(guestUID: "guest")
+            }
+        
         let tabbarController = UITabBarController()
         
         greetingVC = GreetingViewController(
@@ -89,7 +100,14 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         let mapVC = UINavigationController(rootViewController: MapViewController())
         let recommendVC = UINavigationController(rootViewController: RecommendViewController())
-        let communityVC = UINavigationController(rootViewController: ChannelVC(currentUser: Auth.auth().currentUser!))
+        let communityVC: UINavigationController
+            if let user = currentUser {
+                communityVC = UINavigationController(rootViewController: ChannelVC(currentUser: user))
+            } else if let guestUser = customUser {
+                communityVC = UINavigationController(rootViewController: ChannelVC(customUser: guestUser))
+            } else {
+                fatalError("No valid user found.")
+            }
         let mypageVC = UINavigationController(rootViewController: MyPageViewController(signOutTapped: { [weak signViewModel, weak self] in
             signViewModel?.signOut {
                 DispatchQueue.main.async {
