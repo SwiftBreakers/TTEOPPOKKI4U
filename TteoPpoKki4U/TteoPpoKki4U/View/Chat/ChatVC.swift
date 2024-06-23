@@ -15,11 +15,11 @@ import Kingfisher
 
 class ChatVC: MessagesViewController {
     
-    lazy var cameraBarButtonItem: InputBarButtonItem = {
+    lazy var addBarButtonItem: InputBarButtonItem = {
         let button = InputBarButtonItem(type: .system)
         button.tintColor = ThemeColor.mainOrange
-        button.image = UIImage(systemName: "camera")
-        button.addTarget(self, action: #selector(didTapCameraButton), for: .touchUpInside)
+        button.image = UIImage(systemName: "paperclip")
+        button.addTarget(self, action: #selector(presentInputActionSheet), for: .touchUpInside)
         return button
     }()
     let chatFirestoreStream = ChatFirestoreStream()
@@ -50,6 +50,7 @@ class ChatVC: MessagesViewController {
         super.init(nibName: nil, bundle: nil)
         
         title = channel.name
+        
     }
     
     init(customUser: CustomUser, channel: Channel) {
@@ -131,7 +132,8 @@ class ChatVC: MessagesViewController {
         navigationController?.navigationBar.tintColor = ThemeColor.mainOrange
         navigationController?.navigationBar.barTintColor = .white
         navigationController?.navigationBar.titleTextAttributes = [
-            NSAttributedString.Key.foregroundColor: ThemeColor.mainOrange
+            NSAttributedString.Key.foregroundColor: ThemeColor.mainBlack,
+            NSAttributedString.Key.font: ThemeFont.fontBold(size: 18)
         ]
         title = channel.name
         navigationController?.navigationBar.prefersLargeTitles = false
@@ -216,7 +218,7 @@ class ChatVC: MessagesViewController {
     private func addCameraBarButtonToMessageInputBar() {
         messageInputBar.leftStackView.alignment = .center
         messageInputBar.setLeftStackViewWidthConstant(to: 50, animated: false)
-        messageInputBar.setStackViewItems([cameraBarButtonItem], forStack: .left, animated: false)
+        messageInputBar.setStackViewItems([addBarButtonItem], forStack: .left, animated: false)
     }
     
     private func insertNewMessage(_ message: Message) {
@@ -279,7 +281,7 @@ class ChatVC: MessagesViewController {
                     }
                 }
             } else {
-                insertNewMessage(message)
+                self.insertNewMessage(message)
             }
         }
         
@@ -288,7 +290,37 @@ class ChatVC: MessagesViewController {
         }
     }
     
-    @objc private func didTapCameraButton() {
+    @objc private func presentInputActionSheet() {
+        
+        if user != nil {
+            let actionSheet = UIAlertController(title: "유형을 선택해주세요", message: "아래에서 선택해주세요", preferredStyle: .actionSheet)
+            
+            actionSheet.addAction(UIAlertAction(title: "사진", style: .default, handler: { [weak self] _ in
+                self?.didTapCameraButton()
+            }))
+            
+            actionSheet.addAction(UIAlertAction(title: "지도", style: .default, handler: { [weak self] _ in
+                self?.presentLocationPicker()
+            }))
+            actionSheet.addAction(UIAlertAction(title: "취소", style: .cancel, handler: nil))
+            
+            present(actionSheet, animated: true)
+        } else if customUser != nil {
+            showMessage(title: "로그인이 필요한 기능입니다.", message: "사용 할 수 없습니다.")
+        }
+       
+    }
+    
+    private func presentLocationPicker() {
+        let mapVC = MapViewController()
+        mapVC.delegate = self
+        mapVC.isLocationPicker = true
+        let navController = UINavigationController(rootViewController: mapVC)
+        present(navController, animated: true)
+    }
+    
+    
+    private func didTapCameraButton() {
         let picker = UIImagePickerController()
         picker.delegate = self
         
@@ -524,3 +556,30 @@ extension ChatVC: UIImagePickerControllerDelegate, UINavigationControllerDelegat
         picker.dismiss(animated: true)
     }
 }
+
+extension ChatVC: MapViewControllerDelegate {
+    
+    func didSelectLocation(_ location: CLLocationCoordinate2D) {
+        // 현재 사용자를 가져옵니다.
+        guard let user = self.user else {
+            print("No valid user found")
+            return
+        }
+        
+        let displayName = currentDisplayName
+        
+        let locationMessage = Message(user: user, location: CLLocation(latitude: location.latitude, longitude: location.longitude), displayName: displayName)
+        
+        // Firestore에 저장
+        chatFirestoreStream.save(locationMessage) { error in
+            if let error = error {
+                print(error)
+                return
+            }
+            
+            // 메시지를 추가하지 않음. Firestore의 스냅샷 리스너가 이를 처리함.
+            // Firestore에 저장 후 리스너가 업데이트를 감지하여 메시지를 추가하게 됩니다.
+        }
+    }
+}
+
