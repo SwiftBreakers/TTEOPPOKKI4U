@@ -21,6 +21,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     private lazy var manageViewModel = ManageViewModel(manageManager: manageManager)
     private lazy var greetingVC = GreetingViewController()
     private lazy var manageVC = ManageViewController(viewModel: manageViewModel)
+    private lazy var tabbarDelegate = TabbarControllerDelegate()
     private lazy var personalInfoVC = PersonalInfoViewController()
     private lazy var mypageVC = UINavigationController(rootViewController: MyPageViewController())
     
@@ -152,6 +153,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         tabbarController.tabBar.backgroundColor = .white
         tabbarController.tabBar.barTintColor = .white
         tabbarController.tabBar.tintColor = ThemeColor.mainOrange
+        tabbarController.delegate = tabbarDelegate
     }
     
     func switchToGreetingViewController() {
