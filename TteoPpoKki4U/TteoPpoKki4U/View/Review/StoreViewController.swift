@@ -94,6 +94,7 @@ class StoreViewController: UIViewController {
             .print()
             .receive(on: DispatchQueue.main)
             .sink { array in
+                
                 self.reviewCountLabel.text = "리뷰 \(array.count)개"
                 if array.count == 0 {
                     self.setEmptyMsg("아직 작성한 리뷰가 없어요!\n  첫 리뷰를 작성해 주세요.")
