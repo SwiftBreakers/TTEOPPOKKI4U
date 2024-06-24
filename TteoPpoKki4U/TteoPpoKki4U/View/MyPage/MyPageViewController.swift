@@ -56,14 +56,10 @@ class MyPageViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
         fetchUser()
-        initializeViewController()
     }
     
-    func initializeViewController() {
-        
-    }
+   
     
     private func fetchUser() {
         guard let uid = Auth.auth().currentUser?.uid else { return }

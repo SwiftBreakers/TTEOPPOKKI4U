@@ -57,7 +57,7 @@ class PrivacyPolicyViewController: UIViewController, UIScrollViewDelegate {
         view.addSubview(label)
         
         label.font = UIFont.boldSystemFont(ofSize: 20)
-        label.textColor = UIColor(hex: "353535")
+        label.textColor = ThemeColor.mainBlack
         
         label.snp.makeConstraints { make in
             make.top.equalToSuperview().inset(75)
@@ -79,7 +79,7 @@ class PrivacyPolicyViewController: UIViewController, UIScrollViewDelegate {
             ])
             
             textView.attributedText = attributedString
-        textView.textColor = UIColor(hex: "353535")
+        textView.textColor = ThemeColor.mainBlack
        
         textView.snp.makeConstraints { make in
 //            make.edges.equalTo(view.safeAreaLayoutGuide.snp.edges)

@@ -7,13 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		25CCA3AF2C1AD8A1008F81A3 /* CommunityTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25CCA3AE2C1AD8A1008F81A3 /* CommunityTableViewCell.swift */; };
-		25CCA3B12C1ADA38008F81A3 /* CommunityTableViewCellSelf.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25CCA3B02C1ADA38008F81A3 /* CommunityTableViewCellSelf.swift */; };
-		25CCA3B32C1ADB2D008F81A3 /* CommunityData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25CCA3B22C1ADB2D008F81A3 /* CommunityData.swift */; };
-		25CCA3B62C1ADE75008F81A3 /* CommunityChattingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25CCA3B52C1ADE75008F81A3 /* CommunityChattingViewController.swift */; };
-		25CCA3B82C1AE272008F81A3 /* CommunityLocalTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25CCA3B72C1AE272008F81A3 /* CommunityLocalTableViewCell.swift */; };
 		25CCA3C92C254A46008F81A3 /* PrivacyPolicyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25CCA3C82C254A46008F81A3 /* PrivacyPolicyViewController.swift */; };
 		25CCA3CE2C259EC9008F81A3 /* privacyPolicyText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25CCA3CD2C259EC9008F81A3 /* privacyPolicyText.swift */; };
+		25CCA3D02C291B28008F81A3 /* TabbarControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25CCA3CF2C291B28008F81A3 /* TabbarControllerDelegate.swift */; };
 		610717A32C2131A400626649 /* SwiftJWT in Frameworks */ = {isa = PBXBuildFile; productRef = 610717A22C2131A400626649 /* SwiftJWT */; };
 		610717A72C21364600626649 /* AuthKey_RS7QZ647UQ_public.p8 in Resources */ = {isa = PBXBuildFile; fileRef = 610717A62C21364600626649 /* AuthKey_RS7QZ647UQ_public.p8 */; };
 		610717A92C2137F600626649 /* AppleTokenResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 610717A82C2137F600626649 /* AppleTokenResponse.swift */; };
@@ -138,14 +134,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		25CCA3AE2C1AD8A1008F81A3 /* CommunityTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityTableViewCell.swift; sourceTree = "<group>"; };
-		25CCA3B02C1ADA38008F81A3 /* CommunityTableViewCellSelf.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityTableViewCellSelf.swift; sourceTree = "<group>"; };
-		25CCA3B22C1ADB2D008F81A3 /* CommunityData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityData.swift; sourceTree = "<group>"; };
-		25CCA3B52C1ADE75008F81A3 /* CommunityChattingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityChattingViewController.swift; sourceTree = "<group>"; };
-		25CCA3B72C1AE272008F81A3 /* CommunityLocalTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityLocalTableViewCell.swift; sourceTree = "<group>"; };
 		25CCA3C82C254A46008F81A3 /* PrivacyPolicyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivacyPolicyViewController.swift; sourceTree = "<group>"; };
 		25CCA3CC2C259D9E008F81A3 /* privacy.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = privacy.txt; sourceTree = "<group>"; };
 		25CCA3CD2C259EC9008F81A3 /* privacyPolicyText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = privacyPolicyText.swift; sourceTree = "<group>"; };
+		25CCA3CF2C291B28008F81A3 /* TabbarControllerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabbarControllerDelegate.swift; sourceTree = "<group>"; };
 		610717A62C21364600626649 /* AuthKey_RS7QZ647UQ_public.p8 */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = AuthKey_RS7QZ647UQ_public.p8; sourceTree = "<group>"; };
 		610717A82C2137F600626649 /* AppleTokenResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleTokenResponse.swift; sourceTree = "<group>"; };
 		610717AA2C213D5C00626649 /* AuthKey_RS7QZ647UQ.p8 */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = AuthKey_RS7QZ647UQ.p8; sourceTree = "<group>"; };
@@ -407,6 +399,7 @@
 				613D86B32C05C08C0039E771 /* View */,
 				613D86B02C05C06F0039E771 /* ViewModel */,
 				613D869A2C05BFF80039E771 /* SceneDelegate.swift */,
+				25CCA3CF2C291B28008F81A3 /* TabbarControllerDelegate.swift */,
 				613D86982C05BFF80039E771 /* AppDelegate.swift */,
 				613D86A12C05BFF90039E771 /* Assets.xcassets */,
 				CE771CC82C243C08004415CA /* Sender.swift */,
@@ -827,6 +820,7 @@
 				8DB30F302C07771400503139 /* MyPageSection.swift in Sources */,
 				8DB30F1E2C076AE900503139 /* MyPageCollectionViewCell.swift in Sources */,
 				CE4004122C1D1EED009E1142 /* CustomAlertViewController.swift in Sources */,
+				25CCA3D02C291B28008F81A3 /* TabbarControllerDelegate.swift in Sources */,
 				617BCCC42C195E4B008D8D48 /* ManageManager.swift in Sources */,
 				9CC6D3222C245678004C85D8 /* UILabel+Extension.swift in Sources */,
 				619FE8EC2C1F147F00745A0A /* ReportModel.swift in Sources */,
