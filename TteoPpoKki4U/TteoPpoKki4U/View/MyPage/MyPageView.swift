@@ -68,6 +68,8 @@ class MyPageView: UIView {
         return collectionView
     }()
     
+    var editTapped: (() -> Void)?
+    
     //빌트인1
     override init(frame: CGRect) {
         super.init(frame: .zero)
@@ -117,7 +119,7 @@ class MyPageView: UIView {
     }
     
     @objc func editButtonTapped() {
-        
+        editTapped?()
     }
 }
 
