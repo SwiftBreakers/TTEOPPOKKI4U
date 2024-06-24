@@ -42,7 +42,7 @@ class MapViewController: UIViewController, PinStoreViewDelegate {
     private let sendButton: UIButton = {
         let button = UIButton(type: .system)
         button.setTitle("Send", for: .normal)
-        button.addTarget(self, action: #selector(sendButtonTapped), for: .touchUpInside)
+        button.addTarget(MapViewController.self, action: #selector(sendButtonTapped), for: .touchUpInside)
         button.tintColor = .white
         button.backgroundColor = .gray
         return button
@@ -51,7 +51,7 @@ class MapViewController: UIViewController, PinStoreViewDelegate {
     private let cancelButton: UIButton = {
         let button = UIButton(type: .system)
         button.setTitle("Cancel", for: .normal)
-        button.addTarget(self, action: #selector(cancelButtonTapped), for: .touchUpInside)
+        button.addTarget(MapViewController.self, action: #selector(cancelButtonTapped), for: .touchUpInside)
         button.tintColor = .white
         button.backgroundColor = .gray
         return button
@@ -76,7 +76,6 @@ class MapViewController: UIViewController, PinStoreViewDelegate {
         let longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPress(gestureRecognizer:)))
         mapView.map.addGestureRecognizer(longPressGesture)
         
-        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -87,6 +86,9 @@ class MapViewController: UIViewController, PinStoreViewDelegate {
         }
     }
     
+    deinit {
+        NotificationCenter.default.removeObserver(self, name: UIApplication.willEnterForegroundNotification, object: nil)
+    }
     
     func setConstraints() {
         [mapView, storeInfoView].forEach {
@@ -244,8 +246,6 @@ class MapViewController: UIViewController, PinStoreViewDelegate {
             addPin(at: CLLocation(latitude: coordinate.latitude, longitude: coordinate.longitude), title: "선택된 위치", isMainLocation: true)
         }
     }
-    
-   
     
     @objc func sendButtonTapped() {
         if let location = selectedLocation {

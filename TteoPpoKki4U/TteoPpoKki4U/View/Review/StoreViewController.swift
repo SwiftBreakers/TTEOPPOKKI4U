@@ -74,8 +74,7 @@ class StoreViewController: UIViewController {
         
         setupViews()
         setupConstraints()
-        configureUI()
-        
+
         tabBarController?.tabBar.isHidden = true
     }
     
@@ -91,10 +90,8 @@ class StoreViewController: UIViewController {
     
     private func bind() {
         viewModel.$userReview
-            .print()
             .receive(on: DispatchQueue.main)
             .sink { array in
-                
                 self.reviewCountLabel.text = "리뷰 \(array.count)개"
                 if array.count == 0 {
                     self.setEmptyMsg("아직 작성한 리뷰가 없어요!\n  첫 리뷰를 작성해 주세요.")
@@ -265,10 +262,6 @@ class StoreViewController: UIViewController {
         }
     }
     
-    private func configureUI() {
-        // Additional UI configuration if needed
-    }
-    
     @objc private func backButtonTapped() {
         navigationController?.popViewController(animated: true)
     }
@@ -324,6 +317,10 @@ class StoreViewController: UIViewController {
         mutableAttributedString.append(textString)
         
         return mutableAttributedString
+    }
+    
+    @objc func reviewSubmitted() {
+        MapViewModel().loadStore(with: self.shopTitleText!)
     }
     
 }

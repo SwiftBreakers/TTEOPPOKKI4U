@@ -156,7 +156,7 @@ class PinStoreView: UIView {
     }
     
     // uilabel 텍스트 앞에 아이콘 넣기
-    private func makeIconBeforeText(icon: String, label: String) -> NSMutableAttributedString {
+    func makeIconBeforeText(icon: String, label: String) -> NSMutableAttributedString {
         let iconImage = UIImage(systemName: icon)?.withTintColor(.darkGray, renderingMode: .alwaysOriginal)
         let attachment = NSTextAttachment()
         attachment.image = iconImage
@@ -187,7 +187,6 @@ class PinStoreView: UIView {
     @objc func titleLabelTapped() {
         let storeVC = StoreViewController()
         guard let address = addressLabel.text, let shopName = titleLabel.text else { return }
-        print(address)
         storeVC.addressText = address
         storeVC.shopTitleText = shopName
         storeVC.callNumberText = self.callNumberText

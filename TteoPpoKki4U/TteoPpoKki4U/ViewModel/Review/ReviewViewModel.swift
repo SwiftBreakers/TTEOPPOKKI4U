@@ -103,7 +103,6 @@ class ReviewViewModel {
     
     func getStoreReview(storeName: String, storeAddress: String) {
             storeManager.requestStore(storeName: storeName, storeAddress: storeAddress) { [weak self] querySnapshot, error in
-                print(#function)
                 self?.userReview.removeAll()
                 self?.userInfo.removeAll()
                 if let error = error {
@@ -138,9 +137,7 @@ class ReviewViewModel {
                         dispatchGroup.enter()
                         self?.getUserInfo(uid: uid) { userModel in
                             let reviewData = ReviewModel(uid: uid, title: title, storeAddress: storeAddress, storeName: storeName, content: content, rating: rating, imageURL: imageURL, isActive: isActive, createdAt: createdAt, updatedAt: updatedAt, reportCount: reportCount)
-                            print("test: ", reviewData)
                             self?.userReview.append(reviewData)
-                            print(self!.userReview)
                             if let userModel = userModel {
                                 self?.userInfo.append(userModel)
                             }
