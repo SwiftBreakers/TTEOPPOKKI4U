@@ -7,6 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		25CCA3AF2C1AD8A1008F81A3 /* CommunityTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25CCA3AE2C1AD8A1008F81A3 /* CommunityTableViewCell.swift */; };
+		25CCA3B12C1ADA38008F81A3 /* CommunityTableViewCellSelf.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25CCA3B02C1ADA38008F81A3 /* CommunityTableViewCellSelf.swift */; };
+		25CCA3B32C1ADB2D008F81A3 /* CommunityData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25CCA3B22C1ADB2D008F81A3 /* CommunityData.swift */; };
+		25CCA3B62C1ADE75008F81A3 /* CommunityChattingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25CCA3B52C1ADE75008F81A3 /* CommunityChattingViewController.swift */; };
+		25CCA3B82C1AE272008F81A3 /* CommunityLocalTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25CCA3B72C1AE272008F81A3 /* CommunityLocalTableViewCell.swift */; };
+		25CCA3C92C254A46008F81A3 /* PrivacyPolicyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25CCA3C82C254A46008F81A3 /* PrivacyPolicyViewController.swift */; };
+		25CCA3CE2C259EC9008F81A3 /* privacyPolicyText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25CCA3CD2C259EC9008F81A3 /* privacyPolicyText.swift */; };
 		610717A32C2131A400626649 /* SwiftJWT in Frameworks */ = {isa = PBXBuildFile; productRef = 610717A22C2131A400626649 /* SwiftJWT */; };
 		610717A72C21364600626649 /* AuthKey_RS7QZ647UQ_public.p8 in Resources */ = {isa = PBXBuildFile; fileRef = 610717A62C21364600626649 /* AuthKey_RS7QZ647UQ_public.p8 */; };
 		610717A92C2137F600626649 /* AppleTokenResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 610717A82C2137F600626649 /* AppleTokenResponse.swift */; };
@@ -45,7 +52,6 @@
 		619FE8F02C1F183300745A0A /* ReportViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 619FE8EF2C1F183300745A0A /* ReportViewModel.swift */; };
 		61AB7EF62C1E60FD00C51ECA /* CustomTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61AB7EF52C1E60FD00C51ECA /* CustomTextField.swift */; };
 		61AB7EF82C1E745200C51ECA /* CustomTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61AB7EF72C1E745200C51ECA /* CustomTextView.swift */; };
-		61B0E6CC2C267A7C007436DD /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 61B0E6CB2C267A7C007436DD /* GoogleService-Info.plist */; };
 		61B0E6CE2C2686AF007436DD /* CustomUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61B0E6CD2C2686AF007436DD /* CustomUser.swift */; };
 		61B0E6D22C270BDE007436DD /* ChatManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61B0E6D12C270BDE007436DD /* ChatManager.swift */; };
 		61DAC4E02C05C3A700DFC575 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61DAC4DF2C05C3A700DFC575 /* MapViewController.swift */; };
@@ -132,6 +138,14 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		25CCA3AE2C1AD8A1008F81A3 /* CommunityTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityTableViewCell.swift; sourceTree = "<group>"; };
+		25CCA3B02C1ADA38008F81A3 /* CommunityTableViewCellSelf.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityTableViewCellSelf.swift; sourceTree = "<group>"; };
+		25CCA3B22C1ADB2D008F81A3 /* CommunityData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityData.swift; sourceTree = "<group>"; };
+		25CCA3B52C1ADE75008F81A3 /* CommunityChattingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityChattingViewController.swift; sourceTree = "<group>"; };
+		25CCA3B72C1AE272008F81A3 /* CommunityLocalTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityLocalTableViewCell.swift; sourceTree = "<group>"; };
+		25CCA3C82C254A46008F81A3 /* PrivacyPolicyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivacyPolicyViewController.swift; sourceTree = "<group>"; };
+		25CCA3CC2C259D9E008F81A3 /* privacy.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = privacy.txt; sourceTree = "<group>"; };
+		25CCA3CD2C259EC9008F81A3 /* privacyPolicyText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = privacyPolicyText.swift; sourceTree = "<group>"; };
 		610717A62C21364600626649 /* AuthKey_RS7QZ647UQ_public.p8 */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = AuthKey_RS7QZ647UQ_public.p8; sourceTree = "<group>"; };
 		610717A82C2137F600626649 /* AppleTokenResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleTokenResponse.swift; sourceTree = "<group>"; };
 		610717AA2C213D5C00626649 /* AuthKey_RS7QZ647UQ.p8 */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = AuthKey_RS7QZ647UQ.p8; sourceTree = "<group>"; };
@@ -168,7 +182,6 @@
 		619FE8EF2C1F183300745A0A /* ReportViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportViewModel.swift; sourceTree = "<group>"; };
 		61AB7EF52C1E60FD00C51ECA /* CustomTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextField.swift; sourceTree = "<group>"; };
 		61AB7EF72C1E745200C51ECA /* CustomTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextView.swift; sourceTree = "<group>"; };
-		61B0E6CB2C267A7C007436DD /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		61B0E6CD2C2686AF007436DD /* CustomUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomUser.swift; sourceTree = "<group>"; };
 		61B0E6D12C270BDE007436DD /* ChatManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatManager.swift; sourceTree = "<group>"; };
 		61DAC4DF2C05C3A700DFC575 /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
@@ -550,6 +563,9 @@
 				8D580A4C2C08767F0057D370 /* MyScrapViewController.swift */,
 				8DB30F312C07794E00503139 /* PersonalInfoViewController.swift */,
 				8D3BA8402C15D5F1007597F2 /* SettingViewController.swift */,
+				25CCA3C82C254A46008F81A3 /* PrivacyPolicyViewController.swift */,
+				25CCA3CC2C259D9E008F81A3 /* privacy.txt */,
+				25CCA3CD2C259EC9008F81A3 /* privacyPolicyText.swift */,
 				8D580A522C08C8420057D370 /* MyReviewViewController.swift */,
 				61DAC4E32C05C3CF00DFC575 /* MyPageViewController.swift */,
 				8DB30F2A2C07731400503139 /* MyPageView.swift */,
@@ -803,6 +819,7 @@
 				8D899FE02C1C3F0500FEBE77 /* BookmarkCell.swift in Sources */,
 				8D580A302C0826B40057D370 /* ThemeFont.swift in Sources */,
 				8D2E862F2C1B2D7000967B13 /* BookmarkList.swift in Sources */,
+				25CCA3C92C254A46008F81A3 /* PrivacyPolicyViewController.swift in Sources */,
 				CE3F36382C0846C800532901 /* RecommendModel.swift in Sources */,
 				CE771CCB2C243D2B004415CA /* channelVC.swift in Sources */,
 				619FE8F02C1F183300745A0A /* ReportViewModel.swift in Sources */,
@@ -856,6 +873,7 @@
 				611578D02C0DCAAB0096BC43 /* UserModel.swift in Sources */,
 				8D60C7AD2C105EFC00CAFD0C /* StoreViewController.swift in Sources */,
 				8DB30F2E2C07767100503139 /* MyPageViewModel.swift in Sources */,
+				25CCA3CE2C259EC9008F81A3 /* privacyPolicyText.swift in Sources */,
 				617BCCC92C1982CC008D8D48 /* DiffableSectionModel.swift in Sources */,
 				8D580A512C08AAF70057D370 /* ScrapCell.swift in Sources */,
 				61AB7EF62C1E60FD00C51ECA /* CustomTextField.swift in Sources */,

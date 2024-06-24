@@ -58,6 +58,11 @@ class MyPageViewController: UIViewController {
         super.viewWillAppear(animated)
         
         fetchUser()
+        initializeViewController()
+    }
+    
+    func initializeViewController() {
+        
     }
     
     private func fetchUser() {
