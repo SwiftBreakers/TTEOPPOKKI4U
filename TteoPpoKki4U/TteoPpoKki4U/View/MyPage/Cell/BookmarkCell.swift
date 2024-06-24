@@ -31,11 +31,14 @@ class BookmarkCell: UICollectionViewCell {
         // imageView 설정
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
+        imageView.layer.cornerRadius = 15
+        imageView.layer.borderWidth = 0.1
+        imageView.layer.borderColor = UIColor.gray.cgColor
         contentView.addSubview(imageView)
 
         // titleLabel 설정
         titleLabel.textColor = .white
-        titleLabel.font = UIFont.systemFont(ofSize: 16, weight: .bold)
+        titleLabel.font = ThemeFont.fontBold(size: 16)
         titleLabel.numberOfLines = 0
         titleLabel.textAlignment = .center
         contentView.addSubview(titleLabel)
@@ -45,7 +48,6 @@ class BookmarkCell: UICollectionViewCell {
         bookmarkIcon.tintColor = .white
         contentView.addSubview(bookmarkIcon)
 
-        // SnapKit을 사용하여 레이아웃 설정
         imageView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }

@@ -124,8 +124,6 @@ class DetailedReviewViewController: UIViewController {
     }
     
     deinit {
-        print("DetailedReviewViewController is being deinitialized")
-        
         userData = nil
         storeName = nil
         reviewTitle = nil
@@ -178,7 +176,7 @@ class DetailedReviewViewController: UIViewController {
         view.addSubview(reportButton)
         
         view.addSubview(storeNameLabel)
-
+        
         view.addSubview(reviewTitleLabel)
         view.addSubview(userProfileImage)
         view.addSubview(userNicknameLabel)
@@ -249,7 +247,7 @@ class DetailedReviewViewController: UIViewController {
             make.leading.trailing.equalTo(view.safeAreaLayoutGuide).inset(20)
         }
     }
-
+    
     
     private func configureImageScrollView() {
         guard let imageURLs = reviewImages else { return }
@@ -260,7 +258,7 @@ class DetailedReviewViewController: UIViewController {
                 make.top.equalTo(storeNameLabel.snp.bottom).offset(20)
                 make.leading.trailing.equalTo(view.safeAreaLayoutGuide).inset(20)
             }
-        } else if imageURLs.count == 1, let imageURL = imageURLs.first {
+        } else if imageURLs.count == 1, let imageURLString = imageURLs.first, let imageURL = URL(string: imageURLString) {
             scrollView.removeFromSuperview()
             view.addSubview(imageView)
             
@@ -268,7 +266,18 @@ class DetailedReviewViewController: UIViewController {
             imageView.clipsToBounds = true
             imageView.layer.cornerRadius = 10
             imageView.layer.masksToBounds = true
-            imageView.kf.setImage(with: URL(string: imageURL))
+            imageView.isUserInteractionEnabled = true
+            
+            let tap = UITapGestureRecognizer(target: self, action: #selector(imageTapped(_:)))
+            imageView.addGestureRecognizer(tap)
+            imageView.kf.setImage(with: imageURL) { [weak self] result in
+                switch result {
+                case .success(let value):
+                    self?.imageView.imageURL = value.source.url
+                case .failure:
+                    self?.imageView.imageURL = nil
+                }
+            }
             
             imageView.snp.makeConstraints { make in
                 make.top.equalTo(storeNameLabel.snp.bottom).offset(20)
@@ -303,20 +312,52 @@ class DetailedReviewViewController: UIViewController {
             stackView.removeArrangedSubview(imageView)
             imageView.removeFromSuperview()
         }
-        
-        for imageURL in imageURLs {
+
+        for imageURLString in imageURLs {
+            guard let imageURL = URL(string: imageURLString) else { continue }
+            
             let imageView = UIImageView()
+            let tap = UITapGestureRecognizer(target: self, action: #selector(imageTapped(_:)))
+            
             imageView.contentMode = .scaleAspectFill
             imageView.clipsToBounds = true
             imageView.layer.cornerRadius = 10
             imageView.layer.masksToBounds = true
-            imageView.kf.setImage(with: URL(string: imageURL))
+            imageView.isUserInteractionEnabled = true
+            
+            imageView.kf.setImage(with: imageURL) { result in
+                switch result {
+                case .success(let value):
+                    imageView.imageURL = value.source.url
+                case .failure:
+                    imageView.imageURL = nil
+                }
+            }
+            
+            imageView.addGestureRecognizer(tap)
             stackView.addArrangedSubview(imageView)
             
             imageView.snp.makeConstraints { make in
                 make.width.equalTo(scrollView.snp.width).multipliedBy(0.8)
                 make.height.equalTo(imageView.snp.width).multipliedBy(0.75)
             }
+        }
+    }
+
+    @objc func imageTapped(_ sender: UITapGestureRecognizer) {
+        guard let tappedImageView = sender.view as? UIImageView,
+              let tappedImageURL = tappedImageView.imageURL,
+              let reviewImages = reviewImages else { return }
+        
+        let imageURLs = reviewImages.compactMap { URL(string: $0) }
+        
+        if let currentIndex = imageURLs.firstIndex(of: tappedImageURL) {
+            let fullscreenPageVC = FullscreenPageViewController(transitionStyle: .scroll, navigationOrientation: .horizontal, options: nil)
+            fullscreenPageVC.modalPresentationStyle = .fullScreen
+            fullscreenPageVC.imageURLs = imageURLs
+            fullscreenPageVC.currentIndex = currentIndex
+            
+            self.present(fullscreenPageVC, animated: true, completion: nil)
         }
     }
     

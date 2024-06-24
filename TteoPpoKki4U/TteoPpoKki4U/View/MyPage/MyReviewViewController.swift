@@ -87,7 +87,8 @@ class MyReviewViewController: UIViewController {
         
         collectionView.snp.makeConstraints { make in
             make.top.equalTo(backButton.snp.bottom).offset(12)
-            make.leading.trailing.bottom.equalToSuperview()
+            make.horizontalEdges.equalToSuperview().inset(20)
+            make.bottom.equalToSuperview()
         }
         
     }
@@ -113,7 +114,7 @@ extension MyReviewViewController: UICollectionViewDelegate, UICollectionViewData
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: collectionView.frame.width, height: 200)
+        return CGSize(width: collectionView.frame.width, height: 170)
     }
 }
 
@@ -122,7 +123,6 @@ extension MyReviewViewController: ReviewCellDelegate {
         let writeVC = WriteViewController()
         let item = viewModel.userReview[indexPath.row]
         writeVC.isEditMode = true
-        writeVC.isNavagtion = true
         writeVC.review = item
         
         navigationController?.pushViewController(writeVC, animated: true)

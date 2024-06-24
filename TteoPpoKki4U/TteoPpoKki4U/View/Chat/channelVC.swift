@@ -38,7 +38,7 @@ class ChannelVC: BaseViewController {
         self.uid = currentUser.uid
         super.init(nibName: nil, bundle: nil)
         
-        title = "Channels"
+        //title = "Channels"
     }
     
     init(customUser: CustomUser) {
@@ -47,7 +47,7 @@ class ChannelVC: BaseViewController {
         self.uid = customUser.uid
         super.init(nibName: nil, bundle: nil)
         
-        title = "Channels"
+        //title = "Channels"
     }
     
     required init?(coder: NSCoder) {

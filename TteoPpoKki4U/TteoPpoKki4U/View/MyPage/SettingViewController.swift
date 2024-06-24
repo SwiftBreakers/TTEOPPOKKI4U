@@ -69,24 +69,48 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
     // MARK: - UITableViewDataSource
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 1
+        
+        return 2
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
         
-        let deleteUserLabel = UILabel()
-        deleteUserLabel.text = "회원탈퇴"
-        deleteUserLabel.font = UIFont(name: "ThemeFont.fontMedium", size: 18)
-        deleteUserLabel.textColor = .red
-        deleteUserLabel.textAlignment = .center
-        
-        cell.contentView.addSubview(deleteUserLabel)
-        cell.backgroundColor = .white
-        cell.selectionStyle = .none
-        deleteUserLabel.snp.makeConstraints { make in
-            make.center.equalTo(cell.contentView)
+        indexPath.row
+        if indexPath.row == 0 {
+            let deleteUserLabel = UILabel()
+            deleteUserLabel.text = "회원탈퇴"
+            deleteUserLabel.font = UIFont(name: "ThemeFont.fontMedium", size: 18)
+            deleteUserLabel.textColor = .red
+            deleteUserLabel.textAlignment = .center
+            
+            cell.contentView.addSubview(deleteUserLabel)
+            cell.backgroundColor = .white
+            cell.selectionStyle = .none
+            deleteUserLabel.snp.makeConstraints { make in
+                make.center.equalTo(cell.contentView)
+            }
+            
+            
+            
+        } else if indexPath.row == 1 {
+            
+            let deleteUserLabel = UILabel()
+            deleteUserLabel.text = "이용약관"
+            deleteUserLabel.font = UIFont(name: "ThemeFont.fontMedium", size: 18)
+            deleteUserLabel.textColor = .red
+            deleteUserLabel.textAlignment = .center
+            
+            cell.contentView.addSubview(deleteUserLabel)
+            cell.backgroundColor = .white
+            cell.selectionStyle = .none
+            deleteUserLabel.snp.makeConstraints { make in
+                make.center.equalTo(cell.contentView)
+            }
+            
         }
+        
+        
         
         // 회원탈퇴 버튼 설정
         //        if indexPath.row == 0 {
@@ -112,6 +136,8 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
         
         switch indexPath.row {
         case 0: deleteUser()
+        case 1: let privacyVC = PrivacyPolicyViewController()  // 개인정보 뷰컨 인스턴스 생성
+            navigationController?.pushViewController(privacyVC, animated: true)
         default: return
         }
     }
@@ -137,6 +163,10 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
         }))
         present(alert, animated: true, completion: nil)
     }
+    
+    
+   
+    
     
     @objc func backButtonTapped() {
         navigationController?.popViewController(animated: true)

@@ -23,8 +23,8 @@ class WriteViewController: UIViewController {
     var starButtons: [UIButton] = []
     var selectedRating = 0
     
-    let titleTextField = CustomTextField(placeholder: "제목",target: WriteViewController.self, action: #selector(doneButtonTapped))
-    let contentTextView = CustomTextView(target: WriteViewController.self, action: #selector(doneButtonTapped))
+    let titleTextField = CustomTextField(placeholder: "제목",target: nil, action: #selector(doneButtonTapped))
+    let contentTextView = CustomTextView(target: nil, action: #selector(doneButtonTapped))
     let addImageButton = UIButton()
     let cancelButton = UIButton()
     let submitButton = UIButton()
@@ -44,7 +44,6 @@ class WriteViewController: UIViewController {
     var reportCount: Int?
     
     var isEditMode: Bool = false
-    var isNavagtion: Bool = false
     var review: ReviewModel?
     
     private var cancellables = Set<AnyCancellable>()
