@@ -128,7 +128,7 @@ public class MyCardCell: CardCell {
     
     @objc func bookmarkTapped() {
         guard let viewController = customAlertViewController else { return }
-        if let uid = Auth.auth().currentUser?.uid {
+        if let _ = Auth.auth().currentUser?.uid {
             if isBookmarked {
                 bookmarkButton.setImage(.bookmark0, for: .normal)
                 viewModel.deleteBookmarkItem(title: titleLabel.text!)

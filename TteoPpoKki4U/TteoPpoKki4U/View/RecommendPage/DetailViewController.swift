@@ -157,7 +157,7 @@ class DetailViewController: UIViewController, UISearchBarDelegate {
         navigationItem.rightBarButtonItems = [barShareButton, barBookmarkButton]
     }
     @objc func bookmarkButtonTapped() {
-        if let uid = Auth.auth().currentUser?.uid {
+        if let _ = Auth.auth().currentUser?.uid {
             if isBookmarked {
                 if let image = UIImage(named: "bookmark0")?.withRenderingMode(.alwaysTemplate) {
                     barBookmarkButton.image = image
@@ -354,7 +354,7 @@ extension DetailViewController: UICollectionViewDataSource {
     }
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let cell = collectionView.cellForItem(at: indexPath) as! DetailCollectionViewCell
-        let image = cell.imageView.image
+        let _ = cell.imageView.image
         
         let fullscreenPageVC = FullscreenPageViewController(transitionStyle: .scroll, navigationOrientation: .horizontal, options: nil)
             fullscreenPageVC.modalPresentationStyle = .fullScreen

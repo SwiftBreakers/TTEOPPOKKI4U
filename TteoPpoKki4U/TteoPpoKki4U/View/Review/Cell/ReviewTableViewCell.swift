@@ -99,6 +99,7 @@ class ReviewTableViewCell: UITableViewCell {
     override func prepareForReuse() {
         super.prepareForReuse()
         
+        nicknameLabel.text = nil
         thumbnailImage.image = nil
     }
 }

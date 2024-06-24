@@ -22,8 +22,6 @@ class StoreViewController: UIViewController {
         label.textColor = ThemeColor.mainBlack
         return label
     }()
-    private let scrollView = UIScrollView()
-    private let stackView = UIStackView()
     private let locationLabel: UILabel = {
         let label = UILabel()
         label.font = ThemeFont.fontRegular(size: 16)
@@ -31,6 +29,15 @@ class StoreViewController: UIViewController {
         label.textAlignment = .center
         return label
     }()
+    private let callNumberLabel: UILabel = {
+        let label = UILabel()
+        label.font = ThemeFont.fontRegular(size: 14)
+        label.textColor = .darkGray
+        label.textAlignment = .center
+        return label
+    }()
+    private let scrollView = UIScrollView()
+    private let stackView = UIStackView()
     private let goReviewButton = UIButton()
     private let tableView: UITableView = {
         let tableView = UITableView()
@@ -52,6 +59,7 @@ class StoreViewController: UIViewController {
     
     var addressText: String?
     var shopTitleText: String?
+    var callNumberText: String?
     // Dummy data
     private let storeName = "울랄라 떡볶이"
     private let storeImages = ["tpkImage1", "tpkImage1WithBg"]
@@ -67,8 +75,6 @@ class StoreViewController: UIViewController {
         setupViews()
         setupConstraints()
         configureUI()
-        locationLabel.text = addressText
-        storeNameLabel.text = shopTitleText
         
         tabBarController?.tabBar.isHidden = true
     }
@@ -80,7 +86,7 @@ class StoreViewController: UIViewController {
     }
     
     private func fetchRequest() {
-        viewModel.getStoreReview(storeAddress: addressText!)
+        viewModel.getStoreReview(storeName: shopTitleText!, storeAddress: addressText!)
     }
     
     private func bind() {
@@ -102,7 +108,6 @@ class StoreViewController: UIViewController {
         viewModel.$userInfo
             .receive(on: DispatchQueue.main)
             .sink { _ in
-                self.tableView.reloadData()
             }.store(in: &cancellables)
         
         viewModel.reviewPublisher.sink { completion in
@@ -119,9 +124,14 @@ class StoreViewController: UIViewController {
     private func setupViews() {
         view.backgroundColor = .white
         
-        // Setup Title Label
-        storeNameLabel.text = storeName
+        locationLabel.text = addressText
         view.addSubview(storeNameLabel)
+        
+        storeNameLabel.text = shopTitleText
+        view.addSubview(locationLabel)
+        
+        callNumberLabel.attributedText = makeIconBeforeText(icon: "phone.fill", label: callNumberText ?? "가게 번호가 존재하지 않습니다.")
+        view.addSubview(callNumberLabel)
         
         // Setup Scroll View and Stack View
         scrollView.showsHorizontalScrollIndicator = true
@@ -161,10 +171,6 @@ class StoreViewController: UIViewController {
             }
         }
         
-        // Setup Location Label
-        locationLabel.text = storeLocation
-        view.addSubview(locationLabel)
-        
         // Setup Review Button
         goReviewButton.setTitle("리뷰 작성하기", for: .normal)
         goReviewButton.titleLabel?.font = ThemeFont.fontBold(size: 18)
@@ -174,6 +180,10 @@ class StoreViewController: UIViewController {
         
         view.addSubview(goReviewButton)
         goReviewButton.addTarget(self, action: #selector(goReviewButtonTapped), for: .touchUpInside)
+        
+        view.addSubview(seperateView)
+
+        view.addSubview(reviewCountLabel)
         
         tableView.delegate = self
         tableView.dataSource = self
@@ -187,9 +197,6 @@ class StoreViewController: UIViewController {
         backButton.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
         view.addSubview(backButton)
         
-        view.addSubview(seperateView)
-
-        view.addSubview(reviewCountLabel)
     }
     
     private func setupConstraints() {
@@ -216,6 +223,11 @@ class StoreViewController: UIViewController {
         // Location Label Constraints
         locationLabel.snp.makeConstraints { make in
             make.top.equalTo(storeNameLabel.snp.bottom).offset(10)
+            make.leading.trailing.equalToSuperview().inset(20)
+        }
+        
+        callNumberLabel.snp.makeConstraints { make in
+            make.top.equalTo(locationLabel.snp.bottom).offset(10)
             make.leading.trailing.equalToSuperview().inset(20)
         }
         
@@ -296,6 +308,23 @@ class StoreViewController: UIViewController {
         tableView.backgroundView = nil
     }
     
+    // uilabel 텍스트 앞에 아이콘 넣기
+    private func makeIconBeforeText(icon: String, label: String) -> NSMutableAttributedString {
+        let iconImage = UIImage(systemName: icon)?.withTintColor(.darkGray, renderingMode: .alwaysOriginal)
+        let attachment = NSTextAttachment()
+        attachment.image = iconImage
+        attachment.bounds = CGRect(x: 0, y: -2, width: 14, height: 14)
+        
+        // 이미지와 텍스트 결합
+        let iconString = NSAttributedString(attachment: attachment)
+        let textString = NSAttributedString(string: label)
+        let mutableAttributedString = NSMutableAttributedString()
+        mutableAttributedString.append(iconString)
+        mutableAttributedString.append(textString)
+        
+        return mutableAttributedString
+    }
+    
 }
 
 extension StoreViewController: UITableViewDelegate, UITableViewDataSource {
@@ -305,20 +334,33 @@ extension StoreViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "ReviewTableViewCell", for: indexPath) as! ReviewTableViewCell
-        let item = viewModel.userReview[indexPath.row]
-        viewModel.getUserInfo(uid: item.uid)
-        
-        cell.reviewTitleLabel.text = item.title
-        cell.nicknameLabel.text = viewModel.userInfo.nickName
-        cell.starRatingLabel.text = "⭐️ \(item.rating)"
-        cell.createdAtLabel.text = viewModel.timestampToString(value: item.createdAt)
-        
-        if let thumbnail = item.imageURL.first {
-            cell.thumbnailImage.kf.setImage(with: URL(string: thumbnail))
+            let cell = tableView.dequeueReusableCell(withIdentifier: "ReviewTableViewCell", for: indexPath) as! ReviewTableViewCell
+            let item = viewModel.userReview[indexPath.row]
+            
+            // Review 데이터를 먼저 설정
+            cell.reviewTitleLabel.text = item.title
+            cell.starRatingLabel.text = "⭐️ \(item.rating)"
+            cell.createdAtLabel.text = viewModel.timestampToString(value: item.createdAt)
+            
+            if let thumbnail = item.imageURL.first {
+                cell.thumbnailImage.kf.setImage(with: URL(string: thumbnail))
+            } else {
+                cell.thumbnailImage.image = nil
+            }
+            
+            // 비동기로 유저 정보를 가져와서 닉네임 설정
+            viewModel.getUserInfo(uid: item.uid) { userModel in
+                if let userModel = userModel {
+                    DispatchQueue.main.async {
+                        if let updateCell = tableView.cellForRow(at: indexPath) as? ReviewTableViewCell {
+                            updateCell.nicknameLabel.text = userModel.nickName
+                        }
+                    }
+                } 
+            }
+            
+            return cell
         }
-        return cell
-    }
     // MARK: - UITableViewDelegate Methods
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -327,7 +369,7 @@ extension StoreViewController: UITableViewDelegate, UITableViewDataSource {
         let item = viewModel.userReview[indexPath.row]
         let detailedReviewVC = DetailedReviewViewController()
         detailedReviewVC.userData = item
-        detailedReviewVC.userInfo = viewModel.userInfo
+        detailedReviewVC.userInfo = viewModel.userInfo[indexPath.row]
         navigationController?.pushViewController(detailedReviewVC, animated: true)
     }
     
