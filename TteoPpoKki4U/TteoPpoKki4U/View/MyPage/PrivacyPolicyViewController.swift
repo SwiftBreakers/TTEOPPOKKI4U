@@ -25,7 +25,7 @@ class PrivacyPolicyViewController: UIViewController, UIScrollViewDelegate {
         
         let text = UITextView()
         text.textColor = .black
-        
+        text.backgroundColor = .white
         return text
         
     }()
@@ -53,7 +53,7 @@ class PrivacyPolicyViewController: UIViewController, UIScrollViewDelegate {
     
   
     func setupTopLabel() {
-        label.text = "이용약관"
+        label.text = "개인정보 처리방침"
         view.addSubview(label)
         
         label.font = UIFont.boldSystemFont(ofSize: 20)
@@ -90,20 +90,7 @@ class PrivacyPolicyViewController: UIViewController, UIScrollViewDelegate {
         
         textView.isEditable = false
     }
-    
-//    func setupViews() {
-//        // 여기에 뷰 구성 요소를 추가
-//        let label = UILabel()
-//        label.text = "Privacy Policy"
-//        label.textAlignment = .center
-//        label.frame = CGRect(x: 0, y: 200, width: view.bounds.width, height: 50)
-//        view.addSubview(label)
-//        label.snp.makeConstraints { make in
-//            make.leading.equalToSuperview().inset(25)
-//            make.trailing.equalToSuperview().offset(-25)
-//            make.bottom.equalTo(label.snp.bottom).inset(35)
-//        }
-//    }
+
     
     @objc func backButtonTapped() {
         navigationController?.popViewController(animated: true)
@@ -121,24 +108,3 @@ class PrivacyPolicyViewController: UIViewController, UIScrollViewDelegate {
     }
     
 }
-
-
-//UIColor을 확장하여 hex color을 쓰기 위해 지원하도록 하는 코드
-//extension UIColor {
-//    convenience init(hex: String, alpha: CGFloat = 1.0) {
-//        var hexSanitized = hex.trimmingCharacters(in: .whitespacesAndNewlines)
-//                hexSanitized = hexSanitized.replacingOccurrences(of: "#", with: "")
-//
-//                var rgb: UInt64 = 0
-//
-//                Scanner(string: hexSanitized).scanHexInt64(&rgb)
-//
-//                let red = CGFloat((rgb & 0xFF0000) >> 16) / 255.0
-//                let green = CGFloat((rgb & 0x00FF00) >> 8) / 255.0
-//                let blue = CGFloat(rgb & 0x0000FF) / 255.0
-//
-//                self.init(red: red, green: green, blue: blue, alpha: alpha)
-//            }
-//    
-//    
-//}

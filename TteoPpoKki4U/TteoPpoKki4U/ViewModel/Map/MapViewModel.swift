@@ -69,7 +69,7 @@ final class MapViewModel {
                 latitude: Double(store.y) ?? 0.0,
                 longitude: Double(store.x) ?? 0.0,
                 isScrapped: isScrapped,
-                callNumber: store.phone
+                callNumber: store.phone == "" ? "가게 번호 없음" : store.phone
             )
             await MainActor.run {
                 state = .didLoadedStore(store: presentable)

@@ -22,6 +22,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     private lazy var greetingVC = GreetingViewController()
     private lazy var manageVC = ManageViewController(viewModel: manageViewModel)
     private lazy var tabbarDelegate = TabbarControllerDelegate()
+    private lazy var personalInfoVC = PersonalInfoViewController()
+    private lazy var mypageVC = UINavigationController(rootViewController: MyPageViewController())
     
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         guard let windowScene = (scene as? UIWindowScene) else { return }
@@ -109,12 +111,23 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             } else {
                 fatalError("No valid user found.")
             }
-        let mypageVC = UINavigationController(rootViewController: MyPageViewController(signOutTapped: { [weak signViewModel, weak self] in
+        mypageVC = UINavigationController(rootViewController: MyPageViewController(signOutTapped: { [weak signViewModel, weak self] in
             signViewModel?.signOut {
                 DispatchQueue.main.async {
                     self?.configureInitialViewController()
                 }
             }
+        }, editTapped: { [weak self] in
+            guard let uid = user?.uid else { return }
+            self?.userManager.fetchUserData(uid: uid) { [self] error, snapshot in
+                guard let dictionary = snapshot?.value as? [String: Any] else { return }
+                let currentImageUrl = dictionary[db_profileImageUrl] as? String
+                let currentName = (dictionary[db_nickName] as? String) ?? "닉네임을 설정해주세요"
+                self?.personalInfoVC.gotProfileImage = currentImageUrl
+                self?.personalInfoVC.profileName = currentName
+                self?.mypageVC.pushViewController(self!.personalInfoVC, animated: true)
+            }
+            
         }, viewModel: signViewModel))
         
         mapVC.tabBarItem = UITabBarItem(
@@ -134,7 +147,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             image: UIImage(systemName: "person.crop.circle"),
             selectedImage: UIImage(systemName: "person.crop.circle.fill"))
         
-        tabbarController.viewControllers = [recommendVC, mapVC, communityVC, mypageVC]
+        tabbarController.viewControllers = [recommendVC, mapVC, mypageVC]
         
         window?.rootViewController = tabbarController
         tabbarController.tabBar.backgroundColor = .white

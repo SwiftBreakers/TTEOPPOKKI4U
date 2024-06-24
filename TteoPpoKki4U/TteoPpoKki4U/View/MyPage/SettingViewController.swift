@@ -76,11 +76,10 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
         
-        indexPath.row
         if indexPath.row == 0 {
             let deleteUserLabel = UILabel()
             deleteUserLabel.text = "회원탈퇴"
-            deleteUserLabel.font = UIFont(name: "ThemeFont.fontMedium", size: 18)
+            deleteUserLabel.font = ThemeFont.fontMedium(size: 18)
             deleteUserLabel.textColor = .red
             deleteUserLabel.textAlignment = .center
             
@@ -90,14 +89,12 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
             deleteUserLabel.snp.makeConstraints { make in
                 make.center.equalTo(cell.contentView)
             }
-            
-            
-            
+              
         } else if indexPath.row == 1 {
             
             let deleteUserLabel = UILabel()
-            deleteUserLabel.text = "이용약관"
-            deleteUserLabel.font = UIFont(name: "ThemeFont.fontMedium", size: 18)
+            deleteUserLabel.text = "개인정보 처리방침"
+            deleteUserLabel.font = ThemeFont.fontMedium(size: 18)
             deleteUserLabel.textColor = .red
             deleteUserLabel.textAlignment = .center
             
@@ -109,23 +106,6 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
             }
             
         }
-        
-        
-        
-        // 회원탈퇴 버튼 설정
-        //        if indexPath.row == 0 {
-        //            let deleteButton = UIButton(type: .system)
-        //            deleteButton.setTitle("회원탈퇴", for: .normal)
-        //            deleteButton.setTitleColor(.red, for: .normal)
-        //            deleteButton.addTarget(self, action: #selector(deleteButtonTapped), for: .touchUpInside)
-        //
-        //            cell.contentView.addSubview(deleteButton)
-        //
-        //            // SnapKit을 사용하여 버튼 레이아웃 설정
-        //            deleteButton.snp.makeConstraints { make in
-        //                make.center.equalTo(cell.contentView)
-        //            }
-        //        }
         
         return cell
     }

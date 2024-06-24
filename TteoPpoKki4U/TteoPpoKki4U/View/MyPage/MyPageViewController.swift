@@ -13,24 +13,31 @@ import Kingfisher
 
 class MyPageViewController: UIViewController {
     
-    let myPageView = MyPageView()
+    lazy var myPageView: MyPageView = {
+        let view = MyPageView()
+        view.editTapped = editTapped
+        return view
+    }()
+    
     let myPageVM = MyPageViewModel()
     let userManager = UserManager()
     
     private var signVM: SignViewModel!
     private var signOutTapped: (() -> Void)!
+    private var editTapped: (() -> Void)!
     
     private var cancellables = Set<AnyCancellable>()
     private var currentImageUrl: String?
     public var currentName: String?
     
-    convenience init(signOutTapped: @escaping () -> Void, viewModel: SignViewModel) {
+    convenience init(signOutTapped: @escaping () -> Void, editTapped:@escaping () -> Void, viewModel: SignViewModel) {
         self.init()
         self.signOutTapped = {
             DispatchQueue.main.async {
                 signOutTapped()
             }
         }
+        self.editTapped = editTapped
         self.signVM = viewModel
     }
     
@@ -58,8 +65,6 @@ class MyPageViewController: UIViewController {
         super.viewWillAppear(animated)
         fetchUser()
     }
-    
-   
     
     private func fetchUser() {
         guard let uid = Auth.auth().currentUser?.uid else { return }
@@ -117,11 +122,6 @@ extension MyPageViewController: UICollectionViewDataSource, UICollectionViewDele
         switch indexPath {
         case [0, 0]:
             showMessage(title: "안내", message: "해당 기능이 준비중입니다.")
-//            guard let uid = Auth.auth().currentUser?.uid else { return }
-//            let personalInfoVC = PersonalInfoViewController()
-//            personalInfoVC.gotProfileImage = currentImageUrl
-//            personalInfoVC.profileName = currentName
-//            navigationController?.pushViewController(personalInfoVC, animated: true)
         case [1, 0]:
             let MyScrapVC = MyScrapViewController()
             navigationController?.pushViewController(MyScrapVC, animated: true)

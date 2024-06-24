@@ -133,6 +133,7 @@ class DetailedReviewViewController: UIViewController {
         uid = nil
         reportCount = nil
         createdAt = nil
+        userInfo = nil
         userProfile = nil
         userNickname = nil
         
