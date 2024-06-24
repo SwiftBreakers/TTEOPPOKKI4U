@@ -67,16 +67,15 @@ class GreetingBodyView: UIView {
 //        button.imageEdgeInsets = UIEdgeInsets(top: 0, left: -8, bottom: 0, right: 0)
 //        button.titleEdgeInsets = UIEdgeInsets(top: 0, left: 8, bottom: 0, right: 0)
         
-        var configuration = UIButton.Configuration.plain()
+        var configuration = UIButton.Configuration.filled()
 
         configuration.image = UIImage(systemName: "person.crop.circle.fill")?.withTintColor(.gray)
         configuration.imagePadding = 8
         configuration.imagePlacement = .leading
         
-        configuration.baseForegroundColor = .gray
+        configuration.baseForegroundColor = .white
+        configuration.baseBackgroundColor = ThemeColor.mainOrange
         configuration.cornerStyle = .medium
-        configuration.background.strokeWidth = 1
-        configuration.background.strokeColor = .lightGray
         
         var container = AttributeContainer()
         container.font = ThemeFont.fontBold()

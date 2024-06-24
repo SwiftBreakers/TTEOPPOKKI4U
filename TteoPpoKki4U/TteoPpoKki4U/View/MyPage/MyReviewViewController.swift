@@ -82,7 +82,8 @@ class MyReviewViewController: UIViewController {
         view.addSubview(backButton)
         
         backButton.snp.makeConstraints { make in
-            make.top.leading.equalTo(view.safeAreaLayoutGuide).inset(20)
+            make.top.leading.equalTo(view.safeAreaLayoutGuide).offset(10)
+            make.leading.equalToSuperview().offset(20)
         }
         
         collectionView.snp.makeConstraints { make in
