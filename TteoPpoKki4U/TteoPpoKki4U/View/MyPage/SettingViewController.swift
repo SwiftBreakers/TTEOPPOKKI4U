@@ -93,7 +93,7 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
         } else if indexPath.row == 1 {
             
             let deleteUserLabel = UILabel()
-            deleteUserLabel.text = "개인정보 수정방침"
+            deleteUserLabel.text = "개인정보 이용방침"
             deleteUserLabel.font = ThemeFont.fontMedium(size: 18)
             deleteUserLabel.textColor = .red
             deleteUserLabel.textAlignment = .center
