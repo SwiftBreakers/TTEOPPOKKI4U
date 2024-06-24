@@ -103,7 +103,6 @@ class ReviewViewModel {
     
     func getStoreReview(storeName: String, storeAddress: String) {
             storeManager.requestStore(storeName: storeName, storeAddress: storeAddress) { [weak self] querySnapshot, error in
-                print(#function)
                 self?.userReview.removeAll()
                 self?.userInfo.removeAll()
                 if let error = error {

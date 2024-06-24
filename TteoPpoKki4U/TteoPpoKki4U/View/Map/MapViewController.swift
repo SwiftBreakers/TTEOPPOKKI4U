@@ -45,7 +45,7 @@ class MapViewController: UIViewController, PinStoreViewDelegate {
     private let sendButton: UIButton = {
         let button = UIButton(type: .system)
         button.setTitle("Send", for: .normal)
-        button.addTarget(self, action: #selector(sendButtonTapped), for: .touchUpInside)
+        button.addTarget(MapViewController.self, action: #selector(sendButtonTapped), for: .touchUpInside)
         button.tintColor = .white
         button.backgroundColor = .gray
         return button
@@ -54,7 +54,7 @@ class MapViewController: UIViewController, PinStoreViewDelegate {
     private let cancelButton: UIButton = {
         let button = UIButton(type: .system)
         button.setTitle("Cancel", for: .normal)
-        button.addTarget(self, action: #selector(cancelButtonTapped), for: .touchUpInside)
+        button.addTarget(MapViewController.self, action: #selector(cancelButtonTapped), for: .touchUpInside)
         button.tintColor = .white
         button.backgroundColor = .gray
         return button
@@ -101,6 +101,10 @@ class MapViewController: UIViewController, PinStoreViewDelegate {
                 storeInfoView.reviewsLabel.attributedText = storeInfoView.makeIconBeforeText(icon: "text.bubble", label: " \(selectedStoreRatings.count)개")
             }
         }
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self, name: UIApplication.willEnterForegroundNotification, object: nil)
     }
     
     func setConstraints() {
@@ -260,8 +264,11 @@ class MapViewController: UIViewController, PinStoreViewDelegate {
         }
     }
     
+<<<<<<< HEAD
+=======
     
     
+>>>>>>> 84c2856723ddb0c5a162b3b4787e916c4d02ac9c
     @objc func sendButtonTapped() {
         if let location = selectedLocation {
             delegate?.didSelectLocation(location)

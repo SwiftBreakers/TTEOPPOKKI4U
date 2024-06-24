@@ -74,8 +74,7 @@ class StoreViewController: UIViewController {
         
         setupViews()
         setupConstraints()
-        configureUI()
-        
+
         tabBarController?.tabBar.isHidden = true
     }
     
@@ -263,10 +262,6 @@ class StoreViewController: UIViewController {
         }
     }
     
-    private func configureUI() {
-        // Additional UI configuration if needed
-    }
-    
     @objc private func backButtonTapped() {
         navigationController?.popViewController(animated: true)
     }
@@ -322,6 +317,10 @@ class StoreViewController: UIViewController {
         mutableAttributedString.append(textString)
         
         return mutableAttributedString
+    }
+    
+    @objc func reviewSubmitted() {
+        MapViewModel().loadStore(with: self.shopTitleText!)
     }
     
 }
