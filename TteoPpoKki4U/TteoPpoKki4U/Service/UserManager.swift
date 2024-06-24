@@ -16,7 +16,6 @@ class UserManager {
     
     func updateProfile(uid: String, nickName: String, profile: UIImage, completion: @escaping ((Result<(),Error>) -> Void)) {
         
-        
         let storageRef = Storage.storage().reference(forURL: "gs://tteoppokki4u.appspot.com")
         let storageProfileRef = storageRef.child(db_user_profile).child(uid)
         guard let imageData = profile.jpegData(compressionQuality: 0.3) else { return }
@@ -59,7 +58,7 @@ class UserManager {
     }
     
     func getMyReview(uid: String, completion: @escaping(QuerySnapshot?, (Error)?) -> Void) {
-        reviewCollection.whereField(db_uid, isEqualTo: uid).order(by: "createdAt").getDocuments(completion: completion)
+        reviewCollection.whereField(db_uid, isEqualTo: uid).order(by: db_createdAt).getDocuments(completion: completion)
     }
     
     func getSpecificReview(uid: String, storeAddress: String, title: String, completion: @escaping(QuerySnapshot?, (Error)?) -> Void) {

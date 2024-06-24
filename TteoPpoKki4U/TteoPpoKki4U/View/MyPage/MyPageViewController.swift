@@ -22,7 +22,7 @@ class MyPageViewController: UIViewController {
     
     private var cancellables = Set<AnyCancellable>()
     private var currentImageUrl: String?
-    private var currentName: String?
+    public var currentName: String?
     
     convenience init(signOutTapped: @escaping () -> Void, viewModel: SignViewModel) {
         self.init()
@@ -38,7 +38,6 @@ class MyPageViewController: UIViewController {
         super.viewDidLoad()
         
         view.backgroundColor = .white
-        title = "마이페이지"
         
         view.addSubview(myPageView)
         
@@ -49,6 +48,9 @@ class MyPageViewController: UIViewController {
         
         myPageView.collectionView.dataSource = self
         myPageView.collectionView.delegate = self
+        // Register SeparatorView for the collection view
+        myPageView.collectionView.register(SeparatorView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: SeparatorView.identifier)
+
         bind()
     }
     
@@ -96,7 +98,7 @@ class MyPageViewController: UIViewController {
     
 }
 
-extension MyPageViewController: UICollectionViewDataSource, UICollectionViewDelegate {
+extension MyPageViewController: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return myPageVM.sections.count
@@ -118,11 +120,12 @@ extension MyPageViewController: UICollectionViewDataSource, UICollectionViewDele
         
         switch indexPath {
         case [0, 0]:
-            guard let uid = Auth.auth().currentUser?.uid else { return }
-            let personalInfoVC = PersonalInfoViewController()
-            personalInfoVC.gotProfileImage = currentImageUrl
-            personalInfoVC.profileName = currentName
-            navigationController?.pushViewController(personalInfoVC, animated: true)
+            showMessage(title: "안내", message: "해당 기능이 준비중입니다.")
+//            guard let uid = Auth.auth().currentUser?.uid else { return }
+//            let personalInfoVC = PersonalInfoViewController()
+//            personalInfoVC.gotProfileImage = currentImageUrl
+//            personalInfoVC.profileName = currentName
+//            navigationController?.pushViewController(personalInfoVC, animated: true)
         case [1, 0]:
             let MyScrapVC = MyScrapViewController()
             navigationController?.pushViewController(MyScrapVC, animated: true)
@@ -143,6 +146,19 @@ extension MyPageViewController: UICollectionViewDataSource, UICollectionViewDele
                 return
             }
     }
+    
+    // UICollectionViewDelegateFlowLayout
+       func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
+           return CGSize(width: collectionView.bounds.width, height: 0.5) // 헤더 높이
+       }
+       
+       func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+           if kind == UICollectionView.elementKindSectionHeader {
+               let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: SeparatorView.identifier, for: indexPath) as! SeparatorView
+               return header
+           }
+           return UICollectionReusableView()
+       }
 }
 
 

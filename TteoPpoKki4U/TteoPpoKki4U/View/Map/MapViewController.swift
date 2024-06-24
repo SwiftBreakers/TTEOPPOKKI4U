@@ -10,6 +10,10 @@ import SnapKit
 import MapKit
 import CoreLocation
 
+protocol MapViewControllerDelegate: AnyObject {
+    func didSelectLocation(_ location: CLLocationCoordinate2D)
+}
+
 class MapViewController: UIViewController, PinStoreViewDelegate {
     
     let mapView = MapView()
@@ -22,8 +26,37 @@ class MapViewController: UIViewController, PinStoreViewDelegate {
     
     var locationManager: CLLocationManager = CLLocationManager()
     var userLocation: CLLocation = CLLocation()
-    
+    weak var delegate: MapViewControllerDelegate?
+    var selectedLocation: CLLocationCoordinate2D?
     private var viewModel = MapViewModel()
+    var isLocationPicker: Bool = false
+    
+    private let buttonStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .horizontal
+        stackView.distribution = .fillEqually
+        stackView.spacing = 20
+        return stackView
+    }()
+
+    private let sendButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.setTitle("Send", for: .normal)
+        button.addTarget(self, action: #selector(sendButtonTapped), for: .touchUpInside)
+        button.tintColor = .white
+        button.backgroundColor = .gray
+        return button
+    }()
+
+    private let cancelButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.setTitle("Cancel", for: .normal)
+        button.addTarget(self, action: #selector(cancelButtonTapped), for: .touchUpInside)
+        button.tintColor = .white
+        button.backgroundColor = .gray
+        return button
+    }()
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -40,14 +73,21 @@ class MapViewController: UIViewController, PinStoreViewDelegate {
         
         NotificationCenter.default.addObserver(self, selector: #selector(appWillEnterForeground), name: UIApplication.willEnterForegroundNotification, object: nil)
         
+        let longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPress(gestureRecognizer:)))
+        mapView.map.addGestureRecognizer(longPressGesture)
+        
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         tabBarController?.tabBar.isHidden = false
+        if isLocationPicker {
+            setupButtons()
+        }
     }
     
-
+    
     func setConstraints() {
         [mapView, storeInfoView].forEach {
             self.view.addSubview($0)
@@ -59,6 +99,18 @@ class MapViewController: UIViewController, PinStoreViewDelegate {
         
         storeInfoView.snp.makeConstraints { make in
             make.bottom.horizontalEdges.equalTo(self.view.safeAreaLayoutGuide).inset(20)
+        }
+    }
+    
+    private func setupButtons() {
+        view.addSubview(buttonStackView)
+        buttonStackView.addArrangedSubview(cancelButton)
+        buttonStackView.addArrangedSubview(sendButton)
+        
+        buttonStackView.snp.makeConstraints { make in
+            make.bottom.equalTo(view.safeAreaLayoutGuide).inset(20)
+            make.leading.trailing.equalTo(view.safeAreaLayoutGuide).inset(20)
+            make.height.equalTo(50)
         }
     }
     
@@ -97,7 +149,7 @@ class MapViewController: UIViewController, PinStoreViewDelegate {
     }
     
     func centerMapOnLocation(location: CLLocation) {
-        let regionRadius: CLLocationDistance = 1000
+        let regionRadius: CLLocationDistance = 700
         let coordinateRegion = MKCoordinateRegion(center: location.coordinate,
                                                   latitudinalMeters: regionRadius,
                                                   longitudinalMeters: regionRadius)
@@ -178,12 +230,41 @@ class MapViewController: UIViewController, PinStoreViewDelegate {
         findMyLocation()
     }
     
+    @objc func handleLongPress(gestureRecognizer: UILongPressGestureRecognizer) {
+        if gestureRecognizer.state == .began {
+            let touchPoint = gestureRecognizer.location(in: mapView.map)
+            let coordinate = mapView.map.convert(touchPoint, toCoordinateFrom: mapView.map)
+            selectedLocation = coordinate
+
+            // 기존 핀 제거
+            let allAnnotations = mapView.map.annotations
+            mapView.map.removeAnnotations(allAnnotations)
+
+            // 새로운 핀 추가
+            addPin(at: CLLocation(latitude: coordinate.latitude, longitude: coordinate.longitude), title: "선택된 위치", isMainLocation: true)
+        }
+    }
+    
+   
+    
+    @objc func sendButtonTapped() {
+        if let location = selectedLocation {
+            delegate?.didSelectLocation(location)
+        }
+        dismiss(animated: true, completion: nil)
+    }
+
+    @objc func cancelButtonTapped() {
+        dismiss(animated: true, completion: nil)
+    }
+    
+    
     private func getDistance(with latitude: Double, _ longitude: Double) -> CLLocationDistance {
         let storeLocation = CLLocation(latitude: latitude, longitude: longitude)
         let distance = userLocation.distance(from: storeLocation)
         return distance
     }
-
+    
     private func bind() {
         viewModel.didChangeState = { [weak self] viewModel in
             guard let self else { return }
@@ -210,7 +291,7 @@ class MapViewController: UIViewController, PinStoreViewDelegate {
                 // do something with error
                 print(error)
                 if error == .noUID {
-                    DispatchQueue.main.async { 
+                    DispatchQueue.main.async {
                         self.showMessage(title: "안내", message: "로그인이 필요한 기능입니다.")
                         self.storeInfoView.isScrapped = false
                     }
@@ -271,7 +352,6 @@ extension MapViewController: UISearchBarDelegate, CLLocationManagerDelegate, MKM
         } else {
             annotationView?.image = UIImage(named: "pin")
         }
-        
         return annotationView
     }
     
@@ -281,7 +361,9 @@ extension MapViewController: UISearchBarDelegate, CLLocationManagerDelegate, MKM
               !name.isEmpty
         else { return }
         
-        view.transform = CGAffineTransform(scaleX: 1.5, y: 1.5)
+        UIView.animate(withDuration: 0.3, animations: {
+            view.transform = CGAffineTransform(scaleX: 1.5, y: 1.5)
+        })
         viewModel.loadStore(with: name)
     }
     

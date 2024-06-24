@@ -9,6 +9,7 @@ import UIKit
 import SnapKit
 import Combine
 import FirebaseAuth
+import Kingfisher
 
 class StoreViewController: UIViewController {
     
@@ -34,7 +35,7 @@ class StoreViewController: UIViewController {
     private let tableView: UITableView = {
         let tableView = UITableView()
         tableView.register(ReviewTableViewCell.self, forCellReuseIdentifier: "ReviewTableViewCell")
-        tableView.rowHeight = 50
+        tableView.rowHeight = 60
         tableView.backgroundColor = .white
         return tableView
     }()
@@ -84,17 +85,24 @@ class StoreViewController: UIViewController {
     
     private func bind() {
         viewModel.$userReview
+            .print()
             .receive(on: DispatchQueue.main)
             .sink { array in
                 self.reviewCountLabel.text = "리뷰 \(array.count)개"
                 if array.count == 0 {
-                    self.setEmptyMsg("아직 작성한 리뷰가 없어요!\n첫 리뷰를 작성해 주세요.")
+                    self.setEmptyMsg("아직 작성한 리뷰가 없어요!\n  첫 리뷰를 작성해 주세요.")
                     self.tableView.reloadData()
                 } else {
                     self.restore()
                     self.tableView.reloadData()
                 }
                 
+            }.store(in: &cancellables)
+        
+        viewModel.$userInfo
+            .receive(on: DispatchQueue.main)
+            .sink { _ in
+                self.tableView.reloadData()
             }.store(in: &cancellables)
         
         viewModel.reviewPublisher.sink { completion in
@@ -136,7 +144,7 @@ class StoreViewController: UIViewController {
             gradientLayer.frame = imageView.bounds
             
             let colors: [CGColor] = [
-                .init(red: 0, green: 0, blue: 0, alpha: 0.5),
+                .init(red: 0, green: 0, blue: 0, alpha: 0.3),
                 .init(red: 0, green: 0, blue: 0, alpha: 0.0)
             ]
             gradientLayer.colors = colors
@@ -169,6 +177,7 @@ class StoreViewController: UIViewController {
         
         tableView.delegate = self
         tableView.dataSource = self
+        tableView.rowHeight = 85
         view.addSubview(tableView)
         
         // Setup Back Button
@@ -179,10 +188,8 @@ class StoreViewController: UIViewController {
         view.addSubview(backButton)
         
         view.addSubview(seperateView)
-        view.addSubview(reviewCountLabel)
-    
-        
 
+        view.addSubview(reviewCountLabel)
     }
     
     private func setupConstraints() {
@@ -274,6 +281,7 @@ class StoreViewController: UIViewController {
             label.textAlignment = .center
             label.font = ThemeFont.fontRegular()
             label.sizeToFit()
+            label.setLineSpacing(lineSpacing: 5)
             return label
         }()
         container.addSubview(msgLabel)
@@ -299,8 +307,16 @@ extension StoreViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "ReviewTableViewCell", for: indexPath) as! ReviewTableViewCell
         let item = viewModel.userReview[indexPath.row]
+        viewModel.getUserInfo(uid: item.uid)
+        
         cell.reviewTitleLabel.text = item.title
+        cell.nicknameLabel.text = viewModel.userInfo.nickName
         cell.starRatingLabel.text = "⭐️ \(item.rating)"
+        cell.createdAtLabel.text = viewModel.timestampToString(value: item.createdAt)
+        
+        if let thumbnail = item.imageURL.first {
+            cell.thumbnailImage.kf.setImage(with: URL(string: thumbnail))
+        }
         return cell
     }
     // MARK: - UITableViewDelegate Methods
@@ -311,6 +327,7 @@ extension StoreViewController: UITableViewDelegate, UITableViewDataSource {
         let item = viewModel.userReview[indexPath.row]
         let detailedReviewVC = DetailedReviewViewController()
         detailedReviewVC.userData = item
+        detailedReviewVC.userInfo = viewModel.userInfo
         navigationController?.pushViewController(detailedReviewVC, animated: true)
     }
     

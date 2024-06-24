@@ -8,7 +8,7 @@
 import UIKit
 import SnapKit
 
-// 단어장 데이터가 없을 때(0) 나타나는 메시지
+// 데이터가 없을 때(0) 나타나는 메시지
 extension UICollectionView {
 
     func setEmptyMsg(_ msg: String) {
@@ -17,10 +17,12 @@ extension UICollectionView {
             let label = UILabel()
             label.text = msg
             label.textColor = .gray
-            label.numberOfLines = 2
+            label.numberOfLines = 0
             label.textAlignment = .center
             label.font = ThemeFont.fontRegular()
             label.sizeToFit()
+            label.setLineSpacing(lineSpacing: 8)
+            label.lineBreakMode = .byWordWrapping
             return label
         }()
         container.addSubview(msgLabel)

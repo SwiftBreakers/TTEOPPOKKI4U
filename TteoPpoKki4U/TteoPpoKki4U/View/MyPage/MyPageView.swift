@@ -6,24 +6,47 @@
 //
 
 import UIKit
+import SnapKit
+import FirebaseAuth
 
 class MyPageView: UIView {
     
     let userProfile: UIImageView = {
         let view = UIImageView()
         view.image = #imageLiteral(resourceName: "personIcon")
-//        view.backgroundColor = ThemeColor.mainGreen
         view.layer.cornerRadius = 60
         view.clipsToBounds = true
         view.contentMode = .scaleToFill
+        view.layer.borderWidth = 0.3
         return view
+    }()
+    
+    let editButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.setImage(UIImage(systemName: "pencil"), for: .normal)
+        button.tintColor = .white
+        button.backgroundColor = .gray
+        button.layer.cornerRadius = 12
+        button.layer.masksToBounds = true
+        button.addTarget(nil, action: #selector(editButtonTapped), for: .touchUpInside)
+        return button
     }()
     
     let userNameLabel: UILabel = {
         let label = UILabel()
-        label.font = ThemeFont.fontRegular(size: 20)
+        label.font = ThemeFont.fontMedium(size: 20)
         label.text = "로그인이 필요합니다."
-        label.textColor = .black
+        label.textColor = ThemeColor.mainBlack
+        label.textAlignment = .center
+        label.numberOfLines = 0
+        return label
+    }()
+    
+    let userRankLabel: UILabel = {
+        let label = UILabel()
+        label.font = ThemeFont.fontRegular(size: 16)
+        label.text = "떡볶이 순례길의 초행자"
+        label.textColor = .gray
         label.textAlignment = .center
         label.numberOfLines = 0
         return label
@@ -44,42 +67,57 @@ class MyPageView: UIView {
         
         return collectionView
     }()
+    
     //빌트인1
     override init(frame: CGRect) {
         super.init(frame: .zero)
-        
         layout()
-        
     }
+    
     //빌트인2
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
     private func layout() {
-        [userProfile, userNameLabel, collectionView].forEach { view in
+        [userProfile, editButton, userNameLabel, userRankLabel, collectionView].forEach { view in
             self.addSubview(view)
         }
         
         userProfile.snp.makeConstraints { make in
             make.height.width.equalTo(120)
-            make.top.equalToSuperview().offset(128)
-            make.leading.equalToSuperview().offset(40)
-//            make.trailing.equalToSuperview().inset(180)
- //           make.bottom.equalTo(collectionView.snp.top).offset(-40)
+            make.top.equalToSuperview().offset(90)
+            make.centerX.equalToSuperview()
+        }
+        
+        editButton.snp.makeConstraints { make in
+            make.width.height.equalTo(24)
+            make.trailing.bottom.equalTo(userProfile).offset(-8)
         }
         
         userNameLabel.snp.makeConstraints { make in
-            make.centerY.equalTo(userProfile)
-            make.leading.equalTo(userProfile.snp.trailing).offset(40)
-            make.trailing.equalToSuperview().offset(-40)
+            make.top.equalTo(userProfile.snp.bottom).offset(30)
+            make.centerX.equalToSuperview()
+            make.leading.equalToSuperview().offset(20)
+            make.trailing.equalToSuperview().offset(-20)
+        }
+        
+        userRankLabel.snp.makeConstraints { make in
+            make.top.equalTo(userNameLabel.snp.bottom).offset(10)
+            make.centerX.equalToSuperview()
+            make.leading.equalToSuperview().offset(20)
+            make.trailing.equalToSuperview().offset(-20)
         }
   
         collectionView.snp.makeConstraints { make in
-            make.top.equalTo(userProfile.snp.bottom).offset(40)
-            make.leading.trailing.bottom.equalToSuperview()
+            make.top.equalTo(userRankLabel.snp.bottom).offset(30)
+            make.leading.trailing.equalToSuperview()
+            make.bottom.equalToSuperview()
         }
     }
     
-    
+    @objc func editButtonTapped() {
+        
+    }
 }
+
