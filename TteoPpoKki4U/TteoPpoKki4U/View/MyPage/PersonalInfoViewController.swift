@@ -44,8 +44,9 @@ class PersonalInfoViewController: UIViewController, PHPickerViewControllerDelega
         setupSaveButton()
         getImage()
         navigationController?.isNavigationBarHidden = true
+        userNameTextField.text = profileName
     }
-    
+       
     deinit {
         profileImage = nil
         gotProfileImage = nil
@@ -54,7 +55,7 @@ class PersonalInfoViewController: UIViewController, PHPickerViewControllerDelega
         profileImageView.kf.cancelDownloadTask()
         profileImageView.image = nil
         
-        userNameTextField = nil
+        userNameTextField.text = nil
         saveButton = nil
     }
     
