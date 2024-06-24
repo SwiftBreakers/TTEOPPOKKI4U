@@ -146,7 +146,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             image: UIImage(systemName: "person.crop.circle"),
             selectedImage: UIImage(systemName: "person.crop.circle.fill"))
         
-        tabbarController.viewControllers = [recommendVC, mapVC, communityVC, mypageVC]
+        tabbarController.viewControllers = [recommendVC, mapVC, mypageVC]
         
         window?.rootViewController = tabbarController
         tabbarController.tabBar.backgroundColor = .white

@@ -53,7 +53,7 @@ class PrivacyPolicyViewController: UIViewController, UIScrollViewDelegate {
     
   
     func setupTopLabel() {
-        label.text = "이용약관"
+        label.text = "개인정보 처리방침"
         view.addSubview(label)
         
         label.font = UIFont.boldSystemFont(ofSize: 20)
