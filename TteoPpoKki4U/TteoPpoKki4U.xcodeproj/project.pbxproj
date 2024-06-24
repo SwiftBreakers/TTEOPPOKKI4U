@@ -7,11 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		25CCA3AF2C1AD8A1008F81A3 /* CommunityTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25CCA3AE2C1AD8A1008F81A3 /* CommunityTableViewCell.swift */; };
-		25CCA3B12C1ADA38008F81A3 /* CommunityTableViewCellSelf.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25CCA3B02C1ADA38008F81A3 /* CommunityTableViewCellSelf.swift */; };
-		25CCA3B32C1ADB2D008F81A3 /* CommunityData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25CCA3B22C1ADB2D008F81A3 /* CommunityData.swift */; };
-		25CCA3B62C1ADE75008F81A3 /* CommunityChattingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25CCA3B52C1ADE75008F81A3 /* CommunityChattingViewController.swift */; };
-		25CCA3B82C1AE272008F81A3 /* CommunityLocalTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25CCA3B72C1AE272008F81A3 /* CommunityLocalTableViewCell.swift */; };
 		25CCA3C92C254A46008F81A3 /* PrivacyPolicyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25CCA3C82C254A46008F81A3 /* PrivacyPolicyViewController.swift */; };
 		25CCA3CE2C259EC9008F81A3 /* privacyPolicyText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25CCA3CD2C259EC9008F81A3 /* privacyPolicyText.swift */; };
 		610717A32C2131A400626649 /* SwiftJWT in Frameworks */ = {isa = PBXBuildFile; productRef = 610717A22C2131A400626649 /* SwiftJWT */; };
@@ -138,11 +133,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		25CCA3AE2C1AD8A1008F81A3 /* CommunityTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityTableViewCell.swift; sourceTree = "<group>"; };
-		25CCA3B02C1ADA38008F81A3 /* CommunityTableViewCellSelf.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityTableViewCellSelf.swift; sourceTree = "<group>"; };
-		25CCA3B22C1ADB2D008F81A3 /* CommunityData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityData.swift; sourceTree = "<group>"; };
-		25CCA3B52C1ADE75008F81A3 /* CommunityChattingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityChattingViewController.swift; sourceTree = "<group>"; };
-		25CCA3B72C1AE272008F81A3 /* CommunityLocalTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityLocalTableViewCell.swift; sourceTree = "<group>"; };
 		25CCA3C82C254A46008F81A3 /* PrivacyPolicyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivacyPolicyViewController.swift; sourceTree = "<group>"; };
 		25CCA3CC2C259D9E008F81A3 /* privacy.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = privacy.txt; sourceTree = "<group>"; };
 		25CCA3CD2C259EC9008F81A3 /* privacyPolicyText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = privacyPolicyText.swift; sourceTree = "<group>"; };
@@ -207,7 +197,7 @@
 		8D78CDDF2C0E077D00051D50 /* WriteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WriteViewController.swift; sourceTree = "<group>"; };
 		8D899FDF2C1C3F0500FEBE77 /* BookmarkCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkCell.swift; sourceTree = "<group>"; };
 		8D9A30592C180D99004E7F1B /* ScrapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrapViewModel.swift; sourceTree = "<group>"; };
-		8DA182732C256A6E000B9750 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		8DA182732C256A6E000B9750 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../GoogleService-Info.plist"; sourceTree = "<group>"; };
 		8DA182752C2590D2000B9750 /* SeparatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeparatorView.swift; sourceTree = "<group>"; };
 		8DA4C3812C09BFA8008AB975 /* Review.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Review.swift; sourceTree = "<group>"; };
 		8DA4C3832C0A0ACF008AB975 /* ReviewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewCell.swift; sourceTree = "<group>"; };

@@ -284,7 +284,7 @@ class MapViewController: UIViewController, PinStoreViewDelegate {
                     rating: store.rating,
                     reviews: store.reviews,
                     distance: getDistance(with: store.latitude, store.longitude).prettyDistance,
-                    callNumber: store.callNumber ?? "가게 번호가 존재하지 않습니다."
+                    callNumber: store.callNumber
                 )
                 self.storeInfoView.isHidden = false
                 

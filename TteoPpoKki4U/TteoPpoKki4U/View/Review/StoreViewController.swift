@@ -130,7 +130,7 @@ class StoreViewController: UIViewController {
         storeNameLabel.text = shopTitleText
         view.addSubview(locationLabel)
         
-        callNumberLabel.attributedText = makeIconBeforeText(icon: "phone.fill", label: callNumberText ?? "가게 번호가 존재하지 않습니다.")
+        callNumberLabel.attributedText = makeIconBeforeText(icon: "phone.fill", label: callNumberText ?? "가게 번호 없음")
         view.addSubview(callNumberLabel)
         
         // Setup Scroll View and Stack View
@@ -260,7 +260,7 @@ class StoreViewController: UIViewController {
         // Back Button Constraints
         backButton.snp.makeConstraints { make in
             make.top.equalTo(view.safeAreaLayoutGuide).offset(10)
-            make.leading.equalTo(view.safeAreaLayoutGuide).offset(20)
+            make.leading.equalToSuperview().offset(20)
         }
     }
     
