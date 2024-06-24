@@ -36,6 +36,7 @@ class ChannelVC: BaseViewController {
     private var customUser: CustomUser?
     private let channelStream = ChannelFirestoreStream()
     private var currentChannelAlertController: UIAlertController?
+    private var currentAddress = ""
     
     init(currentUser: User) {
         self.currentUser = currentUser
@@ -72,7 +73,7 @@ class ChannelVC: BaseViewController {
         
         checkNickname()
         configureViews()
-        addToolBarItems()
+        //addToolBarItems()
         setupListener()
         checkUserLocation()
     }
@@ -84,6 +85,7 @@ class ChannelVC: BaseViewController {
         navigationController?.navigationBar.titleTextAttributes = [
             NSAttributedString.Key.foregroundColor: ThemeColor.mainOrange
         ]
+        checkUserLocation()
     }
     
     private func checkUserLocation() {
@@ -250,16 +252,20 @@ extension ChannelVC: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let channel = channels[indexPath.row]
-        let viewController: ChatVC
-        if let user = currentUser {
-            viewController = ChatVC(user: user, channel: channel)
-        } else if let customUser = customUser {
-            viewController = ChatVC(customUser: customUser, channel: channel)
+        if currentAddress == channel.name {
+            let viewController: ChatVC
+            if let user = currentUser {
+                viewController = ChatVC(user: user, channel: channel)
+            } else if let customUser = customUser {
+                viewController = ChatVC(customUser: customUser, channel: channel)
+            } else {
+                fatalError("No valid user found.")
+            }
+            navigationController?.pushViewController(viewController, animated: true)
+            tableView.deselectRow(at: indexPath, animated: true)
         } else {
-            fatalError("No valid user found.")
+            showMessage(title: "지역 오류", message: "현재 속한 지역의 대화방만 입장가능합니다.\n현재 유저님의 속한 지역은 \(currentAddress)입니다.")
         }
-        navigationController?.pushViewController(viewController, animated: true)
-        tableView.deselectRow(at: indexPath, animated: true)
     }
 }
 
@@ -280,13 +286,12 @@ extension ChannelVC: CLLocationManagerDelegate {
     func getAddress(coordinate: CLLocation) {
         let address = CLGeocoder.init()
         
-        address.reverseGeocodeLocation(coordinate) { (placeMarks, error) in
+        address.reverseGeocodeLocation(coordinate) { [weak self] (placeMarks, error) in
             var placeMark: CLPlacemark!
             placeMark = placeMarks?[0]
             
             guard let address = placeMark else { return }
-            
-            print(address.locality)
+            self?.currentAddress = address.administrativeArea!
         }
         
     }

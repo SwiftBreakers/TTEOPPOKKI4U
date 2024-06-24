@@ -263,12 +263,7 @@ class MapViewController: UIViewController, PinStoreViewDelegate {
             addPin(at: CLLocation(latitude: coordinate.latitude, longitude: coordinate.longitude), title: "선택된 위치", isMainLocation: true)
         }
     }
-    
-<<<<<<< HEAD
-=======
-    
-    
->>>>>>> 84c2856723ddb0c5a162b3b4787e916c4d02ac9c
+
     @objc func sendButtonTapped() {
         if let location = selectedLocation {
             delegate?.didSelectLocation(location)
