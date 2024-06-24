@@ -28,8 +28,11 @@ class MapViewController: UIViewController, PinStoreViewDelegate {
     var userLocation: CLLocation = CLLocation()
     weak var delegate: MapViewControllerDelegate?
     var selectedLocation: CLLocationCoordinate2D?
+    var selectedStoreName: String?
     private var viewModel = MapViewModel()
     var isLocationPicker: Bool = false
+    var selectedStoreRatings = [Float]()
+    var selectedStoreAverageRating: Float?
     
     private let buttonStackView: UIStackView = {
         let stackView = UIStackView()
@@ -38,7 +41,7 @@ class MapViewController: UIViewController, PinStoreViewDelegate {
         stackView.spacing = 20
         return stackView
     }()
-
+    
     private let sendButton: UIButton = {
         let button = UIButton(type: .system)
         button.setTitle("Send", for: .normal)
@@ -47,7 +50,7 @@ class MapViewController: UIViewController, PinStoreViewDelegate {
         button.backgroundColor = .gray
         return button
     }()
-
+    
     private let cancelButton: UIButton = {
         let button = UIButton(type: .system)
         button.setTitle("Cancel", for: .normal)
@@ -56,15 +59,15 @@ class MapViewController: UIViewController, PinStoreViewDelegate {
         button.backgroundColor = .gray
         return button
     }()
-
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        bind()
         setConstraints()
         setMapView()
         setClickEvents()
-        bind()
         
         mapView.searchBar.delegate = self
         storeInfoView.delegate = self
@@ -76,7 +79,6 @@ class MapViewController: UIViewController, PinStoreViewDelegate {
         let longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPress(gestureRecognizer:)))
         mapView.map.addGestureRecognizer(longPressGesture)
         
-        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -85,8 +87,21 @@ class MapViewController: UIViewController, PinStoreViewDelegate {
         if isLocationPicker {
             setupButtons()
         }
+        getRecentData()
     }
-    
+
+    private func getRecentData() {
+        if selectedStoreName != nil {
+            Task {
+                await
+                selectedStoreRatings = viewModel.getRatings(for:selectedStoreName!)
+                selectedStoreAverageRating = viewModel.getAverageRating(ratings: selectedStoreRatings)
+                let formattedRating = String(format: "%.1f", selectedStoreAverageRating!)
+                storeInfoView.ratingLabel.attributedText = storeInfoView.makeIconBeforeText(icon: "star", label: formattedRating)
+                storeInfoView.reviewsLabel.attributedText = storeInfoView.makeIconBeforeText(icon: "text.bubble", label: " \(selectedStoreRatings.count)개")
+            }
+        }
+    }
     
     func setConstraints() {
         [mapView, storeInfoView].forEach {
@@ -235,17 +250,17 @@ class MapViewController: UIViewController, PinStoreViewDelegate {
             let touchPoint = gestureRecognizer.location(in: mapView.map)
             let coordinate = mapView.map.convert(touchPoint, toCoordinateFrom: mapView.map)
             selectedLocation = coordinate
-
+            
             // 기존 핀 제거
             let allAnnotations = mapView.map.annotations
             mapView.map.removeAnnotations(allAnnotations)
-
+            
             // 새로운 핀 추가
             addPin(at: CLLocation(latitude: coordinate.latitude, longitude: coordinate.longitude), title: "선택된 위치", isMainLocation: true)
         }
     }
     
-   
+    
     
     @objc func sendButtonTapped() {
         if let location = selectedLocation {
@@ -253,7 +268,7 @@ class MapViewController: UIViewController, PinStoreViewDelegate {
         }
         dismiss(animated: true, completion: nil)
     }
-
+    
     @objc func cancelButtonTapped() {
         dismiss(animated: true, completion: nil)
     }
@@ -366,6 +381,7 @@ extension MapViewController: UISearchBarDelegate, CLLocationManagerDelegate, MKM
             view.transform = CGAffineTransform(scaleX: 1.5, y: 1.5)
         })
         viewModel.loadStore(with: name)
+        selectedStoreName = name
     }
     
     func mapView(_ mapView: MKMapView, didDeselect view: MKAnnotationView) {
