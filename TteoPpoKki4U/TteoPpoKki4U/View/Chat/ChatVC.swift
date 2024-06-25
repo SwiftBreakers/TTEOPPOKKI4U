@@ -22,9 +22,9 @@ class ChatVC: MessagesViewController {
         button.addTarget(self, action: #selector(presentInputActionSheet), for: .touchUpInside)
         return button
     }()
+    
     let chatFirestoreStream = ChatFirestoreStream()
     let chatManager = ChatManager()
-    
     private var user: User?
     private var customUser: CustomUser?
     let channel: Channel
@@ -42,6 +42,7 @@ class ChatVC: MessagesViewController {
             }
         }
     }
+    var userData: ReportUserData?
     
     init(user: User, channel: Channel) {
         self.user = user
@@ -96,9 +97,12 @@ class ChatVC: MessagesViewController {
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTap))
         messagesCollectionView.addGestureRecognizer(tapGesture)
         
+        // 커스텀 메뉴 항목 추가
+//        let blockMenuItem = UIMenuItem(title: "차단", action: #selector(MessageCollectionViewCell.block(_:)))
+        let reportMenuItem = UIMenuItem(title: "신고", action: #selector(MessageCollectionViewCell.report(_:)))
+        UIMenuController.shared.menuItems = [/*blockMenuItem, */reportMenuItem]
+        
     }
-    
-    
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -121,6 +125,40 @@ class ChatVC: MessagesViewController {
         tabBarController?.tabBar.isHidden = false
         navigationController?.setToolbarHidden(true, animated: false)
     }
+    override func collectionView(_ collectionView: UICollectionView, canPerformAction action: Selector, forItemAt indexPath: IndexPath, withSender sender: Any?) -> Bool {
+        if action == #selector(MessageCollectionViewCell.block(_:)) {
+            return true
+        } else {
+            return super.collectionView(collectionView, canPerformAction: action, forItemAt: indexPath, withSender: sender)
+        }
+    }
+    
+    
+    override func collectionView(_ collectionView: UICollectionView, performAction action: Selector, forItemAt indexPath: IndexPath, withSender sender: Any?) {
+        if action == #selector(MessageCollectionViewCell.report(_:)) {
+            if let _ = Auth.auth().currentUser?.uid {
+                // 1. 선택한 메시지 가져오기
+                let selectedMessage = messages[indexPath.section]
+                
+                // 2. ReportUserData 생성
+                let reportData = ReportUserData(title: "제목", // 원하는 신고 제목 설정
+                                                uid: self.user?.uid ?? "", // 사용자 ID
+                                                senderId: selectedMessage.sender.senderId, // 보낸 사람 ID
+                                                content: selectedMessage.content, // 메시지 내용
+                                                sentDate: selectedMessage.sentDate, // 메시지 전송 날짜
+                                                reportCount: 1, // 초기 신고 수
+                                                isActive: true, // 활성 상태
+                                                channel: channel.name) // 채널 확인
+                
+                // 3. ChatReportViewController로 전달
+                let reportVC = ChatReportViewController(userData: reportData)
+                self.present(reportVC, animated: true)
+            } else {
+                super.collectionView(collectionView, performAction: action, forItemAt: indexPath, withSender: sender)
+            }
+        }
+    }
+
     
     private func configureColor() {
         view.backgroundColor = .white
@@ -308,7 +346,7 @@ class ChatVC: MessagesViewController {
         } else if customUser != nil {
             showMessage(title: "로그인이 필요한 기능입니다.", message: "사용 할 수 없습니다.")
         }
-       
+        
     }
     
     private func presentLocationPicker() {
@@ -336,13 +374,12 @@ class ChatVC: MessagesViewController {
         view.endEditing(true)
     }
     
-    override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = super.collectionView(collectionView, cellForItemAt: indexPath) as! MessageContentCell
-        let message = messages[indexPath.section]
-        configureAvatarView(cell.avatarView, for: message, at: indexPath, in: collectionView as! MessagesCollectionView)
-        return cell
-    }
-    
+        override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+            let cell = super.collectionView(collectionView, cellForItemAt: indexPath) as! MessageContentCell
+            let message = messages[indexPath.section]
+            configureAvatarView(cell.avatarView, for: message, at: indexPath, in: collectionView as! MessagesCollectionView)
+            return cell
+        }
 }
 
 extension ChatVC: MessagesDataSource {
@@ -582,4 +619,37 @@ extension ChatVC: MapViewControllerDelegate {
         }
     }
 }
-
+extension MessageCollectionViewCell {
+    @objc func block(_ sender: Any?) {
+        // CollectionView 가져오기
+        if let collectionView = self.superview as? UICollectionView {
+            // IndexPath 가져오기
+            if let indexPath = collectionView.indexPath(for: self) {
+                // 액션 트리거
+                collectionView.delegate?.collectionView?(collectionView, performAction: #selector(MessageCollectionViewCell.block(_:)), forItemAt: indexPath, withSender: sender)
+            }
+        }
+    }
+    
+    @objc func report(_ sender: Any?) {
+        // CollectionView 가져오기
+        if let collectionView = self.superview as? UICollectionView {
+            // IndexPath 가져오기
+            if let indexPath = collectionView.indexPath(for: self) {
+                // 액션 트리거
+                collectionView.delegate?.collectionView?(collectionView, performAction: #selector(MessageCollectionViewCell.report(_:)), forItemAt: indexPath, withSender: sender)
+            }
+        }
+    }
+}
+class EmptyCell: UICollectionViewCell {
+    // 필요한 경우 셀의 초기화나 구성을 추가합니다
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        // 셀 초기화 설정
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+}

@@ -47,5 +47,12 @@ let db_reportedUID = "reportedUID"
 
 let channelCollection = Firestore.firestore().collection("channels")
 let db_channelName = "name"
+let db_channel = "channel"
 let db_thread = "thread"
 let db_senderId = "senderId"
+let db_messageConetent = "messageContent"
+
+let threadCollection = Firestore.firestore().collection("thread")
+let chatReportCollection = Firestore.firestore().collection("chatReport")
+
+let db_chatReportCount = "chatReportCount"

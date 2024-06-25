@@ -9,8 +9,11 @@ import UIKit
 import FirebaseStorage
 import FirebaseDatabase
 import FirebaseFirestore
+import FirebaseAuth
 
 class UserManager {
+    
+    private var blockedUsers: [BlockedUser] = []
     
     let ref = Database.database().reference()
     
@@ -63,6 +66,21 @@ class UserManager {
     
     func getSpecificReview(uid: String, storeAddress: String, title: String, completion: @escaping(QuerySnapshot?, (Error)?) -> Void) {
         reviewCollection.whereField(db_uid, isEqualTo: uid).whereField(db_storeAddress, isEqualTo: storeAddress).whereField(db_title , isEqualTo: title).getDocuments(completion: completion)
+    }
+    func blockUser(user: User) {
+        let blockedUser = BlockedUser(uid: user.uid)
+        blockedUsers.append(blockedUser)
+        print(blockedUsers)
+    }
+    
+    func unblockUser(user: User) {
+        blockedUsers.removeAll { $0.uid == user.uid }
+    }
+    
+    func isUserBlocked(user: Sender) -> Bool {
+        return blockedUsers.contains { blockedUser in
+            blockedUser.uid == user.senderId
+        }
     }
     
 }
