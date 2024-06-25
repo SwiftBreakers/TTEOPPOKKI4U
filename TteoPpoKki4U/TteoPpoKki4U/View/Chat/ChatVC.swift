@@ -123,7 +123,7 @@ class ChatVC: MessagesViewController {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         tabBarController?.tabBar.isHidden = false
-        navigationController?.setToolbarHidden(false, animated: false)
+        navigationController?.setToolbarHidden(true, animated: false)
     }
     override func collectionView(_ collectionView: UICollectionView, canPerformAction action: Selector, forItemAt indexPath: IndexPath, withSender sender: Any?) -> Bool {
         if action == #selector(MessageCollectionViewCell.block(_:)) {

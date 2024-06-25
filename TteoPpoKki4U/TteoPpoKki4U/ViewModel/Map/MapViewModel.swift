@@ -85,7 +85,7 @@ final class MapViewModel {
         }
     }
     
-    private func getRatings(for storeName: String) async -> [Float] {
+    func getRatings(for storeName: String) async -> [Float] {
         await withCheckedContinuation { continuation in
             fetchRatings(for: storeName) { ratings, error in
                 guard let ratings, error == nil else { return }
@@ -113,7 +113,7 @@ final class MapViewModel {
         stores.first { $0.placeName == name }
     }
     
-    private func getAverageRating(ratings: [Float]) -> Float {
+    func getAverageRating(ratings: [Float]) -> Float {
         let count = ratings.count
         var sum: Float = 0.0
         

@@ -9,6 +9,7 @@ import UIKit
 import SnapKit
 import FirebaseAuth
 import Firebase
+import CoreLocation
 
 class ChannelVC: BaseViewController {
     
@@ -27,10 +28,15 @@ class ChannelVC: BaseViewController {
     }()
     
     var channels = [Channel]()
+    
+    let locationManager: CLLocationManager = CLLocationManager()
+    
+    var userLocation: CLLocation = CLLocation()
     private var currentUser: User?
     private var customUser: CustomUser?
     private let channelStream = ChannelFirestoreStream()
     private var currentChannelAlertController: UIAlertController?
+    private var currentAddress = ""
     
     init(currentUser: User) {
         self.currentUser = currentUser
@@ -69,6 +75,7 @@ class ChannelVC: BaseViewController {
         configureViews()
 //        addToolBarItems()
         setupListener()
+        checkUserLocation()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -78,6 +85,13 @@ class ChannelVC: BaseViewController {
         navigationController?.navigationBar.titleTextAttributes = [
             NSAttributedString.Key.foregroundColor: ThemeColor.mainOrange
         ]
+        checkUserLocation()
+    }
+    
+    private func checkUserLocation() {
+        locationManager.delegate = self
+        locationManager.requestWhenInUseAuthorization()
+        locationManager.startUpdatingLocation()
     }
     
     private func checkNickname() {
@@ -238,15 +252,59 @@ extension ChannelVC: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let channel = channels[indexPath.row]
-        let viewController: ChatVC
-        if let user = currentUser {
-            viewController = ChatVC(user: user, channel: channel)
-        } else if let customUser = customUser {
-            viewController = ChatVC(customUser: customUser, channel: channel)
+        if currentAddress == channel.name {
+            let viewController: ChatVC
+            if let user = currentUser {
+                viewController = ChatVC(user: user, channel: channel)
+            } else if let customUser = customUser {
+                viewController = ChatVC(customUser: customUser, channel: channel)
+            } else {
+                fatalError("No valid user found.")
+            }
+            navigationController?.pushViewController(viewController, animated: true)
+            tableView.deselectRow(at: indexPath, animated: true)
+        } else if channel.name == "테스트" {
+            let viewController: ChatVC
+            if let user = currentUser {
+                viewController = ChatVC(user: user, channel: channel)
+            } else if let customUser = customUser {
+                viewController = ChatVC(customUser: customUser, channel: channel)
+            } else {
+                fatalError("No valid user found.")
+            }
+            navigationController?.pushViewController(viewController, animated: true)
+            tableView.deselectRow(at: indexPath, animated: true)
         } else {
-            fatalError("No valid user found.")
+            showMessage(title: "지역 오류", message: "현재 속한 지역의 대화방만 입장가능합니다.\n현재 유저님의 속한 지역은 \(currentAddress)입니다.")
         }
-        navigationController?.pushViewController(viewController, animated: true)
-        tableView.deselectRow(at: indexPath, animated: true)
     }
+}
+
+extension ChannelVC: CLLocationManagerDelegate {
+    
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        if let location = locations.last {
+            userLocation = location
+            getAddress(coordinate: userLocation)
+            locationManager.stopUpdatingLocation()  // 위치 업데이트 멈추기
+        }
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+        print("Failed to find user's location: \(error.localizedDescription)")
+    }
+    
+    func getAddress(coordinate: CLLocation) {
+        let address = CLGeocoder.init()
+        
+        address.reverseGeocodeLocation(coordinate) { [weak self] (placeMarks, error) in
+            var placeMark: CLPlacemark!
+            placeMark = placeMarks?[0]
+            
+            guard let address = placeMark else { return }
+            self?.currentAddress = address.administrativeArea!
+        }
+        
+    }
+    
 }
