@@ -80,6 +80,11 @@
 		8D580A512C08AAF70057D370 /* ScrapCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D580A502C08AAF70057D370 /* ScrapCell.swift */; };
 		8D580A532C08C8420057D370 /* MyReviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D580A522C08C8420057D370 /* MyReviewViewController.swift */; };
 		8D60C7AD2C105EFC00CAFD0C /* StoreViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D60C7AC2C105EFC00CAFD0C /* StoreViewController.swift */; };
+		8D69D70A2C2942B80087296A /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8D69D7092C2942B80087296A /* GoogleService-Info.plist */; };
+		8D69D70C2C2981C30087296A /* NoticeTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D69D70B2C2981C30087296A /* NoticeTableViewController.swift */; };
+		8D69D70E2C2982C40087296A /* DetailedNoticeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D69D70D2C2982C40087296A /* DetailedNoticeViewController.swift */; };
+		8D69D7102C2982FE0087296A /* Notice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D69D70F2C2982FE0087296A /* Notice.swift */; };
+		8D69D7122C2986490087296A /* NoticeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D69D7112C2986490087296A /* NoticeTableViewCell.swift */; };
 		8D78CDE02C0E077D00051D50 /* WriteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D78CDDF2C0E077D00051D50 /* WriteViewController.swift */; };
 		8D899FE02C1C3F0500FEBE77 /* BookmarkCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D899FDF2C1C3F0500FEBE77 /* BookmarkCell.swift */; };
 		8D9A305A2C180D99004E7F1B /* ScrapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D9A30592C180D99004E7F1B /* ScrapViewModel.swift */; };
@@ -201,6 +206,11 @@
 		8D580A502C08AAF70057D370 /* ScrapCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrapCell.swift; sourceTree = "<group>"; };
 		8D580A522C08C8420057D370 /* MyReviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyReviewViewController.swift; sourceTree = "<group>"; };
 		8D60C7AC2C105EFC00CAFD0C /* StoreViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreViewController.swift; sourceTree = "<group>"; };
+		8D69D7092C2942B80087296A /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		8D69D70B2C2981C30087296A /* NoticeTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeTableViewController.swift; sourceTree = "<group>"; };
+		8D69D70D2C2982C40087296A /* DetailedNoticeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailedNoticeViewController.swift; sourceTree = "<group>"; };
+		8D69D70F2C2982FE0087296A /* Notice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notice.swift; sourceTree = "<group>"; };
+		8D69D7112C2986490087296A /* NoticeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeTableViewCell.swift; sourceTree = "<group>"; };
 		8D78CDDF2C0E077D00051D50 /* WriteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WriteViewController.swift; sourceTree = "<group>"; };
 		8D899FDF2C1C3F0500FEBE77 /* BookmarkCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkCell.swift; sourceTree = "<group>"; };
 		8D9A30592C180D99004E7F1B /* ScrapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrapViewModel.swift; sourceTree = "<group>"; };
@@ -370,6 +380,7 @@
 		611EE67F2C20C0CC0096D903 /* Cell */ = {
 			isa = PBXGroup;
 			children = (
+				8D69D7112C2986490087296A /* NoticeTableViewCell.swift */,
 				8D580A502C08AAF70057D370 /* ScrapCell.swift */,
 				8DB30F1D2C076AE900503139 /* MyPageCollectionViewCell.swift */,
 				8D899FDF2C1C3F0500FEBE77 /* BookmarkCell.swift */,
@@ -561,6 +572,8 @@
 			isa = PBXGroup;
 			children = (
 				611EE67F2C20C0CC0096D903 /* Cell */,
+				8D69D70B2C2981C30087296A /* NoticeTableViewController.swift */,
+				8D69D70D2C2982C40087296A /* DetailedNoticeViewController.swift */,
 				8D580A4C2C08767F0057D370 /* MyScrapViewController.swift */,
 				8DB30F312C07794E00503139 /* PersonalInfoViewController.swift */,
 				8D3BA8402C15D5F1007597F2 /* SettingViewController.swift */,
@@ -583,6 +596,7 @@
 				8D580A4E2C0893A40057D370 /* ScrapList.swift */,
 				8D2E862E2C1B2D7000967B13 /* BookmarkList.swift */,
 				8DA4C3812C09BFA8008AB975 /* Review.swift */,
+				8D69D70F2C2982FE0087296A /* Notice.swift */,
 			);
 			path = MyPage;
 			sourceTree = "<group>";
@@ -824,6 +838,7 @@
 				6127E3572C2857740037F9E3 /* Location.swift in Sources */,
 				8DD5CBB92C107C82004F27BD /* DetailedReviewViewController.swift in Sources */,
 				617357292C137A3F0007B92A /* Constants.swift in Sources */,
+				8D69D7102C2982FE0087296A /* Notice.swift in Sources */,
 				8D580A532C08C8420057D370 /* MyReviewViewController.swift in Sources */,
 				617BCCC62C19699C008D8D48 /* ManageTableViewCell.swift in Sources */,
 				CE3F36352C08469700532901 /* RecommendCardView.swift in Sources */,
@@ -847,10 +862,12 @@
 				9C82B95B2C0F54D7008FA84E /* Double+Extension.swift in Sources */,
 				CE771CCF2C243D8E004415CA /* ChannelTableViewCell.swift in Sources */,
 				611644382C0909D4009FFDA5 /* SignManager.swift in Sources */,
+				8D69D70C2C2981C30087296A /* NoticeTableViewController.swift in Sources */,
 				610717A92C2137F600626649 /* AppleTokenResponse.swift in Sources */,
 				8DD5CBB72C107BFD004F27BD /* ReviewTableViewCell.swift in Sources */,
 				61DC69072C15CC38003DEB73 /* StoreManager.swift in Sources */,
 				617BCCBA2C1912CD008D8D48 /* GreetingBottomView.swift in Sources */,
+				8D69D70E2C2982C40087296A /* DetailedNoticeViewController.swift in Sources */,
 				611644302C08FFFC009FFDA5 /* GreetingHeaderView.swift in Sources */,
 				619D771A2C085EC80043EF82 /* GreetingViewController.swift in Sources */,
 				61DAC5002C06CCB000DFC575 /* Secret.swift in Sources */,
@@ -895,6 +912,7 @@
 				613D869B2C05BFF80039E771 /* SceneDelegate.swift in Sources */,
 				CE771CC32C243B06004415CA /* FirebaseStorageManager.swift in Sources */,
 				9C82B9572C0F31A0008FA84E /* MapViewModel.swift in Sources */,
+				8D69D7122C2986490087296A /* NoticeTableViewCell.swift in Sources */,
 				CE771CBB2C243925004415CA /* ChatVC.swift in Sources */,
 				9CC6D3182C206BD6004C85D8 /* PinStoreModel.swift in Sources */,
 				8D2E862D2C1AD5DD00967B13 /* BookmarkViewModel.swift in Sources */,
