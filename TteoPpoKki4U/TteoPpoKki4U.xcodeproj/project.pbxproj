@@ -29,7 +29,6 @@
 		613D86A22C05BFF90039E771 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 613D86A12C05BFF90039E771 /* Assets.xcassets */; };
 		613D86A52C05BFF90039E771 /* Base in Resources */ = {isa = PBXBuildFile; fileRef = 613D86A42C05BFF90039E771 /* Base */; };
 		613D86B82C05C0DC0039E771 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 613D86B72C05C0DC0039E771 /* SnapKit */; };
-		6144066B2C29161C006707A8 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6144066A2C29161C006707A8 /* GoogleService-Info.plist */; };
 		6173571F2C12AE470007B92A /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = 6173571E2C12AE470007B92A /* FirebaseMessaging */; };
 		617357262C1364940007B92A /* ReviewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 617357252C1364940007B92A /* ReviewModel.swift */; };
 		617357292C137A3F0007B92A /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 617357282C137A3F0007B92A /* Constants.swift */; };
@@ -80,6 +79,11 @@
 		8D580A512C08AAF70057D370 /* ScrapCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D580A502C08AAF70057D370 /* ScrapCell.swift */; };
 		8D580A532C08C8420057D370 /* MyReviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D580A522C08C8420057D370 /* MyReviewViewController.swift */; };
 		8D60C7AD2C105EFC00CAFD0C /* StoreViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D60C7AC2C105EFC00CAFD0C /* StoreViewController.swift */; };
+		8D69D70A2C2942B80087296A /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8D69D7092C2942B80087296A /* GoogleService-Info.plist */; };
+		8D69D70C2C2981C30087296A /* NoticeTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D69D70B2C2981C30087296A /* NoticeTableViewController.swift */; };
+		8D69D70E2C2982C40087296A /* DetailedNoticeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D69D70D2C2982C40087296A /* DetailedNoticeViewController.swift */; };
+		8D69D7102C2982FE0087296A /* Notice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D69D70F2C2982FE0087296A /* Notice.swift */; };
+		8D69D7122C2986490087296A /* NoticeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D69D7112C2986490087296A /* NoticeTableViewCell.swift */; };
 		8D78CDE02C0E077D00051D50 /* WriteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D78CDDF2C0E077D00051D50 /* WriteViewController.swift */; };
 		8D899FE02C1C3F0500FEBE77 /* BookmarkCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D899FDF2C1C3F0500FEBE77 /* BookmarkCell.swift */; };
 		8D9A305A2C180D99004E7F1B /* ScrapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D9A30592C180D99004E7F1B /* ScrapViewModel.swift */; };
@@ -158,7 +162,6 @@
 		613D86A12C05BFF90039E771 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		613D86A42C05BFF90039E771 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		613D86A62C05BFF90039E771 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		6144066A2C29161C006707A8 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../../../Desktop/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		6144066C2C291BE2006707A8 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
 		617357252C1364940007B92A /* ReviewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewModel.swift; sourceTree = "<group>"; };
 		617357282C137A3F0007B92A /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
@@ -198,6 +201,11 @@
 		8D580A502C08AAF70057D370 /* ScrapCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrapCell.swift; sourceTree = "<group>"; };
 		8D580A522C08C8420057D370 /* MyReviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyReviewViewController.swift; sourceTree = "<group>"; };
 		8D60C7AC2C105EFC00CAFD0C /* StoreViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreViewController.swift; sourceTree = "<group>"; };
+		8D69D7092C2942B80087296A /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		8D69D70B2C2981C30087296A /* NoticeTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeTableViewController.swift; sourceTree = "<group>"; };
+		8D69D70D2C2982C40087296A /* DetailedNoticeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailedNoticeViewController.swift; sourceTree = "<group>"; };
+		8D69D70F2C2982FE0087296A /* Notice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notice.swift; sourceTree = "<group>"; };
+		8D69D7112C2986490087296A /* NoticeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeTableViewCell.swift; sourceTree = "<group>"; };
 		8D78CDDF2C0E077D00051D50 /* WriteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WriteViewController.swift; sourceTree = "<group>"; };
 		8D899FDF2C1C3F0500FEBE77 /* BookmarkCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkCell.swift; sourceTree = "<group>"; };
 		8D9A30592C180D99004E7F1B /* ScrapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrapViewModel.swift; sourceTree = "<group>"; };
@@ -364,6 +372,7 @@
 		611EE67F2C20C0CC0096D903 /* Cell */ = {
 			isa = PBXGroup;
 			children = (
+				8D69D7112C2986490087296A /* NoticeTableViewCell.swift */,
 				8D580A502C08AAF70057D370 /* ScrapCell.swift */,
 				8DB30F1D2C076AE900503139 /* MyPageCollectionViewCell.swift */,
 				8D899FDF2C1C3F0500FEBE77 /* BookmarkCell.swift */,
@@ -406,11 +415,11 @@
 				CE771CC82C243C08004415CA /* Sender.swift */,
 				613D86A32C05BFF90039E771 /* LaunchScreen.storyboard */,
 				613D86A62C05BFF90039E771 /* Info.plist */,
+				8D69D7092C2942B80087296A /* GoogleService-Info.plist */,
 				61DAC4FF2C06CCB000DFC575 /* Secret.swift */,
 				610717AA2C213D5C00626649 /* AuthKey_RS7QZ647UQ.p8 */,
 				610717A62C21364600626649 /* AuthKey_RS7QZ647UQ_public.p8 */,
 				610717AC2C2156B200626649 /* PrivacyInfo.xcprivacy */,
-				6144066A2C29161C006707A8 /* GoogleService-Info.plist */,
 			);
 			path = TteoPpoKki4U;
 			sourceTree = "<group>";
@@ -554,6 +563,8 @@
 			isa = PBXGroup;
 			children = (
 				611EE67F2C20C0CC0096D903 /* Cell */,
+				8D69D70B2C2981C30087296A /* NoticeTableViewController.swift */,
+				8D69D70D2C2982C40087296A /* DetailedNoticeViewController.swift */,
 				8D580A4C2C08767F0057D370 /* MyScrapViewController.swift */,
 				8DB30F312C07794E00503139 /* PersonalInfoViewController.swift */,
 				8D3BA8402C15D5F1007597F2 /* SettingViewController.swift */,
@@ -576,6 +587,7 @@
 				8D580A4E2C0893A40057D370 /* ScrapList.swift */,
 				8D2E862E2C1B2D7000967B13 /* BookmarkList.swift */,
 				8DA4C3812C09BFA8008AB975 /* Review.swift */,
+				8D69D70F2C2982FE0087296A /* Notice.swift */,
 			);
 			path = MyPage;
 			sourceTree = "<group>";
@@ -773,7 +785,7 @@
 				8D580A492C082AB60057D370 /* Pretendard-Regular.ttf in Resources */,
 				8D580A4A2C082AB60057D370 /* Pretendard-ExtraLight.ttf in Resources */,
 				613D86A52C05BFF90039E771 /* Base in Resources */,
-				6144066B2C29161C006707A8 /* GoogleService-Info.plist in Resources */,
+				8D69D70A2C2942B80087296A /* GoogleService-Info.plist in Resources */,
 				8D580A4B2C082AB60057D370 /* Pretendard-Bold.ttf in Resources */,
 				8D580A482C082AB60057D370 /* Pretendard-Black.ttf in Resources */,
 			);
@@ -807,6 +819,7 @@
 				6127E3572C2857740037F9E3 /* Location.swift in Sources */,
 				8DD5CBB92C107C82004F27BD /* DetailedReviewViewController.swift in Sources */,
 				617357292C137A3F0007B92A /* Constants.swift in Sources */,
+				8D69D7102C2982FE0087296A /* Notice.swift in Sources */,
 				8D580A532C08C8420057D370 /* MyReviewViewController.swift in Sources */,
 				617BCCC62C19699C008D8D48 /* ManageTableViewCell.swift in Sources */,
 				CE3F36352C08469700532901 /* RecommendCardView.swift in Sources */,
@@ -829,10 +842,12 @@
 				9C82B95B2C0F54D7008FA84E /* Double+Extension.swift in Sources */,
 				CE771CCF2C243D8E004415CA /* ChannelTableViewCell.swift in Sources */,
 				611644382C0909D4009FFDA5 /* SignManager.swift in Sources */,
+				8D69D70C2C2981C30087296A /* NoticeTableViewController.swift in Sources */,
 				610717A92C2137F600626649 /* AppleTokenResponse.swift in Sources */,
 				8DD5CBB72C107BFD004F27BD /* ReviewTableViewCell.swift in Sources */,
 				61DC69072C15CC38003DEB73 /* StoreManager.swift in Sources */,
 				617BCCBA2C1912CD008D8D48 /* GreetingBottomView.swift in Sources */,
+				8D69D70E2C2982C40087296A /* DetailedNoticeViewController.swift in Sources */,
 				611644302C08FFFC009FFDA5 /* GreetingHeaderView.swift in Sources */,
 				619D771A2C085EC80043EF82 /* GreetingViewController.swift in Sources */,
 				61DAC5002C06CCB000DFC575 /* Secret.swift in Sources */,
@@ -876,6 +891,7 @@
 				613D869B2C05BFF80039E771 /* SceneDelegate.swift in Sources */,
 				CE771CC32C243B06004415CA /* FirebaseStorageManager.swift in Sources */,
 				9C82B9572C0F31A0008FA84E /* MapViewModel.swift in Sources */,
+				8D69D7122C2986490087296A /* NoticeTableViewCell.swift in Sources */,
 				CE771CBB2C243925004415CA /* ChatVC.swift in Sources */,
 				9CC6D3182C206BD6004C85D8 /* PinStoreModel.swift in Sources */,
 				8D2E862D2C1AD5DD00967B13 /* BookmarkViewModel.swift in Sources */,
