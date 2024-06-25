@@ -37,6 +37,7 @@ class ChannelVC: BaseViewController {
     private let channelStream = ChannelFirestoreStream()
     private var currentChannelAlertController: UIAlertController?
     private var currentAddress = ""
+    private var isLocation = false
     
     init(currentUser: User) {
         self.currentUser = currentUser
@@ -252,31 +253,24 @@ extension ChannelVC: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let channel = channels[indexPath.row]
-        if currentAddress == channel.name {
-            let viewController: ChatVC
-            if let user = currentUser {
-                viewController = ChatVC(user: user, channel: channel)
-            } else if let customUser = customUser {
-                viewController = ChatVC(customUser: customUser, channel: channel)
-            } else {
-                fatalError("No valid user found.")
-            }
-            navigationController?.pushViewController(viewController, animated: true)
-            tableView.deselectRow(at: indexPath, animated: true)
-        } else if channel.name == "테스트" {
-            let viewController: ChatVC
-            if let user = currentUser {
-                viewController = ChatVC(user: user, channel: channel)
-            } else if let customUser = customUser {
-                viewController = ChatVC(customUser: customUser, channel: channel)
-            } else {
-                fatalError("No valid user found.")
-            }
-            navigationController?.pushViewController(viewController, animated: true)
-            tableView.deselectRow(at: indexPath, animated: true)
+        let viewController: ChatVC
+        
+        if currentAddress != channel.name {
+            isLocation = false
         } else {
-            showMessage(title: "지역 오류", message: "현재 속한 지역의 대화방만 입장가능합니다.\n현재 유저님의 속한 지역은 \(currentAddress)입니다.")
+            isLocation = true
         }
+        
+        if let user = currentUser {
+            viewController = ChatVC(user: user, channel: channel)
+            viewController.isLocation = isLocation
+        } else if let customUser = customUser {
+            viewController = ChatVC(customUser: customUser, channel: channel)
+        } else {
+            fatalError("No valid user found.")
+        }
+        navigationController?.pushViewController(viewController, animated: true)
+        tableView.deselectRow(at: indexPath, animated: true)
     }
 }
 
