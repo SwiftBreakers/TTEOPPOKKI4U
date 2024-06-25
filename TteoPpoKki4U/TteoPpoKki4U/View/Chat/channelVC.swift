@@ -73,7 +73,6 @@ class ChannelVC: BaseViewController {
         
         checkNickname()
         configureViews()
-        //addToolBarItems()
         setupListener()
         checkUserLocation()
     }
@@ -253,6 +252,17 @@ extension ChannelVC: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let channel = channels[indexPath.row]
         if currentAddress == channel.name {
+            let viewController: ChatVC
+            if let user = currentUser {
+                viewController = ChatVC(user: user, channel: channel)
+            } else if let customUser = customUser {
+                viewController = ChatVC(customUser: customUser, channel: channel)
+            } else {
+                fatalError("No valid user found.")
+            }
+            navigationController?.pushViewController(viewController, animated: true)
+            tableView.deselectRow(at: indexPath, animated: true)
+        } else if channel.name == "테스트" {
             let viewController: ChatVC
             if let user = currentUser {
                 viewController = ChatVC(user: user, channel: channel)

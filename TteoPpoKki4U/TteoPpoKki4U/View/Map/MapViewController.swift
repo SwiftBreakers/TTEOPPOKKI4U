@@ -45,7 +45,7 @@ class MapViewController: UIViewController, PinStoreViewDelegate {
     private let sendButton: UIButton = {
         let button = UIButton(type: .system)
         button.setTitle("Send", for: .normal)
-        button.addTarget(MapViewController.self, action: #selector(sendButtonTapped), for: .touchUpInside)
+        button.addTarget(nil, action: #selector(sendButtonTapped), for: .touchUpInside)
         button.tintColor = .white
         button.backgroundColor = .gray
         return button
@@ -54,7 +54,7 @@ class MapViewController: UIViewController, PinStoreViewDelegate {
     private let cancelButton: UIButton = {
         let button = UIButton(type: .system)
         button.setTitle("Cancel", for: .normal)
-        button.addTarget(MapViewController.self, action: #selector(cancelButtonTapped), for: .touchUpInside)
+        button.addTarget(nil, action: #selector(cancelButtonTapped), for: .touchUpInside)
         button.tintColor = .white
         button.backgroundColor = .gray
         return button
