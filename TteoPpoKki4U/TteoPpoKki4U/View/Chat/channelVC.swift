@@ -260,10 +260,17 @@ extension ChannelVC: UITableViewDataSource, UITableViewDelegate {
         } else {
             isLocation = true
         }
+    
         
         if let user = currentUser {
-            viewController = ChatVC(user: user, channel: channel)
-            viewController.isLocation = isLocation
+            if channel.name == "테스트" {
+                isLocation = true
+                viewController = ChatVC(user: user, channel: channel)
+                viewController.isLocation = isLocation
+            } else {
+                viewController = ChatVC(user: user, channel: channel)
+                viewController.isLocation = isLocation
+            }
         } else if let customUser = customUser {
             viewController = ChatVC(customUser: customUser, channel: channel)
         } else {
