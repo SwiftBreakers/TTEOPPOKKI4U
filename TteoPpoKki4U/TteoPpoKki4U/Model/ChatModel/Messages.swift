@@ -38,6 +38,9 @@ struct Message: MessageType {
     var location: CLLocation?
     var downloadURL: URL?
     
+    var chatReportCount: Int = 0 // 신고 횟수
+    var isActive: Bool = true // 활성 여부
+    
     init(user: User, content: String, displayName: String) {
         sender = Sender(senderId: user.uid, displayName: displayName)
         self.content = content
@@ -137,7 +140,9 @@ extension Message: DatabaseRepresentation {
         var representation: [String: Any] = [
             "created": sentDate,
             "senderId": sender.senderId,
-            "senderName": sender.displayName
+            "senderName": sender.displayName,
+            "chatReportCount": chatReportCount,
+            "isActive": isActive
         ]
         
         if let url = downloadURL {
@@ -157,8 +162,12 @@ extension Message: Comparable {
     static func == (lhs: Message, rhs: Message) -> Bool {
         return lhs.id == rhs.id
     }
-
+    
     static func < (lhs: Message, rhs: Message) -> Bool {
         return lhs.sentDate < rhs.sentDate
     }
+}
+
+struct BlockedUser {
+    let uid: String
 }

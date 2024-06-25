@@ -12,7 +12,6 @@ class FullscreenPageViewController: UIPageViewController, UIPageViewControllerDe
     var imageURLs: [URL] = []
     var currentIndex: Int = 0
     
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -26,9 +25,7 @@ class FullscreenPageViewController: UIPageViewController, UIPageViewControllerDe
     
     func viewControllerAtIndex(index: Int) -> FullscreenViewController? {
         if index >= 0 && index < imageURLs.count {
-            let fullscreenVC = FullscreenViewController()
-            fullscreenVC.imageURL = imageURLs[index]
-            fullscreenVC.index = index
+            let fullscreenVC = FullscreenViewController(imageURL: imageURLs[index], index: index)
             return fullscreenVC
         }
         return nil
@@ -59,4 +56,5 @@ class FullscreenPageViewController: UIPageViewController, UIPageViewControllerDe
             return nil
         }
         return viewControllerAtIndex(index: index)
-    }}
+    }
+}

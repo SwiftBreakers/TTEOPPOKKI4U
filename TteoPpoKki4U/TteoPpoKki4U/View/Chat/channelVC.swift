@@ -67,7 +67,7 @@ class ChannelVC: BaseViewController {
         
         checkNickname()
         configureViews()
-        addToolBarItems()
+//        addToolBarItems()
         setupListener()
     }
     
@@ -138,14 +138,14 @@ class ChannelVC: BaseViewController {
         }
     }
     
-    private func addToolBarItems() {
-        toolbarItems = [
-            UIBarButtonItem(title: "로그아웃", style: .plain, target: self, action: #selector(didTapSignOutItem)),
-            UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil),
-            UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(didTapAddItem))
-        ]
-        navigationController?.isToolbarHidden = false
-    }
+//    private func addToolBarItems() {
+//        toolbarItems = [
+//            UIBarButtonItem(title: "로그아웃", style: .plain, target: self, action: #selector(didTapSignOutItem)),
+//            UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil),
+//            UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(didTapAddItem))
+//        ]
+//        navigationController?.isToolbarHidden = false
+//    }
     
     private func setupListener() {
         channelStream.subscribe { [weak self] result in
@@ -158,28 +158,28 @@ class ChannelVC: BaseViewController {
         }
     }
     
-    @objc private func didTapSignOutItem() {
-        showAlert(message: "로그아웃 하시겠습니까?",
-                  cancelButtonName: "취소",
-                  confirmButtonName: "확인",
-                  confirmButtonCompletion: {
-            do {
-                try Auth.auth().signOut()
-            } catch {
-                print("Error signing out: \(error.localizedDescription)")
-            }
-        })
-    }
-    
-    @objc private func didTapAddItem() {
-        showAlert(title: "새로운 채널 생성",
-                  cancelButtonName: "취소",
-                  confirmButtonName: "확인",
-                  isExistsTextField: true,
-                  confirmButtonCompletion: { [weak self] in
-            self?.channelStream.createChannel(with: self?.alertController?.textFields?.first?.text ?? "")
-        })
-    }
+//    @objc private func didTapSignOutItem() {
+//        showAlert(message: "로그아웃 하시겠습니까?",
+//                  cancelButtonName: "취소",
+//                  confirmButtonName: "확인",
+//                  confirmButtonCompletion: {
+//            do {
+//                try Auth.auth().signOut()
+//            } catch {
+//                print("Error signing out: \(error.localizedDescription)")
+//            }
+//        })
+//    }
+//    
+//    @objc private func didTapAddItem() {
+//        showAlert(title: "새로운 채널 생성",
+//                  cancelButtonName: "취소",
+//                  confirmButtonName: "확인",
+//                  isExistsTextField: true,
+//                  confirmButtonCompletion: { [weak self] in
+//            self?.channelStream.createChannel(with: self?.alertController?.textFields?.first?.text ?? "")
+//        })
+//    }
     
     // MARK: - Update Cell
     
