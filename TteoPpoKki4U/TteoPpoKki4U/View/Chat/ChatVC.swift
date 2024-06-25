@@ -43,6 +43,7 @@ class ChatVC: MessagesViewController {
         }
     }
     var userData: ReportUserData?
+    var isLocation: Bool?
     
     init(user: User, channel: Channel) {
         self.user = user
@@ -235,9 +236,15 @@ class ChatVC: MessagesViewController {
     
     private func setupMessageInputBar() {
         if user != nil {
-            messageInputBar.inputTextView.tintColor = ThemeColor.mainOrange
-            messageInputBar.sendButton.setTitleColor(ThemeColor.mainOrange, for: .normal)
-            messageInputBar.inputTextView.placeholder = "채팅을 입력해주세요!"
+            if isLocation == false {
+                messageInputBar.inputTextView.tintColor = .systemGray
+                messageInputBar.sendButton.setTitleColor(.systemGray, for: .normal)
+                messageInputBar.inputTextView.placeholder = "타 지역에서는 보낼 수 없습니다."
+            } else {
+                messageInputBar.inputTextView.tintColor = ThemeColor.mainOrange
+                messageInputBar.sendButton.setTitleColor(ThemeColor.mainOrange, for: .normal)
+                messageInputBar.inputTextView.placeholder = "채팅을 입력해주세요!"
+            }
         } else if customUser != nil {
             messageInputBar.inputTextView.tintColor = .systemGray
             messageInputBar.sendButton.setTitleColor(.systemGray, for: .normal)
@@ -331,18 +338,22 @@ class ChatVC: MessagesViewController {
     @objc private func presentInputActionSheet() {
         
         if user != nil {
-            let actionSheet = UIAlertController(title: "유형을 선택해주세요", message: "아래에서 선택해주세요", preferredStyle: .actionSheet)
-            
-            actionSheet.addAction(UIAlertAction(title: "사진", style: .default, handler: { [weak self] _ in
-                self?.didTapCameraButton()
-            }))
-            
-            actionSheet.addAction(UIAlertAction(title: "지도", style: .default, handler: { [weak self] _ in
-                self?.presentLocationPicker()
-            }))
-            actionSheet.addAction(UIAlertAction(title: "취소", style: .cancel, handler: nil))
-            
-            present(actionSheet, animated: true)
+            if isLocation == false {
+                showMessage(title: "안내", message: "타 지역에서는 불가합니다.")
+            } else {
+                let actionSheet = UIAlertController(title: "유형을 선택해주세요", message: "아래에서 선택해주세요", preferredStyle: .actionSheet)
+                
+                actionSheet.addAction(UIAlertAction(title: "사진", style: .default, handler: { [weak self] _ in
+                    self?.didTapCameraButton()
+                }))
+                
+                actionSheet.addAction(UIAlertAction(title: "지도", style: .default, handler: { [weak self] _ in
+                    self?.presentLocationPicker()
+                }))
+                actionSheet.addAction(UIAlertAction(title: "취소", style: .cancel, handler: nil))
+                
+                present(actionSheet, animated: true)
+            }
         } else if customUser != nil {
             showMessage(title: "로그인이 필요한 기능입니다.", message: "사용 할 수 없습니다.")
         }
@@ -505,24 +516,29 @@ extension ChatVC: InputBarAccessoryViewDelegate {
                 return
             }
             
-            var message: Message
-            if let user = self.user {
-                message = Message(user: user, content: text, displayName: displayName)
-            } else if let customUser = self.customUser {
-                message = Message(customUser: customUser, content: text, displayName: displayName)
+            if isLocation == false {
+                showMessage(title: "안내", message: "타 지역에서는 불가합니다.")
             } else {
-                print("No valid user found")
-                return
-            }
-            
-            self.chatFirestoreStream.save(message) { error in
-                if let error = error {
-                    print(error)
+                var message: Message
+                if let user = self.user {
+                    message = Message(user: user, content: text, displayName: displayName)
+                } else if let customUser = self.customUser {
+                    message = Message(customUser: customUser, content: text, displayName: displayName)
+                } else {
+                    print("No valid user found")
                     return
                 }
-                self.messagesCollectionView.scrollToLastItem()
+                
+                self.chatFirestoreStream.save(message) { error in
+                    if let error = error {
+                        print(error)
+                        return
+                    }
+                    self.messagesCollectionView.scrollToLastItem()
+                }
+                inputBar.inputTextView.text.removeAll()
             }
-            inputBar.inputTextView.text.removeAll()
+            
         }
     }
 }
