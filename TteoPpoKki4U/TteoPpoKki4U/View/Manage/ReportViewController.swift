@@ -221,6 +221,11 @@ class ReportViewController: UIViewController {
             return
         }
         
+        if isEtc == false && !textView.text.isEmpty {
+            showMessage(title: "오류", message: "기타 사유를 선택한 경우에만 내용을 신고할 수 있습니다.")
+            return
+        }
+        
         if uid == userData!.uid {
             showMessage(title: "오류", message: "본인의 게시글은 신고 할 수 없습니다.")
         } else {
