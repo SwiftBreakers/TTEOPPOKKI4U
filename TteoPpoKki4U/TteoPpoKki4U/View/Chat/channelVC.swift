@@ -9,6 +9,7 @@ import UIKit
 import SnapKit
 import FirebaseAuth
 import Firebase
+import CoreLocation
 
 class ChannelVC: BaseViewController {
     
@@ -27,10 +28,16 @@ class ChannelVC: BaseViewController {
     }()
     
     var channels = [Channel]()
+    
+    let locationManager: CLLocationManager = CLLocationManager()
+    
+    var userLocation: CLLocation = CLLocation()
     private var currentUser: User?
     private var customUser: CustomUser?
     private let channelStream = ChannelFirestoreStream()
     private var currentChannelAlertController: UIAlertController?
+    private var currentAddress = ""
+    private var isLocation = false
     
     init(currentUser: User) {
         self.currentUser = currentUser
@@ -67,8 +74,9 @@ class ChannelVC: BaseViewController {
         
         checkNickname()
         configureViews()
-        addToolBarItems()
+//        addToolBarItems()
         setupListener()
+        checkUserLocation()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -78,6 +86,13 @@ class ChannelVC: BaseViewController {
         navigationController?.navigationBar.titleTextAttributes = [
             NSAttributedString.Key.foregroundColor: ThemeColor.mainOrange
         ]
+        checkUserLocation()
+    }
+    
+    private func checkUserLocation() {
+        locationManager.delegate = self
+        locationManager.requestWhenInUseAuthorization()
+        locationManager.startUpdatingLocation()
     }
     
     private func checkNickname() {
@@ -138,14 +153,14 @@ class ChannelVC: BaseViewController {
         }
     }
     
-    private func addToolBarItems() {
-        toolbarItems = [
-            UIBarButtonItem(title: "로그아웃", style: .plain, target: self, action: #selector(didTapSignOutItem)),
-            UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil),
-            UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(didTapAddItem))
-        ]
-        navigationController?.isToolbarHidden = false
-    }
+//    private func addToolBarItems() {
+//        toolbarItems = [
+//            UIBarButtonItem(title: "로그아웃", style: .plain, target: self, action: #selector(didTapSignOutItem)),
+//            UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil),
+//            UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(didTapAddItem))
+//        ]
+//        navigationController?.isToolbarHidden = false
+//    }
     
     private func setupListener() {
         channelStream.subscribe { [weak self] result in
@@ -158,28 +173,28 @@ class ChannelVC: BaseViewController {
         }
     }
     
-    @objc private func didTapSignOutItem() {
-        showAlert(message: "로그아웃 하시겠습니까?",
-                  cancelButtonName: "취소",
-                  confirmButtonName: "확인",
-                  confirmButtonCompletion: {
-            do {
-                try Auth.auth().signOut()
-            } catch {
-                print("Error signing out: \(error.localizedDescription)")
-            }
-        })
-    }
-    
-    @objc private func didTapAddItem() {
-        showAlert(title: "새로운 채널 생성",
-                  cancelButtonName: "취소",
-                  confirmButtonName: "확인",
-                  isExistsTextField: true,
-                  confirmButtonCompletion: { [weak self] in
-            self?.channelStream.createChannel(with: self?.alertController?.textFields?.first?.text ?? "")
-        })
-    }
+//    @objc private func didTapSignOutItem() {
+//        showAlert(message: "로그아웃 하시겠습니까?",
+//                  cancelButtonName: "취소",
+//                  confirmButtonName: "확인",
+//                  confirmButtonCompletion: {
+//            do {
+//                try Auth.auth().signOut()
+//            } catch {
+//                print("Error signing out: \(error.localizedDescription)")
+//            }
+//        })
+//    }
+//    
+//    @objc private func didTapAddItem() {
+//        showAlert(title: "새로운 채널 생성",
+//                  cancelButtonName: "취소",
+//                  confirmButtonName: "확인",
+//                  isExistsTextField: true,
+//                  confirmButtonCompletion: { [weak self] in
+//            self?.channelStream.createChannel(with: self?.alertController?.textFields?.first?.text ?? "")
+//        })
+//    }
     
     // MARK: - Update Cell
     
@@ -239,8 +254,23 @@ extension ChannelVC: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let channel = channels[indexPath.row]
         let viewController: ChatVC
+        
+        if currentAddress != channel.name {
+            isLocation = false
+        } else {
+            isLocation = true
+        }
+    
+        
         if let user = currentUser {
-            viewController = ChatVC(user: user, channel: channel)
+            if channel.name == "테스트" {
+                isLocation = true
+                viewController = ChatVC(user: user, channel: channel)
+                viewController.isLocation = isLocation
+            } else {
+                viewController = ChatVC(user: user, channel: channel)
+                viewController.isLocation = isLocation
+            }
         } else if let customUser = customUser {
             viewController = ChatVC(customUser: customUser, channel: channel)
         } else {
@@ -249,4 +279,33 @@ extension ChannelVC: UITableViewDataSource, UITableViewDelegate {
         navigationController?.pushViewController(viewController, animated: true)
         tableView.deselectRow(at: indexPath, animated: true)
     }
+}
+
+extension ChannelVC: CLLocationManagerDelegate {
+    
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        if let location = locations.last {
+            userLocation = location
+            getAddress(coordinate: userLocation)
+            locationManager.stopUpdatingLocation()  // 위치 업데이트 멈추기
+        }
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+        print("Failed to find user's location: \(error.localizedDescription)")
+    }
+    
+    func getAddress(coordinate: CLLocation) {
+        let address = CLGeocoder.init()
+        
+        address.reverseGeocodeLocation(coordinate) { [weak self] (placeMarks, error) in
+            var placeMark: CLPlacemark!
+            placeMark = placeMarks?[0]
+            
+            guard let address = placeMark else { return }
+            self?.currentAddress = address.administrativeArea!
+        }
+        
+    }
+    
 }

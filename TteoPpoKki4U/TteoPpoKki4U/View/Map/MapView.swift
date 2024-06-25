@@ -36,9 +36,13 @@ class MapView: UIView {
     let findMyLocationBtn: UIButton = {
         let btn = UIButton()
         btn.setImage(UIImage(systemName: "safari"), for: .normal)
-        btn.backgroundColor = ThemeColor.mainGreen
+        btn.backgroundColor = .white
         btn.tintColor = .black
         btn.layer.cornerRadius = 22
+        btn.clipsToBounds = true
+        btn.contentMode = .scaleToFill
+        btn.tintColor = ThemeColor.mainBlack
+        btn.sizeToFit()
         return btn
     }()
     lazy var compassBtn: MKCompassButton = {
@@ -79,6 +83,10 @@ class MapView: UIView {
             make.top.equalTo(searchBar.snp.bottom).offset(10)
             make.trailing.equalTo(safeAreaLayoutGuide).inset(20)
             make.height.width.equalTo(compassBtn.snp.width)
+        }
+        
+        findMyLocationBtn.imageView?.snp.makeConstraints { make in
+            make.width.height.equalTo(findMyLocationBtn.snp.width)
         }
         
         compassBtn.snp.makeConstraints { make in
