@@ -19,6 +19,7 @@ class NoticeTableViewCell: UITableViewCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupUI()
         selectionStyle = .none
+        backgroundColor = .white
     }
     
     required init?(coder: NSCoder) {

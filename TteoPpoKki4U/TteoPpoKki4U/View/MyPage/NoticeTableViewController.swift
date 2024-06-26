@@ -19,6 +19,7 @@ class NoticeTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = .white
         
         navigationController?.navigationBar.tintColor = ThemeColor.mainOrange
         navigationController?.navigationBar.barTintColor = .white
