@@ -93,13 +93,13 @@ class ChatVC: MessagesViewController {
         getSenderImage()
         confirmDelegates()
         removeOutgoingMessageAvatars()
-        addCameraBarButtonToMessageInputBar()
+        //addCameraBarButtonToMessageInputBar()
         listenToMessages()
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTap))
         messagesCollectionView.addGestureRecognizer(tapGesture)
         
         // 커스텀 메뉴 항목 추가
-//        let blockMenuItem = UIMenuItem(title: "차단", action: #selector(MessageCollectionViewCell.block(_:)))
+        //        let blockMenuItem = UIMenuItem(title: "차단", action: #selector(MessageCollectionViewCell.block(_:)))
         let reportMenuItem = UIMenuItem(title: "신고", action: #selector(MessageCollectionViewCell.report(_:)))
         UIMenuController.shared.menuItems = [/*blockMenuItem, */reportMenuItem]
         
@@ -159,7 +159,7 @@ class ChatVC: MessagesViewController {
             }
         }
     }
-
+    
     
     private func configureColor() {
         view.backgroundColor = .white
@@ -371,13 +371,7 @@ class ChatVC: MessagesViewController {
     
     private func didTapCameraButton() {
         let picker = UIImagePickerController()
-        picker.delegate = self
-        
-        if UIImagePickerController.isSourceTypeAvailable(.camera) {
-            picker.sourceType = .camera
-        } else {
-            picker.sourceType = .photoLibrary
-        }
+        picker.sourceType = .photoLibrary
         present(picker, animated: true)
     }
     
@@ -385,12 +379,12 @@ class ChatVC: MessagesViewController {
         view.endEditing(true)
     }
     
-        override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-            let cell = super.collectionView(collectionView, cellForItemAt: indexPath) as! MessageContentCell
-            let message = messages[indexPath.section]
-            configureAvatarView(cell.avatarView, for: message, at: indexPath, in: collectionView as! MessagesCollectionView)
-            return cell
-        }
+    override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = super.collectionView(collectionView, cellForItemAt: indexPath) as! MessageContentCell
+        let message = messages[indexPath.section]
+        configureAvatarView(cell.avatarView, for: message, at: indexPath, in: collectionView as! MessagesCollectionView)
+        return cell
+    }
 }
 
 extension ChatVC: MessagesDataSource {

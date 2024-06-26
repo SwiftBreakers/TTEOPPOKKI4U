@@ -46,7 +46,7 @@ class PrivacyPolicyViewController: UIViewController, UIScrollViewDelegate {
         setupTextView()
         setupTopLabel()
     
-
+        navigationController?.navigationBar.tintColor = ThemeColor.mainOrange
 
         
     }

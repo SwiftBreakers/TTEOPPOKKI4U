@@ -11,19 +11,40 @@ import PhotosUI
 import Firebase
 import ProgressHUD
 import Kingfisher
+import Combine
 
 class PersonalInfoViewController: UIViewController, PHPickerViewControllerDelegate {
     
     var profileImageView: UIImageView!
     var userNameTextField: CustomTextField!
     var saveButton: UIButton!
+    var validateButton: UIButton = {
+        let button = UIButton()
+        button.setTitle("중복확인", for: .normal)
+        button.addTarget(self, action: #selector(validateName), for: .touchUpInside)
+        button.titleLabel?.font = ThemeFont.fontBold(size: 14)
+        button.titleLabel?.textColor = .white
+        button.backgroundColor = ThemeColor.mainOrange
+        button.layer.cornerRadius = 10
+        return button
+    }()
     
+    lazy var validateLabel: UILabel = {
+        let label = UILabel()
+        label.font = ThemeFont.fontBold(size: 18)
+        label.textColor = ThemeColor.mainBlack
+        label.text = "닉네임 변경 전 중복확인 검사를 해주세요."
+        return label
+    }()
+    
+    var isValidate = false
     var profileImage: UIImage?
     var gotProfileImage: String?
     var profileName: String?
     
     let userManager = UserManager()
-    
+    var viewModel: ManageViewModel!
+    private var cancellables = Set<AnyCancellable>()
     
     var backButton: UIButton = {
         let button = UIButton(type: .system)
@@ -46,7 +67,7 @@ class PersonalInfoViewController: UIViewController, PHPickerViewControllerDelega
         navigationController?.isNavigationBarHidden = true
         userNameTextField.text = profileName
     }
-       
+    
     deinit {
         profileImage = nil
         gotProfileImage = nil
@@ -98,12 +119,25 @@ class PersonalInfoViewController: UIViewController, PHPickerViewControllerDelega
         userNameTextField.borderStyle = .roundedRect
         
         view.addSubview(userNameTextField)
+        view.addSubview(validateButton)
+        view.addSubview(validateLabel)
         
         userNameTextField.snp.makeConstraints { make in
             make.top.equalTo(profileImageView.snp.bottom).offset(20)
             make.leading.equalToSuperview().offset(20)
+            make.height.equalTo(40)
+        }
+        
+        validateButton.snp.makeConstraints { make in
+            make.top.equalTo(profileImageView.snp.bottom).offset(20)
+            make.leading.equalTo(userNameTextField.snp.trailing).offset(10)
             make.trailing.equalToSuperview().offset(-20)
             make.height.equalTo(40)
+        }
+        
+        validateLabel.snp.makeConstraints { make in
+            make.top.equalTo(userNameTextField.snp.bottom).offset(20)
+            make.horizontalEdges.equalToSuperview().inset(20)
         }
     }
     
@@ -162,38 +196,68 @@ class PersonalInfoViewController: UIViewController, PHPickerViewControllerDelega
         }
     }
     
+    
+    @objc func validateName() {
+        let manageManager = ManageManager()
+        viewModel = ManageViewModel(manageManager: manageManager)
+        
+        viewModel.getUsers()
+        
+        guard let nickName = userNameTextField.text else { return }
+        
+        viewModel.$userArray.sink { [weak self] modelArray in
+                if modelArray.contains(where: { $0.nickName == nickName }) {
+                    self?.isValidate = false
+                    self?.validateLabel.textColor = .red
+                    self?.validateLabel.text = "이미 닉네임이 존재합니다."
+                } else {
+                    self?.isValidate = true
+                    self?.validateLabel.textColor = .blue
+                    self?.validateLabel.text = "입력하신 닉네임은 사용 가능합니다."
+                }
+                
+            }.store(in: &cancellables)
+    }
+    
+    
     @objc func saveChanges() {
-        ProgressHUD.animate()
-        guard let uid = Auth.auth().currentUser?.uid else { return }
-        var selectedImage = profileImage
-        var userName = userNameTextField.text
         
-        if userName == "" {
-            userName = profileName
-        }
-        
-        if selectedImage == nil {
-            KingfisherManager.shared.retrieveImage(with: URL(string: gotProfileImage!)!) { [weak self] result in
+        if isValidate {
+            ProgressHUD.animate()
+            guard let uid = Auth.auth().currentUser?.uid else { return }
+            var selectedImage = profileImage
+            var userName = userNameTextField.text
+            
+            if userName == "" {
+                userName = profileName
+            }
+            
+            if selectedImage == nil {
+                KingfisherManager.shared.retrieveImage(with: URL(string: gotProfileImage!)!) { [weak self] result in
+                    switch result {
+                    case .success(let image):
+                        selectedImage = image.image
+                    case .failure(let error):
+                        self?.showMessage(title: "에러 발생", message: "\(error)가 발생했습니다")
+                    }
+                }
+            }
+            
+            userManager.updateProfile(uid: uid, nickName: userName!, profile: selectedImage!) { [weak self] result in
                 switch result {
-                case .success(let image):
-                    selectedImage = image.image
-                case .failure(let error):
-                    self?.showMessage(title: "에러 발생", message: "\(error)가 발생했습니다")
+                case .success(()):
+                    ProgressHUD.dismiss()
+                    self?.showMessage(title: "수정 완료", message: "프로필 정보가 수정 되었습니다.") {
+                        self?.navigationController?.popViewController(animated: true)
+                    }
+                case .failure(let error) :
+                    ProgressHUD.dismiss()
+                    self?.showMessage(title: "에러 발생", message: "\(error.localizedDescription)가 발생했습니다.")
                 }
             }
+        } else {
+            showMessage(title: "중복확인을 해주세요", message: "닉네임 중복확인을 먼저 해주세요.")
         }
         
-        userManager.updateProfile(uid: uid, nickName: userName!, profile: selectedImage!) { [weak self] result in
-            switch result {
-            case .success(()):
-                ProgressHUD.dismiss()
-                self?.showMessage(title: "수정 완료", message: "프로필 정보가 수정 되었습니다.") {
-                    self?.navigationController?.popViewController(animated: true)
-                }
-            case .failure(let error) :
-                ProgressHUD.dismiss()
-                self?.showMessage(title: "에러 발생", message: "\(error.localizedDescription)가 발생했습니다.")
-            }
-        }
     }
 }
