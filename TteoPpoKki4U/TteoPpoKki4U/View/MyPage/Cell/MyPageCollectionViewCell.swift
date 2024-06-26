@@ -69,7 +69,14 @@ class MyPageCollectionViewCell: UICollectionViewCell {
         }
         
         func configure(with model: MyPageModel) {
-            iconImageView.image = UIImage(systemName: model.icon)
-            titleLabel.text = model.title
+            if model.title == "로그아웃" {
+                titleLabel.text = model.title
+                iconImageView.image = UIImage(systemName: model.icon)
+                arrowImageView.image = nil
+            } else {
+                iconImageView.image = UIImage(systemName: model.icon)
+                titleLabel.text = model.title
+            }
+            
         }
 }
