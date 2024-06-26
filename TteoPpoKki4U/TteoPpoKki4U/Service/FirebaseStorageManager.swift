@@ -15,13 +15,13 @@ struct FirebaseStorageManager {
     
     static func uploadImage(image: UIImage, channel: Channel, progress: ((Double) -> Void)? = nil, completion: @escaping (Result<URL, Error>) -> Void) -> StorageUploadTask? {
         guard let channelId = channel.id,
-              let data = image.pngData() else { // PNG 포맷 사용
+              let data = image.jpegData(compressionQuality: 0.4) else { // PNG 포맷 사용
             completion(.failure(NSError(domain: "ImageUploadError", code: 0, userInfo: [NSLocalizedDescriptionKey: "Failed to prepare image for upload"])))
             return nil
         }
         
         let metaData = StorageMetadata()
-        metaData.contentType = "image/png" // PNG 포맷 사용
+        metaData.contentType = "image/jpg" // PNG 포맷 사용
         
         let imageName = UUID().uuidString + String(Date().timeIntervalSince1970)
         let imageReference = Storage.storage().reference().child("\(channelId)/\(imageName)")
@@ -61,7 +61,7 @@ struct FirebaseStorageManager {
         let reference = Storage.storage().reference(forURL: url.absoluteString)
         
         // 최대 크기를 50MB로 증가
-        let fiftyMegabytes = Int64(50 * 1024 * 1024)
+        let fiftyMegabytes = Int64(2 * 1024 * 1024)
         
         reference.getData(maxSize: fiftyMegabytes) { data, error in
             if let error = error {

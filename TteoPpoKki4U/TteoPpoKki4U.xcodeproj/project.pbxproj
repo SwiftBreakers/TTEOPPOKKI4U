@@ -145,7 +145,6 @@
 
 /* Begin PBXFileReference section */
 		25CCA3C82C254A46008F81A3 /* PrivacyPolicyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivacyPolicyViewController.swift; sourceTree = "<group>"; };
-		25CCA3CC2C259D9E008F81A3 /* privacy.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = privacy.txt; sourceTree = "<group>"; };
 		25CCA3CD2C259EC9008F81A3 /* privacyPolicyText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = privacyPolicyText.swift; sourceTree = "<group>"; };
 		25CCA3CF2C291B28008F81A3 /* TabbarControllerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabbarControllerDelegate.swift; sourceTree = "<group>"; };
 		610717A62C21364600626649 /* AuthKey_RS7QZ647UQ_public.p8 */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = AuthKey_RS7QZ647UQ_public.p8; sourceTree = "<group>"; };
@@ -601,7 +600,6 @@
 				8DB30F312C07794E00503139 /* PersonalInfoViewController.swift */,
 				8D3BA8402C15D5F1007597F2 /* SettingViewController.swift */,
 				25CCA3C82C254A46008F81A3 /* PrivacyPolicyViewController.swift */,
-				25CCA3CC2C259D9E008F81A3 /* privacy.txt */,
 				25CCA3CD2C259EC9008F81A3 /* privacyPolicyText.swift */,
 				8D580A522C08C8420057D370 /* MyReviewViewController.swift */,
 				61DAC4E32C05C3CF00DFC575 /* MyPageViewController.swift */,
@@ -1098,6 +1096,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = TteoPpoKki4U/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "떡볶이4U";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.lifestyle";
 				INFOPLIST_KEY_NSCameraUsageDescription = "리뷰 작성을 위해 동의가 필요합니다.";
 				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "주변 맛집 확인을 위해 동의가 필요합니다.";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "주변 맛집 확인을 위해 동의가 필요합니다.";
@@ -1137,6 +1136,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = TteoPpoKki4U/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "떡볶이4U";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.lifestyle";
 				INFOPLIST_KEY_NSCameraUsageDescription = "리뷰 작성을 위해 동의가 필요합니다.";
 				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "주변 맛집 확인을 위해 동의가 필요합니다.";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "주변 맛집 확인을 위해 동의가 필요합니다.";
