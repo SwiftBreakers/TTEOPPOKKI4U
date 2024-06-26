@@ -34,6 +34,14 @@ class DetailedReviewViewController: UIViewController {
         label.textColor = ThemeColor.mainBlack
         return label
     }()
+    private lazy var groundScrollView: UIScrollView = {
+        let view = UIScrollView()
+        view.showsHorizontalScrollIndicator = false
+        view.showsVerticalScrollIndicator = true
+        view.backgroundColor = .white
+        return view
+    }()
+    private lazy var contentView = UIView()
     private lazy var storeNameLabel: UILabel = {
         let label = UILabel()
         label.font = ThemeFont.fontBold(size: 24)
@@ -175,18 +183,15 @@ class DetailedReviewViewController: UIViewController {
         view.addSubview(backButton)
         view.addSubview(introLabel)
         view.addSubview(reportButton)
-        
         view.addSubview(storeNameLabel)
         
-        view.addSubview(reviewTitleLabel)
-        view.addSubview(userProfileImage)
-        view.addSubview(userNicknameLabel)
-        view.addSubview(starRatingLabel)
-        view.addSubview(createdAtLabel)
-        view.addSubview(reviewContentLabel)
+        groundScrollView.addSubview(contentView)
+        [scrollView, reviewTitleLabel, userProfileImage, userNicknameLabel, starRatingLabel, createdAtLabel, reviewContentLabel].forEach {
+            contentView.addSubview($0)
+        }
+        view.addSubview(groundScrollView)
         
         scrollView.isPagingEnabled = true
-        view.addSubview(scrollView)
         
         stackView.axis = .horizontal
         stackView.spacing = 10
@@ -214,38 +219,50 @@ class DetailedReviewViewController: UIViewController {
             make.centerX.equalToSuperview()
         }
         
+        groundScrollView.snp.makeConstraints { make in
+            make.top.equalTo(storeNameLabel.snp.bottom).offset(10)
+            make.horizontalEdges.equalTo(view.safeAreaLayoutGuide)
+            make.bottom.equalTo(view.safeAreaLayoutGuide)
+        }
+        
+        contentView.snp.makeConstraints { make in
+            make.edges.equalTo(groundScrollView)
+            make.width.equalTo(groundScrollView)
+        }
+        
         reviewTitleLabel.snp.makeConstraints { make in
             make.top.equalTo(scrollView.snp.bottom).offset(40)
-            make.horizontalEdges.equalTo(view.safeAreaLayoutGuide).inset(20)
+            make.horizontalEdges.equalToSuperview().inset(20)
         }
         
         userProfileImage.snp.makeConstraints { make in
             make.top.equalTo(reviewTitleLabel.snp.bottom).offset(10)
-            make.leading.equalTo(view.safeAreaLayoutGuide).inset(20)
+            make.leading.equalToSuperview().inset(20)
             make.width.height.equalTo(44)
         }
         
         userNicknameLabel.snp.makeConstraints { make in
             make.top.equalTo(userProfileImage.snp.top)
             make.leading.equalTo(userProfileImage.snp.trailing).offset(10)
+            make.trailing.equalToSuperview().inset(20)
         }
         
         starRatingLabel.snp.makeConstraints { make in
-            make.top.equalTo(userNicknameLabel.snp.bottom).offset(5)
+            //make.top.equalTo(userNicknameLabel.snp.bottom).offset(5)
             make.leading.equalTo(userProfileImage.snp.trailing).offset(10)
             make.bottom.equalTo(userProfileImage.snp.bottom)
         }
         
         createdAtLabel.snp.makeConstraints { make in
             make.leading.equalTo(starRatingLabel.snp.trailing).offset(10)
+            //make.trailing.equalToSuperview().inset(20)
             make.centerY.equalTo(starRatingLabel)
-            //make.trailing.equalTo(view.safeAreaLayoutGuide).offset(-20)
-            //make.width.equalTo(80)
         }
         
         reviewContentLabel.snp.makeConstraints { make in
             make.top.equalTo(starRatingLabel.snp.bottom).offset(30)
-            make.leading.trailing.equalTo(view.safeAreaLayoutGuide).inset(20)
+            make.leading.trailing.equalToSuperview().inset(20)
+            make.bottom.equalToSuperview().offset(-20)
         }
     }
     
@@ -257,11 +274,11 @@ class DetailedReviewViewController: UIViewController {
             scrollView.removeFromSuperview()
             reviewTitleLabel.snp.remakeConstraints { make in
                 make.top.equalTo(storeNameLabel.snp.bottom).offset(20)
-                make.leading.trailing.equalTo(view.safeAreaLayoutGuide).inset(20)
+                make.leading.trailing.equalToSuperview().inset(20)
             }
         } else if imageURLs.count == 1, let imageURLString = imageURLs.first, let imageURL = URL(string: imageURLString) {
             scrollView.removeFromSuperview()
-            view.addSubview(imageView)
+            contentView.addSubview(imageView)
             
             imageView.contentMode = .scaleAspectFill
             imageView.clipsToBounds = true
@@ -288,16 +305,18 @@ class DetailedReviewViewController: UIViewController {
             
             reviewTitleLabel.snp.remakeConstraints { make in
                 make.top.equalTo(imageView.snp.bottom).offset(20)
-                make.leading.trailing.equalTo(view.safeAreaLayoutGuide).inset(20)
+                make.leading.trailing.equalToSuperview().inset(20)
             }
         } else {
-            view.addSubview(scrollView)
+            contentView.addSubview(scrollView)
             
             scrollView.snp.remakeConstraints { make in
-                make.top.equalTo(storeNameLabel.snp.bottom).offset(20)
+                make.top.equalToSuperview().offset(20)
                 make.leading.trailing.equalToSuperview().inset(20)
                 make.height.equalTo(200)
             }
+            
+               
             
             stackView.snp.remakeConstraints { make in
                 make.edges.equalToSuperview()
