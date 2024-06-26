@@ -21,6 +21,7 @@ class MyPageViewController: UIViewController {
     
     let myPageVM = MyPageViewModel()
     let userManager = UserManager()
+    let reviewViewModel = ReviewViewModel()
     
     private var signVM: SignViewModel!
     private var signOutTapped: (() -> Void)!
@@ -64,8 +65,14 @@ class MyPageViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        getData()
         fetchUser()
+        
     }
+    
+    private func getData() {
+        reviewViewModel.getUserReview()
+      }
     
     private func fetchUser() {
         guard let uid = Auth.auth().currentUser?.uid else { return }
@@ -77,8 +84,22 @@ class MyPageViewController: UIViewController {
             myPageView.userProfile.kf.setImage(with: URL(string: dictionary[db_profileImageUrl] as! String))
             currentImageUrl = dictionary[db_profileImageUrl] as? String
             currentName = (dictionary[db_nickName] as? String) ?? "Unknown"
-//            currentRank = reviewCollection.
+            
+            switch reviewViewModel.userReview.count {
+            case 0...4:
+                currentRank = "떡볶이 순례길의 초행자"
+            case 5...9:
+                currentRank = "떡볶길을 자유 여행하는 탐방자"
+            case 10...29:
+                currentRank = "떡볶길의 베테랑 탐험자"
+            case 30...49:
+                currentRank = "떡볶이 순례길의 지휘관"
+            default:
+                currentRank = "떡볶이의 모든 것을 통찰하는 대가"
+            }
+            
             myPageView.userNameLabel.text = currentName
+            myPageView.userRankLabel.text = currentRank
         }
     }
     

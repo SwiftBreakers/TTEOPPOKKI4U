@@ -32,6 +32,7 @@ class MyScrapViewController: UIViewController {
     
     let scrapViewModel = ScrapViewModel()
     let bookmarkViewModel = BookmarkViewModel()
+    let cardViewModel = CardViewModel()
     
     private var cancellables = Set<AnyCancellable>()
     
@@ -178,6 +179,7 @@ extension MyScrapViewController: UICollectionViewDelegate, UICollectionViewDataS
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    
         if segmentedControl.selectedSegmentIndex == 0 {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ScrapCell", for: indexPath) as! ScrapCell
             let scrapItem = scrapViewModel.scrapArray[indexPath.row]
@@ -188,6 +190,14 @@ extension MyScrapViewController: UICollectionViewDelegate, UICollectionViewDataS
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "BookmarkCell", for: indexPath) as! BookmarkCell
             let bookmarkItem = bookmarkViewModel.bookmarkArray[indexPath.item]
             cell.configure(with: bookmarkItem)
+            cell.bookmarkIconTapped = { [weak self] in
+                guard let uid = Auth.auth().currentUser?.uid else {
+                    return
+                }
+                self?.bookmarkViewModel.deleteBookmark(uid: uid, title: bookmarkItem.title, completion: {
+                    self?.bookmarkViewModel.fetchBookmark(uid: uid)
+                })
+            }
             return cell
         }
     }
