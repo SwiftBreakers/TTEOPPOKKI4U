@@ -30,9 +30,13 @@ class MapViewController: UIViewController, PinStoreViewDelegate {
     var selectedLocation: CLLocationCoordinate2D?
     var selectedStoreName: String?
     private var viewModel = MapViewModel()
+    private var jsonViewModel: JsonViewModel!
     var isLocationPicker: Bool = false
     var selectedStoreRatings = [Float]()
     var selectedStoreAverageRating: Float?
+    private var currentAddress = ""
+    private var jsonFileName = ""
+    private var isSearched = false
     
     private let buttonStackView: UIStackView = {
         let stackView = UIStackView()
@@ -89,7 +93,56 @@ class MapViewController: UIViewController, PinStoreViewDelegate {
         }
         getRecentData()
     }
-
+    
+    private func loadJson(file name: String) {
+        let jsonService = JsonService(fileName: name)
+        jsonViewModel = JsonViewModel(jsonService: jsonService)
+        
+        let nearStores = jsonViewModel.getNearbyStores(currentLocation: userLocation)
+        
+        addNearbyStorePins(for: nearStores)
+        
+    }
+    
+    private func getFileName(address: String) -> String {
+            switch address {
+            case "서울특별시":
+                return "seoul"
+            case "경기도":
+                return "gyeonggi"
+            case "강원도":
+                return "gangwon"
+            case "충청북도":
+                return "chungbuk"
+            case "충청남도":
+                return "chungnam"
+            case "경상북도":
+                return "gyeongbuk"
+            case "경상남도":
+                return "gyeongnam"
+            case "전라북도":
+                return "jeonbuk"
+            case "전라남도":
+                return "jeonnam"
+            case "광주광역시":
+                return "gwangju"
+            case "대구광역시":
+                return "daegu"
+            case "대전광역시":
+                return "daejeon"
+            case "부산광역시":
+                return "busan"
+            case "울산광역시":
+                return "ulsan"
+            case "세종특별자치시":
+                return "sejong"
+            case "제주특별자치도":
+                return "jeju"
+            default:
+                return "default"
+            }
+        }
+    
     private func getRecentData() {
         if selectedStoreName != nil {
             Task {
@@ -100,6 +153,49 @@ class MapViewController: UIViewController, PinStoreViewDelegate {
                 storeInfoView.ratingLabel.attributedText = storeInfoView.makeIconBeforeText(icon: "star", label: formattedRating)
                 storeInfoView.reviewsLabel.attributedText = storeInfoView.makeIconBeforeText(icon: "text.bubble", label: " \(selectedStoreRatings.count)개")
             }
+        }
+    }
+    
+    private func displayStoreInfoFromJSON(with name: String) {
+        // JsonViewModel을 통해 JSON 데이터를 가져옴
+        let stores = jsonViewModel.getNearbyStores(currentLocation: userLocation)
+        
+        // 이름에 해당하는 스토어를 찾음
+        if let store = stores.first(where: { $0.storeName == name }) {
+            Task {
+                let ratings = await viewModel.getRatings(for: store.storeName)
+                let averageRating = getAverageRating(ratings: ratings)
+                let reviewsCount = ratings.count
+                DispatchQueue.main.async { [weak self] in
+                    self?.storeInfoView.bind(
+                        title: store.storeName,
+                        address: store.address,
+                        isScrapped: false,
+                        rating: averageRating,
+                        reviews: ratings.count,
+                        distance: (self?.getDistance(with: store.y, store.x).prettyDistance)!,
+                        callNumber: ""
+                    )
+                    self?.storeInfoView.isHidden = false
+                }
+            }
+        }
+    }
+    
+    private func getAverageRating(ratings: [Float]) -> Float {
+        let count = ratings.count
+        guard count > 0 else { return 0.0 }
+        
+        let sum = ratings.reduce(0, +)
+        return sum / Float(count)
+    }
+    
+    private func addNearbyStorePins(for stores: [JsonModel]) {
+        for store in stores {
+            let latitude = CLLocationDegrees(store.y)
+            let longitude = CLLocationDegrees(store.x)
+            let storeLocation = CLLocation(latitude: latitude, longitude: longitude)
+            self.addPin(at: storeLocation, title: store.storeName, isMainLocation: false)
         }
     }
     
@@ -186,6 +282,7 @@ class MapViewController: UIViewController, PinStoreViewDelegate {
                 return
             }
             if let mapItem = response.mapItems.first {
+                self.isSearched = true
                 let coordinate = mapItem.placemark.coordinate
                 let location = CLLocation(latitude: coordinate.latitude, longitude: coordinate.longitude)
                 self.centerMapOnLocation(location: location)
@@ -340,8 +437,24 @@ extension MapViewController: UISearchBarDelegate, CLLocationManagerDelegate, MKM
         if let location = locations.last {
             userLocation = location
             centerMapOnLocation(location: location)
+            getAddress(coordinate: location)
             locationManager.stopUpdatingLocation()  // 위치 업데이트 멈추기
         }
+    }
+    
+    func getAddress(coordinate: CLLocation) {
+        let address = CLGeocoder.init()
+        
+        address.reverseGeocodeLocation(coordinate) { [weak self] (placeMarks, error) in
+            var placeMark: CLPlacemark!
+            placeMark = placeMarks?[0]
+            
+            guard let address = placeMark else { return }
+            self?.currentAddress = address.administrativeArea!
+            //self?.jsonFileName = (self?.getFileName(address: self!.currentAddress))!
+            //self?.loadJson(file: self!.jsonFileName)
+        }
+        
     }
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
@@ -382,7 +495,11 @@ extension MapViewController: UISearchBarDelegate, CLLocationManagerDelegate, MKM
         UIView.animate(withDuration: 0.3, animations: {
             view.transform = CGAffineTransform(scaleX: 1.5, y: 1.5)
         })
-        viewModel.loadStore(with: name)
+        if isSearched == true {
+            viewModel.loadStore(with: name)
+        } else {
+            displayStoreInfoFromJSON(with: name)
+        }
         selectedStoreName = name
     }
     

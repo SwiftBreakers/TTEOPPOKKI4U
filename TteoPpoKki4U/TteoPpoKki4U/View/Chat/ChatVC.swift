@@ -147,7 +147,7 @@ class ChatVC: MessagesViewController {
                                                 senderId: selectedMessage.sender.senderId, // 보낸 사람 ID
                                                 content: selectedMessage.content, // 메시지 내용
                                                 sentDate: selectedMessage.sentDate, // 메시지 전송 날짜
-                                                reportCount: 1, // 초기 신고 수
+                                                reportCount: 0, // 초기 신고 수
                                                 isActive: true, // 활성 상태
                                                 channel: channel.name) // 채널 확인
                 
