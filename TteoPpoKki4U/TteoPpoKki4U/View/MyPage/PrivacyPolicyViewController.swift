@@ -99,6 +99,7 @@ class PrivacyPolicyViewController: UIViewController, UIScrollViewDelegate {
     func setupBackButton() {
         view.addSubview(backButton)
         
+        
         backButton.snp.makeConstraints { make in
             make.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(10)
             make.leading.equalToSuperview().offset(20)

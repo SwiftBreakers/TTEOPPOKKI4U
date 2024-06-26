@@ -142,6 +142,11 @@ extension MyPageViewController: UICollectionViewDataSource, UICollectionViewDele
                         self?.signOutTapped!()
                     }
                 }
+            
+        case [0, 1]:
+            let EventVC = EventPageViewController()
+            navigationController?.pushViewController(EventVC, animated: true)
+            
             default:
                 return
             }
