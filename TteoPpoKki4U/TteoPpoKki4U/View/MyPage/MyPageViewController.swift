@@ -29,6 +29,7 @@ class MyPageViewController: UIViewController {
     private var cancellables = Set<AnyCancellable>()
     private var currentImageUrl: String?
     public var currentName: String?
+    public var currentRank: String?
     
     convenience init(signOutTapped: @escaping () -> Void, editTapped:@escaping () -> Void, viewModel: SignViewModel) {
         self.init()
@@ -76,6 +77,7 @@ class MyPageViewController: UIViewController {
             myPageView.userProfile.kf.setImage(with: URL(string: dictionary[db_profileImageUrl] as! String))
             currentImageUrl = dictionary[db_profileImageUrl] as? String
             currentName = (dictionary[db_nickName] as? String) ?? "Unknown"
+//            currentRank = reviewCollection.
             myPageView.userNameLabel.text = currentName
         }
     }
@@ -121,7 +123,9 @@ extension MyPageViewController: UICollectionViewDataSource, UICollectionViewDele
         
         switch indexPath {
         case [0, 0]:
-            showMessage(title: "안내", message: "해당 기능이 준비중입니다.")
+            //showMessage(title: "안내", message: "해당 기능이 준비중입니다.")
+            let NoticeTVC = NoticeTableViewController()
+            navigationController?.pushViewController(NoticeTVC, animated: true)
         case [1, 0]:
             let MyScrapVC = MyScrapViewController()
             navigationController?.pushViewController(MyScrapVC, animated: true)

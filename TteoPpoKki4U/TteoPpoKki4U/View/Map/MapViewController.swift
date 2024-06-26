@@ -28,8 +28,16 @@ class MapViewController: UIViewController, PinStoreViewDelegate {
     var userLocation: CLLocation = CLLocation()
     weak var delegate: MapViewControllerDelegate?
     var selectedLocation: CLLocationCoordinate2D?
+    var selectedStoreName: String?
     private var viewModel = MapViewModel()
+    private var jsonViewModel: JsonViewModel!
     var isLocationPicker: Bool = false
+    var selectedStoreRatings = [Float]()
+    var selectedStoreAverageRating: Float?
+    var isSelectedStoreScrapped: Bool = false
+    private var currentAddress = ""
+    private var jsonFileName = ""
+    private var isSearched = false
     
     private let buttonStackView: UIStackView = {
         let stackView = UIStackView()
@@ -38,7 +46,7 @@ class MapViewController: UIViewController, PinStoreViewDelegate {
         stackView.spacing = 20
         return stackView
     }()
-
+    
     private let sendButton: UIButton = {
         let button = UIButton(type: .system)
         button.setTitle("Send", for: .normal)
@@ -47,7 +55,7 @@ class MapViewController: UIViewController, PinStoreViewDelegate {
         button.backgroundColor = .gray
         return button
     }()
-
+    
     private let cancelButton: UIButton = {
         let button = UIButton(type: .system)
         button.setTitle("Cancel", for: .normal)
@@ -56,15 +64,15 @@ class MapViewController: UIViewController, PinStoreViewDelegate {
         button.backgroundColor = .gray
         return button
     }()
-
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        bind()
         setConstraints()
         setMapView()
         setClickEvents()
-        bind()
         
         mapView.searchBar.delegate = self
         storeInfoView.delegate = self
@@ -76,7 +84,6 @@ class MapViewController: UIViewController, PinStoreViewDelegate {
         let longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPress(gestureRecognizer:)))
         mapView.map.addGestureRecognizer(longPressGesture)
         
-        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -85,8 +92,119 @@ class MapViewController: UIViewController, PinStoreViewDelegate {
         if isLocationPicker {
             setupButtons()
         }
+        getRecentData()
     }
     
+    private func loadJson(file name: String) {
+        let jsonService = JsonService(fileName: name)
+        jsonViewModel = JsonViewModel(jsonService: jsonService)
+        
+        let nearStores = jsonViewModel.getNearbyStores(currentLocation: userLocation)
+        viewModel.loadJsonStores(nearStores)
+        
+        addNearbyStorePins(for: nearStores)
+    }
+    
+    private func getFileName(address: String) -> String {
+            switch address {
+            case "서울특별시":
+                return "seoul"
+            case "경기도":
+                return "gyeonggi"
+            case "강원도":
+                return "gangwon"
+            case "충청북도":
+                return "chungbuk"
+            case "충청남도":
+                return "chungnam"
+            case "경상북도":
+                return "gyeongbuk"
+            case "경상남도":
+                return "gyeongnam"
+            case "전라북도":
+                return "jeonbuk"
+            case "전라남도":
+                return "jeonnam"
+            case "광주광역시":
+                return "gwangju"
+            case "대구광역시":
+                return "daegu"
+            case "대전광역시":
+                return "daejeon"
+            case "부산광역시":
+                return "busan"
+            case "울산광역시":
+                return "ulsan"
+            case "세종특별자치시":
+                return "sejong"
+            case "제주특별자치도":
+                return "jeju"
+            default:
+                return "default"
+            }
+        }
+    
+    private func getRecentData() {
+        if selectedStoreName != nil {
+            Task {
+                await
+                selectedStoreRatings = viewModel.getRatings(for:selectedStoreName!)
+                selectedStoreAverageRating = viewModel.getAverageRating(ratings: selectedStoreRatings)
+                isSelectedStoreScrapped = await viewModel.getScrap(for:selectedStoreName!)
+                let formattedRating = String(format: "%.1f", selectedStoreAverageRating!)
+                storeInfoView.ratingLabel.attributedText = storeInfoView.makeIconBeforeText(icon: "star", label: formattedRating)
+                storeInfoView.reviewsLabel.attributedText = storeInfoView.makeIconBeforeText(icon: "text.bubble", label: " \(selectedStoreRatings.count)개")
+                storeInfoView.isScrapped = isSelectedStoreScrapped
+            }
+        }
+    }
+    
+    private func displayStoreInfoFromJSON(with name: String) {
+        // JsonViewModel을 통해 JSON 데이터를 가져옴
+        let stores = jsonViewModel.getNearbyStores(currentLocation: userLocation)
+        
+        // 이름에 해당하는 스토어를 찾음
+        if let store = stores.first(where: { $0.storeName == name }) {
+            Task {
+                let ratings = await viewModel.getRatings(for: store.storeName)
+                let isScrapped = await viewModel.getScrap(for: store.storeName)
+                let averageRating = getAverageRating(ratings: ratings)
+                DispatchQueue.main.async { [weak self] in
+                    self?.storeInfoView.bind(
+                        title: store.storeName,
+                        address: store.address,
+                        isScrapped: isScrapped,
+                        rating: averageRating,
+                        reviews: ratings.count,
+                        distance: (self?.getDistance(with: store.y, store.x).prettyDistance)!,
+                        callNumber: ""
+                    )
+                    self?.storeInfoView.isHidden = false
+                }
+            }
+        }
+    }
+    
+    private func getAverageRating(ratings: [Float]) -> Float {
+        let count = ratings.count
+        guard count > 0 else { return 0.0 }
+        
+        let sum = ratings.reduce(0, +)
+        return sum / Float(count)
+    }
+    
+    private func addNearbyStorePins(for stores: [JsonModel]) {
+        for store in stores {
+            let latitude = CLLocationDegrees(store.y)
+            let longitude = CLLocationDegrees(store.x)
+            let storeLocation = CLLocation(latitude: latitude, longitude: longitude)
+            self.addPin(at: storeLocation, title: store.storeName, isMainLocation: false)
+        }
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self, name: UIApplication.willEnterForegroundNotification, object: nil)
+    }
     
     func setConstraints() {
         [mapView, storeInfoView].forEach {
@@ -167,6 +285,7 @@ class MapViewController: UIViewController, PinStoreViewDelegate {
                 return
             }
             if let mapItem = response.mapItems.first {
+                self.isSearched = true
                 let coordinate = mapItem.placemark.coordinate
                 let location = CLLocation(latitude: coordinate.latitude, longitude: coordinate.longitude)
                 self.centerMapOnLocation(location: location)
@@ -235,25 +354,23 @@ class MapViewController: UIViewController, PinStoreViewDelegate {
             let touchPoint = gestureRecognizer.location(in: mapView.map)
             let coordinate = mapView.map.convert(touchPoint, toCoordinateFrom: mapView.map)
             selectedLocation = coordinate
-
+            
             // 기존 핀 제거
             let allAnnotations = mapView.map.annotations
             mapView.map.removeAnnotations(allAnnotations)
-
+            
             // 새로운 핀 추가
             addPin(at: CLLocation(latitude: coordinate.latitude, longitude: coordinate.longitude), title: "선택된 위치", isMainLocation: true)
         }
     }
-    
-   
-    
+
     @objc func sendButtonTapped() {
         if let location = selectedLocation {
             delegate?.didSelectLocation(location)
         }
         dismiss(animated: true, completion: nil)
     }
-
+    
     @objc func cancelButtonTapped() {
         dismiss(animated: true, completion: nil)
     }
@@ -323,8 +440,24 @@ extension MapViewController: UISearchBarDelegate, CLLocationManagerDelegate, MKM
         if let location = locations.last {
             userLocation = location
             centerMapOnLocation(location: location)
+            getAddress(coordinate: location)
             locationManager.stopUpdatingLocation()  // 위치 업데이트 멈추기
         }
+    }
+    
+    func getAddress(coordinate: CLLocation) {
+        let address = CLGeocoder.init()
+        
+        address.reverseGeocodeLocation(coordinate) { [weak self] (placeMarks, error) in
+            var placeMark: CLPlacemark!
+            placeMark = placeMarks?[0]
+            
+            guard let address = placeMark else { return }
+            self?.currentAddress = address.administrativeArea!
+            self?.jsonFileName = (self?.getFileName(address: self!.currentAddress))!
+            self?.loadJson(file: self!.jsonFileName)
+        }
+        
     }
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
@@ -365,7 +498,12 @@ extension MapViewController: UISearchBarDelegate, CLLocationManagerDelegate, MKM
         UIView.animate(withDuration: 0.3, animations: {
             view.transform = CGAffineTransform(scaleX: 1.5, y: 1.5)
         })
-        viewModel.loadStore(with: name)
+        if isSearched == true {
+            viewModel.loadStore(with: name)
+        } else {
+            displayStoreInfoFromJSON(with: name)
+        }
+        selectedStoreName = name
     }
     
     func mapView(_ mapView: MKMapView, didDeselect view: MKAnnotationView) {

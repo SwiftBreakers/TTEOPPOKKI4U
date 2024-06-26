@@ -19,6 +19,11 @@
 		610717A72C21364600626649 /* AuthKey_RS7QZ647UQ_public.p8 in Resources */ = {isa = PBXBuildFile; fileRef = 610717A62C21364600626649 /* AuthKey_RS7QZ647UQ_public.p8 */; };
 		610717A92C2137F600626649 /* AppleTokenResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 610717A82C2137F600626649 /* AppleTokenResponse.swift */; };
 		610717AB2C213D5C00626649 /* AuthKey_RS7QZ647UQ.p8 in Resources */ = {isa = PBXBuildFile; fileRef = 610717AA2C213D5C00626649 /* AuthKey_RS7QZ647UQ.p8 */; };
+		61107A7A2C2AEBC400EE9AD2 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 61107A792C2AEBC400EE9AD2 /* GoogleService-Info.plist */; };
+		61107A802C2AFFE800EE9AD2 /* JsonModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61107A7F2C2AFFE800EE9AD2 /* JsonModel.swift */; };
+		61107A822C2B000100EE9AD2 /* JsonService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61107A812C2B000100EE9AD2 /* JsonService.swift */; };
+		61107A842C2B78AD00EE9AD2 /* JsonViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61107A832C2B78AD00EE9AD2 /* JsonViewModel.swift */; };
+		61107A862C2B897500EE9AD2 /* seoul.json in Resources */ = {isa = PBXBuildFile; fileRef = 61107A852C2B897500EE9AD2 /* seoul.json */; };
 		611578D02C0DCAAB0096BC43 /* UserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611578CF2C0DCAAB0096BC43 /* UserModel.swift */; };
 		6116167A2C1BD7A3008A2FA2 /* RecommendViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611616792C1BD7A3008A2FA2 /* RecommendViewModel.swift */; };
 		6116167E2C1C218C008A2FA2 /* ReportViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6116167D2C1C218B008A2FA2 /* ReportViewController.swift */; };
@@ -84,6 +89,9 @@
 		8D580A512C08AAF70057D370 /* ScrapCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D580A502C08AAF70057D370 /* ScrapCell.swift */; };
 		8D580A532C08C8420057D370 /* MyReviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D580A522C08C8420057D370 /* MyReviewViewController.swift */; };
 		8D60C7AD2C105EFC00CAFD0C /* StoreViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D60C7AC2C105EFC00CAFD0C /* StoreViewController.swift */; };
+		8D69D70C2C2981C30087296A /* NoticeTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D69D70B2C2981C30087296A /* NoticeTableViewController.swift */; };
+		8D69D7102C2982FE0087296A /* Notice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D69D70F2C2982FE0087296A /* Notice.swift */; };
+		8D69D7122C2986490087296A /* NoticeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D69D7112C2986490087296A /* NoticeTableViewCell.swift */; };
 		8D78CDE02C0E077D00051D50 /* WriteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D78CDDF2C0E077D00051D50 /* WriteViewController.swift */; };
 		8D899FE02C1C3F0500FEBE77 /* BookmarkCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D899FDF2C1C3F0500FEBE77 /* BookmarkCell.swift */; };
 		8D9A305A2C180D99004E7F1B /* ScrapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D9A30592C180D99004E7F1B /* ScrapViewModel.swift */; };
@@ -135,11 +143,13 @@
 		CE771CCD2C243D69004415CA /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE771CCC2C243D69004415CA /* BaseViewController.swift */; };
 		CE771CCF2C243D8E004415CA /* ChannelTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE771CCE2C243D8E004415CA /* ChannelTableViewCell.swift */; };
 		CE771CD12C243E03004415CA /* NSObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE771CD02C243E03004415CA /* NSObject.swift */; };
+		CEA3189B2C2A4F82001BAB0B /* ReportChatUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEA3189A2C2A4F82001BAB0B /* ReportChatUser.swift */; };
+		CEA3189D2C2A5CB3001BAB0B /* ChatReportViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEA3189C2C2A5CB3001BAB0B /* ChatReportViewController.swift */; };
+		CEA318A12C2A6406001BAB0B /* ChatReportViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEA318A02C2A6406001BAB0B /* ChatReportViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		25CCA3C82C254A46008F81A3 /* PrivacyPolicyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivacyPolicyViewController.swift; sourceTree = "<group>"; };
-		25CCA3CC2C259D9E008F81A3 /* privacy.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = privacy.txt; sourceTree = "<group>"; };
 		25CCA3CD2C259EC9008F81A3 /* privacyPolicyText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = privacyPolicyText.swift; sourceTree = "<group>"; };
 		25CCA3CF2C291B28008F81A3 /* TabbarControllerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabbarControllerDelegate.swift; sourceTree = "<group>"; };
 		25CCA3D12C297838008F81A3 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -151,6 +161,11 @@
 		610717A82C2137F600626649 /* AppleTokenResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleTokenResponse.swift; sourceTree = "<group>"; };
 		610717AA2C213D5C00626649 /* AuthKey_RS7QZ647UQ.p8 */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = AuthKey_RS7QZ647UQ.p8; sourceTree = "<group>"; };
 		610717AC2C2156B200626649 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		61107A792C2AEBC400EE9AD2 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../../../Desktop/GoogleService-Info.plist"; sourceTree = "<group>"; };
+		61107A7F2C2AFFE800EE9AD2 /* JsonModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JsonModel.swift; sourceTree = "<group>"; };
+		61107A812C2B000100EE9AD2 /* JsonService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JsonService.swift; sourceTree = "<group>"; };
+		61107A832C2B78AD00EE9AD2 /* JsonViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JsonViewModel.swift; sourceTree = "<group>"; };
+		61107A852C2B897500EE9AD2 /* seoul.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = seoul.json; sourceTree = "<group>"; };
 		611578CF2C0DCAAB0096BC43 /* UserModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserModel.swift; sourceTree = "<group>"; };
 		611616792C1BD7A3008A2FA2 /* RecommendViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecommendViewModel.swift; sourceTree = "<group>"; };
 		6116167D2C1C218B008A2FA2 /* ReportViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportViewController.swift; sourceTree = "<group>"; };
@@ -206,6 +221,9 @@
 		8D580A502C08AAF70057D370 /* ScrapCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrapCell.swift; sourceTree = "<group>"; };
 		8D580A522C08C8420057D370 /* MyReviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyReviewViewController.swift; sourceTree = "<group>"; };
 		8D60C7AC2C105EFC00CAFD0C /* StoreViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreViewController.swift; sourceTree = "<group>"; };
+		8D69D70B2C2981C30087296A /* NoticeTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeTableViewController.swift; sourceTree = "<group>"; };
+		8D69D70F2C2982FE0087296A /* Notice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notice.swift; sourceTree = "<group>"; };
+		8D69D7112C2986490087296A /* NoticeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeTableViewCell.swift; sourceTree = "<group>"; };
 		8D78CDDF2C0E077D00051D50 /* WriteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WriteViewController.swift; sourceTree = "<group>"; };
 		8D899FDF2C1C3F0500FEBE77 /* BookmarkCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkCell.swift; sourceTree = "<group>"; };
 		8D9A30592C180D99004E7F1B /* ScrapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrapViewModel.swift; sourceTree = "<group>"; };
@@ -254,6 +272,9 @@
 		CE771CCC2C243D69004415CA /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
 		CE771CCE2C243D8E004415CA /* ChannelTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelTableViewCell.swift; sourceTree = "<group>"; };
 		CE771CD02C243E03004415CA /* NSObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSObject.swift; sourceTree = "<group>"; };
+		CEA3189A2C2A4F82001BAB0B /* ReportChatUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportChatUser.swift; sourceTree = "<group>"; };
+		CEA3189C2C2A5CB3001BAB0B /* ChatReportViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatReportViewController.swift; sourceTree = "<group>"; };
+		CEA318A02C2A6406001BAB0B /* ChatReportViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatReportViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -289,6 +310,24 @@
 			isa = PBXGroup;
 			children = (
 				9C82B9562C0F31A0008FA84E /* MapViewModel.swift */,
+			);
+			path = Map;
+			sourceTree = "<group>";
+		};
+		61107A7B2C2AFF8A00EE9AD2 /* Json */ = {
+			isa = PBXGroup;
+			children = (
+				61107A852C2B897500EE9AD2 /* seoul.json */,
+			);
+			path = Json;
+			sourceTree = "<group>";
+		};
+		61107A7E2C2AFFD800EE9AD2 /* Map */ = {
+			isa = PBXGroup;
+			children = (
+				9C82B9502C0F2D55008FA84E /* ResponseStore.swift */,
+				9CC6D3172C206BD6004C85D8 /* PinStoreModel.swift */,
+				61107A7F2C2AFFE800EE9AD2 /* JsonModel.swift */,
 			);
 			path = Map;
 			sourceTree = "<group>";
@@ -331,6 +370,7 @@
 				617BCCC32C195E4B008D8D48 /* ManageManager.swift */,
 				CE771CC22C243B06004415CA /* FirebaseStorageManager.swift */,
 				61B0E6D12C270BDE007436DD /* ChatManager.swift */,
+				61107A812C2B000100EE9AD2 /* JsonService.swift */,
 			);
 			path = Service;
 			sourceTree = "<group>";
@@ -341,6 +381,7 @@
 				61DAC4DF2C05C3A700DFC575 /* MapViewController.swift */,
 				9C82B9582C0F31D0008FA84E /* MapView.swift */,
 				9C82B9542C0F3046008FA84E /* PinStoreView.swift */,
+				61107A832C2B78AD00EE9AD2 /* JsonViewModel.swift */,
 			);
 			path = Map;
 			sourceTree = "<group>";
@@ -372,6 +413,7 @@
 		611EE67F2C20C0CC0096D903 /* Cell */ = {
 			isa = PBXGroup;
 			children = (
+				8D69D7112C2986490087296A /* NoticeTableViewCell.swift */,
 				8D580A502C08AAF70057D370 /* ScrapCell.swift */,
 				8DB30F1D2C076AE900503139 /* MyPageCollectionViewCell.swift */,
 				8D899FDF2C1C3F0500FEBE77 /* BookmarkCell.swift */,
@@ -399,6 +441,7 @@
 		613D86972C05BFF80039E771 /* TteoPpoKki4U */ = {
 			isa = PBXGroup;
 			children = (
+				61107A7B2C2AFF8A00EE9AD2 /* Json */,
 				611644392C0922F0009FFDA5 /* TteoPpoKki4U.entitlements */,
 				617357272C137A320007B92A /* ETC */,
 				611644362C0909C4009FFDA5 /* Service */,
@@ -417,8 +460,9 @@
 				61DAC4FF2C06CCB000DFC575 /* Secret.swift */,
 				610717AA2C213D5C00626649 /* AuthKey_RS7QZ647UQ.p8 */,
 				610717A62C21364600626649 /* AuthKey_RS7QZ647UQ_public.p8 */,
-				25CCA3D12C297838008F81A3 /* GoogleService-Info.plist */,
 				610717AC2C2156B200626649 /* PrivacyInfo.xcprivacy */,
+        61107A792C2AEBC400EE9AD2 /* GoogleService-Info.plist */,
+
 			);
 			path = TteoPpoKki4U;
 			sourceTree = "<group>";
@@ -426,6 +470,7 @@
 		613D86AC2C05C0510039E771 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				61107A7E2C2AFFD800EE9AD2 /* Map */,
 				CE771CA62C240EFF004415CA /* ChatModel */,
 				619FE8EA2C1F147300745A0A /* Report */,
 				617BCCC72C1982B9008D8D48 /* Manage */,
@@ -433,8 +478,6 @@
 				611578CE2C0DCAA30096BC43 /* Sign */,
 				CE3F36362C0846B900532901 /* RecommendPage */,
 				8DB30F1F2C076B6F00503139 /* MyPage */,
-				9C82B9502C0F2D55008FA84E /* ResponseStore.swift */,
-				9CC6D3172C206BD6004C85D8 /* PinStoreModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -442,6 +485,7 @@
 		613D86B02C05C06F0039E771 /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
+				CEA3189F2C2A63E1001BAB0B /* Chat */,
 				610717A02C2117B900626649 /* Map */,
 				CE4004032C1983E0009E1142 /* Recommend */,
 				617BCCC02C195E14008D8D48 /* Manage */,
@@ -562,11 +606,11 @@
 			isa = PBXGroup;
 			children = (
 				611EE67F2C20C0CC0096D903 /* Cell */,
+				8D69D70B2C2981C30087296A /* NoticeTableViewController.swift */,
 				8D580A4C2C08767F0057D370 /* MyScrapViewController.swift */,
 				8DB30F312C07794E00503139 /* PersonalInfoViewController.swift */,
 				8D3BA8402C15D5F1007597F2 /* SettingViewController.swift */,
 				25CCA3C82C254A46008F81A3 /* PrivacyPolicyViewController.swift */,
-				25CCA3CC2C259D9E008F81A3 /* privacy.txt */,
 				25CCA3CD2C259EC9008F81A3 /* privacyPolicyText.swift */,
 				8D580A522C08C8420057D370 /* MyReviewViewController.swift */,
 				61DAC4E32C05C3CF00DFC575 /* MyPageViewController.swift */,
@@ -588,6 +632,7 @@
 				8D580A4E2C0893A40057D370 /* ScrapList.swift */,
 				8D2E862E2C1B2D7000967B13 /* BookmarkList.swift */,
 				8DA4C3812C09BFA8008AB975 /* Review.swift */,
+				8D69D70F2C2982FE0087296A /* Notice.swift */,
 			);
 			path = MyPage;
 			sourceTree = "<group>";
@@ -666,6 +711,7 @@
 				CE771CCC2C243D69004415CA /* BaseViewController.swift */,
 				CE771CCA2C243D2B004415CA /* channelVC.swift */,
 				CE771CCE2C243D8E004415CA /* ChannelTableViewCell.swift */,
+				CEA3189C2C2A5CB3001BAB0B /* ChatReportViewController.swift */,
 			);
 			path = Chat;
 			sourceTree = "<group>";
@@ -674,6 +720,7 @@
 			isa = PBXGroup;
 			children = (
 				CE771CA72C240F23004415CA /* Channel.swift */,
+				CEA3189A2C2A4F82001BAB0B /* ReportChatUser.swift */,
 				CE771CB32C243827004415CA /* Messages.swift */,
 				CE771CBE2C243995004415CA /* StreamError.swift */,
 				CE771CB52C243861004415CA /* imageMediaItem.swift */,
@@ -684,6 +731,14 @@
 				6127E3562C2857740037F9E3 /* Location.swift */,
 			);
 			path = ChatModel;
+			sourceTree = "<group>";
+		};
+		CEA3189F2C2A63E1001BAB0B /* Chat */ = {
+			isa = PBXGroup;
+			children = (
+				CEA318A02C2A6406001BAB0B /* ChatReportViewModel.swift */,
+			);
+			path = Chat;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -785,7 +840,8 @@
 				8D580A492C082AB60057D370 /* Pretendard-Regular.ttf in Resources */,
 				8D580A4A2C082AB60057D370 /* Pretendard-ExtraLight.ttf in Resources */,
 				613D86A52C05BFF90039E771 /* Base in Resources */,
-				25CCA3D22C297838008F81A3 /* GoogleService-Info.plist in Resources */,
+        61107A862C2B897500EE9AD2 /* seoul.json in Resources */,
+				61107A7A2C2AEBC400EE9AD2 /* GoogleService-Info.plist in Resources */,
 				8D580A4B2C082AB60057D370 /* Pretendard-Bold.ttf in Resources */,
 				8D580A482C082AB60057D370 /* Pretendard-Black.ttf in Resources */,
 			);
@@ -803,6 +859,7 @@
 				9CC6D31C2C23C6AC004C85D8 /* UICollectionView+Extension.swift in Sources */,
 				611644352C09039F009FFDA5 /* SignViewModel.swift in Sources */,
 				CE771C9D2C22FDBA004415CA /* FullscreenPageViewController.swift in Sources */,
+				61107A802C2AFFE800EE9AD2 /* JsonModel.swift in Sources */,
 				CE771CC92C243C08004415CA /* Sender.swift in Sources */,
 				61AB7EF82C1E745200C51ECA /* CustomTextView.swift in Sources */,
 				9C82B94F2C0F2D27008FA84E /* NetworkManager.swift in Sources */,
@@ -819,11 +876,14 @@
 				6127E3572C2857740037F9E3 /* Location.swift in Sources */,
 				8DD5CBB92C107C82004F27BD /* DetailedReviewViewController.swift in Sources */,
 				617357292C137A3F0007B92A /* Constants.swift in Sources */,
+				8D69D7102C2982FE0087296A /* Notice.swift in Sources */,
 				8D580A532C08C8420057D370 /* MyReviewViewController.swift in Sources */,
 				617BCCC62C19699C008D8D48 /* ManageTableViewCell.swift in Sources */,
 				CE3F36352C08469700532901 /* RecommendCardView.swift in Sources */,
+				CEA3189D2C2A5CB3001BAB0B /* ChatReportViewController.swift in Sources */,
 				9C82B9512C0F2D55008FA84E /* ResponseStore.swift in Sources */,
 				8D899FE02C1C3F0500FEBE77 /* BookmarkCell.swift in Sources */,
+				61107A842C2B78AD00EE9AD2 /* JsonViewModel.swift in Sources */,
 				8D580A302C0826B40057D370 /* ThemeFont.swift in Sources */,
 				8D2E862F2C1B2D7000967B13 /* BookmarkList.swift in Sources */,
 				25CCA3C92C254A46008F81A3 /* PrivacyPolicyViewController.swift in Sources */,
@@ -833,6 +893,7 @@
 				CE771CBD2C24397D004415CA /* ChatFirestoreStream.swift in Sources */,
 				8DB30F302C07771400503139 /* MyPageSection.swift in Sources */,
 				8DB30F1E2C076AE900503139 /* MyPageCollectionViewCell.swift in Sources */,
+				61107A822C2B000100EE9AD2 /* JsonService.swift in Sources */,
 				CE4004122C1D1EED009E1142 /* CustomAlertViewController.swift in Sources */,
 				25CCA3D02C291B28008F81A3 /* TabbarControllerDelegate.swift in Sources */,
 				617BCCC42C195E4B008D8D48 /* ManageManager.swift in Sources */,
@@ -841,6 +902,7 @@
 				9C82B95B2C0F54D7008FA84E /* Double+Extension.swift in Sources */,
 				CE771CCF2C243D8E004415CA /* ChannelTableViewCell.swift in Sources */,
 				611644382C0909D4009FFDA5 /* SignManager.swift in Sources */,
+				8D69D70C2C2981C30087296A /* NoticeTableViewController.swift in Sources */,
 				610717A92C2137F600626649 /* AppleTokenResponse.swift in Sources */,
 				8DD5CBB72C107BFD004F27BD /* ReviewTableViewCell.swift in Sources */,
 				61DC69072C15CC38003DEB73 /* StoreManager.swift in Sources */,
@@ -876,6 +938,7 @@
 				8DB30F322C07794E00503139 /* PersonalInfoViewController.swift in Sources */,
 				61B0E6CE2C2686AF007436DD /* CustomUser.swift in Sources */,
 				613D86992C05BFF80039E771 /* AppDelegate.swift in Sources */,
+				CEA318A12C2A6406001BAB0B /* ChatReportViewModel.swift in Sources */,
 				CE3F363A2C08474700532901 /* RecommendViewController.swift in Sources */,
 				CE771CB22C243699004415CA /* DatabaseRepresentation.swift in Sources */,
 				6116167A2C1BD7A3008A2FA2 /* RecommendViewModel.swift in Sources */,
@@ -892,11 +955,13 @@
 				CE771CC32C243B06004415CA /* FirebaseStorageManager.swift in Sources */,
 				9C82B9572C0F31A0008FA84E /* MapViewModel.swift in Sources */,
 				25CCA3D82C2AAB8A008F81A3 /* EventData.swift in Sources */,
+				8D69D7122C2986490087296A /* NoticeTableViewCell.swift in Sources */,
 				CE771CBB2C243925004415CA /* ChatVC.swift in Sources */,
 				9CC6D3182C206BD6004C85D8 /* PinStoreModel.swift in Sources */,
 				8D2E862D2C1AD5DD00967B13 /* BookmarkViewModel.swift in Sources */,
 				61DAC4E02C05C3A700DFC575 /* MapViewController.swift in Sources */,
 				618DEE062C12516A006B95A8 /* UserManager.swift in Sources */,
+				CEA3189B2C2A4F82001BAB0B /* ReportChatUser.swift in Sources */,
 				8DB30F272C07705D00503139 /* ThemeColor.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1049,20 +1114,22 @@
 				DEVELOPMENT_TEAM = LA95MXQ3R5;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = TteoPpoKki4U/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "떡볶이4U";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.lifestyle";
 				INFOPLIST_KEY_NSCameraUsageDescription = "리뷰 작성을 위해 동의가 필요합니다.";
 				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "주변 맛집 확인을 위해 동의가 필요합니다.";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "주변 맛집 확인을 위해 동의가 필요합니다.";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "프로필 사진을 사용하기 위해 필요합니다";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.1;
+				MARKETING_VERSION = 1.0.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.TeamSwiftbreakers.TteoPpoKki4U;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1087,20 +1154,22 @@
 				DEVELOPMENT_TEAM = LA95MXQ3R5;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = TteoPpoKki4U/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "떡볶이4U";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.lifestyle";
 				INFOPLIST_KEY_NSCameraUsageDescription = "리뷰 작성을 위해 동의가 필요합니다.";
 				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "주변 맛집 확인을 위해 동의가 필요합니다.";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "주변 맛집 확인을 위해 동의가 필요합니다.";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "프로필 사진을 사용하기 위해 필요합니다";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.1;
+				MARKETING_VERSION = 1.0.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.TeamSwiftbreakers.TteoPpoKki4U;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";

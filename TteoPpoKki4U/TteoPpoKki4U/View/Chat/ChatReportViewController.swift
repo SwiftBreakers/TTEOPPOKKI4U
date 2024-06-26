@@ -1,14 +1,15 @@
 //
-//  ReportViewController.swift
+//  ChatReportViewController.swift
 //  TteoPpoKki4U
 //
-//  Created by Dongik Song on 6/14/24.
+//  Created by 최진문 on 2024/06/25.
 //
 
 import UIKit
 import FirebaseAuth
+import FirebaseFirestore
 
-class ReportViewController: UIViewController {
+class ChatReportViewController: UIViewController {
     
     private lazy var closeButton: UIButton = {
         let button = UIButton()
@@ -20,7 +21,7 @@ class ReportViewController: UIViewController {
     
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
-        label.text = "리뷰 신고하기"
+        label.text = "채팅 신고하기"
         label.font = ThemeFont.fontBold(size: 24)
         label.textColor = ThemeColor.mainBlack
         return label
@@ -28,7 +29,7 @@ class ReportViewController: UIViewController {
     
     private lazy var reasonTitleLabel: UILabel = {
         let label = UILabel()
-        label.text = "리뷰를 신고하는 이유를 알려주세요."
+        label.text = "해당 채팅을 신고하는 이유를 알려주세요."
         label.font = ThemeFont.fontBold(size: 20)
         label.textColor = ThemeColor.mainBlack
         return label
@@ -43,7 +44,7 @@ class ReportViewController: UIViewController {
         return label
     }()
     
-    private lazy var reason1Label: UILabel = createReasonLabel(text: "리뷰와 관련 없는 사진 또는 글")
+    private lazy var reason1Label: UILabel = createReasonLabel(text: "관련 없는 사진 또는 글")
     private lazy var reason2Label: UILabel = createReasonLabel(text: "상업적 목적의 광고, 홍보글")
     private lazy var reason3Label: UILabel = createReasonLabel(text: "개인정보 유출 혹은 우려")
     private lazy var reason4Label: UILabel = createReasonLabel(text: "도용 혹은 저작권 침해 사진 또는 글")
@@ -80,9 +81,18 @@ class ReportViewController: UIViewController {
         return button
     }()
     
-    var userData: ReviewModel?
+    var userData: ReportUserData
     
-    let viewModel = ReportViewModel()
+    init(userData: ReportUserData) {
+        self.userData = userData
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    let viewModel = ChatReportViewModel()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -209,45 +219,44 @@ class ReportViewController: UIViewController {
     }
     
     @objc private func reportButtonTapped() {
-        guard let uid = Auth.auth().currentUser?.uid else { return }
+        guard let uid = Auth.auth().currentUser?.uid else {
+            showMessage(title: "오류", message: "사용자 인증에 실패했습니다.")
+            return
+        }
         
         if !isRelated && !isCommercial && !isPrivacy && !isIllegal && !isSpam && !isSexual && !isEtc {
             showMessage(title: "오류", message: "하나 이상의 신고 사유를 선택해 주세요.")
             return
         }
         
-        if isEtc == true && textView.text.isEmpty {
+        if isEtc == true && textView.text?.isEmpty ?? true {
             showMessage(title: "오류", message: "신고 사유를 입력해 주세요.")
             return
         }
         
-        if isEtc == false && !textView.text.isEmpty {
-            showMessage(title: "오류", message: "기타 사유를 선택한 경우에만 내용을 신고할 수 있습니다.")
-            return
-        }
-        
-        if uid == userData!.uid {
-            showMessage(title: "오류", message: "본인의 게시글은 신고 할 수 없습니다.")
+        if uid == userData.senderId {
+            showMessage(title: "오류", message: "본인의 채팅은 신고할 수 없습니다.")
         } else {
             Task {
                 let reportData: [String: Any] = [
-                    db_isRelated: isRelated,
-                    db_isCommercial: isCommercial,
-                    db_isPrivacy: isPrivacy,
-                    db_isIllegal: isIllegal,
-                    db_isSpam: isSpam,
-                    db_isSexual: isSexual,
-                    db_isEtc: isEtc,
-                    db_content: textView.text ?? "",
-                    db_uid: uid,
-                    db_title: userData!.title,
-                    db_storeName: userData!.storeName,
-                    db_reportedUID: userData!.uid
+                    "isRelated": isRelated,
+                    "isCommercial": isCommercial,
+                    "isPrivacy": isPrivacy,
+                    "isIllegal": isIllegal,
+                    "isSpam": isSpam,
+                    "isSexual": isSexual,
+                    "isEtc": isEtc,
+                    "content": textView.text ?? "",
+                    "uid": uid,
+                    "senderId": userData.senderId,
+                    "messageContent": userData.content,
+                    "channel": userData.channel,
+                    "reportCount": userData.reportCount
                 ]
-                await viewModel.addReportAndIncreaseCount(uid: userData!.uid, storeAddress: userData!.storeAddress, title: userData!.title, reportData: reportData)
-                showMessage(title: "신고가 완료 되었습니다", message: "신고 내용은 관리자 검토후 반영 됩니다.", completion: { [weak self] in
+                await viewModel.addReportAndIncreaseCount(content: userData.content, channel: userData.channel, senderId: userData.senderId, reportData: reportData)
+                showMessage(title: "신고가 완료되었습니다", message: "신고 내용은 관리자 검토 후 반영됩니다.") { [weak self] in
                     self?.dismiss(animated: true)
-                })
+                }
             }
         }
     }
@@ -255,4 +264,5 @@ class ReportViewController: UIViewController {
     @objc private func doneButtonTapped() {
         self.view.endEditing(true)
     }
+    
 }

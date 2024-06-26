@@ -9,7 +9,9 @@ import Foundation
 import FirebaseAuth
 
 final class MapViewModel {
-    private var stores: [Document] = []
+    private var stores: [Document] = [] // 검색시 가져오는 데이터
+    private var jsonStores: [JsonModel] = [] // json에서 가져오는 데이터
+    
     private(set) var state: State = .pending {
         didSet { didChangeState?(self) }
     }
@@ -35,12 +37,49 @@ final class MapViewModel {
         }
     }
     
+    func loadJsonStores(_ stores: [JsonModel]) {
+        self.jsonStores = stores
+    }
+    
     func loadStore(with name: String) {
-        guard let store = findStore(with: name) else {
-            self.state = .didLoadedWithError(error: StoreError.noStore)
-            return
-        }
-        let storeName = store.placeName
+        
+        if let store = findStore(with: name) {
+                let storeName = store.placeName
+                Task {
+                    async let isScrapped = getScrap(for: storeName)
+                    async let ratings = getRatings(for: storeName)
+                    let presentable = await ShopView(
+                        title: storeName,
+                        address: store.roadAddressName,
+                        rating: getAverageRating(ratings: ratings),
+                        reviews: ratings.count,
+                        latitude: Double(store.y) ?? 0.0,
+                        longitude: Double(store.x) ?? 0.0,
+                        isScrapped: isScrapped,
+                        callNumber: store.phone == "" ? "가게 번호 없음" : store.phone
+                    )
+                    await MainActor.run {
+                        state = .didLoadedStore(store: presentable)
+                    }
+                }
+            } else if let store = findJsonStore(with: name) {
+                // JSON store
+                Task {
+                    let presentable = ShopView(
+                        title: store.storeName,
+                        address: store.address,
+                        rating: 0.0,
+                        reviews: 0,
+                        latitude: store.y,
+                        longitude: store.x,
+                        isScrapped: false,
+                        callNumber: "" // JSON 데이터에서 전화번호를 제공하지 않는다고 가정
+                    )
+                    await MainActor.run {
+                        state = .didLoadedStore(store: presentable)
+                    }
+                }
+            }
 //        fetchScrapStatus(shopName: storeName) { [weak self] isScrapped in
 //            guard let self else { return }
 //            fetchRatings(for: storeName) { (ratings, error) in
@@ -58,26 +97,9 @@ final class MapViewModel {
 //                self.state = .didLoadedStore(store: presentable)
 //            }
 //        }
-        Task {
-            async let isScrapped = getScrap(for: storeName)
-            async let ratings = getRatings(for: storeName)
-            let presentable = await ShopView(
-                title: storeName,
-                address: store.roadAddressName,
-                rating: getAverageRating(ratings: ratings),
-                reviews: ratings.count,
-                latitude: Double(store.y) ?? 0.0,
-                longitude: Double(store.x) ?? 0.0,
-                isScrapped: isScrapped,
-                callNumber: store.phone == "" ? "가게 번호 없음" : store.phone
-            )
-            await MainActor.run {
-                state = .didLoadedStore(store: presentable)
-            }
-        }
     }
     
-    private func getScrap(for storeName: String) async -> Bool {
+    func getScrap(for storeName: String) async -> Bool {
         await withCheckedContinuation { continuation in
             fetchScrapStatus(shopName: storeName) {
                 continuation.resume(returning: $0)
@@ -85,7 +107,7 @@ final class MapViewModel {
         }
     }
     
-    private func getRatings(for storeName: String) async -> [Float] {
+    func getRatings(for storeName: String) async -> [Float] {
         await withCheckedContinuation { continuation in
             fetchRatings(for: storeName) { ratings, error in
                 guard let ratings, error == nil else { return }
@@ -95,8 +117,11 @@ final class MapViewModel {
     }
     
     func scrap(_ storeName: String, upon isAlreadyScrapped: Bool) {
-        guard let store = findStore(with: storeName) else { return }
-        isAlreadyScrapped ? undoScrap(store) : scrap(store)
+        if let store = findStore(with: storeName) {
+            isAlreadyScrapped ? undoScrap(store) : scrap(store)
+        } else if let store = findJsonStore(with: storeName) {
+            isAlreadyScrapped ? undoScrapJsonStore(store) : scrapJsonStore(store)
+        }
     }
     
     // MARK: - Helpers
@@ -113,7 +138,7 @@ final class MapViewModel {
         stores.first { $0.placeName == name }
     }
     
-    private func getAverageRating(ratings: [Float]) -> Float {
+    func getAverageRating(ratings: [Float]) -> Float {
         let count = ratings.count
         var sum: Float = 0.0
         
@@ -205,6 +230,18 @@ final class MapViewModel {
                 }
             }
     }
+    
+    // JSON 스토어 찾는 메서드
+    private func findJsonStore(with name: String) -> JsonModel? {
+        return jsonStores.first { $0.storeName == name }
+    }
 
+    private func scrapJsonStore(_ store: JsonModel) {
+        createScrapItem(shopName: store.storeName, shopAddress: store.address)
+    }
+
+    private func undoScrapJsonStore(_ store: JsonModel) {
+        deleteScrapItem(shopName: store.storeName)
+    }
 }
 

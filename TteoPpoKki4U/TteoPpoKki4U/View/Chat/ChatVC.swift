@@ -22,9 +22,9 @@ class ChatVC: MessagesViewController {
         button.addTarget(self, action: #selector(presentInputActionSheet), for: .touchUpInside)
         return button
     }()
+    
     let chatFirestoreStream = ChatFirestoreStream()
     let chatManager = ChatManager()
-    
     private var user: User?
     private var customUser: CustomUser?
     let channel: Channel
@@ -42,6 +42,8 @@ class ChatVC: MessagesViewController {
             }
         }
     }
+    var userData: ReportUserData?
+    var isLocation: Bool?
     
     init(user: User, channel: Channel) {
         self.user = user
@@ -91,14 +93,17 @@ class ChatVC: MessagesViewController {
         getSenderImage()
         confirmDelegates()
         removeOutgoingMessageAvatars()
-        addCameraBarButtonToMessageInputBar()
+        //addCameraBarButtonToMessageInputBar()
         listenToMessages()
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTap))
         messagesCollectionView.addGestureRecognizer(tapGesture)
         
+        // 커스텀 메뉴 항목 추가
+        //        let blockMenuItem = UIMenuItem(title: "차단", action: #selector(MessageCollectionViewCell.block(_:)))
+        let reportMenuItem = UIMenuItem(title: "신고", action: #selector(MessageCollectionViewCell.report(_:)))
+        UIMenuController.shared.menuItems = [/*blockMenuItem, */reportMenuItem]
+        
     }
-    
-    
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -119,8 +124,42 @@ class ChatVC: MessagesViewController {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         tabBarController?.tabBar.isHidden = false
-        navigationController?.setToolbarHidden(false, animated: false)
+        navigationController?.setToolbarHidden(true, animated: false)
     }
+    override func collectionView(_ collectionView: UICollectionView, canPerformAction action: Selector, forItemAt indexPath: IndexPath, withSender sender: Any?) -> Bool {
+        if action == #selector(MessageCollectionViewCell.block(_:)) {
+            return true
+        } else {
+            return super.collectionView(collectionView, canPerformAction: action, forItemAt: indexPath, withSender: sender)
+        }
+    }
+    
+    
+    override func collectionView(_ collectionView: UICollectionView, performAction action: Selector, forItemAt indexPath: IndexPath, withSender sender: Any?) {
+        if action == #selector(MessageCollectionViewCell.report(_:)) {
+            if let _ = Auth.auth().currentUser?.uid {
+                // 1. 선택한 메시지 가져오기
+                let selectedMessage = messages[indexPath.section]
+                
+                // 2. ReportUserData 생성
+                let reportData = ReportUserData(title: "제목", // 원하는 신고 제목 설정
+                                                uid: self.user?.uid ?? "", // 사용자 ID
+                                                senderId: selectedMessage.sender.senderId, // 보낸 사람 ID
+                                                content: selectedMessage.content, // 메시지 내용
+                                                sentDate: selectedMessage.sentDate, // 메시지 전송 날짜
+                                                reportCount: 0, // 초기 신고 수
+                                                isActive: true, // 활성 상태
+                                                channel: channel.name) // 채널 확인
+                
+                // 3. ChatReportViewController로 전달
+                let reportVC = ChatReportViewController(userData: reportData)
+                self.present(reportVC, animated: true)
+            } else {
+                super.collectionView(collectionView, performAction: action, forItemAt: indexPath, withSender: sender)
+            }
+        }
+    }
+    
     
     private func configureColor() {
         view.backgroundColor = .white
@@ -197,9 +236,15 @@ class ChatVC: MessagesViewController {
     
     private func setupMessageInputBar() {
         if user != nil {
-            messageInputBar.inputTextView.tintColor = ThemeColor.mainOrange
-            messageInputBar.sendButton.setTitleColor(ThemeColor.mainOrange, for: .normal)
-            messageInputBar.inputTextView.placeholder = "채팅을 입력해주세요!"
+            if isLocation == false {
+                messageInputBar.inputTextView.tintColor = .systemGray
+                messageInputBar.sendButton.setTitleColor(.systemGray, for: .normal)
+                messageInputBar.inputTextView.placeholder = "타 지역에서는 보낼 수 없습니다."
+            } else {
+                messageInputBar.inputTextView.tintColor = ThemeColor.mainOrange
+                messageInputBar.sendButton.setTitleColor(ThemeColor.mainOrange, for: .normal)
+                messageInputBar.inputTextView.placeholder = "채팅을 입력해주세요!"
+            }
         } else if customUser != nil {
             messageInputBar.inputTextView.tintColor = .systemGray
             messageInputBar.sendButton.setTitleColor(.systemGray, for: .normal)
@@ -293,22 +338,26 @@ class ChatVC: MessagesViewController {
     @objc private func presentInputActionSheet() {
         
         if user != nil {
-            let actionSheet = UIAlertController(title: "유형을 선택해주세요", message: "아래에서 선택해주세요", preferredStyle: .actionSheet)
-            
-            actionSheet.addAction(UIAlertAction(title: "사진", style: .default, handler: { [weak self] _ in
-                self?.didTapCameraButton()
-            }))
-            
-            actionSheet.addAction(UIAlertAction(title: "지도", style: .default, handler: { [weak self] _ in
-                self?.presentLocationPicker()
-            }))
-            actionSheet.addAction(UIAlertAction(title: "취소", style: .cancel, handler: nil))
-            
-            present(actionSheet, animated: true)
+            if isLocation == false {
+                showMessage(title: "안내", message: "타 지역에서는 불가합니다.")
+            } else {
+                let actionSheet = UIAlertController(title: "유형을 선택해주세요", message: "아래에서 선택해주세요", preferredStyle: .actionSheet)
+                
+                actionSheet.addAction(UIAlertAction(title: "사진", style: .default, handler: { [weak self] _ in
+                    self?.didTapCameraButton()
+                }))
+                
+                actionSheet.addAction(UIAlertAction(title: "지도", style: .default, handler: { [weak self] _ in
+                    self?.presentLocationPicker()
+                }))
+                actionSheet.addAction(UIAlertAction(title: "취소", style: .cancel, handler: nil))
+                
+                present(actionSheet, animated: true)
+            }
         } else if customUser != nil {
             showMessage(title: "로그인이 필요한 기능입니다.", message: "사용 할 수 없습니다.")
         }
-       
+        
     }
     
     private func presentLocationPicker() {
@@ -322,13 +371,7 @@ class ChatVC: MessagesViewController {
     
     private func didTapCameraButton() {
         let picker = UIImagePickerController()
-        picker.delegate = self
-        
-        if UIImagePickerController.isSourceTypeAvailable(.camera) {
-            picker.sourceType = .camera
-        } else {
-            picker.sourceType = .photoLibrary
-        }
+        picker.sourceType = .photoLibrary
         present(picker, animated: true)
     }
     
@@ -342,7 +385,6 @@ class ChatVC: MessagesViewController {
         configureAvatarView(cell.avatarView, for: message, at: indexPath, in: collectionView as! MessagesCollectionView)
         return cell
     }
-    
 }
 
 extension ChatVC: MessagesDataSource {
@@ -468,24 +510,29 @@ extension ChatVC: InputBarAccessoryViewDelegate {
                 return
             }
             
-            var message: Message
-            if let user = self.user {
-                message = Message(user: user, content: text, displayName: displayName)
-            } else if let customUser = self.customUser {
-                message = Message(customUser: customUser, content: text, displayName: displayName)
+            if isLocation == false {
+                showMessage(title: "안내", message: "타 지역에서는 불가합니다.")
             } else {
-                print("No valid user found")
-                return
-            }
-            
-            self.chatFirestoreStream.save(message) { error in
-                if let error = error {
-                    print(error)
+                var message: Message
+                if let user = self.user {
+                    message = Message(user: user, content: text, displayName: displayName)
+                } else if let customUser = self.customUser {
+                    message = Message(customUser: customUser, content: text, displayName: displayName)
+                } else {
+                    print("No valid user found")
                     return
                 }
-                self.messagesCollectionView.scrollToLastItem()
+                
+                self.chatFirestoreStream.save(message) { error in
+                    if let error = error {
+                        print(error)
+                        return
+                    }
+                    self.messagesCollectionView.scrollToLastItem()
+                }
+                inputBar.inputTextView.text.removeAll()
             }
-            inputBar.inputTextView.text.removeAll()
+            
         }
     }
 }
@@ -582,4 +629,37 @@ extension ChatVC: MapViewControllerDelegate {
         }
     }
 }
-
+extension MessageCollectionViewCell {
+    @objc func block(_ sender: Any?) {
+        // CollectionView 가져오기
+        if let collectionView = self.superview as? UICollectionView {
+            // IndexPath 가져오기
+            if let indexPath = collectionView.indexPath(for: self) {
+                // 액션 트리거
+                collectionView.delegate?.collectionView?(collectionView, performAction: #selector(MessageCollectionViewCell.block(_:)), forItemAt: indexPath, withSender: sender)
+            }
+        }
+    }
+    
+    @objc func report(_ sender: Any?) {
+        // CollectionView 가져오기
+        if let collectionView = self.superview as? UICollectionView {
+            // IndexPath 가져오기
+            if let indexPath = collectionView.indexPath(for: self) {
+                // 액션 트리거
+                collectionView.delegate?.collectionView?(collectionView, performAction: #selector(MessageCollectionViewCell.report(_:)), forItemAt: indexPath, withSender: sender)
+            }
+        }
+    }
+}
+class EmptyCell: UICollectionViewCell {
+    // 필요한 경우 셀의 초기화나 구성을 추가합니다
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        // 셀 초기화 설정
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+}

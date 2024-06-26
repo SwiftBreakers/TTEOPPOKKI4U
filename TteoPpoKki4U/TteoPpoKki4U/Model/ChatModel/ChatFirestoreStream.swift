@@ -22,7 +22,7 @@ class ChatFirestoreStream {
         removeListener()
         collectionListener = firestoreDataBase.collection(streamPath)
         
-        listener = collectionListener?
+        listener = collectionListener?.whereField(db_isActive, isEqualTo: true)
             .addSnapshotListener { snapshot, error in
                 guard let snapshot = snapshot else {
                     completion(.failure(StreamError.firestoreError(error)))
