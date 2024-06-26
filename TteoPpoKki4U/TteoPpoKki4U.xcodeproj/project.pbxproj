@@ -84,9 +84,7 @@
 		8D580A512C08AAF70057D370 /* ScrapCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D580A502C08AAF70057D370 /* ScrapCell.swift */; };
 		8D580A532C08C8420057D370 /* MyReviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D580A522C08C8420057D370 /* MyReviewViewController.swift */; };
 		8D60C7AD2C105EFC00CAFD0C /* StoreViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D60C7AC2C105EFC00CAFD0C /* StoreViewController.swift */; };
-		8D69D70A2C2942B80087296A /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8D69D7092C2942B80087296A /* GoogleService-Info.plist */; };
 		8D69D70C2C2981C30087296A /* NoticeTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D69D70B2C2981C30087296A /* NoticeTableViewController.swift */; };
-		8D69D70E2C2982C40087296A /* DetailedNoticeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D69D70D2C2982C40087296A /* DetailedNoticeViewController.swift */; };
 		8D69D7102C2982FE0087296A /* Notice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D69D70F2C2982FE0087296A /* Notice.swift */; };
 		8D69D7122C2986490087296A /* NoticeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D69D7112C2986490087296A /* NoticeTableViewCell.swift */; };
 		8D78CDE02C0E077D00051D50 /* WriteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D78CDDF2C0E077D00051D50 /* WriteViewController.swift */; };
@@ -214,9 +212,7 @@
 		8D580A502C08AAF70057D370 /* ScrapCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrapCell.swift; sourceTree = "<group>"; };
 		8D580A522C08C8420057D370 /* MyReviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyReviewViewController.swift; sourceTree = "<group>"; };
 		8D60C7AC2C105EFC00CAFD0C /* StoreViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreViewController.swift; sourceTree = "<group>"; };
-		8D69D7092C2942B80087296A /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		8D69D70B2C2981C30087296A /* NoticeTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeTableViewController.swift; sourceTree = "<group>"; };
-		8D69D70D2C2982C40087296A /* DetailedNoticeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailedNoticeViewController.swift; sourceTree = "<group>"; };
 		8D69D70F2C2982FE0087296A /* Notice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notice.swift; sourceTree = "<group>"; };
 		8D69D7112C2986490087296A /* NoticeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeTableViewCell.swift; sourceTree = "<group>"; };
 		8D78CDDF2C0E077D00051D50 /* WriteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WriteViewController.swift; sourceTree = "<group>"; };
@@ -601,7 +597,6 @@
 			children = (
 				611EE67F2C20C0CC0096D903 /* Cell */,
 				8D69D70B2C2981C30087296A /* NoticeTableViewController.swift */,
-				8D69D70D2C2982C40087296A /* DetailedNoticeViewController.swift */,
 				8D580A4C2C08767F0057D370 /* MyScrapViewController.swift */,
 				8DB30F312C07794E00503139 /* PersonalInfoViewController.swift */,
 				8D3BA8402C15D5F1007597F2 /* SettingViewController.swift */,
@@ -899,7 +894,6 @@
 				8DD5CBB72C107BFD004F27BD /* ReviewTableViewCell.swift in Sources */,
 				61DC69072C15CC38003DEB73 /* StoreManager.swift in Sources */,
 				617BCCBA2C1912CD008D8D48 /* GreetingBottomView.swift in Sources */,
-				8D69D70E2C2982C40087296A /* DetailedNoticeViewController.swift in Sources */,
 				611644302C08FFFC009FFDA5 /* GreetingHeaderView.swift in Sources */,
 				619D771A2C085EC80043EF82 /* GreetingViewController.swift in Sources */,
 				61DAC5002C06CCB000DFC575 /* Secret.swift in Sources */,
@@ -1117,7 +1111,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.1;
+				MARKETING_VERSION = 1.0.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.TeamSwiftbreakers.TteoPpoKki4U;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1156,7 +1150,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.1;
+				MARKETING_VERSION = 1.0.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.TeamSwiftbreakers.TteoPpoKki4U;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";

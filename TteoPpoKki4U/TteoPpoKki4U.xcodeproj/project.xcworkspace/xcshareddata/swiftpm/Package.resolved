@@ -1,4 +1,5 @@
 {
+  "originHash" : "06ede8472ec703243a7e8611ddf9e531504fe1849b8a4c94f2812743e1dc2124",
   "pins" : [
     {
       "identity" : "abseil-cpp-binary",
@@ -68,8 +69,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/firebase/firebase-ios-sdk",
       "state" : {
-        "revision" : "03189348b7798fe94b892a35883f1dc745814fe0",
-        "version" : "10.28.0"
+        "revision" : "e57841b296d04370ea23580f908881b0ccab17b9",
+        "version" : "10.28.1"
       }
     },
     {
@@ -284,8 +285,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/apple/swift-log.git",
       "state" : {
-        "revision" : "e97a6fcb1ab07462881ac165fdbb37f067e205d5",
-        "version" : "1.5.4"
+        "revision" : "9cb486020ebf03bfa5b5df985387a14a98744537",
+        "version" : "1.6.1"
       }
     },
     {
@@ -316,5 +317,5 @@
       }
     }
   ],
-  "version" : 2
+  "version" : 3
 }
