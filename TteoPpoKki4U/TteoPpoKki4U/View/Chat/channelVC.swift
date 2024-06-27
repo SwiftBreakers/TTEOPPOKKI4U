@@ -125,6 +125,9 @@ class ChannelVC: BaseViewController {
                 currentName = (dictionary[db_nickName] as? String) ?? "Unknown"
                 if currentName == ""  {
                     showNameAlert(uid: user.uid)
+                    isValidate = false
+                } else {
+                    isValidate = true
                 }
             }
         }
@@ -143,7 +146,9 @@ class ChannelVC: BaseViewController {
                     switch result {
                     case true:
                         self?.updateUserName(uid: uid, newName: newName)
+                        self?.isValidate = true
                     case false:
+                        self?.isValidate = false
                         self?.showMessage(title: "중복 확인", message: "현재 닉네임은 이미 존재합니다.") {
                             self?.showNameAlert(uid: uid) // 이름이 유효하지 않으면 알림을 다시 표시
                         }
@@ -279,8 +284,9 @@ extension ChannelVC: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
         let channel = channels[indexPath.row]
-        let viewController: ChatVC
+        var viewController: ChatVC? // viewController를 옵셔널로 선언
         
         if currentAddress != channel.name {
             isLocation = false
@@ -288,22 +294,24 @@ extension ChannelVC: UITableViewDataSource, UITableViewDelegate {
             isLocation = true
         }
         
-        
         if let user = currentUser {
-            if channel.name == "테스트" {
-                isLocation = true
+            if isValidate {
                 viewController = ChatVC(user: user, channel: channel)
-                viewController.isLocation = isLocation
+                viewController?.isLocation = isLocation
             } else {
-                viewController = ChatVC(user: user, channel: channel)
-                viewController.isLocation = isLocation
+                guard let uid = Auth.auth().currentUser?.uid else { return }
+                showNameAlert(uid: uid)
+                return // 이름 확인이 완료될 때까지 반환하여 viewController 초기화를 기다림
             }
         } else if let customUser = customUser {
             viewController = ChatVC(customUser: customUser, channel: channel)
         } else {
             fatalError("No valid user found.")
         }
-        navigationController?.pushViewController(viewController, animated: true)
+        
+        if let viewController = viewController {
+            navigationController?.pushViewController(viewController, animated: true)
+        }
         tableView.deselectRow(at: indexPath, animated: true)
     }
 }
