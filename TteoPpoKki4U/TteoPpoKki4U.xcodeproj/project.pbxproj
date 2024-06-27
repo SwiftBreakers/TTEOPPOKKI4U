@@ -14,7 +14,6 @@
 		610717A72C21364600626649 /* AuthKey_RS7QZ647UQ_public.p8 in Resources */ = {isa = PBXBuildFile; fileRef = 610717A62C21364600626649 /* AuthKey_RS7QZ647UQ_public.p8 */; };
 		610717A92C2137F600626649 /* AppleTokenResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 610717A82C2137F600626649 /* AppleTokenResponse.swift */; };
 		610717AB2C213D5C00626649 /* AuthKey_RS7QZ647UQ.p8 in Resources */ = {isa = PBXBuildFile; fileRef = 610717AA2C213D5C00626649 /* AuthKey_RS7QZ647UQ.p8 */; };
-		61107A7A2C2AEBC400EE9AD2 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 61107A792C2AEBC400EE9AD2 /* GoogleService-Info.plist */; };
 		61107A802C2AFFE800EE9AD2 /* JsonModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61107A7F2C2AFFE800EE9AD2 /* JsonModel.swift */; };
 		61107A822C2B000100EE9AD2 /* JsonService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61107A812C2B000100EE9AD2 /* JsonService.swift */; };
 		61107A842C2B78AD00EE9AD2 /* JsonViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61107A832C2B78AD00EE9AD2 /* JsonViewModel.swift */; };
@@ -141,6 +140,7 @@
 		CEA3189B2C2A4F82001BAB0B /* ReportChatUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEA3189A2C2A4F82001BAB0B /* ReportChatUser.swift */; };
 		CEA3189D2C2A5CB3001BAB0B /* ChatReportViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEA3189C2C2A5CB3001BAB0B /* ChatReportViewController.swift */; };
 		CEA318A12C2A6406001BAB0B /* ChatReportViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEA318A02C2A6406001BAB0B /* ChatReportViewModel.swift */; };
+		CEA318A32C2C364A001BAB0B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = CEA318A22C2C364A001BAB0B /* GoogleService-Info.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -151,7 +151,6 @@
 		610717A82C2137F600626649 /* AppleTokenResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleTokenResponse.swift; sourceTree = "<group>"; };
 		610717AA2C213D5C00626649 /* AuthKey_RS7QZ647UQ.p8 */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = AuthKey_RS7QZ647UQ.p8; sourceTree = "<group>"; };
 		610717AC2C2156B200626649 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
-		61107A792C2AEBC400EE9AD2 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../../../Desktop/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		61107A7F2C2AFFE800EE9AD2 /* JsonModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JsonModel.swift; sourceTree = "<group>"; };
 		61107A812C2B000100EE9AD2 /* JsonService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JsonService.swift; sourceTree = "<group>"; };
 		61107A832C2B78AD00EE9AD2 /* JsonViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JsonViewModel.swift; sourceTree = "<group>"; };
@@ -265,6 +264,7 @@
 		CEA3189A2C2A4F82001BAB0B /* ReportChatUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportChatUser.swift; sourceTree = "<group>"; };
 		CEA3189C2C2A5CB3001BAB0B /* ChatReportViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatReportViewController.swift; sourceTree = "<group>"; };
 		CEA318A02C2A6406001BAB0B /* ChatReportViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatReportViewModel.swift; sourceTree = "<group>"; };
+		CEA318A22C2C364A001BAB0B /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -451,7 +451,7 @@
 				610717AA2C213D5C00626649 /* AuthKey_RS7QZ647UQ.p8 */,
 				610717A62C21364600626649 /* AuthKey_RS7QZ647UQ_public.p8 */,
 				610717AC2C2156B200626649 /* PrivacyInfo.xcprivacy */,
-				61107A792C2AEBC400EE9AD2 /* GoogleService-Info.plist */,
+				CEA318A22C2C364A001BAB0B /* GoogleService-Info.plist */,
 			);
 			path = TteoPpoKki4U;
 			sourceTree = "<group>";
@@ -826,7 +826,7 @@
 				8D580A4A2C082AB60057D370 /* Pretendard-ExtraLight.ttf in Resources */,
 				613D86A52C05BFF90039E771 /* Base in Resources */,
 				61107A862C2B897500EE9AD2 /* seoul.json in Resources */,
-				61107A7A2C2AEBC400EE9AD2 /* GoogleService-Info.plist in Resources */,
+				CEA318A32C2C364A001BAB0B /* GoogleService-Info.plist in Resources */,
 				8D580A4B2C082AB60057D370 /* Pretendard-Bold.ttf in Resources */,
 				8D580A482C082AB60057D370 /* Pretendard-Black.ttf in Resources */,
 			);
@@ -1092,7 +1092,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = LA95MXQ3R5;
+				DEVELOPMENT_TEAM = LRKR7469VU;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = TteoPpoKki4U/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "떡볶이4U";

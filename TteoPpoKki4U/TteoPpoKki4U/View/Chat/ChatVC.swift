@@ -93,7 +93,7 @@ class ChatVC: MessagesViewController {
         getSenderImage()
         confirmDelegates()
         removeOutgoingMessageAvatars()
-        //addCameraBarButtonToMessageInputBar()
+        addCameraBarButtonToMessageInputBar()
         listenToMessages()
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTap))
         messagesCollectionView.addGestureRecognizer(tapGesture)
@@ -342,9 +342,11 @@ class ChatVC: MessagesViewController {
                 showMessage(title: "안내", message: "타 지역에서는 불가합니다.")
             } else {
                 let actionSheet = UIAlertController(title: "유형을 선택해주세요", message: "아래에서 선택해주세요", preferredStyle: .actionSheet)
-                
-                actionSheet.addAction(UIAlertAction(title: "사진", style: .default, handler: { [weak self] _ in
+                actionSheet.addAction(UIAlertAction(title: "카메라", style: .default, handler: {[weak self] _ in
                     self?.didTapCameraButton()
+                }))
+                actionSheet.addAction(UIAlertAction(title: "사진", style: .default, handler: { [weak self] _ in
+                    self?.didTapLibraryButton()
                 }))
                 
                 actionSheet.addAction(UIAlertAction(title: "지도", style: .default, handler: { [weak self] _ in
@@ -369,10 +371,19 @@ class ChatVC: MessagesViewController {
     }
     
     
-    private func didTapCameraButton() {
+    private func didTapLibraryButton() {
         let picker = UIImagePickerController()
         picker.sourceType = .photoLibrary
         present(picker, animated: true)
+    }
+    private func didTapCameraButton() {
+        if UIImagePickerController.isSourceTypeAvailable(.camera) {
+            let picker = UIImagePickerController()
+            picker.sourceType = .camera
+            present(picker, animated: true)
+        } else {
+            showMessage(title: "권한 설정 오류", message: "카메라를 사용하기 위해 권한을 설정해주세요!", completion: didTapLibraryButton)
+        }
     }
     
     @objc private func handleTap() {
