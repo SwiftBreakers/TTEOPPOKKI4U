@@ -59,12 +59,21 @@ class PersonalInfoViewController: UIViewController, PHPickerViewControllerDelega
         super.viewDidLoad()
         self.view.backgroundColor = .white
         
+        
         setupProfileImageView()
         setupUserNameTextField()
         //setupBackButton()
         setupSaveButton()
         getImage()
         userNameTextField.text = profileName
+        userNameTextField.delegate = self
+    
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.navigationBar.tintColor = ThemeColor.mainOrange
+        isValidate = false
     }
     
     deinit {
@@ -258,5 +267,17 @@ class PersonalInfoViewController: UIViewController, PHPickerViewControllerDelega
             showMessage(title: "중복확인을 해주세요", message: "닉네임 중복확인을 먼저 해주세요.")
         }
         
+    }
+}
+
+extension PersonalInfoViewController: UITextFieldDelegate {
+    
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        let currentText = textField.text ?? ""
+        let updatedText = (currentText as NSString).replacingCharacters(in: range, with: string)
+        
+        isValidate = false
+        
+        return true
     }
 }
