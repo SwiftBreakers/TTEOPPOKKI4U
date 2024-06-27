@@ -31,6 +31,15 @@
 		611644382C0909D4009FFDA5 /* SignManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611644372C0909D4009FFDA5 /* SignManager.swift */; };
 		6127E3552C2755130037F9E3 /* UIImageView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6127E3542C2755130037F9E3 /* UIImageView+Extension.swift */; };
 		6127E3572C2857740037F9E3 /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6127E3562C2857740037F9E3 /* Location.swift */; };
+		6128DBD42C2D0D5D00729439 /* gyeonggi.json in Resources */ = {isa = PBXBuildFile; fileRef = 6128DBD32C2D0D5D00729439 /* gyeonggi.json */; };
+		6128DBDA2C2D29FF00729439 /* ulsan.json in Resources */ = {isa = PBXBuildFile; fileRef = 6128DBD52C2D29FE00729439 /* ulsan.json */; };
+		6128DBDB2C2D29FF00729439 /* kwangju.json in Resources */ = {isa = PBXBuildFile; fileRef = 6128DBD62C2D29FE00729439 /* kwangju.json */; };
+		6128DBDC2C2D29FF00729439 /* pusan.json in Resources */ = {isa = PBXBuildFile; fileRef = 6128DBD72C2D29FE00729439 /* pusan.json */; };
+		6128DBDD2C2D29FF00729439 /* kyeongbuk.json in Resources */ = {isa = PBXBuildFile; fileRef = 6128DBD82C2D29FF00729439 /* kyeongbuk.json */; };
+		6128DBDE2C2D29FF00729439 /* jeonnam.json in Resources */ = {isa = PBXBuildFile; fileRef = 6128DBD92C2D29FF00729439 /* jeonnam.json */; };
+		6128DBE12C2D2A0600729439 /* kangwon.json in Resources */ = {isa = PBXBuildFile; fileRef = 6128DBDF2C2D2A0600729439 /* kangwon.json */; };
+		6128DBE22C2D2A0600729439 /* sejong.json in Resources */ = {isa = PBXBuildFile; fileRef = 6128DBE02C2D2A0600729439 /* sejong.json */; };
+		6128DBE42C2D2D5D00729439 /* kyeongnam.json in Resources */ = {isa = PBXBuildFile; fileRef = 6128DBE32C2D2D5D00729439 /* kyeongnam.json */; };
 		61395F3C2C14C7AD006E7EBD /* ProgressHUD in Frameworks */ = {isa = PBXBuildFile; productRef = 61395F3B2C14C7AD006E7EBD /* ProgressHUD */; };
 		613D86992C05BFF80039E771 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 613D86982C05BFF80039E771 /* AppDelegate.swift */; };
 		613D869B2C05BFF80039E771 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 613D869A2C05BFF80039E771 /* SceneDelegate.swift */; };
@@ -180,6 +189,15 @@
 		611644392C0922F0009FFDA5 /* TteoPpoKki4U.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = TteoPpoKki4U.entitlements; sourceTree = "<group>"; };
 		6127E3542C2755130037F9E3 /* UIImageView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+Extension.swift"; sourceTree = "<group>"; };
 		6127E3562C2857740037F9E3 /* Location.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Location.swift; sourceTree = "<group>"; };
+		6128DBD32C2D0D5D00729439 /* gyeonggi.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = gyeonggi.json; sourceTree = "<group>"; };
+		6128DBD52C2D29FE00729439 /* ulsan.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = ulsan.json; sourceTree = "<group>"; };
+		6128DBD62C2D29FE00729439 /* kwangju.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = kwangju.json; sourceTree = "<group>"; };
+		6128DBD72C2D29FE00729439 /* pusan.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = pusan.json; sourceTree = "<group>"; };
+		6128DBD82C2D29FF00729439 /* kyeongbuk.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = kyeongbuk.json; sourceTree = "<group>"; };
+		6128DBD92C2D29FF00729439 /* jeonnam.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = jeonnam.json; sourceTree = "<group>"; };
+		6128DBDF2C2D2A0600729439 /* kangwon.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = kangwon.json; sourceTree = "<group>"; };
+		6128DBE02C2D2A0600729439 /* sejong.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = sejong.json; sourceTree = "<group>"; };
+		6128DBE32C2D2D5D00729439 /* kyeongnam.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = kyeongnam.json; sourceTree = "<group>"; };
 		613D86952C05BFF80039E771 /* TteoPpoKki4U.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TteoPpoKki4U.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		613D86982C05BFF80039E771 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		613D869A2C05BFF80039E771 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -329,6 +347,15 @@
 		61107A7B2C2AFF8A00EE9AD2 /* Json */ = {
 			isa = PBXGroup;
 			children = (
+				6128DBE32C2D2D5D00729439 /* kyeongnam.json */,
+				6128DBDF2C2D2A0600729439 /* kangwon.json */,
+				6128DBE02C2D2A0600729439 /* sejong.json */,
+				6128DBD92C2D29FF00729439 /* jeonnam.json */,
+				6128DBD62C2D29FE00729439 /* kwangju.json */,
+				6128DBD82C2D29FF00729439 /* kyeongbuk.json */,
+				6128DBD72C2D29FE00729439 /* pusan.json */,
+				6128DBD52C2D29FE00729439 /* ulsan.json */,
+				6128DBD32C2D0D5D00729439 /* gyeonggi.json */,
 				6191CCC22C2CD90500C9060A /* chungbuk.json */,
 				6191CCC02C2CD90400C9060A /* chungnam.json */,
 				6191CCC12C2CD90500C9060A /* daegu.json */,
@@ -854,18 +881,27 @@
 				6191CCC92C2CD90500C9060A /* incheon.json in Resources */,
 				6191CCC82C2CD90500C9060A /* daejeon.json in Resources */,
 				6191CCBB2C2C827900C9060A /* jeonbuk.json in Resources */,
+				6128DBDC2C2D29FF00729439 /* pusan.json in Resources */,
+				6128DBDE2C2D29FF00729439 /* jeonnam.json in Resources */,
 				610717A72C21364600626649 /* AuthKey_RS7QZ647UQ_public.p8 in Resources */,
 				6191CCC52C2CD90500C9060A /* chungnam.json in Resources */,
 				8D580A472C082AB60057D370 /* Pretendard-Medium.ttf in Resources */,
 				610717AB2C213D5C00626649 /* AuthKey_RS7QZ647UQ.p8 in Resources */,
+				6128DBE22C2D2A0600729439 /* sejong.json in Resources */,
 				613D86A22C05BFF90039E771 /* Assets.xcassets in Resources */,
 				8D580A492C082AB60057D370 /* Pretendard-Regular.ttf in Resources */,
 				8D580A4A2C082AB60057D370 /* Pretendard-ExtraLight.ttf in Resources */,
+				6128DBDB2C2D29FF00729439 /* kwangju.json in Resources */,
 				613D86A52C05BFF90039E771 /* Base in Resources */,
+				6128DBDD2C2D29FF00729439 /* kyeongbuk.json in Resources */,
 				61107A862C2B897500EE9AD2 /* seoul.json in Resources */,
 				61107A7A2C2AEBC400EE9AD2 /* GoogleService-Info.plist in Resources */,
+				6128DBDA2C2D29FF00729439 /* ulsan.json in Resources */,
 				6191CCBF2C2C827900C9060A /* jeju.json in Resources */,
+				6128DBE12C2D2A0600729439 /* kangwon.json in Resources */,
 				6191CCC72C2CD90500C9060A /* chungbuk.json in Resources */,
+				6128DBE42C2D2D5D00729439 /* kyeongnam.json in Resources */,
+				6128DBD42C2D0D5D00729439 /* gyeonggi.json in Resources */,
 				8D580A4B2C082AB60057D370 /* Pretendard-Bold.ttf in Resources */,
 				8D580A482C082AB60057D370 /* Pretendard-Black.ttf in Resources */,
 				6191CCC62C2CD90500C9060A /* daegu.json in Resources */,
