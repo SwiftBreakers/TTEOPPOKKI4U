@@ -171,6 +171,10 @@ extension RecommendViewController {
             make.edges.equalToSuperview()
         }
         
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(eventImageTapped))
+                eventImageView.isUserInteractionEnabled = true
+                eventImageView.addGestureRecognizer(tapGesture)
+        
         titleLabel.text("리뷰 쓰고 커피 받아가세요!")
         titleLabel.font = UIFont.systemFont(ofSize: 14, weight: .semibold)
 
@@ -182,7 +186,7 @@ extension RecommendViewController {
             make.centerX.equalTo(eventContainerSubView)
         }
         
-        subTitleLabel.text("선착순 20명 순차지급")
+        subTitleLabel.text("기간 종료 후 20명 순차지급")
         subTitleLabel.font = UIFont.systemFont(ofSize: 12, weight: .medium)
 
         subTitleLabel.textColor = UIColor(hexString: "353535")
@@ -222,19 +226,34 @@ extension RecommendViewController {
         }
     }
     
+    @objc func eventImageTapped() {
+        if let tabBarController = self.tabBarController {
+                    tabBarController.selectedIndex = 3 // MyPageViewController가 탭바의 네번째에 있음
+                    
+                    if let myPageNavController = tabBarController.viewControllers?[3] as? UINavigationController,
+                       let myPageVC = myPageNavController.viewControllers.first as? MyPageViewController {
+                        myPageVC.showEventSceneViewController()
+                        
+                        
+                    }
+                }
+    }
+    
     func showEventOverlay() {
         eventContainerView.isHidden = false
+        tabBarController?.tabBar.isHidden = true
     }
     
     @objc func hideEventOverlay() {
         eventContainerView.isHidden = true
+        tabBarController?.tabBar.isHidden = false
     }
     
     @objc func doNotShowTodayButtonTapped() {
         let currentDate = Date()
-        if let userID = Auth.auth().currentUser?.uid { // Firebase Authentication을 사용하여 현재 사용자의 ID를 가져옵니다.
+        let userID = Auth.auth().currentUser?.uid ?? "guest" // Firebase Authentication을 사용하여 현재 사용자의 ID를 가져옵니다.
                     UserDefaults.standard.set(currentDate, forKey: "DoNotShowEventDate_\(userID)") // 사용자별로 날짜를 저장합니다.
-                }
+                
         hideEventOverlay()
     }
     
@@ -246,8 +265,8 @@ extension RecommendViewController {
 //                return false
 //            }
 //        }
-        if let userID = Auth.auth().currentUser?.uid, // Firebase Authentication을 사용하여 현재 사용자의 ID를 가져오기
-                   let savedDate = UserDefaults.standard.object(forKey: "DoNotShowEventDate_\(userID)") as? Date { // 사용자별로 날짜를 불러오기
+        let userID = Auth.auth().currentUser?.uid ?? "guest" // Firebase Authentication을 사용하여 현재 사용자의 ID를 가져오기
+                  if let savedDate = UserDefaults.standard.object(forKey: "DoNotShowEventDate_\(userID)") as? Date { // 사용자별로 날짜를 불러오기
                     if calendar.isDate(currentDate, inSameDayAs: savedDate) {
                         return false
                     }

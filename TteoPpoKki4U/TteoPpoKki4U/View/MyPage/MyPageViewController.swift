@@ -63,6 +63,20 @@ class MyPageViewController: UIViewController {
         bind()
     }
     
+    
+    //아래는 이벤트씬뷰컨으로 이동하는 코드. 추천페이지의 이벤트이미지를 눌렀을때
+    func showEventSceneViewController() {
+      
+        let eventPageVC = EventPageViewController()
+        
+        navigationController?.pushViewController(eventPageVC, animated: false) {
+            eventPageVC.showEventSceneViewController()
+        }
+        
+//        let eventSceneVC = EventSceneViewController()
+//            navigationController?.pushViewController(eventSceneVC, animated: true)
+        }
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         getData()
@@ -225,4 +239,17 @@ extension MyPageViewController: UICollectionViewDataSource, UICollectionViewDele
     }
 }
 
-
+//push한 다음에도 계속 push할 수 있도록 해주는 기능(컴플리션)
+extension UINavigationController {
+    func pushViewController(_ viewController: UIViewController, animated: Bool, completion: (() -> Void)?) {
+        pushViewController(viewController, animated: animated)
+        
+        if let coordinator = transitionCoordinator, animated {
+            coordinator.animate(alongsideTransition: nil) { _ in
+                completion?()
+            }
+        } else {
+            completion?()
+        }
+    }
+}
