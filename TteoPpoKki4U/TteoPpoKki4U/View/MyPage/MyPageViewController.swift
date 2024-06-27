@@ -134,8 +134,15 @@ extension MyPageViewController: UICollectionViewDataSource, UICollectionViewDele
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MyPageCollectionViewCell.identifier, for: indexPath) as! MyPageCollectionViewCell
-        let option = myPageVM.sections[indexPath.section].options[indexPath.item]
-        cell.configure(with: option)
+        var option = myPageVM.sections[indexPath.section].options[indexPath.item]
+        if let _ = Auth.auth().currentUser {
+            cell.configure(with: option)
+        } else {
+            if option.title == "로그아웃" {
+                option.title = "로그인 하러가기"
+            }
+            cell.configure(with: option)
+        }
         return cell
     }
     
@@ -158,11 +165,16 @@ extension MyPageViewController: UICollectionViewDataSource, UICollectionViewDele
             let settingVC = SettingViewController()
             navigationController?.pushViewController(settingVC, animated: true)
         case [2, 1]:
+            if let _ = Auth.auth().currentUser {
                 showMessageWithCancel(title: "로그아웃", message: "정말로 로그아웃 하시겠습니까?") { [weak self] in
                     DispatchQueue.main.async {
                         self?.signOutTapped!()
                     }
                 }
+            } else {
+                signOutTapped!()
+            }
+                
             
         case [0, 1]:
             let EventVC = EventPageViewController()
