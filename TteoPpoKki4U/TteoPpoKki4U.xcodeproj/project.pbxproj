@@ -40,7 +40,6 @@
 		6128DBE12C2D2A0600729439 /* kangwon.json in Resources */ = {isa = PBXBuildFile; fileRef = 6128DBDF2C2D2A0600729439 /* kangwon.json */; };
 		6128DBE22C2D2A0600729439 /* sejong.json in Resources */ = {isa = PBXBuildFile; fileRef = 6128DBE02C2D2A0600729439 /* sejong.json */; };
 		6128DBE42C2D2D5D00729439 /* kyeongnam.json in Resources */ = {isa = PBXBuildFile; fileRef = 6128DBE32C2D2D5D00729439 /* kyeongnam.json */; };
-		6128DBE62C2D32B600729439 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6128DBE52C2D32B600729439 /* GoogleService-Info.plist */; };
 		61395F3C2C14C7AD006E7EBD /* ProgressHUD in Frameworks */ = {isa = PBXBuildFile; productRef = 61395F3B2C14C7AD006E7EBD /* ProgressHUD */; };
 		613D86992C05BFF80039E771 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 613D86982C05BFF80039E771 /* AppDelegate.swift */; };
 		613D869B2C05BFF80039E771 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 613D869A2C05BFF80039E771 /* SceneDelegate.swift */; };
@@ -158,6 +157,7 @@
 		CE771CCD2C243D69004415CA /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE771CCC2C243D69004415CA /* BaseViewController.swift */; };
 		CE771CCF2C243D8E004415CA /* ChannelTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE771CCE2C243D8E004415CA /* ChannelTableViewCell.swift */; };
 		CE771CD12C243E03004415CA /* NSObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE771CD02C243E03004415CA /* NSObject.swift */; };
+		CE866A092C2D82C600D48F44 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = CE866A082C2D82C600D48F44 /* GoogleService-Info.plist */; };
 		CEA3189B2C2A4F82001BAB0B /* ReportChatUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEA3189A2C2A4F82001BAB0B /* ReportChatUser.swift */; };
 		CEA3189D2C2A5CB3001BAB0B /* ChatReportViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEA3189C2C2A5CB3001BAB0B /* ChatReportViewController.swift */; };
 		CEA318A12C2A6406001BAB0B /* ChatReportViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEA318A02C2A6406001BAB0B /* ChatReportViewModel.swift */; };
@@ -198,7 +198,7 @@
 		6128DBDF2C2D2A0600729439 /* kangwon.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = kangwon.json; sourceTree = "<group>"; };
 		6128DBE02C2D2A0600729439 /* sejong.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = sejong.json; sourceTree = "<group>"; };
 		6128DBE32C2D2D5D00729439 /* kyeongnam.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = kyeongnam.json; sourceTree = "<group>"; };
-		6128DBE52C2D32B600729439 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../../../Desktop/GoogleService-Info.plist"; sourceTree = "<group>"; };
+		6128DBE52C2D32B600729439 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; name = "GoogleService-Info.plist"; path = "../../../../../GoogleService-Info.plist"; sourceTree = "<group>"; };
 		613D86952C05BFF80039E771 /* TteoPpoKki4U.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TteoPpoKki4U.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		613D86982C05BFF80039E771 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		613D869A2C05BFF80039E771 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -302,6 +302,7 @@
 		CE771CCC2C243D69004415CA /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
 		CE771CCE2C243D8E004415CA /* ChannelTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelTableViewCell.swift; sourceTree = "<group>"; };
 		CE771CD02C243E03004415CA /* NSObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSObject.swift; sourceTree = "<group>"; };
+		CE866A082C2D82C600D48F44 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		CEA3189A2C2A4F82001BAB0B /* ReportChatUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportChatUser.swift; sourceTree = "<group>"; };
 		CEA3189C2C2A5CB3001BAB0B /* ChatReportViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatReportViewController.swift; sourceTree = "<group>"; };
 		CEA318A02C2A6406001BAB0B /* ChatReportViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatReportViewModel.swift; sourceTree = "<group>"; };
@@ -473,6 +474,7 @@
 			children = (
 				613D86972C05BFF80039E771 /* TteoPpoKki4U */,
 				613D86962C05BFF80039E771 /* Products */,
+				CE866A072C2D81BB00D48F44 /* Recovered References */,
 			);
 			sourceTree = "<group>";
 		};
@@ -506,8 +508,8 @@
 				61DAC4FF2C06CCB000DFC575 /* Secret.swift */,
 				610717AA2C213D5C00626649 /* AuthKey_RS7QZ647UQ.p8 */,
 				610717A62C21364600626649 /* AuthKey_RS7QZ647UQ_public.p8 */,
+				CE866A082C2D82C600D48F44 /* GoogleService-Info.plist */,
 				610717AC2C2156B200626649 /* PrivacyInfo.xcprivacy */,
-				6128DBE52C2D32B600729439 /* GoogleService-Info.plist */,
 			);
 			path = TteoPpoKki4U;
 			sourceTree = "<group>";
@@ -778,6 +780,14 @@
 			path = ChatModel;
 			sourceTree = "<group>";
 		};
+		CE866A072C2D81BB00D48F44 /* Recovered References */ = {
+			isa = PBXGroup;
+			children = (
+				6128DBE52C2D32B600729439 /* GoogleService-Info.plist */,
+			);
+			name = "Recovered References";
+			sourceTree = "<group>";
+		};
 		CEA3189F2C2A63E1001BAB0B /* Chat */ = {
 			isa = PBXGroup;
 			children = (
@@ -889,8 +899,8 @@
 				610717AB2C213D5C00626649 /* AuthKey_RS7QZ647UQ.p8 in Resources */,
 				6128DBE22C2D2A0600729439 /* sejong.json in Resources */,
 				613D86A22C05BFF90039E771 /* Assets.xcassets in Resources */,
-				6128DBE62C2D32B600729439 /* GoogleService-Info.plist in Resources */,
 				8D580A492C082AB60057D370 /* Pretendard-Regular.ttf in Resources */,
+				CE866A092C2D82C600D48F44 /* GoogleService-Info.plist in Resources */,
 				8D580A4A2C082AB60057D370 /* Pretendard-ExtraLight.ttf in Resources */,
 				6128DBDB2C2D29FF00729439 /* kwangju.json in Resources */,
 				613D86A52C05BFF90039E771 /* Base in Resources */,
@@ -1172,7 +1182,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = LA95MXQ3R5;
+				DEVELOPMENT_TEAM = LRKR7469VU;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = TteoPpoKki4U/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "떡볶이4U";

@@ -134,13 +134,14 @@ class ChannelVC: BaseViewController {
     }
     
     private func showNameAlert(uid: String) {
-        let alertController = UIAlertController(title: "Enter Name", message: "Please enter your name.", preferredStyle: .alert)
+        let alertController = UIAlertController(title: "닉네임 입력", message: "개성넘치는 닉네임을 입력해주세요!",
+                                                preferredStyle: .alert)
         
         alertController.addTextField { (textField) in
-            textField.placeholder = "Name"
+            textField.placeholder = "닉네임 입력"
         }
         
-        let confirmAction = UIAlertAction(title: "OK", style: .default) { [weak self] (_) in
+        let confirmAction = UIAlertAction(title: "확인", style: .default) { [weak self] (_) in
             if let textField = alertController.textFields?.first, let newName = textField.text, !newName.isEmpty {
                 self?.validateNickname(nickName: newName) { result in
                     switch result {
@@ -156,7 +157,7 @@ class ChannelVC: BaseViewController {
                 }
             }
         }
-        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        let cancelAction = UIAlertAction(title: "취소", style: .cancel, handler: nil)
         
         alertController.addAction(confirmAction)
         alertController.addAction(cancelAction)
