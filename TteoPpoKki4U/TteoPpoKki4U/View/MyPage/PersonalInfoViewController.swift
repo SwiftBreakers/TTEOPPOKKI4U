@@ -209,24 +209,19 @@ class PersonalInfoViewController: UIViewController, PHPickerViewControllerDelega
         let manageManager = ManageManager()
         viewModel = ManageViewModel(manageManager: manageManager)
         
-        viewModel.getUsers()
-        
         guard let nickName = userNameTextField.text else { return }
-        
-        viewModel.$userArray.sink { [weak self] modelArray in
-                if modelArray.contains(where: { $0.nickName == nickName }) {
-                    self?.isValidate = false
-                    self?.validateLabel.textColor = .red
-                    self?.validateLabel.text = "이미 닉네임이 존재합니다."
-                } else {
-                    self?.isValidate = true
-                    self?.validateLabel.textColor = .blue
-                    self?.validateLabel.text = "입력하신 닉네임은 사용 가능합니다."
-                }
-                
-            }.store(in: &cancellables)
+        self.viewModel?.getUsers { [weak self] in
+            if self?.viewModel?.userArray.contains(where: { $0.nickName == nickName }) == false {
+                self?.isValidate = true
+                self?.validateLabel.textColor = .blue
+                self?.validateLabel.text = "입력하신 닉네임은 사용 가능합니다."
+            } else {
+                self?.isValidate = false
+                self?.validateLabel.textColor = .red
+                self?.validateLabel.text = "이미 닉네임이 존재합니다."
+            }
+        }
     }
-    
     
     @objc func saveChanges() {
         
