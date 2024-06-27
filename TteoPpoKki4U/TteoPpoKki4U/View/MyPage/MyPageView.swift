@@ -45,7 +45,7 @@ class MyPageView: UIView {
     let userRankLabel: UILabel = {
         let label = UILabel()
         label.font = ThemeFont.fontRegular(size: 16)
-        label.text = "떡볶이 순례길의 초행자"
+        label.text = ""
         label.textColor = .gray
         label.textAlignment = .center
         label.numberOfLines = 0
