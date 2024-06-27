@@ -8,18 +8,20 @@
 import UIKit
 import Kingfisher
 
-import UIKit
-import Kingfisher
-
 class BookmarkCell: UICollectionViewCell {
     
     let imageView = UIImageView()
     let titleLabel = UILabel()
     let bookmarkIcon = UIImageView()
+    var bookmarkIconTapped: (() -> Void)?
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupUI()
+        bookmarkIcon.isUserInteractionEnabled = true
+        
+        let tap = UITapGestureRecognizer(target: self, action: #selector(deselect))
+        bookmarkIcon.addGestureRecognizer(tap)
     }
     
     required init?(coder: NSCoder) {
@@ -69,5 +71,9 @@ class BookmarkCell: UICollectionViewCell {
     func configure(with model: BookmarkList) {
         imageView.kf.setImage(with: URL(string: model.imageURL))
         titleLabel.text = model.title
+    }
+    
+    @objc func deselect() {
+        bookmarkIconTapped?()
     }
 }

@@ -21,6 +21,7 @@ class MyPageViewController: UIViewController {
     
     let myPageVM = MyPageViewModel()
     let userManager = UserManager()
+    let reviewViewModel = ReviewViewModel()
     
     private var signVM: SignViewModel!
     private var signOutTapped: (() -> Void)!
@@ -58,7 +59,7 @@ class MyPageViewController: UIViewController {
         myPageView.collectionView.delegate = self
         // Register SeparatorView for the collection view
         myPageView.collectionView.register(SeparatorView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: SeparatorView.identifier)
-
+        
         bind()
     }
     
@@ -78,7 +79,13 @@ class MyPageViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        getData()
         fetchUser()
+        
+    }
+    
+    private func getData() {
+        reviewViewModel.getUserReview()
     }
     
     private func fetchUser() {
@@ -91,8 +98,22 @@ class MyPageViewController: UIViewController {
             myPageView.userProfile.kf.setImage(with: URL(string: dictionary[db_profileImageUrl] as! String))
             currentImageUrl = dictionary[db_profileImageUrl] as? String
             currentName = (dictionary[db_nickName] as? String) ?? "Unknown"
-//            currentRank = reviewCollection.
+            
+            switch reviewViewModel.userReview.count {
+            case 0...4:
+                currentRank = "떡볶이 순례길의 초행자"
+            case 5...9:
+                currentRank = "떡볶길을 자유 여행하는 탐방자"
+            case 10...29:
+                currentRank = "떡볶길의 베테랑 탐험자"
+            case 30...49:
+                currentRank = "떡볶이 순례길의 지휘관"
+            default:
+                currentRank = "떡볶이의 모든 것을 통찰하는 대가"
+            }
+            
             myPageView.userNameLabel.text = currentName
+            myPageView.userRankLabel.text = currentRank
         }
     }
     
@@ -127,8 +148,15 @@ extension MyPageViewController: UICollectionViewDataSource, UICollectionViewDele
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MyPageCollectionViewCell.identifier, for: indexPath) as! MyPageCollectionViewCell
-        let option = myPageVM.sections[indexPath.section].options[indexPath.item]
-        cell.configure(with: option)
+        var option = myPageVM.sections[indexPath.section].options[indexPath.item]
+        if let _ = Auth.auth().currentUser {
+            cell.configure(with: option)
+        } else {
+            if option.title == "로그아웃" {
+                option.title = "로그인 하러가기"
+            }
+            cell.configure(with: option)
+        }
         return cell
     }
     
@@ -141,43 +169,74 @@ extension MyPageViewController: UICollectionViewDataSource, UICollectionViewDele
             let NoticeTVC = NoticeTableViewController()
             navigationController?.pushViewController(NoticeTVC, animated: true)
         case [1, 0]:
-            let MyScrapVC = MyScrapViewController()
-            navigationController?.pushViewController(MyScrapVC, animated: true)
+            if let _ = Auth.auth().currentUser {
+                let MyScrapVC = MyScrapViewController()
+                navigationController?.pushViewController(MyScrapVC, animated: true)
+            } else {
+                showMessageWithCancel(title: "로그인이 필요한 기능입니다.", message: "확인을 클릭하시면 로그인 페이지로 이동합니다.") {
+                    let scene = UIApplication.shared.connectedScenes.first
+                    if let sd: SceneDelegate = (scene?.delegate as? SceneDelegate) {
+                        sd.switchToGreetingViewController()
+                    }
+                }
+            }
         case [1, 1]:
-            let MyReviewVC = MyReviewViewController()
-            navigationController?.pushViewController(MyReviewVC, animated: true)
+            if let _ = Auth.auth().currentUser {
+                let MyReviewVC = MyReviewViewController()
+                navigationController?.pushViewController(MyReviewVC, animated: true)
+            } else {
+                showMessageWithCancel(title: "로그인이 필요한 기능입니다.", message: "확인을 클릭하시면 로그인 페이지로 이동합니다.") {
+                    let scene = UIApplication.shared.connectedScenes.first
+                    if let sd: SceneDelegate = (scene?.delegate as? SceneDelegate) {
+                        sd.switchToGreetingViewController()
+                    }
+                }
+            }
+            
         case [2, 0]:
-            guard let _ = Auth.auth().currentUser?.uid else { return }
+            var isLogin = false
+            if let _ = Auth.auth().currentUser {
+                isLogin = true
+            } else {
+                isLogin = false
+            }
+            
             let settingVC = SettingViewController()
+            settingVC.isLogin = isLogin
             navigationController?.pushViewController(settingVC, animated: true)
         case [2, 1]:
+            if let _ = Auth.auth().currentUser {
                 showMessageWithCancel(title: "로그아웃", message: "정말로 로그아웃 하시겠습니까?") { [weak self] in
                     DispatchQueue.main.async {
                         self?.signOutTapped!()
                     }
                 }
+            } else {
+                signOutTapped!()
+            }
+            
             
         case [0, 1]:
             let EventVC = EventPageViewController()
             navigationController?.pushViewController(EventVC, animated: true)
             
-            default:
-                return
-            }
+        default:
+            return
+        }
     }
     
     // UICollectionViewDelegateFlowLayout
-       func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-           return CGSize(width: collectionView.bounds.width, height: 0.5) // 헤더 높이
-       }
-       
-       func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-           if kind == UICollectionView.elementKindSectionHeader {
-               let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: SeparatorView.identifier, for: indexPath) as! SeparatorView
-               return header
-           }
-           return UICollectionReusableView()
-       }
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
+        return CGSize(width: collectionView.bounds.width, height: 0.5) // 헤더 높이
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        if kind == UICollectionView.elementKindSectionHeader {
+            let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: SeparatorView.identifier, for: indexPath) as! SeparatorView
+            return header
+        }
+        return UICollectionReusableView()
+    }
 }
 
 //push한 다음에도 계속 push할 수 있도록 해주는 기능(컴플리션)

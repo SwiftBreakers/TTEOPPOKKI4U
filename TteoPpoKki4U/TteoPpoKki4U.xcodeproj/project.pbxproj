@@ -33,6 +33,16 @@
 		611644382C0909D4009FFDA5 /* SignManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611644372C0909D4009FFDA5 /* SignManager.swift */; };
 		6127E3552C2755130037F9E3 /* UIImageView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6127E3542C2755130037F9E3 /* UIImageView+Extension.swift */; };
 		6127E3572C2857740037F9E3 /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6127E3562C2857740037F9E3 /* Location.swift */; };
+		6128DBD42C2D0D5D00729439 /* gyeonggi.json in Resources */ = {isa = PBXBuildFile; fileRef = 6128DBD32C2D0D5D00729439 /* gyeonggi.json */; };
+		6128DBDA2C2D29FF00729439 /* ulsan.json in Resources */ = {isa = PBXBuildFile; fileRef = 6128DBD52C2D29FE00729439 /* ulsan.json */; };
+		6128DBDB2C2D29FF00729439 /* kwangju.json in Resources */ = {isa = PBXBuildFile; fileRef = 6128DBD62C2D29FE00729439 /* kwangju.json */; };
+		6128DBDC2C2D29FF00729439 /* pusan.json in Resources */ = {isa = PBXBuildFile; fileRef = 6128DBD72C2D29FE00729439 /* pusan.json */; };
+		6128DBDD2C2D29FF00729439 /* kyeongbuk.json in Resources */ = {isa = PBXBuildFile; fileRef = 6128DBD82C2D29FF00729439 /* kyeongbuk.json */; };
+		6128DBDE2C2D29FF00729439 /* jeonnam.json in Resources */ = {isa = PBXBuildFile; fileRef = 6128DBD92C2D29FF00729439 /* jeonnam.json */; };
+		6128DBE12C2D2A0600729439 /* kangwon.json in Resources */ = {isa = PBXBuildFile; fileRef = 6128DBDF2C2D2A0600729439 /* kangwon.json */; };
+		6128DBE22C2D2A0600729439 /* sejong.json in Resources */ = {isa = PBXBuildFile; fileRef = 6128DBE02C2D2A0600729439 /* sejong.json */; };
+		6128DBE42C2D2D5D00729439 /* kyeongnam.json in Resources */ = {isa = PBXBuildFile; fileRef = 6128DBE32C2D2D5D00729439 /* kyeongnam.json */; };
+		6128DBE82C2D89E700729439 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6128DBE72C2D89E700729439 /* GoogleService-Info.plist */; };
 		61395F3C2C14C7AD006E7EBD /* ProgressHUD in Frameworks */ = {isa = PBXBuildFile; productRef = 61395F3B2C14C7AD006E7EBD /* ProgressHUD */; };
 		613D86992C05BFF80039E771 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 613D86982C05BFF80039E771 /* AppDelegate.swift */; };
 		613D869B2C05BFF80039E771 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 613D869A2C05BFF80039E771 /* SceneDelegate.swift */; };
@@ -53,6 +63,13 @@
 		617BCCC92C1982CC008D8D48 /* DiffableSectionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 617BCCC82C1982CC008D8D48 /* DiffableSectionModel.swift */; };
 		618DEE062C12516A006B95A8 /* UserManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 618DEE052C12516A006B95A8 /* UserManager.swift */; };
 		618DEE092C125D9D006B95A8 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 618DEE082C125D9D006B95A8 /* Kingfisher */; };
+		6191CCBB2C2C827900C9060A /* jeonbuk.json in Resources */ = {isa = PBXBuildFile; fileRef = 6191CCB42C2C827900C9060A /* jeonbuk.json */; };
+		6191CCBF2C2C827900C9060A /* jeju.json in Resources */ = {isa = PBXBuildFile; fileRef = 6191CCB82C2C827900C9060A /* jeju.json */; };
+		6191CCC52C2CD90500C9060A /* chungnam.json in Resources */ = {isa = PBXBuildFile; fileRef = 6191CCC02C2CD90400C9060A /* chungnam.json */; };
+		6191CCC62C2CD90500C9060A /* daegu.json in Resources */ = {isa = PBXBuildFile; fileRef = 6191CCC12C2CD90500C9060A /* daegu.json */; };
+		6191CCC72C2CD90500C9060A /* chungbuk.json in Resources */ = {isa = PBXBuildFile; fileRef = 6191CCC22C2CD90500C9060A /* chungbuk.json */; };
+		6191CCC82C2CD90500C9060A /* daejeon.json in Resources */ = {isa = PBXBuildFile; fileRef = 6191CCC32C2CD90500C9060A /* daejeon.json */; };
+		6191CCC92C2CD90500C9060A /* incheon.json in Resources */ = {isa = PBXBuildFile; fileRef = 6191CCC42C2CD90500C9060A /* incheon.json */; };
 		619D771A2C085EC80043EF82 /* GreetingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 619D77192C085EC80043EF82 /* GreetingViewController.swift */; };
 		619FE8EC2C1F147F00745A0A /* ReportModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 619FE8EB2C1F147F00745A0A /* ReportModel.swift */; };
 		619FE8F02C1F183300745A0A /* ReportViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 619FE8EF2C1F183300745A0A /* ReportViewModel.swift */; };
@@ -176,6 +193,16 @@
 		611644392C0922F0009FFDA5 /* TteoPpoKki4U.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = TteoPpoKki4U.entitlements; sourceTree = "<group>"; };
 		6127E3542C2755130037F9E3 /* UIImageView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+Extension.swift"; sourceTree = "<group>"; };
 		6127E3562C2857740037F9E3 /* Location.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Location.swift; sourceTree = "<group>"; };
+		6128DBD32C2D0D5D00729439 /* gyeonggi.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = gyeonggi.json; sourceTree = "<group>"; };
+		6128DBD52C2D29FE00729439 /* ulsan.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = ulsan.json; sourceTree = "<group>"; };
+		6128DBD62C2D29FE00729439 /* kwangju.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = kwangju.json; sourceTree = "<group>"; };
+		6128DBD72C2D29FE00729439 /* pusan.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = pusan.json; sourceTree = "<group>"; };
+		6128DBD82C2D29FF00729439 /* kyeongbuk.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = kyeongbuk.json; sourceTree = "<group>"; };
+		6128DBD92C2D29FF00729439 /* jeonnam.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = jeonnam.json; sourceTree = "<group>"; };
+		6128DBDF2C2D2A0600729439 /* kangwon.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = kangwon.json; sourceTree = "<group>"; };
+		6128DBE02C2D2A0600729439 /* sejong.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = sejong.json; sourceTree = "<group>"; };
+		6128DBE32C2D2D5D00729439 /* kyeongnam.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = kyeongnam.json; sourceTree = "<group>"; };
+		6128DBE72C2D89E700729439 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../../../Desktop/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		613D86952C05BFF80039E771 /* TteoPpoKki4U.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TteoPpoKki4U.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		613D86982C05BFF80039E771 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		613D869A2C05BFF80039E771 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -194,6 +221,13 @@
 		617BCCC52C19699C008D8D48 /* ManageTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManageTableViewCell.swift; sourceTree = "<group>"; };
 		617BCCC82C1982CC008D8D48 /* DiffableSectionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiffableSectionModel.swift; sourceTree = "<group>"; };
 		618DEE052C12516A006B95A8 /* UserManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserManager.swift; sourceTree = "<group>"; };
+		6191CCB42C2C827900C9060A /* jeonbuk.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = jeonbuk.json; sourceTree = "<group>"; };
+		6191CCB82C2C827900C9060A /* jeju.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = jeju.json; sourceTree = "<group>"; };
+		6191CCC02C2CD90400C9060A /* chungnam.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = chungnam.json; sourceTree = "<group>"; };
+		6191CCC12C2CD90500C9060A /* daegu.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = daegu.json; sourceTree = "<group>"; };
+		6191CCC22C2CD90500C9060A /* chungbuk.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = chungbuk.json; sourceTree = "<group>"; };
+		6191CCC32C2CD90500C9060A /* daejeon.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = daejeon.json; sourceTree = "<group>"; };
+		6191CCC42C2CD90500C9060A /* incheon.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = incheon.json; sourceTree = "<group>"; };
 		619D77192C085EC80043EF82 /* GreetingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GreetingViewController.swift; sourceTree = "<group>"; };
 		619FE8EB2C1F147F00745A0A /* ReportModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportModel.swift; sourceTree = "<group>"; };
 		619FE8EF2C1F183300745A0A /* ReportViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportViewModel.swift; sourceTree = "<group>"; };
@@ -225,6 +259,7 @@
 		8D69D70F2C2982FE0087296A /* Notice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notice.swift; sourceTree = "<group>"; };
 		8D69D7112C2986490087296A /* NoticeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeTableViewCell.swift; sourceTree = "<group>"; };
 		8D78CDDF2C0E077D00051D50 /* WriteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WriteViewController.swift; sourceTree = "<group>"; };
+		8D8237702C2D197D000A30F6 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		8D899FDF2C1C3F0500FEBE77 /* BookmarkCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkCell.swift; sourceTree = "<group>"; };
 		8D9A30592C180D99004E7F1B /* ScrapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrapViewModel.swift; sourceTree = "<group>"; };
 		8DA182752C2590D2000B9750 /* SeparatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeparatorView.swift; sourceTree = "<group>"; };
@@ -309,6 +344,7 @@
 		610717A02C2117B900626649 /* Map */ = {
 			isa = PBXGroup;
 			children = (
+				61107A832C2B78AD00EE9AD2 /* JsonViewModel.swift */,
 				9C82B9562C0F31A0008FA84E /* MapViewModel.swift */,
 			);
 			path = Map;
@@ -317,6 +353,22 @@
 		61107A7B2C2AFF8A00EE9AD2 /* Json */ = {
 			isa = PBXGroup;
 			children = (
+				6128DBE32C2D2D5D00729439 /* kyeongnam.json */,
+				6128DBDF2C2D2A0600729439 /* kangwon.json */,
+				6128DBE02C2D2A0600729439 /* sejong.json */,
+				6128DBD92C2D29FF00729439 /* jeonnam.json */,
+				6128DBD62C2D29FE00729439 /* kwangju.json */,
+				6128DBD82C2D29FF00729439 /* kyeongbuk.json */,
+				6128DBD72C2D29FE00729439 /* pusan.json */,
+				6128DBD52C2D29FE00729439 /* ulsan.json */,
+				6128DBD32C2D0D5D00729439 /* gyeonggi.json */,
+				6191CCC22C2CD90500C9060A /* chungbuk.json */,
+				6191CCC02C2CD90400C9060A /* chungnam.json */,
+				6191CCC12C2CD90500C9060A /* daegu.json */,
+				6191CCC32C2CD90500C9060A /* daejeon.json */,
+				6191CCC42C2CD90500C9060A /* incheon.json */,
+				6191CCB82C2C827900C9060A /* jeju.json */,
+				6191CCB42C2C827900C9060A /* jeonbuk.json */,
 				61107A852C2B897500EE9AD2 /* seoul.json */,
 			);
 			path = Json;
@@ -381,7 +433,6 @@
 				61DAC4DF2C05C3A700DFC575 /* MapViewController.swift */,
 				9C82B9582C0F31D0008FA84E /* MapView.swift */,
 				9C82B9542C0F3046008FA84E /* PinStoreView.swift */,
-				61107A832C2B78AD00EE9AD2 /* JsonViewModel.swift */,
 			);
 			path = Map;
 			sourceTree = "<group>";
@@ -427,6 +478,7 @@
 			children = (
 				613D86972C05BFF80039E771 /* TteoPpoKki4U */,
 				613D86962C05BFF80039E771 /* Products */,
+				CE866A072C2D81BB00D48F44 /* Recovered References */,
 			);
 			sourceTree = "<group>";
 		};
@@ -457,11 +509,13 @@
 				CE771CC82C243C08004415CA /* Sender.swift */,
 				613D86A32C05BFF90039E771 /* LaunchScreen.storyboard */,
 				613D86A62C05BFF90039E771 /* Info.plist */,
+				8D8237702C2D197D000A30F6 /* GoogleService-Info.plist */,
 				61DAC4FF2C06CCB000DFC575 /* Secret.swift */,
-				25CCA3DB2C2C39D1008F81A3 /* GoogleService-Info.plist */,
 				610717AA2C213D5C00626649 /* AuthKey_RS7QZ647UQ.p8 */,
 				610717A62C21364600626649 /* AuthKey_RS7QZ647UQ_public.p8 */,
 				610717AC2C2156B200626649 /* PrivacyInfo.xcprivacy */,
+
+				6128DBE72C2D89E700729439 /* GoogleService-Info.plist */,
 			);
 			path = TteoPpoKki4U;
 			sourceTree = "<group>";
@@ -605,21 +659,21 @@
 			isa = PBXGroup;
 			children = (
 				611EE67F2C20C0CC0096D903 /* Cell */,
+				8DA182752C2590D2000B9750 /* SeparatorView.swift */,
+				8DB30F2A2C07731400503139 /* MyPageView.swift */,
+				8DB30F312C07794E00503139 /* PersonalInfoViewController.swift */,
+				61DAC4E32C05C3CF00DFC575 /* MyPageViewController.swift */,
 				8D69D70B2C2981C30087296A /* NoticeTableViewController.swift */,
 				8D580A4C2C08767F0057D370 /* MyScrapViewController.swift */,
-				8DB30F312C07794E00503139 /* PersonalInfoViewController.swift */,
+				8D580A522C08C8420057D370 /* MyReviewViewController.swift */,
 				8D3BA8402C15D5F1007597F2 /* SettingViewController.swift */,
 				25CCA3C82C254A46008F81A3 /* PrivacyPolicyViewController.swift */,
 				25CCA3CD2C259EC9008F81A3 /* privacyPolicyText.swift */,
-				8D580A522C08C8420057D370 /* MyReviewViewController.swift */,
-				61DAC4E32C05C3CF00DFC575 /* MyPageViewController.swift */,
 				25CCA3D32C2979D6008F81A3 /* EventPageViewController.swift */,
 				25CCA3D52C2A90D2008F81A3 /* EventPageTableViewCell.swift */,
 				25CCA3D92C2B8BC5008F81A3 /* EventSceneViewController.swift */,
 				25CCA3DD2C2CDA99008F81A3 /* EventSceneCollectionViewCell.swift */,
 				25CCA3D72C2AAB8A008F81A3 /* EventData.swift */,
-				8DB30F2A2C07731400503139 /* MyPageView.swift */,
-				8DA182752C2590D2000B9750 /* SeparatorView.swift */,
 			);
 			path = MyPage;
 			sourceTree = "<group>";
@@ -733,6 +787,13 @@
 			path = ChatModel;
 			sourceTree = "<group>";
 		};
+		CE866A072C2D81BB00D48F44 /* Recovered References */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = "Recovered References";
+			sourceTree = "<group>";
+		};
 		CEA3189F2C2A63E1001BAB0B /* Chat */ = {
 			isa = PBXGroup;
 			children = (
@@ -833,17 +894,34 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6191CCC92C2CD90500C9060A /* incheon.json in Resources */,
+				6191CCC82C2CD90500C9060A /* daejeon.json in Resources */,
+				6191CCBB2C2C827900C9060A /* jeonbuk.json in Resources */,
+				6128DBDC2C2D29FF00729439 /* pusan.json in Resources */,
+				6128DBDE2C2D29FF00729439 /* jeonnam.json in Resources */,
 				610717A72C21364600626649 /* AuthKey_RS7QZ647UQ_public.p8 in Resources */,
+				6191CCC52C2CD90500C9060A /* chungnam.json in Resources */,
 				8D580A472C082AB60057D370 /* Pretendard-Medium.ttf in Resources */,
 				610717AB2C213D5C00626649 /* AuthKey_RS7QZ647UQ.p8 in Resources */,
+				6128DBE22C2D2A0600729439 /* sejong.json in Resources */,
 				613D86A22C05BFF90039E771 /* Assets.xcassets in Resources */,
+				6128DBE82C2D89E700729439 /* GoogleService-Info.plist in Resources */,
 				8D580A492C082AB60057D370 /* Pretendard-Regular.ttf in Resources */,
 				8D580A4A2C082AB60057D370 /* Pretendard-ExtraLight.ttf in Resources */,
+				6128DBDB2C2D29FF00729439 /* kwangju.json in Resources */,
 				613D86A52C05BFF90039E771 /* Base in Resources */,
 				61107A862C2B897500EE9AD2 /* seoul.json in Resources */,
-				25CCA3DC2C2C39D1008F81A3 /* GoogleService-Info.plist in Resources */,
+				6128DBDD2C2D29FF00729439 /* kyeongbuk.json in Resources */,
+				61107A862C2B897500EE9AD2 /* seoul.json in Resources */,
+				6128DBDA2C2D29FF00729439 /* ulsan.json in Resources */,
+				6191CCBF2C2C827900C9060A /* jeju.json in Resources */,
+				6128DBE12C2D2A0600729439 /* kangwon.json in Resources */,
+				6191CCC72C2CD90500C9060A /* chungbuk.json in Resources */,
+				6128DBE42C2D2D5D00729439 /* kyeongnam.json in Resources */,
+				6128DBD42C2D0D5D00729439 /* gyeonggi.json in Resources */,
 				8D580A4B2C082AB60057D370 /* Pretendard-Bold.ttf in Resources */,
 				8D580A482C082AB60057D370 /* Pretendard-Black.ttf in Resources */,
+				6191CCC62C2CD90500C9060A /* daegu.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1130,7 +1208,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.2;
+				MARKETING_VERSION = 1.0.3;
 				PRODUCT_BUNDLE_IDENTIFIER = com.TeamSwiftbreakers.TteoPpoKki4U;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1150,6 +1228,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = TteoPpoKki4U/TteoPpoKki4U.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = LA95MXQ3R5;
@@ -1170,9 +1249,10 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.2;
+				MARKETING_VERSION = 1.0.3;
 				PRODUCT_BUNDLE_IDENTIFIER = com.TeamSwiftbreakers.TteoPpoKki4U;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;

@@ -16,14 +16,14 @@ class MyScrapViewController: UIViewController {
     var segmentedControl: UISegmentedControl!
     var collectionView: UICollectionView!
     
-    var backButton: UIButton = {
-        let button = UIButton(type: .system)
-        let image = UIImage(systemName: "chevron.backward.2")
-        button.setImage(image, for: .normal)
-        button.tintColor = .gray
-        button.addTarget(nil, action: #selector(backButtonTapped), for: .touchUpInside)
-        return button
-    }()
+//    var backButton: UIButton = {
+//        let button = UIButton(type: .system)
+//        let image = UIImage(systemName: "chevron.backward.2")
+//        button.setImage(image, for: .normal)
+//        button.tintColor = .gray
+//        button.addTarget(nil, action: #selector(backButtonTapped), for: .touchUpInside)
+//        return button
+//    }()
     var defaultView: UIImageView = {
         let image = UIImageView()
         image.image = UIImage(named: "ttukbokki4u1n")
@@ -32,6 +32,7 @@ class MyScrapViewController: UIViewController {
     
     let scrapViewModel = ScrapViewModel()
     let bookmarkViewModel = BookmarkViewModel()
+    let cardViewModel = CardViewModel()
     
     private var cancellables = Set<AnyCancellable>()
     
@@ -39,10 +40,13 @@ class MyScrapViewController: UIViewController {
         super.viewDidLoad()
         
         self.view.backgroundColor = .white
-        setupBackButton()
+//        setupBackButton()
+        navigationController?.navigationBar.tintColor = ThemeColor.mainOrange
+        navigationController?.navigationBar.barTintColor = .white
+        
         setupSegmentedControl()
         setupCollectionView()
-        navigationController?.isNavigationBarHidden = true
+       // navigationController?.isNavigationBarHidden = true
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -104,26 +108,40 @@ class MyScrapViewController: UIViewController {
         navigationController?.popViewController(animated: true)
     }
     
-    func setupBackButton() {
-        view.addSubview(backButton)
-        
-        backButton.snp.makeConstraints { make in
-            make.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(10)
-            make.leading.equalToSuperview().offset(20)
-            make.trailing.equalToSuperview().offset(-340)
-            make.height.equalTo(30)
-        }
-    }
+//    func setupBackButton() {
+//        view.addSubview(backButton)
+//        
+//        backButton.snp.makeConstraints { make in
+//            make.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(10)
+//            make.leading.equalToSuperview().offset(20)
+//            make.trailing.equalToSuperview().offset(-340)
+//            make.height.equalTo(30)
+//        }
+//    }
     
     func setupSegmentedControl() {
         segmentedControl = UISegmentedControl(items: ["스크랩", "북마크"])
         segmentedControl.selectedSegmentIndex = 0
         segmentedControl.addTarget(self, action: #selector(segmentChanged), for: .valueChanged)
         
+        if traitCollection.userInterfaceStyle == .dark {
+            segmentedControl.backgroundColor = .clear
+            segmentedControl.selectedSegmentTintColor = .white
+                let titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.black]
+                segmentedControl.setTitleTextAttributes(titleTextAttributes, for: .normal)
+                segmentedControl.setTitleTextAttributes(titleTextAttributes, for: .selected)
+            } else {
+                segmentedControl.backgroundColor = .clear
+                segmentedControl.selectedSegmentTintColor = .white
+                let titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.black]
+                segmentedControl.setTitleTextAttributes(titleTextAttributes, for: .normal)
+                segmentedControl.setTitleTextAttributes(titleTextAttributes, for: .selected)
+            }
+        
         view.addSubview(segmentedControl)
         
         segmentedControl.snp.makeConstraints { make in
-            make.top.equalTo(backButton.snp.bottom).offset(10)
+            make.top.equalToSuperview().offset(100)
             make.leading.trailing.equalToSuperview()
             make.height.equalTo(35)
         }
@@ -178,6 +196,7 @@ extension MyScrapViewController: UICollectionViewDelegate, UICollectionViewDataS
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    
         if segmentedControl.selectedSegmentIndex == 0 {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ScrapCell", for: indexPath) as! ScrapCell
             let scrapItem = scrapViewModel.scrapArray[indexPath.row]
@@ -188,6 +207,14 @@ extension MyScrapViewController: UICollectionViewDelegate, UICollectionViewDataS
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "BookmarkCell", for: indexPath) as! BookmarkCell
             let bookmarkItem = bookmarkViewModel.bookmarkArray[indexPath.item]
             cell.configure(with: bookmarkItem)
+            cell.bookmarkIconTapped = { [weak self] in
+                guard let uid = Auth.auth().currentUser?.uid else {
+                    return
+                }
+                self?.bookmarkViewModel.deleteBookmark(uid: uid, title: bookmarkItem.title, completion: {
+                    self?.bookmarkViewModel.fetchBookmark(uid: uid)
+                })
+            }
             return cell
         }
     }

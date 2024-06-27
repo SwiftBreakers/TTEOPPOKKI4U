@@ -49,19 +49,23 @@ class MapViewController: UIViewController, PinStoreViewDelegate {
     
     private let sendButton: UIButton = {
         let button = UIButton(type: .system)
-        button.setTitle("Send", for: .normal)
+        button.setTitle("보내기", for: .normal)
         button.addTarget(self, action: #selector(sendButtonTapped), for: .touchUpInside)
         button.tintColor = .white
+        button.titleLabel?.font = ThemeFont.fontBold()
         button.backgroundColor = .gray
+        button.layer.cornerRadius = 10
         return button
     }()
     
     private let cancelButton: UIButton = {
         let button = UIButton(type: .system)
-        button.setTitle("Cancel", for: .normal)
+        button.setTitle("취소", for: .normal)
         button.addTarget(self, action: #selector(cancelButtonTapped), for: .touchUpInside)
         button.tintColor = .white
+        button.titleLabel?.font = ThemeFont.fontBold()
         button.backgroundColor = .gray
+        button.layer.cornerRadius = 10
         return button
     }()
     
@@ -89,13 +93,18 @@ class MapViewController: UIViewController, PinStoreViewDelegate {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         tabBarController?.tabBar.isHidden = false
+        navigationController?.navigationBar.isHidden = true
         if isLocationPicker {
             setupButtons()
+            mapView.searchBar.searchTextField.attributedPlaceholder = NSAttributedString(string: "보내고 싶은 지역을 지도에서 길게 누르세요.", attributes: [NSAttributedString.Key.foregroundColor: UIColor.gray])
         }
         getRecentData()
     }
     
     private func loadJson(file name: String) {
+        let allAnnotations = self.mapView.map.annotations
+        self.mapView.map.removeAnnotations(allAnnotations)
+        
         let jsonService = JsonService(fileName: name)
         jsonViewModel = JsonViewModel(jsonService: jsonService)
         
@@ -111,14 +120,16 @@ class MapViewController: UIViewController, PinStoreViewDelegate {
                 return "seoul"
             case "경기도":
                 return "gyeonggi"
+            case "인천광역시":
+                return "incheon"
             case "강원도":
-                return "gangwon"
+                return "kangwon"
             case "충청북도":
                 return "chungbuk"
             case "충청남도":
                 return "chungnam"
             case "경상북도":
-                return "gyeongbuk"
+                return "kyeongbuk"
             case "경상남도":
                 return "gyeongnam"
             case "전라북도":
@@ -126,13 +137,13 @@ class MapViewController: UIViewController, PinStoreViewDelegate {
             case "전라남도":
                 return "jeonnam"
             case "광주광역시":
-                return "gwangju"
+                return "kwangju"
             case "대구광역시":
                 return "daegu"
             case "대전광역시":
                 return "daejeon"
             case "부산광역시":
-                return "busan"
+                return "pusan"
             case "울산광역시":
                 return "ulsan"
             case "세종특별자치시":
@@ -226,9 +237,9 @@ class MapViewController: UIViewController, PinStoreViewDelegate {
         buttonStackView.addArrangedSubview(sendButton)
         
         buttonStackView.snp.makeConstraints { make in
-            make.bottom.equalTo(view.safeAreaLayoutGuide).inset(20)
+            make.bottom.equalTo(view.safeAreaLayoutGuide).inset(10)
             make.leading.trailing.equalTo(view.safeAreaLayoutGuide).inset(20)
-            make.height.equalTo(50)
+            make.height.equalTo(40)
         }
     }
     
@@ -347,6 +358,7 @@ class MapViewController: UIViewController, PinStoreViewDelegate {
     
     @objc func findMyLocationBtnTapped() {
         findMyLocation()
+        getAddress(coordinate: userLocation)
     }
     
     @objc func handleLongPress(gestureRecognizer: UILongPressGestureRecognizer) {
@@ -410,7 +422,12 @@ class MapViewController: UIViewController, PinStoreViewDelegate {
                 print(error)
                 if error == .noUID {
                     DispatchQueue.main.async {
-                        self.showMessage(title: "안내", message: "로그인이 필요한 기능입니다.")
+                        self.showMessageWithCancel(title: "로그인이 필요한 기능입니다.", message: "확인을 클릭하시면 로그인 페이지로 이동합니다.") {
+                            let scene = UIApplication.shared.connectedScenes.first
+                            if let sd: SceneDelegate = (scene?.delegate as? SceneDelegate) {
+                                sd.switchToGreetingViewController()
+                            }
+                        }
                         self.storeInfoView.isScrapped = false
                     }
                 }

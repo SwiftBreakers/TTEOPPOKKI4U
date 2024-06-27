@@ -15,25 +15,28 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
     
     let tableView = UITableView()
     
-    var backButton: UIButton = {
-        let button = UIButton(type: .system)
-        let image = UIImage(systemName: "chevron.backward.2")
-        button.setImage(image, for: .normal)
-        button.tintColor = .gray
-        button.addTarget(nil, action: #selector(backButtonTapped), for: .touchUpInside)
-        return button
-    }()
+    //    var backButton: UIButton = {
+    //        let button = UIButton(type: .system)
+    //        let image = UIImage(systemName: "chevron.backward.2")
+    //        button.setImage(image, for: .normal)
+    //        button.tintColor = .gray
+    //        button.addTarget(nil, action: #selector(backButtonTapped), for: .touchUpInside)
+    //        return button
+    //    }()
     
     
     let signManager = SignManager()
     lazy var viewModel = SignViewModel(signManager: signManager)
+    
+    var isLogin = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         // View 설정
         view.backgroundColor = .white
-        title = "Settings"
+        navigationController?.navigationBar.tintColor = ThemeColor.mainOrange
+        navigationController?.navigationBar.barTintColor = .white
         
         // 테이블 뷰 설정
         tableView.dataSource = self
@@ -42,28 +45,27 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
         tableView.backgroundColor = .white
         view.addSubview(tableView)
         
-        // SnapKit을 사용하여 테이블 뷰 레이아웃 설정
         
         
-        setupBackButton()
-        navigationController?.isNavigationBarHidden = true
+        
+        //        setupBackButton()
         tableView.snp.makeConstraints { make in
-            make.top.equalTo(backButton.snp.bottom).offset(20)
+            make.top.equalToSuperview().offset(100)
             make.horizontalEdges.equalToSuperview().inset(20)
             make.bottom.equalToSuperview()
         }
     }
     
-    func setupBackButton() {
-        view.addSubview(backButton)
-        
-        backButton.snp.makeConstraints { make in
-            make.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(10)
-            make.leading.equalToSuperview().offset(20)
-            make.trailing.equalToSuperview().offset(-340)
-            make.height.equalTo(30)
-        }
-    }
+    //    func setupBackButton() {
+    //        view.addSubview(backButton)
+    //
+    //        backButton.snp.makeConstraints { make in
+    //            make.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(10)
+    //            make.leading.equalToSuperview().offset(20)
+    //            make.trailing.equalToSuperview().offset(-340)
+    //            make.height.equalTo(30)
+    //        }
+    //    }
     
     
     // MARK: - UITableViewDataSource
@@ -77,10 +79,11 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
         
         if indexPath.row == 0 {
+            
             let deleteUserLabel = UILabel()
-            deleteUserLabel.text = "회원탈퇴"
+            deleteUserLabel.text = "개인정보 처리방침"
             deleteUserLabel.font = ThemeFont.fontMedium(size: 18)
-            deleteUserLabel.textColor = .red
+            deleteUserLabel.textColor = .gray
             deleteUserLabel.textAlignment = .center
             
             cell.contentView.addSubview(deleteUserLabel)
@@ -89,11 +92,10 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
             deleteUserLabel.snp.makeConstraints { make in
                 make.center.equalTo(cell.contentView)
             }
-              
         } else if indexPath.row == 1 {
             
             let deleteUserLabel = UILabel()
-            deleteUserLabel.text = "개인정보 처리방침"
+            deleteUserLabel.text = "회원탈퇴"
             deleteUserLabel.font = ThemeFont.fontMedium(size: 18)
             deleteUserLabel.textColor = .red
             deleteUserLabel.textAlignment = .center
@@ -115,9 +117,15 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
         tableView.deselectRow(at: indexPath, animated: true)
         
         switch indexPath.row {
-        case 0: deleteUser()
-        case 1: let privacyVC = PrivacyPolicyViewController()  // 개인정보 뷰컨 인스턴스 생성
+        case 0:
+            let privacyVC = PrivacyPolicyViewController()  // 개인정보 뷰컨 인스턴스 생성
             navigationController?.pushViewController(privacyVC, animated: true)
+        case 1:
+            if isLogin {
+                deleteUser()
+            } else {
+                showMessage(title: "알림", message: "게스트 계정은 탈퇴할 수 없습니다.\n정식 계정으로 전환 후 이용해 주세요.")
+            }
         default: return
         }
     }
@@ -145,7 +153,7 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
     }
     
     
-   
+    
     
     
     @objc func backButtonTapped() {
