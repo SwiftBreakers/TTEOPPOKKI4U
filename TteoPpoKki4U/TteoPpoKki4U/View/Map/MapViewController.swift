@@ -89,6 +89,7 @@ class MapViewController: UIViewController, PinStoreViewDelegate {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         tabBarController?.tabBar.isHidden = false
+        navigationController?.navigationBar.isHidden = true
         if isLocationPicker {
             setupButtons()
         }

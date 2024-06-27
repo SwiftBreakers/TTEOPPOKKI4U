@@ -82,6 +82,7 @@ class ChannelVC: BaseViewController {
         //addToolBarItems()
         setupListener()
         checkUserLocation()
+       
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -94,6 +95,8 @@ class ChannelVC: BaseViewController {
         checkNickname()
         checkUserLocation()
     }
+    
+ 
     
     private func validateNickname(nickName: String, completion: @escaping ((Bool) -> Void)) {
         let manageManager = ManageManager()
