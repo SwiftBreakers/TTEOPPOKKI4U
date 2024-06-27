@@ -12,6 +12,7 @@ import Photos
 import FirebaseFirestore
 import FirebaseAuth
 import Kingfisher
+import ProgressHUD
 
 class ChatVC: MessagesViewController {
     
@@ -378,12 +379,14 @@ class ChatVC: MessagesViewController {
     
     private func didTapLibraryButton() {
         let picker = UIImagePickerController()
+        picker.delegate = self
         picker.sourceType = .photoLibrary
         present(picker, animated: true)
     }
     private func didTapCameraButton() {
         if UIImagePickerController.isSourceTypeAvailable(.camera) {
             let picker = UIImagePickerController()
+            picker.delegate = self
             picker.sourceType = .camera
             present(picker, animated: true)
         } else {
@@ -580,12 +583,16 @@ extension ChatVC: UIImagePickerControllerDelegate, UINavigationControllerDelegat
         guard !isSendingPhoto else { return }
         isSendingPhoto = true
         
+        ProgressHUD.animate()
+
         _ = FirebaseStorageManager.uploadImage(image: image, channel: channel, progress: { progress in
             // 업로드 진행 상황을 처리할 수 있습니다. 예: progress bar 업데이트
             print("Upload progress: \(progress * 100)%")
         }, completion: { [weak self] result in
             self?.isSendingPhoto = false
             guard let self = self else { return }
+            
+            ProgressHUD.dismiss()
             
             switch result {
             case .success(let url):
@@ -616,6 +623,7 @@ extension ChatVC: UIImagePickerControllerDelegate, UINavigationControllerDelegat
                 }
             case .failure(let error):
                 print("Failed to upload image: \(error)")
+                ProgressHUD.dismiss()
             }
         })
     }
