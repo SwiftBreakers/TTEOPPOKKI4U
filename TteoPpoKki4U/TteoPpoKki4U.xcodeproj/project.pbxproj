@@ -107,6 +107,7 @@
 		8D69D7102C2982FE0087296A /* Notice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D69D70F2C2982FE0087296A /* Notice.swift */; };
 		8D69D7122C2986490087296A /* NoticeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D69D7112C2986490087296A /* NoticeTableViewCell.swift */; };
 		8D78CDE02C0E077D00051D50 /* WriteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D78CDDF2C0E077D00051D50 /* WriteViewController.swift */; };
+		8D8237712C2D197D000A30F6 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8D8237702C2D197D000A30F6 /* GoogleService-Info.plist */; };
 		8D899FE02C1C3F0500FEBE77 /* BookmarkCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D899FDF2C1C3F0500FEBE77 /* BookmarkCell.swift */; };
 		8D9A305A2C180D99004E7F1B /* ScrapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D9A30592C180D99004E7F1B /* ScrapViewModel.swift */; };
 		8DA182762C2590D2000B9750 /* SeparatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DA182752C2590D2000B9750 /* SeparatorView.swift */; };
@@ -254,6 +255,7 @@
 		8D69D70F2C2982FE0087296A /* Notice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notice.swift; sourceTree = "<group>"; };
 		8D69D7112C2986490087296A /* NoticeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeTableViewCell.swift; sourceTree = "<group>"; };
 		8D78CDDF2C0E077D00051D50 /* WriteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WriteViewController.swift; sourceTree = "<group>"; };
+		8D8237702C2D197D000A30F6 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		8D899FDF2C1C3F0500FEBE77 /* BookmarkCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkCell.swift; sourceTree = "<group>"; };
 		8D9A30592C180D99004E7F1B /* ScrapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrapViewModel.swift; sourceTree = "<group>"; };
 		8DA182752C2590D2000B9750 /* SeparatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeparatorView.swift; sourceTree = "<group>"; };
@@ -504,6 +506,7 @@
 				CE771CC82C243C08004415CA /* Sender.swift */,
 				613D86A32C05BFF90039E771 /* LaunchScreen.storyboard */,
 				613D86A62C05BFF90039E771 /* Info.plist */,
+				8D8237702C2D197D000A30F6 /* GoogleService-Info.plist */,
 				61DAC4FF2C06CCB000DFC575 /* Secret.swift */,
 				610717AA2C213D5C00626649 /* AuthKey_RS7QZ647UQ.p8 */,
 				610717A62C21364600626649 /* AuthKey_RS7QZ647UQ_public.p8 */,
@@ -652,20 +655,20 @@
 			isa = PBXGroup;
 			children = (
 				611EE67F2C20C0CC0096D903 /* Cell */,
+				8DA182752C2590D2000B9750 /* SeparatorView.swift */,
+				8DB30F2A2C07731400503139 /* MyPageView.swift */,
+				8DB30F312C07794E00503139 /* PersonalInfoViewController.swift */,
+				61DAC4E32C05C3CF00DFC575 /* MyPageViewController.swift */,
 				8D69D70B2C2981C30087296A /* NoticeTableViewController.swift */,
 				8D580A4C2C08767F0057D370 /* MyScrapViewController.swift */,
-				8DB30F312C07794E00503139 /* PersonalInfoViewController.swift */,
+				8D580A522C08C8420057D370 /* MyReviewViewController.swift */,
 				8D3BA8402C15D5F1007597F2 /* SettingViewController.swift */,
 				25CCA3C82C254A46008F81A3 /* PrivacyPolicyViewController.swift */,
 				25CCA3CD2C259EC9008F81A3 /* privacyPolicyText.swift */,
-				8D580A522C08C8420057D370 /* MyReviewViewController.swift */,
-				61DAC4E32C05C3CF00DFC575 /* MyPageViewController.swift */,
 				25CCA3D32C2979D6008F81A3 /* EventPageViewController.swift */,
 				25CCA3D52C2A90D2008F81A3 /* EventPageTableViewCell.swift */,
 				25CCA3D92C2B8BC5008F81A3 /* EventSceneViewController.swift */,
 				25CCA3D72C2AAB8A008F81A3 /* EventData.swift */,
-				8DB30F2A2C07731400503139 /* MyPageView.swift */,
-				8DA182752C2590D2000B9750 /* SeparatorView.swift */,
 			);
 			path = MyPage;
 			sourceTree = "<group>";

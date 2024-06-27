@@ -22,14 +22,14 @@ class MyReviewViewController: UIViewController {
         return collectionView
     }()
     
-    private lazy var backButton: UIButton = {
-        let button = UIButton(type: .system)
-        let image = UIImage(systemName: "chevron.backward.2")
-        button.setImage(image, for: .normal)
-        button.tintColor = .gray
-        button.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
-        return button
-    }()
+//    private lazy var backButton: UIButton = {
+//        let button = UIButton(type: .system)
+//        let image = UIImage(systemName: "chevron.backward.2")
+//        button.setImage(image, for: .normal)
+//        button.tintColor = .gray
+//        button.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
+//        return button
+//    }()
     
     
     let viewModel = ReviewViewModel()
@@ -38,8 +38,10 @@ class MyReviewViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
-        navigationController?.navigationBar.isHidden = true
+//        navigationController?.navigationBar.isHidden = true
         view.backgroundColor = .white
+        navigationController?.navigationBar.tintColor = ThemeColor.mainOrange
+        navigationController?.navigationBar.barTintColor = .white
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -79,15 +81,15 @@ class MyReviewViewController: UIViewController {
     private func setupViews() {
         view.backgroundColor = .white
         view.addSubview(collectionView)
-        view.addSubview(backButton)
+//        view.addSubview(backButton)
         
-        backButton.snp.makeConstraints { make in
-            make.top.leading.equalTo(view.safeAreaLayoutGuide).offset(10)
-            make.leading.equalToSuperview().offset(20)
-        }
+//        backButton.snp.makeConstraints { make in
+//            make.top.leading.equalTo(view.safeAreaLayoutGuide).offset(10)
+//            make.leading.equalToSuperview().offset(20)
+//        }
         
         collectionView.snp.makeConstraints { make in
-            make.top.equalTo(backButton.snp.bottom).offset(12)
+            make.top.equalToSuperview().offset(100)
             make.horizontalEdges.equalToSuperview().inset(20)
             make.bottom.equalToSuperview()
         }
