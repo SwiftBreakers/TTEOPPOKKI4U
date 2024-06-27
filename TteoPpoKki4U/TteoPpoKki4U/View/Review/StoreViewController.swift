@@ -273,7 +273,12 @@ class StoreViewController: UIViewController {
             writeVC.storeTitleText = shopTitleText
             navigationController?.pushViewController(writeVC, animated: true)
         } else {
-            showMessage(title: "안내", message: "로그인이 필요한 기능입니다.")
+            showMessage(title: "안내", message: "로그인이 필요한 기능입니다.") {
+                let scene = UIApplication.shared.connectedScenes.first
+                if let sd: SceneDelegate = (scene?.delegate as? SceneDelegate) {
+                    sd.switchToGreetingViewController()
+                }
+            }
         }
     }
     

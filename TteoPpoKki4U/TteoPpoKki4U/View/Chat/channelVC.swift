@@ -18,9 +18,6 @@ class ChannelVC: BaseViewController {
     let userManager = UserManager()
     var currentName: String?
     let myPageView = MyPageView()
-    var viewModel: ManageViewModel?
-    var isValidate = false
-    private var subscriptions = Set<AnyCancellable>()
     
     lazy var channelTableView: UITableView = {
         let view = UITableView()
@@ -42,6 +39,10 @@ class ChannelVC: BaseViewController {
     private var currentChannelAlertController: UIAlertController?
     private var currentAddress = ""
     private var isLocation = false
+    private var cancellables = Set<AnyCancellable>()
+    
+    var viewModel: ManageViewModel?
+    var isValidate = false
     
     init(currentUser: User) {
         self.currentUser = currentUser
@@ -76,7 +77,7 @@ class ChannelVC: BaseViewController {
         view.backgroundColor = .white
         channelTableView.backgroundColor = .white
         
-        checkNickname()
+        
         configureViews()
         //addToolBarItems()
         setupListener()
@@ -90,8 +91,21 @@ class ChannelVC: BaseViewController {
         navigationController?.navigationBar.titleTextAttributes = [
             NSAttributedString.Key.foregroundColor: ThemeColor.mainOrange
         ]
-        checkUserLocation()
         checkNickname()
+        checkUserLocation()
+    }
+    
+    private func validateNickname(nickName: String, completion: @escaping ((Bool) -> Void)) {
+        let manageManager = ManageManager()
+        self.viewModel = ManageViewModel(manageManager: manageManager)
+        
+        self.viewModel?.getUsers {
+            if self.viewModel?.userArray.contains(where: { $0.nickName == nickName }) == false {
+                completion(true)
+            } else {
+                completion(false)
+            }
+        }
     }
     
     private func checkUserLocation() {
@@ -111,62 +125,46 @@ class ChannelVC: BaseViewController {
                 currentName = (dictionary[db_nickName] as? String) ?? "Unknown"
                 if currentName == ""  {
                     showNameAlert(uid: user.uid)
+                    isValidate = false
+                } else {
+                    isValidate = true
                 }
             }
         }
     }
+    
     private func showNameAlert(uid: String) {
-        let alertController = UIAlertController(title: "닉네임 입력", message: "여기에 닉네임을 입력해주세요!", preferredStyle: .alert)
+        let alertController = UIAlertController(title: "닉네임 입력", message: "개성넘치는 닉네임을 입력해주세요!",
+                                                preferredStyle: .alert)
         
         alertController.addTextField { (textField) in
-            textField.placeholder = "닉네임"
-            textField.autocorrectionType = .no
-            textField.spellCheckingType = .no
-            textField.addTarget(self, action: #selector(self.textFieldDidChange(_:)), for: .editingChanged) // 텍스트 필드의 입력이 변경될 때마다 호출될 메서드 지정
+            textField.placeholder = "닉네임 입력"
         }
         
         let confirmAction = UIAlertAction(title: "확인", style: .default) { [weak self] (_) in
-            guard let self = self else { return }
-            
             if let textField = alertController.textFields?.first, let newName = textField.text, !newName.isEmpty {
-                let manageManager = ManageManager()
-                self.viewModel = ManageViewModel(manageManager: manageManager)
-                self.viewModel?.getUsers()
-                
-                guard let nickName = textField.text else { return }
-                
-                self.viewModel?.$userArray.sink { [weak self] modelArray in
-                    guard let self = self else { return }
-                    
-                    if modelArray.contains(where: { $0.nickName == nickName }) {
-                        self.updateEmptyUserName(uid: uid, emptyName: "")
-                    } else {
-                        self.updateUserName(uid: uid, newName: newName)
+                self?.validateNickname(nickName: newName) { result in
+                    switch result {
+                    case true:
+                        self?.updateUserName(uid: uid, newName: newName)
+                        self?.isValidate = true
+                    case false:
+                        self?.isValidate = false
+                        self?.showMessage(title: "중복 확인", message: "현재 닉네임은 이미 존재합니다.") {
+                            self?.showNameAlert(uid: uid) // 이름이 유효하지 않으면 알림을 다시 표시
+                        }
                     }
-                    
                 }
-                .store(in: &self.subscriptions)
             }
         }
+        let cancelAction = UIAlertAction(title: "취소", style: .cancel, handler: nil)
         
         alertController.addAction(confirmAction)
-        //        alertController.addAction(UIAlertAction(title: "취소", style: .cancel))
-        self.present(alertController, animated: true) {
-            // 초기에 확인 버튼 비활성화되어 있으므로, 텍스트 입력 확인 후 활성화 처리
-            alertController.actions.forEach { action in
-                if action.title == "확인" {
-                    action.isEnabled = false
-                }
-            }
-        }
+        alertController.addAction(cancelAction)
+        
+        self.present(alertController, animated: true, completion: nil)
     }
-    @objc private func textFieldDidChange(_ textField: UITextField) {
-        if let alertController = presentedViewController as? UIAlertController {
-            let confirmAction = alertController.actions.first { $0.title == "확인" }
-            confirmAction?.isEnabled = textField.text?.count ?? 0 > 0
-        }
-    }
-
+    
     private func updateUserName(uid: String, newName: String) {
         let ref = Database.database().reference().child("users/\(uid)")
         ref.updateChildValues([db_nickName: newName]) { [weak self] (error, ref) in
@@ -179,112 +177,94 @@ class ChannelVC: BaseViewController {
             print("Successfully updated name to \(newName)")
         }
     }
-
-    private func updateEmptyUserName(uid: String, emptyName: String) {
-        showMessage(title: "중복된 닉네임", message: "개성넘치는 닉네임을 설정해주세요!", completion: { [weak self] in
-            self?.showNameAlert(uid: uid)
-        })
-        let ref = Database.database().reference().child("users/\(uid)")
-        ref.updateChildValues([db_nickName: emptyName]) { [weak self] (error, ref) in
-            if let error = error {
-                print("Failed to update name:", error)
-                return
+    
+    private func configureViews() {
+        
+        view.addSubview(channelTableView)
+        channelTableView.snp.makeConstraints { make in
+            make.edges.equalTo(view.safeAreaLayoutGuide)
+        }
+    }
+    
+    private func addToolBarItems() {
+        toolbarItems = [
+            UIBarButtonItem(title: "로그아웃", style: .plain, target: self, action: #selector(didTapSignOutItem)),
+            UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil),
+            UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(didTapAddItem))
+        ]
+        navigationController?.isToolbarHidden = false
+    }
+    
+    private func setupListener() {
+        channelStream.subscribe { [weak self] result in
+            switch result {
+            case .success(let data):
+                self?.updateCell(to: data)
+            case .failure(let error):
+                print(error)
             }
-            self?.currentName = ""
-            self?.myPageView.userNameLabel.text = ""
-            print("Successfully updated name to \("")")
         }
     }
-
-
-
-private func configureViews() {
     
-    view.addSubview(channelTableView)
-    channelTableView.snp.makeConstraints { make in
-        make.edges.equalTo(view.safeAreaLayoutGuide)
+    @objc private func didTapSignOutItem() {
+        showAlert(message: "로그아웃 하시겠습니까?",
+                  cancelButtonName: "취소",
+                  confirmButtonName: "확인",
+                  confirmButtonCompletion: {
+            do {
+                try Auth.auth().signOut()
+            } catch {
+                print("Error signing out: \(error.localizedDescription)")
+            }
+        })
     }
-}
-
-private func addToolBarItems() {
-    toolbarItems = [
-        UIBarButtonItem(title: "로그아웃", style: .plain, target: self, action: #selector(didTapSignOutItem)),
-        UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil),
-        UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(didTapAddItem))
-    ]
-    navigationController?.isToolbarHidden = false
-}
-
-private func setupListener() {
-    channelStream.subscribe { [weak self] result in
-        switch result {
-        case .success(let data):
-            self?.updateCell(to: data)
-        case .failure(let error):
-            print(error)
-        }
-    }
-}
-
-@objc private func didTapSignOutItem() {
-    showAlert(message: "로그아웃 하시겠습니까?",
-              cancelButtonName: "취소",
-              confirmButtonName: "확인",
-              confirmButtonCompletion: {
-        do {
-            try Auth.auth().signOut()
-        } catch {
-            print("Error signing out: \(error.localizedDescription)")
-        }
-    })
-}
-
-@objc private func didTapAddItem() {
-    showAlert(title: "새로운 채널 생성",
-              cancelButtonName: "취소",
-              confirmButtonName: "확인",
-              isExistsTextField: true,
-              confirmButtonCompletion: { [weak self] in
-        self?.channelStream.createChannel(with: self?.alertController?.textFields?.first?.text ?? "")
-    })
-}
-
-// MARK: - Update Cell
-
-private func updateCell(to data: [(Channel, DocumentChangeType)]) {
-    data.forEach { (channel, documentChangeType) in
-        switch documentChangeType {
-        case .added:
-            addChannelToTable(channel)
-        case .modified:
-            updateChannelInTable(channel)
-        case .removed:
-            removeChannelFromTable(channel)
-        }
-    }
-}
-
-private func addChannelToTable(_ channel: Channel) {
-    guard channels.contains(channel) == false else { return }
     
-    channels.append(channel)
-    channels.sort()
+    @objc private func didTapAddItem() {
+        showAlert(title: "새로운 채널 생성",
+                  cancelButtonName: "취소",
+                  confirmButtonName: "확인",
+                  isExistsTextField: true,
+                  confirmButtonCompletion: { [weak self] in
+            self?.channelStream.createChannel(with: self?.alertController?.textFields?.first?.text ?? "")
+        })
+    }
     
-    guard let index = channels.firstIndex(of: channel) else { return }
-    channelTableView.insertRows(at: [IndexPath(row: index, section: 0)], with: .automatic)
-}
-
-private func updateChannelInTable(_ channel: Channel) {
-    guard let index = channels.firstIndex(of: channel) else { return }
-    channels[index] = channel
-    channelTableView.reloadRows(at: [IndexPath(row: index, section: 0)], with: .automatic)
-}
-
-private func removeChannelFromTable(_ channel: Channel) {
-    guard let index = channels.firstIndex(of: channel) else { return }
-    channels.remove(at: index)
-    channelTableView.deleteRows(at: [IndexPath(row: index, section: 0)], with: .automatic)
-}
+    // MARK: - Update Cell
+    
+    private func updateCell(to data: [(Channel, DocumentChangeType)]) {
+        data.forEach { (channel, documentChangeType) in
+            switch documentChangeType {
+            case .added:
+                addChannelToTable(channel)
+            case .modified:
+                updateChannelInTable(channel)
+            case .removed:
+                removeChannelFromTable(channel)
+            }
+        }
+    }
+    
+    private func addChannelToTable(_ channel: Channel) {
+        guard channels.contains(channel) == false else { return }
+        
+        channels.append(channel)
+        channels.sort()
+        
+        guard let index = channels.firstIndex(of: channel) else { return }
+        channelTableView.insertRows(at: [IndexPath(row: index, section: 0)], with: .automatic)
+    }
+    
+    private func updateChannelInTable(_ channel: Channel) {
+        guard let index = channels.firstIndex(of: channel) else { return }
+        channels[index] = channel
+        channelTableView.reloadRows(at: [IndexPath(row: index, section: 0)], with: .automatic)
+    }
+    
+    private func removeChannelFromTable(_ channel: Channel) {
+        guard let index = channels.firstIndex(of: channel) else { return }
+        channels.remove(at: index)
+        channelTableView.deleteRows(at: [IndexPath(row: index, section: 0)], with: .automatic)
+    }
 }
 
 extension ChannelVC: UITableViewDataSource, UITableViewDelegate {
@@ -305,8 +285,9 @@ extension ChannelVC: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
         let channel = channels[indexPath.row]
-        let viewController: ChatVC
+        var viewController: ChatVC? // viewController를 옵셔널로 선언
         
         if currentAddress != channel.name {
             isLocation = false
@@ -314,22 +295,24 @@ extension ChannelVC: UITableViewDataSource, UITableViewDelegate {
             isLocation = true
         }
         
-        
         if let user = currentUser {
-            if channel.name == "테스트" {
-                isLocation = true
+            if isValidate {
                 viewController = ChatVC(user: user, channel: channel)
-                viewController.isLocation = isLocation
+                viewController?.isLocation = isLocation
             } else {
-                viewController = ChatVC(user: user, channel: channel)
-                viewController.isLocation = isLocation
+                guard let uid = Auth.auth().currentUser?.uid else { return }
+                showNameAlert(uid: uid)
+                return // 이름 확인이 완료될 때까지 반환하여 viewController 초기화를 기다림
             }
         } else if let customUser = customUser {
             viewController = ChatVC(customUser: customUser, channel: channel)
         } else {
             fatalError("No valid user found.")
         }
-        navigationController?.pushViewController(viewController, animated: true)
+        
+        if let viewController = viewController {
+            navigationController?.pushViewController(viewController, animated: true)
+        }
         tableView.deselectRow(at: indexPath, animated: true)
     }
 }

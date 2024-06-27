@@ -44,7 +44,7 @@ class BookmarkViewModel {
         }
     }
     
-    func deleteBookmark(uid: String, title: String) {
+    func deleteBookmark(uid: String, title: String, completion: @escaping () -> Void) {
         storeManager.deleteBookmark(uid: uid, title: title) { querySnapshot, error in
             if let error = error {
                 print(error.localizedDescription)
@@ -55,6 +55,7 @@ class BookmarkViewModel {
                     let id = doc.documentID
                     
                     bookmarkedCollection.document(id).delete()
+                    completion()
                 }
             }
         }

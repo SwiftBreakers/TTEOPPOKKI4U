@@ -59,13 +59,21 @@ class PersonalInfoViewController: UIViewController, PHPickerViewControllerDelega
         super.viewDidLoad()
         self.view.backgroundColor = .white
         
+        
         setupProfileImageView()
         setupUserNameTextField()
-        setupBackButton()
+        //setupBackButton()
         setupSaveButton()
         getImage()
-        navigationController?.isNavigationBarHidden = true
         userNameTextField.text = profileName
+        userNameTextField.delegate = self
+    
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.navigationBar.tintColor = ThemeColor.mainOrange
+        isValidate = false
     }
     
     deinit {
@@ -201,24 +209,19 @@ class PersonalInfoViewController: UIViewController, PHPickerViewControllerDelega
         let manageManager = ManageManager()
         viewModel = ManageViewModel(manageManager: manageManager)
         
-        viewModel.getUsers()
-        
         guard let nickName = userNameTextField.text else { return }
-        
-        viewModel.$userArray.sink { [weak self] modelArray in
-                if modelArray.contains(where: { $0.nickName == nickName }) {
-                    self?.isValidate = false
-                    self?.validateLabel.textColor = .red
-                    self?.validateLabel.text = "이미 닉네임이 존재합니다."
-                } else {
-                    self?.isValidate = true
-                    self?.validateLabel.textColor = .blue
-                    self?.validateLabel.text = "입력하신 닉네임은 사용 가능합니다."
-                }
-                
-            }.store(in: &cancellables)
+        self.viewModel?.getUsers { [weak self] in
+            if self?.viewModel?.userArray.contains(where: { $0.nickName == nickName }) == false {
+                self?.isValidate = true
+                self?.validateLabel.textColor = .blue
+                self?.validateLabel.text = "입력하신 닉네임은 사용 가능합니다."
+            } else {
+                self?.isValidate = false
+                self?.validateLabel.textColor = .red
+                self?.validateLabel.text = "이미 닉네임이 존재합니다."
+            }
+        }
     }
-    
     
     @objc func saveChanges() {
         
@@ -259,5 +262,17 @@ class PersonalInfoViewController: UIViewController, PHPickerViewControllerDelega
             showMessage(title: "중복확인을 해주세요", message: "닉네임 중복확인을 먼저 해주세요.")
         }
         
+    }
+}
+
+extension PersonalInfoViewController: UITextFieldDelegate {
+    
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        let currentText = textField.text ?? ""
+        let updatedText = (currentText as NSString).replacingCharacters(in: range, with: string)
+        
+        isValidate = false
+        
+        return true
     }
 }

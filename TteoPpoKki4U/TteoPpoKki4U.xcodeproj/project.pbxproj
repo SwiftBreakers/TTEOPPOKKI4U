@@ -10,6 +10,10 @@
 		25CCA3C92C254A46008F81A3 /* PrivacyPolicyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25CCA3C82C254A46008F81A3 /* PrivacyPolicyViewController.swift */; };
 		25CCA3CE2C259EC9008F81A3 /* privacyPolicyText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25CCA3CD2C259EC9008F81A3 /* privacyPolicyText.swift */; };
 		25CCA3D02C291B28008F81A3 /* TabbarControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25CCA3CF2C291B28008F81A3 /* TabbarControllerDelegate.swift */; };
+		25CCA3D42C2979D6008F81A3 /* EventPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25CCA3D32C2979D6008F81A3 /* EventPageViewController.swift */; };
+		25CCA3D62C2A90D2008F81A3 /* EventPageTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25CCA3D52C2A90D2008F81A3 /* EventPageTableViewCell.swift */; };
+		25CCA3D82C2AAB8A008F81A3 /* EventData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25CCA3D72C2AAB8A008F81A3 /* EventData.swift */; };
+		25CCA3DA2C2B8BC5008F81A3 /* EventSceneViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25CCA3D92C2B8BC5008F81A3 /* EventSceneViewController.swift */; };
 		610717A32C2131A400626649 /* SwiftJWT in Frameworks */ = {isa = PBXBuildFile; productRef = 610717A22C2131A400626649 /* SwiftJWT */; };
 		610717A72C21364600626649 /* AuthKey_RS7QZ647UQ_public.p8 in Resources */ = {isa = PBXBuildFile; fileRef = 610717A62C21364600626649 /* AuthKey_RS7QZ647UQ_public.p8 */; };
 		610717A92C2137F600626649 /* AppleTokenResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 610717A82C2137F600626649 /* AppleTokenResponse.swift */; };
@@ -27,6 +31,15 @@
 		611644382C0909D4009FFDA5 /* SignManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611644372C0909D4009FFDA5 /* SignManager.swift */; };
 		6127E3552C2755130037F9E3 /* UIImageView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6127E3542C2755130037F9E3 /* UIImageView+Extension.swift */; };
 		6127E3572C2857740037F9E3 /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6127E3562C2857740037F9E3 /* Location.swift */; };
+		6128DBD42C2D0D5D00729439 /* gyeonggi.json in Resources */ = {isa = PBXBuildFile; fileRef = 6128DBD32C2D0D5D00729439 /* gyeonggi.json */; };
+		6128DBDA2C2D29FF00729439 /* ulsan.json in Resources */ = {isa = PBXBuildFile; fileRef = 6128DBD52C2D29FE00729439 /* ulsan.json */; };
+		6128DBDB2C2D29FF00729439 /* kwangju.json in Resources */ = {isa = PBXBuildFile; fileRef = 6128DBD62C2D29FE00729439 /* kwangju.json */; };
+		6128DBDC2C2D29FF00729439 /* pusan.json in Resources */ = {isa = PBXBuildFile; fileRef = 6128DBD72C2D29FE00729439 /* pusan.json */; };
+		6128DBDD2C2D29FF00729439 /* kyeongbuk.json in Resources */ = {isa = PBXBuildFile; fileRef = 6128DBD82C2D29FF00729439 /* kyeongbuk.json */; };
+		6128DBDE2C2D29FF00729439 /* jeonnam.json in Resources */ = {isa = PBXBuildFile; fileRef = 6128DBD92C2D29FF00729439 /* jeonnam.json */; };
+		6128DBE12C2D2A0600729439 /* kangwon.json in Resources */ = {isa = PBXBuildFile; fileRef = 6128DBDF2C2D2A0600729439 /* kangwon.json */; };
+		6128DBE22C2D2A0600729439 /* sejong.json in Resources */ = {isa = PBXBuildFile; fileRef = 6128DBE02C2D2A0600729439 /* sejong.json */; };
+		6128DBE42C2D2D5D00729439 /* kyeongnam.json in Resources */ = {isa = PBXBuildFile; fileRef = 6128DBE32C2D2D5D00729439 /* kyeongnam.json */; };
 		61395F3C2C14C7AD006E7EBD /* ProgressHUD in Frameworks */ = {isa = PBXBuildFile; productRef = 61395F3B2C14C7AD006E7EBD /* ProgressHUD */; };
 		613D86992C05BFF80039E771 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 613D86982C05BFF80039E771 /* AppDelegate.swift */; };
 		613D869B2C05BFF80039E771 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 613D869A2C05BFF80039E771 /* SceneDelegate.swift */; };
@@ -47,6 +60,13 @@
 		617BCCC92C1982CC008D8D48 /* DiffableSectionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 617BCCC82C1982CC008D8D48 /* DiffableSectionModel.swift */; };
 		618DEE062C12516A006B95A8 /* UserManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 618DEE052C12516A006B95A8 /* UserManager.swift */; };
 		618DEE092C125D9D006B95A8 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 618DEE082C125D9D006B95A8 /* Kingfisher */; };
+		6191CCBB2C2C827900C9060A /* jeonbuk.json in Resources */ = {isa = PBXBuildFile; fileRef = 6191CCB42C2C827900C9060A /* jeonbuk.json */; };
+		6191CCBF2C2C827900C9060A /* jeju.json in Resources */ = {isa = PBXBuildFile; fileRef = 6191CCB82C2C827900C9060A /* jeju.json */; };
+		6191CCC52C2CD90500C9060A /* chungnam.json in Resources */ = {isa = PBXBuildFile; fileRef = 6191CCC02C2CD90400C9060A /* chungnam.json */; };
+		6191CCC62C2CD90500C9060A /* daegu.json in Resources */ = {isa = PBXBuildFile; fileRef = 6191CCC12C2CD90500C9060A /* daegu.json */; };
+		6191CCC72C2CD90500C9060A /* chungbuk.json in Resources */ = {isa = PBXBuildFile; fileRef = 6191CCC22C2CD90500C9060A /* chungbuk.json */; };
+		6191CCC82C2CD90500C9060A /* daejeon.json in Resources */ = {isa = PBXBuildFile; fileRef = 6191CCC32C2CD90500C9060A /* daejeon.json */; };
+		6191CCC92C2CD90500C9060A /* incheon.json in Resources */ = {isa = PBXBuildFile; fileRef = 6191CCC42C2CD90500C9060A /* incheon.json */; };
 		619D771A2C085EC80043EF82 /* GreetingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 619D77192C085EC80043EF82 /* GreetingViewController.swift */; };
 		619FE8EC2C1F147F00745A0A /* ReportModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 619FE8EB2C1F147F00745A0A /* ReportModel.swift */; };
 		619FE8F02C1F183300745A0A /* ReportViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 619FE8EF2C1F183300745A0A /* ReportViewModel.swift */; };
@@ -137,16 +157,20 @@
 		CE771CCD2C243D69004415CA /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE771CCC2C243D69004415CA /* BaseViewController.swift */; };
 		CE771CCF2C243D8E004415CA /* ChannelTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE771CCE2C243D8E004415CA /* ChannelTableViewCell.swift */; };
 		CE771CD12C243E03004415CA /* NSObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE771CD02C243E03004415CA /* NSObject.swift */; };
+		CE866A092C2D82C600D48F44 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = CE866A082C2D82C600D48F44 /* GoogleService-Info.plist */; };
 		CEA3189B2C2A4F82001BAB0B /* ReportChatUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEA3189A2C2A4F82001BAB0B /* ReportChatUser.swift */; };
 		CEA3189D2C2A5CB3001BAB0B /* ChatReportViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEA3189C2C2A5CB3001BAB0B /* ChatReportViewController.swift */; };
 		CEA318A12C2A6406001BAB0B /* ChatReportViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEA318A02C2A6406001BAB0B /* ChatReportViewModel.swift */; };
-		CEA318A32C2C364A001BAB0B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = CEA318A22C2C364A001BAB0B /* GoogleService-Info.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		25CCA3C82C254A46008F81A3 /* PrivacyPolicyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivacyPolicyViewController.swift; sourceTree = "<group>"; };
 		25CCA3CD2C259EC9008F81A3 /* privacyPolicyText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = privacyPolicyText.swift; sourceTree = "<group>"; };
 		25CCA3CF2C291B28008F81A3 /* TabbarControllerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabbarControllerDelegate.swift; sourceTree = "<group>"; };
+		25CCA3D32C2979D6008F81A3 /* EventPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventPageViewController.swift; sourceTree = "<group>"; };
+		25CCA3D52C2A90D2008F81A3 /* EventPageTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventPageTableViewCell.swift; sourceTree = "<group>"; };
+		25CCA3D72C2AAB8A008F81A3 /* EventData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventData.swift; sourceTree = "<group>"; };
+		25CCA3D92C2B8BC5008F81A3 /* EventSceneViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventSceneViewController.swift; sourceTree = "<group>"; };
 		610717A62C21364600626649 /* AuthKey_RS7QZ647UQ_public.p8 */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = AuthKey_RS7QZ647UQ_public.p8; sourceTree = "<group>"; };
 		610717A82C2137F600626649 /* AppleTokenResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleTokenResponse.swift; sourceTree = "<group>"; };
 		610717AA2C213D5C00626649 /* AuthKey_RS7QZ647UQ.p8 */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = AuthKey_RS7QZ647UQ.p8; sourceTree = "<group>"; };
@@ -165,6 +189,16 @@
 		611644392C0922F0009FFDA5 /* TteoPpoKki4U.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = TteoPpoKki4U.entitlements; sourceTree = "<group>"; };
 		6127E3542C2755130037F9E3 /* UIImageView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+Extension.swift"; sourceTree = "<group>"; };
 		6127E3562C2857740037F9E3 /* Location.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Location.swift; sourceTree = "<group>"; };
+		6128DBD32C2D0D5D00729439 /* gyeonggi.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = gyeonggi.json; sourceTree = "<group>"; };
+		6128DBD52C2D29FE00729439 /* ulsan.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = ulsan.json; sourceTree = "<group>"; };
+		6128DBD62C2D29FE00729439 /* kwangju.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = kwangju.json; sourceTree = "<group>"; };
+		6128DBD72C2D29FE00729439 /* pusan.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = pusan.json; sourceTree = "<group>"; };
+		6128DBD82C2D29FF00729439 /* kyeongbuk.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = kyeongbuk.json; sourceTree = "<group>"; };
+		6128DBD92C2D29FF00729439 /* jeonnam.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = jeonnam.json; sourceTree = "<group>"; };
+		6128DBDF2C2D2A0600729439 /* kangwon.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = kangwon.json; sourceTree = "<group>"; };
+		6128DBE02C2D2A0600729439 /* sejong.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = sejong.json; sourceTree = "<group>"; };
+		6128DBE32C2D2D5D00729439 /* kyeongnam.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = kyeongnam.json; sourceTree = "<group>"; };
+		6128DBE52C2D32B600729439 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; name = "GoogleService-Info.plist"; path = "../../../../../GoogleService-Info.plist"; sourceTree = "<group>"; };
 		613D86952C05BFF80039E771 /* TteoPpoKki4U.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TteoPpoKki4U.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		613D86982C05BFF80039E771 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		613D869A2C05BFF80039E771 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -183,6 +217,13 @@
 		617BCCC52C19699C008D8D48 /* ManageTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManageTableViewCell.swift; sourceTree = "<group>"; };
 		617BCCC82C1982CC008D8D48 /* DiffableSectionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiffableSectionModel.swift; sourceTree = "<group>"; };
 		618DEE052C12516A006B95A8 /* UserManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserManager.swift; sourceTree = "<group>"; };
+		6191CCB42C2C827900C9060A /* jeonbuk.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = jeonbuk.json; sourceTree = "<group>"; };
+		6191CCB82C2C827900C9060A /* jeju.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = jeju.json; sourceTree = "<group>"; };
+		6191CCC02C2CD90400C9060A /* chungnam.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = chungnam.json; sourceTree = "<group>"; };
+		6191CCC12C2CD90500C9060A /* daegu.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = daegu.json; sourceTree = "<group>"; };
+		6191CCC22C2CD90500C9060A /* chungbuk.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = chungbuk.json; sourceTree = "<group>"; };
+		6191CCC32C2CD90500C9060A /* daejeon.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = daejeon.json; sourceTree = "<group>"; };
+		6191CCC42C2CD90500C9060A /* incheon.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = incheon.json; sourceTree = "<group>"; };
 		619D77192C085EC80043EF82 /* GreetingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GreetingViewController.swift; sourceTree = "<group>"; };
 		619FE8EB2C1F147F00745A0A /* ReportModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportModel.swift; sourceTree = "<group>"; };
 		619FE8EF2C1F183300745A0A /* ReportViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportViewModel.swift; sourceTree = "<group>"; };
@@ -261,10 +302,10 @@
 		CE771CCC2C243D69004415CA /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
 		CE771CCE2C243D8E004415CA /* ChannelTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelTableViewCell.swift; sourceTree = "<group>"; };
 		CE771CD02C243E03004415CA /* NSObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSObject.swift; sourceTree = "<group>"; };
+		CE866A082C2D82C600D48F44 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		CEA3189A2C2A4F82001BAB0B /* ReportChatUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportChatUser.swift; sourceTree = "<group>"; };
 		CEA3189C2C2A5CB3001BAB0B /* ChatReportViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatReportViewController.swift; sourceTree = "<group>"; };
 		CEA318A02C2A6406001BAB0B /* ChatReportViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatReportViewModel.swift; sourceTree = "<group>"; };
-		CEA318A22C2C364A001BAB0B /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -307,6 +348,22 @@
 		61107A7B2C2AFF8A00EE9AD2 /* Json */ = {
 			isa = PBXGroup;
 			children = (
+				6128DBE32C2D2D5D00729439 /* kyeongnam.json */,
+				6128DBDF2C2D2A0600729439 /* kangwon.json */,
+				6128DBE02C2D2A0600729439 /* sejong.json */,
+				6128DBD92C2D29FF00729439 /* jeonnam.json */,
+				6128DBD62C2D29FE00729439 /* kwangju.json */,
+				6128DBD82C2D29FF00729439 /* kyeongbuk.json */,
+				6128DBD72C2D29FE00729439 /* pusan.json */,
+				6128DBD52C2D29FE00729439 /* ulsan.json */,
+				6128DBD32C2D0D5D00729439 /* gyeonggi.json */,
+				6191CCC22C2CD90500C9060A /* chungbuk.json */,
+				6191CCC02C2CD90400C9060A /* chungnam.json */,
+				6191CCC12C2CD90500C9060A /* daegu.json */,
+				6191CCC32C2CD90500C9060A /* daejeon.json */,
+				6191CCC42C2CD90500C9060A /* incheon.json */,
+				6191CCB82C2C827900C9060A /* jeju.json */,
+				6191CCB42C2C827900C9060A /* jeonbuk.json */,
 				61107A852C2B897500EE9AD2 /* seoul.json */,
 			);
 			path = Json;
@@ -417,6 +474,7 @@
 			children = (
 				613D86972C05BFF80039E771 /* TteoPpoKki4U */,
 				613D86962C05BFF80039E771 /* Products */,
+				CE866A072C2D81BB00D48F44 /* Recovered References */,
 			);
 			sourceTree = "<group>";
 		};
@@ -450,8 +508,8 @@
 				61DAC4FF2C06CCB000DFC575 /* Secret.swift */,
 				610717AA2C213D5C00626649 /* AuthKey_RS7QZ647UQ.p8 */,
 				610717A62C21364600626649 /* AuthKey_RS7QZ647UQ_public.p8 */,
+				CE866A082C2D82C600D48F44 /* GoogleService-Info.plist */,
 				610717AC2C2156B200626649 /* PrivacyInfo.xcprivacy */,
-				CEA318A22C2C364A001BAB0B /* GoogleService-Info.plist */,
 			);
 			path = TteoPpoKki4U;
 			sourceTree = "<group>";
@@ -603,6 +661,10 @@
 				25CCA3CD2C259EC9008F81A3 /* privacyPolicyText.swift */,
 				8D580A522C08C8420057D370 /* MyReviewViewController.swift */,
 				61DAC4E32C05C3CF00DFC575 /* MyPageViewController.swift */,
+				25CCA3D32C2979D6008F81A3 /* EventPageViewController.swift */,
+				25CCA3D52C2A90D2008F81A3 /* EventPageTableViewCell.swift */,
+				25CCA3D92C2B8BC5008F81A3 /* EventSceneViewController.swift */,
+				25CCA3D72C2AAB8A008F81A3 /* EventData.swift */,
 				8DB30F2A2C07731400503139 /* MyPageView.swift */,
 				8DA182752C2590D2000B9750 /* SeparatorView.swift */,
 			);
@@ -718,6 +780,14 @@
 			path = ChatModel;
 			sourceTree = "<group>";
 		};
+		CE866A072C2D81BB00D48F44 /* Recovered References */ = {
+			isa = PBXGroup;
+			children = (
+				6128DBE52C2D32B600729439 /* GoogleService-Info.plist */,
+			);
+			name = "Recovered References";
+			sourceTree = "<group>";
+		};
 		CEA3189F2C2A63E1001BAB0B /* Chat */ = {
 			isa = PBXGroup;
 			children = (
@@ -818,17 +888,33 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6191CCC92C2CD90500C9060A /* incheon.json in Resources */,
+				6191CCC82C2CD90500C9060A /* daejeon.json in Resources */,
+				6191CCBB2C2C827900C9060A /* jeonbuk.json in Resources */,
+				6128DBDC2C2D29FF00729439 /* pusan.json in Resources */,
+				6128DBDE2C2D29FF00729439 /* jeonnam.json in Resources */,
 				610717A72C21364600626649 /* AuthKey_RS7QZ647UQ_public.p8 in Resources */,
+				6191CCC52C2CD90500C9060A /* chungnam.json in Resources */,
 				8D580A472C082AB60057D370 /* Pretendard-Medium.ttf in Resources */,
 				610717AB2C213D5C00626649 /* AuthKey_RS7QZ647UQ.p8 in Resources */,
+				6128DBE22C2D2A0600729439 /* sejong.json in Resources */,
 				613D86A22C05BFF90039E771 /* Assets.xcassets in Resources */,
 				8D580A492C082AB60057D370 /* Pretendard-Regular.ttf in Resources */,
+				CE866A092C2D82C600D48F44 /* GoogleService-Info.plist in Resources */,
 				8D580A4A2C082AB60057D370 /* Pretendard-ExtraLight.ttf in Resources */,
+				6128DBDB2C2D29FF00729439 /* kwangju.json in Resources */,
 				613D86A52C05BFF90039E771 /* Base in Resources */,
+				6128DBDD2C2D29FF00729439 /* kyeongbuk.json in Resources */,
 				61107A862C2B897500EE9AD2 /* seoul.json in Resources */,
-				CEA318A32C2C364A001BAB0B /* GoogleService-Info.plist in Resources */,
+				6128DBDA2C2D29FF00729439 /* ulsan.json in Resources */,
+				6191CCBF2C2C827900C9060A /* jeju.json in Resources */,
+				6128DBE12C2D2A0600729439 /* kangwon.json in Resources */,
+				6191CCC72C2CD90500C9060A /* chungbuk.json in Resources */,
+				6128DBE42C2D2D5D00729439 /* kyeongnam.json in Resources */,
+				6128DBD42C2D0D5D00729439 /* gyeonggi.json in Resources */,
 				8D580A4B2C082AB60057D370 /* Pretendard-Bold.ttf in Resources */,
 				8D580A482C082AB60057D370 /* Pretendard-Black.ttf in Resources */,
+				6191CCC62C2CD90500C9060A /* daegu.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -901,10 +987,12 @@
 				CE771CCD2C243D69004415CA /* BaseViewController.swift in Sources */,
 				CE771CB62C243861004415CA /* imageMediaItem.swift in Sources */,
 				8D580A4F2C0893A40057D370 /* ScrapList.swift in Sources */,
+				25CCA3D42C2979D6008F81A3 /* EventPageViewController.swift in Sources */,
 				61B0E6D22C270BDE007436DD /* ChatManager.swift in Sources */,
 				6116167E2C1C218C008A2FA2 /* ReportViewController.swift in Sources */,
 				9C82B9552C0F3046008FA84E /* PinStoreView.swift in Sources */,
 				8DB30F242C07700E00503139 /* UIColor+Extension.swift in Sources */,
+				25CCA3D62C2A90D2008F81A3 /* EventPageTableViewCell.swift in Sources */,
 				8DB30F212C076B8B00503139 /* MyPageModel.swift in Sources */,
 				CE771CB42C243827004415CA /* Messages.swift in Sources */,
 				CE771CC12C2439CA004415CA /* ChannelFirestoreStream.swift in Sources */,
@@ -932,10 +1020,12 @@
 				25CCA3CE2C259EC9008F81A3 /* privacyPolicyText.swift in Sources */,
 				617BCCC92C1982CC008D8D48 /* DiffableSectionModel.swift in Sources */,
 				8D580A512C08AAF70057D370 /* ScrapCell.swift in Sources */,
+				25CCA3DA2C2B8BC5008F81A3 /* EventSceneViewController.swift in Sources */,
 				61AB7EF62C1E60FD00C51ECA /* CustomTextField.swift in Sources */,
 				613D869B2C05BFF80039E771 /* SceneDelegate.swift in Sources */,
 				CE771CC32C243B06004415CA /* FirebaseStorageManager.swift in Sources */,
 				9C82B9572C0F31A0008FA84E /* MapViewModel.swift in Sources */,
+				25CCA3D82C2AAB8A008F81A3 /* EventData.swift in Sources */,
 				8D69D7122C2986490087296A /* NoticeTableViewCell.swift in Sources */,
 				CE771CBB2C243925004415CA /* ChatVC.swift in Sources */,
 				9CC6D3182C206BD6004C85D8 /* PinStoreModel.swift in Sources */,
@@ -1110,7 +1200,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.2;
+				MARKETING_VERSION = 1.0.3;
 				PRODUCT_BUNDLE_IDENTIFIER = com.TeamSwiftbreakers.TteoPpoKki4U;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1150,7 +1240,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.2;
+				MARKETING_VERSION = 1.0.3;
 				PRODUCT_BUNDLE_IDENTIFIER = com.TeamSwiftbreakers.TteoPpoKki4U;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";

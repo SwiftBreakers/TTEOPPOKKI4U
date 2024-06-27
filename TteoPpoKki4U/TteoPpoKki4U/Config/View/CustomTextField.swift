@@ -8,7 +8,7 @@
 import UIKit
 
 class CustomTextField: UITextField {
-    
+
     init(placeholder: String, keyboardType: UIKeyboardType = .default, target: Any?, action: Selector) {
         super.init(frame: .zero)
         self.placeholder = placeholder
@@ -55,4 +55,3 @@ class CustomTextField: UITextField {
       self.leftViewMode = ViewMode.always
     }
 }
-

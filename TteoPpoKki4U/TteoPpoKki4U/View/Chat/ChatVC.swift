@@ -357,7 +357,12 @@ class ChatVC: MessagesViewController {
                 present(actionSheet, animated: true)
             }
         } else if customUser != nil {
-            showMessage(title: "로그인이 필요한 기능입니다.", message: "사용 할 수 없습니다.")
+            showMessage(title: "로그인이 필요한 기능입니다.", message: "사용 할 수 없습니다.") {
+                let scene = UIApplication.shared.connectedScenes.first
+                if let sd: SceneDelegate = (scene?.delegate as? SceneDelegate) {
+                    sd.switchToGreetingViewController()
+                }
+            }
         }
         
     }
@@ -517,7 +522,12 @@ extension ChatVC: InputBarAccessoryViewDelegate {
     func inputBar(_ inputBar: InputBarAccessoryView, didPressSendButtonWith text: String) {
         Message.fetchDisplayName(userManager: UserManager()) { [weak self] displayName in
             guard let displayName = displayName, let self = self else {
-                self?.showMessage(title: "로그인이 필요한 기능입니다.", message: "게스트는 메세지를 보낼 수 없습니다.")
+                self?.showMessage(title: "로그인이 필요한 기능입니다.", message: "게스트는 메세지를 보낼 수 없습니다.", completion: {
+                    let scene = UIApplication.shared.connectedScenes.first
+                    if let sd: SceneDelegate = (scene?.delegate as? SceneDelegate) {
+                        sd.switchToGreetingViewController()
+                    }
+                })
                 return
             }
             
