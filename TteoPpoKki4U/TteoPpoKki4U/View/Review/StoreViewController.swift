@@ -14,47 +14,59 @@ import Kingfisher
 class StoreViewController: UIViewController {
     
     // UI Components
-    private let backButton = UIButton()
-    private let storeNameLabel: UILabel = {
+    private lazy var customHeaderView = UIView()
+    private lazy var scrollView = UIScrollView()
+    private lazy var stackView = UIStackView()
+    private lazy var storeNameLabel: UILabel = {
         let label = UILabel()
         label.font = ThemeFont.fontBold(size: 24)
         label.textAlignment = .center
         label.textColor = ThemeColor.mainBlack
+        label.sizeToFit()
         return label
     }()
-    private let locationLabel: UILabel = {
+    private lazy var locationLabel: UILabel = {
         let label = UILabel()
         label.font = ThemeFont.fontRegular(size: 16)
         label.textColor = .darkGray
         label.textAlignment = .center
+        label.sizeToFit()
         return label
     }()
-    private let callNumberLabel: UILabel = {
+    private lazy var callNumberLabel: UILabel = {
         let label = UILabel()
         label.font = ThemeFont.fontRegular(size: 14)
         label.textColor = .darkGray
         label.textAlignment = .center
+        label.sizeToFit()
         return label
     }()
-    private let scrollView = UIScrollView()
-    private let stackView = UIStackView()
-    private let goReviewButton = UIButton()
-    private let tableView: UITableView = {
+    private lazy var seperateView: UIView = {
+        let view = UIView()
+        view.backgroundColor = UIColor(hexString: "D9D9D9")
+        return view
+    }()
+    private lazy var reviewCountLabel: UILabel = {
+        let label = UILabel()
+        label.font = ThemeFont.fontMedium()
+        label.sizeToFit()
+        return label
+    }()
+    private lazy var tableView: UITableView = {
         let tableView = UITableView()
         tableView.register(ReviewTableViewCell.self, forCellReuseIdentifier: "ReviewTableViewCell")
-        tableView.rowHeight = 60
+        tableView.rowHeight = 85
         tableView.backgroundColor = .white
         return tableView
     }()
-    private let seperateView: UIView = {
-        let view = UIView()
-        view.backgroundColor = .systemGray6
-        return view
-    }()
-    private let reviewCountLabel: UILabel = {
-        let label = UILabel()
-        label.font = ThemeFont.fontMedium()
-        return label
+    private lazy var goReviewButton: UIButton = {
+        let btn = UIButton()
+        btn.setTitle("리뷰 작성하기", for: .normal)
+        btn.titleLabel?.font = ThemeFont.fontBold(size: 18)
+        btn.setTitleColor(.white, for: .normal)
+        btn.backgroundColor = ThemeColor.mainOrange
+        btn.layer.cornerRadius = 10
+        return btn
     }()
     
     var addressText: String?
@@ -64,7 +76,6 @@ class StoreViewController: UIViewController {
     private let storeName = "울랄라 떡볶이"
     private let storeImages = ["tpkImage1", "tpkImage1WithBg"]
     private let storeLocation = "123길 123"
-    //private let reviews = [ReviewModel]()
     
     let viewModel = ReviewViewModel()
     private var cancellables = Set<AnyCancellable>()
@@ -72,14 +83,14 @@ class StoreViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        setTabAndNavi()
         setupViews()
         setupConstraints()
-
-        tabBarController?.tabBar.isHidden = true
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        
         fetchRequest()
         bind()
     }
@@ -119,23 +130,37 @@ class StoreViewController: UIViewController {
         }.store(in: &cancellables)
     }
     
+    // MARK: - setUI
+    private func setTabAndNavi() {
+        tabBarController?.tabBar.isHidden = true
+        
+        let appearance = UINavigationBarAppearance()
+        navigationController?.navigationBar.isHidden = false
+        self.navigationItem.hidesSearchBarWhenScrolling = false
+        appearance.configureWithTransparentBackground()
+        UINavigationBar.appearance().barTintColor = .white
+        navigationController?.navigationBar.tintColor = ThemeColor.mainOrange
+        navigationItem.title = "가게 정보"
+        appearance.titleTextAttributes = [NSAttributedString.Key.foregroundColor: ThemeColor.mainBlack]
+    }
+    
     private func setupViews() {
         view.backgroundColor = .white
+
+        [scrollView, storeNameLabel, locationLabel, callNumberLabel, seperateView, reviewCountLabel].forEach {
+            customHeaderView.addSubview($0)
+        }
+        customHeaderView.backgroundColor = .white
         
-        locationLabel.text = addressText
-        view.addSubview(storeNameLabel)
-        
-        storeNameLabel.text = shopTitleText
-        view.addSubview(locationLabel)
-        
-        callNumberLabel.attributedText = makeIconBeforeText(icon: "phone.fill", label: callNumberText ?? "가게 번호 없음")
-        view.addSubview(callNumberLabel)
+        tableView.delegate = self
+        tableView.dataSource = self
+        tableView.tableHeaderView = customHeaderView
+        view.addSubview(tableView)
         
         // Setup Scroll View and Stack View
         scrollView.showsHorizontalScrollIndicator = true
         scrollView.showsVerticalScrollIndicator = false
         scrollView.backgroundColor = .white
-        view.addSubview(scrollView)
         
         stackView.axis = .horizontal
         stackView.spacing = 10
@@ -169,46 +194,32 @@ class StoreViewController: UIViewController {
             }
         }
         
-        // Setup Review Button
-        goReviewButton.setTitle("리뷰 작성하기", for: .normal)
-        goReviewButton.titleLabel?.font = ThemeFont.fontBold(size: 18)
-        goReviewButton.setTitleColor(.white, for: .normal)
-        goReviewButton.backgroundColor = ThemeColor.mainOrange
-        goReviewButton.layer.cornerRadius = 10
+        storeNameLabel.text = shopTitleText
+        locationLabel.text = addressText
+        callNumberLabel.attributedText = makeIconBeforeText(icon: "phone.fill", label: callNumberText ?? "가게 번호 없음")
         
+        // Setup Review Button
         view.addSubview(goReviewButton)
         goReviewButton.addTarget(self, action: #selector(goReviewButtonTapped), for: .touchUpInside)
-        
-        view.addSubview(seperateView)
-
-        view.addSubview(reviewCountLabel)
-        
-        tableView.delegate = self
-        tableView.dataSource = self
-        tableView.rowHeight = 85
-        view.addSubview(tableView)
-        
-        // Setup Back Button
-        let image = UIImage(systemName: "chevron.backward.2")
-        backButton.setImage(image, for: .normal)
-        backButton.tintColor = .white
-        backButton.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
-        view.addSubview(backButton)
         
     }
     
     private func setupConstraints() {
-
+        // Table View Constraints
+        tableView.snp.makeConstraints { make in
+            make.top.equalTo(view.safeAreaLayoutGuide)
+            make.horizontalEdges.equalTo(view.safeAreaLayoutGuide)
+            make.bottom.equalTo(goReviewButton.snp.top).inset(-10)
+        }
         
-        // Title Label Constraints
-        storeNameLabel.snp.makeConstraints { make in
-            make.centerX.equalToSuperview()
-            make.top.equalTo(scrollView.snp.bottom).offset(20)
+        customHeaderView.snp.makeConstraints { make in
+            make.width.equalTo(tableView.snp.width)
+            make.height.equalTo(450)
         }
         
         // Scroll View Constraints
         scrollView.snp.makeConstraints { make in
-            make.top.equalTo(view.safeAreaLayoutGuide)
+            make.top.equalToSuperview()
             make.leading.trailing.equalToSuperview()
             make.height.equalTo(view.snp.width).multipliedBy(0.8 * 0.75) // 4:3 aspect ratio of the image views
         }
@@ -218,15 +229,23 @@ class StoreViewController: UIViewController {
             make.edges.equalToSuperview()
         }
         
+        // Title Label Constraints
+        storeNameLabel.snp.makeConstraints { make in
+            make.centerX.equalToSuperview()
+            make.top.equalTo(scrollView.snp.bottom).offset(20)
+        }
+        
         // Location Label Constraints
         locationLabel.snp.makeConstraints { make in
             make.top.equalTo(storeNameLabel.snp.bottom).offset(10)
             make.leading.trailing.equalToSuperview().inset(20)
+            make.centerX.equalToSuperview()
         }
         
         callNumberLabel.snp.makeConstraints { make in
             make.top.equalTo(locationLabel.snp.bottom).offset(10)
-            make.leading.trailing.equalToSuperview().inset(20)
+            //make.leading.trailing.equalToSuperview().inset(20)
+            make.centerX.equalToSuperview()
         }
         
         seperateView.snp.makeConstraints { make in
@@ -237,15 +256,8 @@ class StoreViewController: UIViewController {
         
         reviewCountLabel.snp.makeConstraints { make in
             make.top.equalTo(seperateView.snp.bottom).offset(20)
-            make.leading.equalTo(view.safeAreaLayoutGuide).offset(20)
-        }
-        
-        // Table View Constraints
-        tableView.snp.makeConstraints { make in
-            make.top.equalTo(reviewCountLabel.snp.bottom).offset(10)
-            make.leading.equalToSuperview()
-            make.trailing.equalToSuperview()
-            make.bottom.equalTo(goReviewButton.snp.top).offset(-10)
+            make.leading.equalToSuperview().offset(20)
+            make.bottom.equalToSuperview()
         }
         
         // Review Button Constraints
@@ -254,16 +266,6 @@ class StoreViewController: UIViewController {
             make.leading.trailing.equalToSuperview().inset(40)
             make.height.equalTo(50)
         }
-        
-        // Back Button Constraints
-        backButton.snp.makeConstraints { make in
-            make.top.equalTo(view.safeAreaLayoutGuide).offset(10)
-            make.leading.equalToSuperview().offset(20)
-        }
-    }
-    
-    @objc private func backButtonTapped() {
-        navigationController?.popViewController(animated: true)
     }
     
     @objc private func goReviewButtonTapped() {
@@ -273,7 +275,12 @@ class StoreViewController: UIViewController {
             writeVC.storeTitleText = shopTitleText
             navigationController?.pushViewController(writeVC, animated: true)
         } else {
-            showMessage(title: "안내", message: "로그인이 필요한 기능입니다.")
+            showMessage(title: "안내", message: "로그인이 필요한 기능입니다.") {
+                let scene = UIApplication.shared.connectedScenes.first
+                if let sd: SceneDelegate = (scene?.delegate as? SceneDelegate) {
+                    sd.switchToGreetingViewController()
+                }
+            }
         }
     }
     
@@ -372,4 +379,3 @@ extension StoreViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
 }
-

@@ -93,7 +93,7 @@ class ChatVC: MessagesViewController {
         getSenderImage()
         confirmDelegates()
         removeOutgoingMessageAvatars()
-        //addCameraBarButtonToMessageInputBar()
+        addCameraBarButtonToMessageInputBar()
         listenToMessages()
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTap))
         messagesCollectionView.addGestureRecognizer(tapGesture)
@@ -342,9 +342,11 @@ class ChatVC: MessagesViewController {
                 showMessage(title: "안내", message: "타 지역에서는 불가합니다.")
             } else {
                 let actionSheet = UIAlertController(title: "유형을 선택해주세요", message: "아래에서 선택해주세요", preferredStyle: .actionSheet)
-                
-                actionSheet.addAction(UIAlertAction(title: "사진", style: .default, handler: { [weak self] _ in
+                actionSheet.addAction(UIAlertAction(title: "카메라", style: .default, handler: {[weak self] _ in
                     self?.didTapCameraButton()
+                }))
+                actionSheet.addAction(UIAlertAction(title: "사진", style: .default, handler: { [weak self] _ in
+                    self?.didTapLibraryButton()
                 }))
                 
                 actionSheet.addAction(UIAlertAction(title: "지도", style: .default, handler: { [weak self] _ in
@@ -355,7 +357,12 @@ class ChatVC: MessagesViewController {
                 present(actionSheet, animated: true)
             }
         } else if customUser != nil {
-            showMessage(title: "로그인이 필요한 기능입니다.", message: "사용 할 수 없습니다.")
+            showMessage(title: "로그인이 필요한 기능입니다.", message: "사용 할 수 없습니다.") {
+                let scene = UIApplication.shared.connectedScenes.first
+                if let sd: SceneDelegate = (scene?.delegate as? SceneDelegate) {
+                    sd.switchToGreetingViewController()
+                }
+            }
         }
         
     }
@@ -369,10 +376,19 @@ class ChatVC: MessagesViewController {
     }
     
     
-    private func didTapCameraButton() {
+    private func didTapLibraryButton() {
         let picker = UIImagePickerController()
         picker.sourceType = .photoLibrary
         present(picker, animated: true)
+    }
+    private func didTapCameraButton() {
+        if UIImagePickerController.isSourceTypeAvailable(.camera) {
+            let picker = UIImagePickerController()
+            picker.sourceType = .camera
+            present(picker, animated: true)
+        } else {
+            showMessage(title: "권한 설정 오류", message: "카메라를 사용하기 위해 권한을 설정해주세요!", completion: didTapLibraryButton)
+        }
     }
     
     @objc private func handleTap() {
@@ -506,7 +522,12 @@ extension ChatVC: InputBarAccessoryViewDelegate {
     func inputBar(_ inputBar: InputBarAccessoryView, didPressSendButtonWith text: String) {
         Message.fetchDisplayName(userManager: UserManager()) { [weak self] displayName in
             guard let displayName = displayName, let self = self else {
-                self?.showMessage(title: "로그인이 필요한 기능입니다.", message: "게스트는 메세지를 보낼 수 없습니다.")
+                self?.showMessage(title: "로그인이 필요한 기능입니다.", message: "게스트는 메세지를 보낼 수 없습니다.", completion: {
+                    let scene = UIApplication.shared.connectedScenes.first
+                    if let sd: SceneDelegate = (scene?.delegate as? SceneDelegate) {
+                        sd.switchToGreetingViewController()
+                    }
+                })
                 return
             }
             
