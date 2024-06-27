@@ -7,6 +7,7 @@
 
 import UIKit
 import SnapKit
+import FirebaseAuth
 
 class PinStoreView: UIView {
     
@@ -75,16 +76,16 @@ class PinStoreView: UIView {
         stv.distribution = .equalSpacing
         return stv
     }()
-//    let findFriendButton: UIButton = {
-//        let bt = UIButton()
-//        bt.setTitle("친구 찾기", for: .normal)
-//        bt.setTitleColor(.white, for: .normal)
-//        bt.titleLabel?.font = ThemeFont.fontBold(size: 16)
-//        bt.titleLabel?.textAlignment = .center
-//        bt.backgroundColor = ThemeColor.mainOrange
-//        bt.layer.cornerRadius = 8
-//        return bt
-//    }()
+    let findFriendButton: UIButton = {
+        let bt = UIButton()
+        bt.setTitle("친구 찾기", for: .normal)
+        bt.setTitleColor(.white, for: .normal)
+        bt.titleLabel?.font = ThemeFont.fontBold(size: 16)
+        bt.titleLabel?.textAlignment = .center
+        bt.backgroundColor = ThemeColor.mainOrange
+        bt.layer.cornerRadius = 8
+        return bt
+    }()
     
     
     override init(frame: CGRect) {
@@ -105,7 +106,7 @@ class PinStoreView: UIView {
             stackView.addArrangedSubview($0)
         }
         
-        [titleLabel, scrapButton, addressLabel, line, stackView/*, findFriendButton*/].forEach {
+        [titleLabel, scrapButton, addressLabel, line, stackView, findFriendButton].forEach {
             self.addSubview($0)
         }
         
@@ -118,7 +119,7 @@ class PinStoreView: UIView {
             make.centerY.equalTo(titleLabel.snp.centerY)
             make.verticalEdges.equalTo(titleLabel.snp.verticalEdges)
             make.width.equalTo(self.scrapButton.snp.height)
-            make.leading.equalTo(titleLabel.snp.trailing).inset(10)
+            make.leading.equalTo(titleLabel.snp.trailing).inset(-10)
             make.trailing.equalToSuperview().inset(20)
         }
         
@@ -137,14 +138,14 @@ class PinStoreView: UIView {
         stackView.snp.makeConstraints { make in
             make.top.equalTo(line.snp.bottom).offset(10)
             make.horizontalEdges.equalTo(line.snp.horizontalEdges).inset(5)
-            make.bottom.equalToSuperview().inset(20)   // 친구찾기 버튼 복구 시 삭제하기
+            //make.bottom.equalToSuperview().inset(20)   // 친구찾기 버튼 복구 시 삭제하기
         }
         
-//        findFriendButton.snp.makeConstraints { make in
-//            make.top.equalTo(stackView.snp.bottom).offset(15)
-//            make.horizontalEdges.bottom.equalToSuperview().inset(20)
-//            make.height.equalTo(40)
-//        }
+        findFriendButton.snp.makeConstraints { make in
+            make.top.equalTo(stackView.snp.bottom).offset(15)
+            make.horizontalEdges.bottom.equalToSuperview().inset(20)
+            make.height.equalTo(40)
+        }
     }
     
     private func setClickEvents() {
@@ -153,6 +154,7 @@ class PinStoreView: UIView {
         titleLabel.addGestureRecognizer(tapGesture)
         
         scrapButton.addTarget(self, action: #selector(scrapButtonTapped), for: .touchUpInside)
+        findFriendButton.addTarget(self, action: #selector(findFriendsButtonTapped), for: .touchUpInside)
     }
     
     // uilabel 텍스트 앞에 아이콘 넣기
@@ -197,6 +199,56 @@ class PinStoreView: UIView {
     @objc func scrapButtonTapped() {
         delegate?.scrapButtonTapped(self)
     }
+    
+    @objc func findFriendsButtonTapped() {
+        guard let regionSubSequence = addressLabel.text?.split(separator: " ").first else { return }
+        let region = String(regionSubSequence)
+        let channelName = getChannelName(address: region)
+        
+        let chatVC: ChatVC
+        chatVC = ChatVC(user: Auth.auth().currentUser!, channel: channelName)
+        chatVC.isLocation = true
+        currentViewController?.navigationController?.pushViewController(chatVC, animated: true)
+    }
+    
+    private func getChannelName(address: String) -> String {
+            switch address {
+            case "서울":
+                return "서울특별시"
+            case "경기":
+                return "경기도"
+            case "강원도":
+                return "강원도"
+            case "충북":
+                return "충청북도"
+            case "충남":
+                return "충청남도"
+            case "경북":
+                return "경상북도"
+            case "경남":
+                return "경상남도"
+            case "전북":
+                return "전라북도"
+            case "전남":
+                return "전라남도"
+            case "광주":
+                return "광주광역시"
+            case "대구":
+                return "대구광역시"
+            case "대전":
+                return "대전광역시"
+            case "부산":
+                return "부산광역시"
+            case "울산":
+                return "울산광역시"
+            case "세종특별자치시":
+                return "세종특별자치시"
+            case "제주특별자치도":
+                return "제주특별자치도"
+            default:
+                return "default"
+            }
+        }
 }
 
 

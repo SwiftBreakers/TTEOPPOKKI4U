@@ -26,14 +26,14 @@ class DetailedReviewViewController: UIViewController {
     private var userProfile: String?
     private var userNickname: String?
     
-    private lazy var introLabel: UILabel = {
-        let label = UILabel()
-        label.text = "리뷰 전체보기"
-        label.font = ThemeFont.fontMedium(size: 20)
-        label.textAlignment = .center
-        label.textColor = ThemeColor.mainBlack
-        return label
-    }()
+//    private lazy var introLabel: UILabel = {
+//        let label = UILabel()
+//        label.text = "리뷰 전체보기"
+//        label.font = ThemeFont.fontMedium(size: 20)
+//        label.textAlignment = .center
+//        label.textColor = ThemeColor.mainBlack
+//        return label
+//    }()
     private lazy var groundScrollView: UIScrollView = {
         let view = UIScrollView()
         view.showsHorizontalScrollIndicator = false
@@ -49,7 +49,6 @@ class DetailedReviewViewController: UIViewController {
         label.textColor = ThemeColor.mainBlack
         return label
     }()
-    
     private lazy var reviewTitleLabel: UILabel = {
         let label = UILabel()
         label.font = ThemeFont.fontMedium(size: 22)
@@ -104,27 +103,28 @@ class DetailedReviewViewController: UIViewController {
     private lazy var scrollView = UIScrollView()
     private lazy var stackView = UIStackView()
     private lazy var imageView = UIImageView()
-    private lazy var reportButton: UIButton = {
-        let button = UIButton(type: .system)
-        button.setTitle("신고", for: .normal)
-        button.setTitleColor(.systemRed, for: .normal)
-        button.titleLabel?.font = ThemeFont.fontMedium(size: 16)
-        button.addTarget(self, action: #selector(reportButtonTapped), for: .touchUpInside)
-        return button
-    }()
-    private lazy var backButton: UIButton = {
-        let button = UIButton(type: .system)
-        button.setImage(UIImage(systemName: "chevron.backward.2"), for: .normal)
-        button.tintColor = .systemGray
-        button.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
-        return button
-    }()
+//    private lazy var reportButton: UIButton = {
+//        let button = UIButton(type: .system)
+//        button.setTitle("신고", for: .normal)
+//        button.setTitleColor(.systemRed, for: .normal)
+//        button.titleLabel?.font = ThemeFont.fontMedium(size: 16)
+//        button.addTarget(self, action: #selector(reportButtonTapped), for: .touchUpInside)
+//        return button
+//    }()
+//    private lazy var backButton: UIButton = {
+//        let button = UIButton(type: .system)
+//        button.setImage(UIImage(systemName: "chevron.backward.2"), for: .normal)
+//        button.tintColor = .systemGray
+//        button.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
+//        return button
+//    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         view.backgroundColor = .white
         
+        setTabAndNavi()
         setData(data: userData!)
         setUserData(info: userInfo!)
         configureUI()
@@ -155,6 +155,21 @@ class DetailedReviewViewController: UIViewController {
         stackView.removeFromSuperview()
     }
     
+    private func setTabAndNavi() {
+        tabBarController?.tabBar.isHidden = true
+        
+        let appearance = UINavigationBarAppearance()
+        navigationController?.navigationBar.isHidden = false
+        self.navigationItem.hidesSearchBarWhenScrolling = false
+        appearance.configureWithTransparentBackground()
+        UINavigationBar.appearance().barTintColor = .white
+        navigationController?.navigationBar.tintColor = ThemeColor.mainOrange
+        navigationItem.title = "리뷰 전체보기"
+        appearance.titleTextAttributes = [NSAttributedString.Key.foregroundColor: ThemeColor.mainBlack]
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "신고", style: .plain, target: self, action: #selector(reportButtonTapped))
+        navigationItem.rightBarButtonItem?.tintColor = .red
+    }
+    
     private func setData(data: ReviewModel) {
         storeName = data.storeName
         reviewTitle = data.title
@@ -180,9 +195,9 @@ class DetailedReviewViewController: UIViewController {
         reviewContentLabel.text = reviewContent
         createdAtLabel.text = createdAt
         
-        view.addSubview(backButton)
-        view.addSubview(introLabel)
-        view.addSubview(reportButton)
+//        view.addSubview(backButton)
+//        view.addSubview(introLabel)
+//        view.addSubview(reportButton)
         view.addSubview(storeNameLabel)
         
         groundScrollView.addSubview(contentView)
@@ -199,23 +214,23 @@ class DetailedReviewViewController: UIViewController {
         scrollView.addSubview(stackView)
         
         
-        backButton.snp.makeConstraints { make in
-            make.top.equalTo(view.safeAreaLayoutGuide).offset(10)
-            make.leading.equalToSuperview().offset(20)
-        }
-        
-        introLabel.snp.makeConstraints { make in
-            make.centerY.equalTo(backButton)
-            make.centerX.equalToSuperview()
-        }
-        
-        reportButton.snp.makeConstraints { make in
-            make.centerY.equalTo(backButton)
-            make.trailing.equalToSuperview().inset(20)
-        }
+//        backButton.snp.makeConstraints { make in
+//            make.top.equalTo(view.safeAreaLayoutGuide).offset(10)
+//            make.leading.equalToSuperview().offset(20)
+//        }
+//        
+//        introLabel.snp.makeConstraints { make in
+//            make.centerY.equalTo(backButton)
+//            make.centerX.equalToSuperview()
+//        }
+//        
+//        reportButton.snp.makeConstraints { make in
+//            make.centerY.equalTo(backButton)
+//            make.trailing.equalToSuperview().inset(20)
+//        }
         
         storeNameLabel.snp.makeConstraints { make in
-            make.top.equalTo(backButton.snp.bottom).offset(40)
+            make.top.equalTo(view.safeAreaLayoutGuide).offset(40)
             make.centerX.equalToSuperview()
         }
         
@@ -248,14 +263,12 @@ class DetailedReviewViewController: UIViewController {
         }
         
         starRatingLabel.snp.makeConstraints { make in
-            //make.top.equalTo(userNicknameLabel.snp.bottom).offset(5)
             make.leading.equalTo(userProfileImage.snp.trailing).offset(10)
             make.bottom.equalTo(userProfileImage.snp.bottom)
         }
         
         createdAtLabel.snp.makeConstraints { make in
             make.leading.equalTo(starRatingLabel.snp.trailing).offset(10)
-            //make.trailing.equalToSuperview().inset(20)
             make.centerY.equalTo(starRatingLabel)
         }
         
@@ -381,9 +394,9 @@ class DetailedReviewViewController: UIViewController {
         }
     }
     
-    @objc private func backButtonTapped() {
-        navigationController?.popViewController(animated: true)
-    }
+//    @objc private func backButtonTapped() {
+//        navigationController?.popViewController(animated: true)
+//    }
     
     @objc private func reportButtonTapped() {
         if let _ = Auth.auth().currentUser?.uid {
