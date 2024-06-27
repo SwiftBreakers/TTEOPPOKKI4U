@@ -210,10 +210,18 @@ class PinStoreView: UIView {
         let region = String(regionSubSequence)
         let channelInfo = getChannelInfo(address: region)
                 
-        guard let user = Auth.auth().currentUser else { return }
-        let chatVC = ChatVC(user: user, channel: Channel(id: channelInfo.id, name: channelInfo.name))
-        chatVC.isLocation = true
-        currentViewController?.navigationController?.pushViewController(chatVC, animated: true)
+        if let user = Auth.auth().currentUser {
+            let chatVC = ChatVC(user: user, channel: Channel(id: channelInfo.id, name: channelInfo.name))
+            chatVC.isLocation = true
+            currentViewController?.navigationController?.pushViewController(chatVC, animated: true)
+        } else {
+            currentViewController?.showMessageWithCancel(title: "로그인이 필요한 기능입니다.", message: "확인을 클릭하시면 로그인 페이지로 이동합니다.") {
+                let scene = UIApplication.shared.connectedScenes.first
+                if let sd: SceneDelegate = (scene?.delegate as? SceneDelegate) {
+                    sd.switchToGreetingViewController()
+                }
+            }
+        }
     }
     
     private func getChannelInfo(address: String) -> (id: String, name: String) {

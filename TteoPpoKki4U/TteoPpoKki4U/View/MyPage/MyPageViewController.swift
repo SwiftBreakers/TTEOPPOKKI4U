@@ -59,7 +59,7 @@ class MyPageViewController: UIViewController {
         myPageView.collectionView.delegate = self
         // Register SeparatorView for the collection view
         myPageView.collectionView.register(SeparatorView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: SeparatorView.identifier)
-
+        
         bind()
     }
     
@@ -72,7 +72,7 @@ class MyPageViewController: UIViewController {
     
     private func getData() {
         reviewViewModel.getUserReview()
-      }
+    }
     
     private func fetchUser() {
         guard let uid = Auth.auth().currentUser?.uid else { return }
@@ -155,14 +155,40 @@ extension MyPageViewController: UICollectionViewDataSource, UICollectionViewDele
             let NoticeTVC = NoticeTableViewController()
             navigationController?.pushViewController(NoticeTVC, animated: true)
         case [1, 0]:
-            let MyScrapVC = MyScrapViewController()
-            navigationController?.pushViewController(MyScrapVC, animated: true)
+            if let _ = Auth.auth().currentUser {
+                let MyScrapVC = MyScrapViewController()
+                navigationController?.pushViewController(MyScrapVC, animated: true)
+            } else {
+                showMessageWithCancel(title: "로그인이 필요한 기능입니다.", message: "확인을 클릭하시면 로그인 페이지로 이동합니다.") {
+                    let scene = UIApplication.shared.connectedScenes.first
+                    if let sd: SceneDelegate = (scene?.delegate as? SceneDelegate) {
+                        sd.switchToGreetingViewController()
+                    }
+                }
+            }
         case [1, 1]:
-            let MyReviewVC = MyReviewViewController()
-            navigationController?.pushViewController(MyReviewVC, animated: true)
+            if let _ = Auth.auth().currentUser {
+                let MyReviewVC = MyReviewViewController()
+                navigationController?.pushViewController(MyReviewVC, animated: true)
+            } else {
+                showMessageWithCancel(title: "로그인이 필요한 기능입니다.", message: "확인을 클릭하시면 로그인 페이지로 이동합니다.") {
+                    let scene = UIApplication.shared.connectedScenes.first
+                    if let sd: SceneDelegate = (scene?.delegate as? SceneDelegate) {
+                        sd.switchToGreetingViewController()
+                    }
+                }
+            }
+            
         case [2, 0]:
-            guard let _ = Auth.auth().currentUser?.uid else { return }
+            var isLogin = false
+            if let _ = Auth.auth().currentUser {
+                isLogin = true
+            } else {
+                isLogin = false
+            }
+            
             let settingVC = SettingViewController()
+            settingVC.isLogin = isLogin
             navigationController?.pushViewController(settingVC, animated: true)
         case [2, 1]:
             if let _ = Auth.auth().currentUser {
@@ -174,29 +200,29 @@ extension MyPageViewController: UICollectionViewDataSource, UICollectionViewDele
             } else {
                 signOutTapped!()
             }
-                
+            
             
         case [0, 1]:
             let EventVC = EventPageViewController()
             navigationController?.pushViewController(EventVC, animated: true)
             
-            default:
-                return
-            }
+        default:
+            return
+        }
     }
     
     // UICollectionViewDelegateFlowLayout
-       func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-           return CGSize(width: collectionView.bounds.width, height: 0.5) // 헤더 높이
-       }
-       
-       func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-           if kind == UICollectionView.elementKindSectionHeader {
-               let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: SeparatorView.identifier, for: indexPath) as! SeparatorView
-               return header
-           }
-           return UICollectionReusableView()
-       }
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
+        return CGSize(width: collectionView.bounds.width, height: 0.5) // 헤더 높이
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        if kind == UICollectionView.elementKindSectionHeader {
+            let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: SeparatorView.identifier, for: indexPath) as! SeparatorView
+            return header
+        }
+        return UICollectionReusableView()
+    }
 }
 
 
