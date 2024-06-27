@@ -26,6 +26,7 @@ extension UIViewController {
         let customAlertView = UIView()
         customAlertView.tag = 999
         customAlertView.backgroundColor = ThemeColor.mainOrange
+        customAlertView.tintColor = .white
         customAlertView.layer.cornerRadius = 8
         customAlertView.layer.shadowColor = UIColor.black.cgColor
         customAlertView.layer.shadowOpacity = 0.3
