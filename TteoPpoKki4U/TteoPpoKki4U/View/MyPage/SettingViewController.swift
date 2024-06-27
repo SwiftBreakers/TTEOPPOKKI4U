@@ -15,18 +15,20 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
     
     let tableView = UITableView()
     
-//    var backButton: UIButton = {
-//        let button = UIButton(type: .system)
-//        let image = UIImage(systemName: "chevron.backward.2")
-//        button.setImage(image, for: .normal)
-//        button.tintColor = .gray
-//        button.addTarget(nil, action: #selector(backButtonTapped), for: .touchUpInside)
-//        return button
-//    }()
+    //    var backButton: UIButton = {
+    //        let button = UIButton(type: .system)
+    //        let image = UIImage(systemName: "chevron.backward.2")
+    //        button.setImage(image, for: .normal)
+    //        button.tintColor = .gray
+    //        button.addTarget(nil, action: #selector(backButtonTapped), for: .touchUpInside)
+    //        return button
+    //    }()
     
     
     let signManager = SignManager()
     lazy var viewModel = SignViewModel(signManager: signManager)
+    
+    var isLogin = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -43,10 +45,10 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
         tableView.backgroundColor = .white
         view.addSubview(tableView)
         
-    
         
         
-//        setupBackButton()
+        
+        //        setupBackButton()
         tableView.snp.makeConstraints { make in
             make.top.equalToSuperview().offset(100)
             make.horizontalEdges.equalToSuperview().inset(20)
@@ -54,16 +56,16 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
         }
     }
     
-//    func setupBackButton() {
-//        view.addSubview(backButton)
-//        
-//        backButton.snp.makeConstraints { make in
-//            make.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(10)
-//            make.leading.equalToSuperview().offset(20)
-//            make.trailing.equalToSuperview().offset(-340)
-//            make.height.equalTo(30)
-//        }
-//    }
+    //    func setupBackButton() {
+    //        view.addSubview(backButton)
+    //
+    //        backButton.snp.makeConstraints { make in
+    //            make.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(10)
+    //            make.leading.equalToSuperview().offset(20)
+    //            make.trailing.equalToSuperview().offset(-340)
+    //            make.height.equalTo(30)
+    //        }
+    //    }
     
     
     // MARK: - UITableViewDataSource
@@ -119,7 +121,11 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
             let privacyVC = PrivacyPolicyViewController()  // 개인정보 뷰컨 인스턴스 생성
             navigationController?.pushViewController(privacyVC, animated: true)
         case 1:
-            deleteUser()
+            if isLogin {
+                deleteUser()
+            } else {
+                showMessage(title: "알림", message: "게스트 계정은 탈퇴할 수 없습니다.\n정식 계정으로 전환 후 이용해 주세요.")
+            }
         default: return
         }
     }
@@ -147,7 +153,7 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
     }
     
     
-   
+    
     
     
     @objc func backButtonTapped() {
