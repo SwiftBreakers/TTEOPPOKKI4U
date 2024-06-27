@@ -9,5 +9,5 @@ import UIKit
 
 struct MyPageModel {
     let icon: String
-    let title: String
+    var title: String
 }
