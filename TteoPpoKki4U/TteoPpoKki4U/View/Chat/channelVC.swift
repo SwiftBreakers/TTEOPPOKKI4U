@@ -10,6 +10,7 @@ import SnapKit
 import FirebaseAuth
 import Firebase
 import CoreLocation
+import Combine
 
 class ChannelVC: BaseViewController {
     
@@ -38,6 +39,10 @@ class ChannelVC: BaseViewController {
     private var currentChannelAlertController: UIAlertController?
     private var currentAddress = ""
     private var isLocation = false
+    private var cancellables = Set<AnyCancellable>()
+    
+    var viewModel: ManageViewModel?
+    var isValidate = false
     
     init(currentUser: User) {
         self.currentUser = currentUser
@@ -72,7 +77,7 @@ class ChannelVC: BaseViewController {
         view.backgroundColor = .white
         channelTableView.backgroundColor = .white
         
-        checkNickname()
+        
         configureViews()
         //addToolBarItems()
         setupListener()
@@ -86,7 +91,21 @@ class ChannelVC: BaseViewController {
         navigationController?.navigationBar.titleTextAttributes = [
             NSAttributedString.Key.foregroundColor: ThemeColor.mainOrange
         ]
+        checkNickname()
         checkUserLocation()
+    }
+    
+    private func validateNickname(nickName: String, completion: @escaping ((Bool) -> Void)) {
+        let manageManager = ManageManager()
+        self.viewModel = ManageViewModel(manageManager: manageManager)
+        
+        self.viewModel?.getUsers {
+            if self.viewModel?.userArray.contains(where: { $0.nickName == nickName }) == false {
+                completion(true)
+            } else {
+                completion(false)
+            }
+        }
     }
     
     private func checkUserLocation() {
@@ -106,25 +125,39 @@ class ChannelVC: BaseViewController {
                 currentName = (dictionary[db_nickName] as? String) ?? "Unknown"
                 if currentName == ""  {
                     showNameAlert(uid: user.uid)
+                    isValidate = false
+                } else {
+                    isValidate = true
                 }
             }
         }
     }
     
     private func showNameAlert(uid: String) {
-        let alertController = UIAlertController(title: "Enter Name", message: "Please enter your name.", preferredStyle: .alert)
+        let alertController = UIAlertController(title: "닉네임 입력", message: "개성넘치는 닉네임을 입력해주세요!",
+                                                preferredStyle: .alert)
         
         alertController.addTextField { (textField) in
-            textField.placeholder = "Name"
+            textField.placeholder = "닉네임 입력"
         }
         
-        let confirmAction = UIAlertAction(title: "OK", style: .default) { [weak self] (_) in
+        let confirmAction = UIAlertAction(title: "확인", style: .default) { [weak self] (_) in
             if let textField = alertController.textFields?.first, let newName = textField.text, !newName.isEmpty {
-                self?.updateUserName(uid: uid, newName: newName)
+                self?.validateNickname(nickName: newName) { result in
+                    switch result {
+                    case true:
+                        self?.updateUserName(uid: uid, newName: newName)
+                        self?.isValidate = true
+                    case false:
+                        self?.isValidate = false
+                        self?.showMessage(title: "중복 확인", message: "현재 닉네임은 이미 존재합니다.") {
+                            self?.showNameAlert(uid: uid) // 이름이 유효하지 않으면 알림을 다시 표시
+                        }
+                    }
+                }
             }
         }
-        
-        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        let cancelAction = UIAlertAction(title: "취소", style: .cancel, handler: nil)
         
         alertController.addAction(confirmAction)
         alertController.addAction(cancelAction)
@@ -252,31 +285,34 @@ extension ChannelVC: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
         let channel = channels[indexPath.row]
-        let viewController: ChatVC
+        var viewController: ChatVC? // viewController를 옵셔널로 선언
         
         if currentAddress != channel.name {
             isLocation = false
         } else {
             isLocation = true
         }
-    
         
         if let user = currentUser {
-            if channel.name == "테스트" {
-                isLocation = true
+            if isValidate {
                 viewController = ChatVC(user: user, channel: channel)
-                viewController.isLocation = isLocation
+                viewController?.isLocation = isLocation
             } else {
-                viewController = ChatVC(user: user, channel: channel)
-                viewController.isLocation = isLocation
+                guard let uid = Auth.auth().currentUser?.uid else { return }
+                showNameAlert(uid: uid)
+                return // 이름 확인이 완료될 때까지 반환하여 viewController 초기화를 기다림
             }
         } else if let customUser = customUser {
             viewController = ChatVC(customUser: customUser, channel: channel)
         } else {
             fatalError("No valid user found.")
         }
-        navigationController?.pushViewController(viewController, animated: true)
+        
+        if let viewController = viewController {
+            navigationController?.pushViewController(viewController, animated: true)
+        }
         tableView.deselectRow(at: indexPath, animated: true)
     }
 }

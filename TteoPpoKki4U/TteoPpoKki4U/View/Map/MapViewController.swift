@@ -34,6 +34,7 @@ class MapViewController: UIViewController, PinStoreViewDelegate {
     var isLocationPicker: Bool = false
     var selectedStoreRatings = [Float]()
     var selectedStoreAverageRating: Float?
+    var isSelectedStoreScrapped: Bool = false
     private var currentAddress = ""
     private var jsonFileName = ""
     private var isSearched = false
@@ -49,7 +50,7 @@ class MapViewController: UIViewController, PinStoreViewDelegate {
     private let sendButton: UIButton = {
         let button = UIButton(type: .system)
         button.setTitle("Send", for: .normal)
-        button.addTarget(nil, action: #selector(sendButtonTapped), for: .touchUpInside)
+        button.addTarget(self, action: #selector(sendButtonTapped), for: .touchUpInside)
         button.tintColor = .white
         button.backgroundColor = .gray
         return button
@@ -58,7 +59,7 @@ class MapViewController: UIViewController, PinStoreViewDelegate {
     private let cancelButton: UIButton = {
         let button = UIButton(type: .system)
         button.setTitle("Cancel", for: .normal)
-        button.addTarget(nil, action: #selector(cancelButtonTapped), for: .touchUpInside)
+        button.addTarget(self, action: #selector(cancelButtonTapped), for: .touchUpInside)
         button.tintColor = .white
         button.backgroundColor = .gray
         return button
@@ -95,13 +96,16 @@ class MapViewController: UIViewController, PinStoreViewDelegate {
     }
     
     private func loadJson(file name: String) {
+        let allAnnotations = self.mapView.map.annotations
+        self.mapView.map.removeAnnotations(allAnnotations)
+        
         let jsonService = JsonService(fileName: name)
         jsonViewModel = JsonViewModel(jsonService: jsonService)
         
         let nearStores = jsonViewModel.getNearbyStores(currentLocation: userLocation)
+        viewModel.loadJsonStores(nearStores)
         
         addNearbyStorePins(for: nearStores)
-        
     }
     
     private func getFileName(address: String) -> String {
@@ -110,14 +114,16 @@ class MapViewController: UIViewController, PinStoreViewDelegate {
                 return "seoul"
             case "경기도":
                 return "gyeonggi"
+            case "인천광역시":
+                return "incheon"
             case "강원도":
-                return "gangwon"
+                return "kangwon"
             case "충청북도":
                 return "chungbuk"
             case "충청남도":
                 return "chungnam"
             case "경상북도":
-                return "gyeongbuk"
+                return "kyeongbuk"
             case "경상남도":
                 return "gyeongnam"
             case "전라북도":
@@ -125,13 +131,13 @@ class MapViewController: UIViewController, PinStoreViewDelegate {
             case "전라남도":
                 return "jeonnam"
             case "광주광역시":
-                return "gwangju"
+                return "kwangju"
             case "대구광역시":
                 return "daegu"
             case "대전광역시":
                 return "daejeon"
             case "부산광역시":
-                return "busan"
+                return "pusan"
             case "울산광역시":
                 return "ulsan"
             case "세종특별자치시":
@@ -149,9 +155,11 @@ class MapViewController: UIViewController, PinStoreViewDelegate {
                 await
                 selectedStoreRatings = viewModel.getRatings(for:selectedStoreName!)
                 selectedStoreAverageRating = viewModel.getAverageRating(ratings: selectedStoreRatings)
+                isSelectedStoreScrapped = await viewModel.getScrap(for:selectedStoreName!)
                 let formattedRating = String(format: "%.1f", selectedStoreAverageRating!)
                 storeInfoView.ratingLabel.attributedText = storeInfoView.makeIconBeforeText(icon: "star", label: formattedRating)
                 storeInfoView.reviewsLabel.attributedText = storeInfoView.makeIconBeforeText(icon: "text.bubble", label: " \(selectedStoreRatings.count)개")
+                storeInfoView.isScrapped = isSelectedStoreScrapped
             }
         }
     }
@@ -164,13 +172,13 @@ class MapViewController: UIViewController, PinStoreViewDelegate {
         if let store = stores.first(where: { $0.storeName == name }) {
             Task {
                 let ratings = await viewModel.getRatings(for: store.storeName)
+                let isScrapped = await viewModel.getScrap(for: store.storeName)
                 let averageRating = getAverageRating(ratings: ratings)
-                let reviewsCount = ratings.count
                 DispatchQueue.main.async { [weak self] in
                     self?.storeInfoView.bind(
                         title: store.storeName,
                         address: store.address,
-                        isScrapped: false,
+                        isScrapped: isScrapped,
                         rating: averageRating,
                         reviews: ratings.count,
                         distance: (self?.getDistance(with: store.y, store.x).prettyDistance)!,
@@ -344,6 +352,7 @@ class MapViewController: UIViewController, PinStoreViewDelegate {
     
     @objc func findMyLocationBtnTapped() {
         findMyLocation()
+        getAddress(coordinate: userLocation)
     }
     
     @objc func handleLongPress(gestureRecognizer: UILongPressGestureRecognizer) {
@@ -407,7 +416,12 @@ class MapViewController: UIViewController, PinStoreViewDelegate {
                 print(error)
                 if error == .noUID {
                     DispatchQueue.main.async {
-                        self.showMessage(title: "안내", message: "로그인이 필요한 기능입니다.")
+                        self.showMessage(title: "안내", message: "로그인이 필요한 기능입니다.") {
+                            let scene = UIApplication.shared.connectedScenes.first
+                            if let sd: SceneDelegate = (scene?.delegate as? SceneDelegate) {
+                                sd.switchToGreetingViewController()
+                            }
+                        }
                         self.storeInfoView.isScrapped = false
                     }
                 }
@@ -451,8 +465,8 @@ extension MapViewController: UISearchBarDelegate, CLLocationManagerDelegate, MKM
             
             guard let address = placeMark else { return }
             self?.currentAddress = address.administrativeArea!
-            //self?.jsonFileName = (self?.getFileName(address: self!.currentAddress))!
-            //self?.loadJson(file: self!.jsonFileName)
+            self?.jsonFileName = (self?.getFileName(address: self!.currentAddress))!
+            self?.loadJson(file: self!.jsonFileName)
         }
         
     }

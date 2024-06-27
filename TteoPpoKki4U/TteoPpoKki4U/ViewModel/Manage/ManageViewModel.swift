@@ -43,6 +43,29 @@ class ManageViewModel {
         }
     }
     
+    func getUsers(completion: @escaping () -> Void) {
+        manageManager.fetchUsers { [weak self] error, dataSnapshot in
+            self?.userArray.removeAll()
+            if let error = error {
+                self?.managePublisher.send(completion: .failure(error))
+            }
+            guard let dictionary = dataSnapshot?.value as? [String: [String: Any]] else { return }
+            
+            for (uid, userDict) in dictionary {
+                let email = userDict[db_email] as? String ?? ""
+                let nickName = userDict[db_nickName] as? String ?? ""
+                let profileImageUrl = userDict[db_profileImageUrl] as? String ?? ""
+                let isBlockInt = userDict[db_isBlock] as? Int ?? 0
+                let isBlock = isBlockInt != 0
+                
+                let model = UserModel(uid: uid, email: email, isBlock: isBlock, nickName: nickName, profileImageUrl: profileImageUrl)
+                self?.userArray.append(model)
+            }
+            self?.managePublisher.send(())
+            completion()
+        }
+    }
+    
     func getReviews() {
         manageManager.fetchUserReviews { [weak self] querySnapshot, error in
             self?.userReview.removeAll()

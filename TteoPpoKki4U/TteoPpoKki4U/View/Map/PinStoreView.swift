@@ -153,6 +153,10 @@ class PinStoreView: UIView {
         titleLabel.isUserInteractionEnabled = true
         titleLabel.addGestureRecognizer(tapGesture)
         
+        let tap = UITapGestureRecognizer(target: self, action: #selector(titleLabelTapped))
+        addressLabel.isUserInteractionEnabled = true
+        addressLabel.addGestureRecognizer(tap)
+        
         scrapButton.addTarget(self, action: #selector(scrapButtonTapped), for: .touchUpInside)
         findFriendButton.addTarget(self, action: #selector(findFriendsButtonTapped), for: .touchUpInside)
     }
