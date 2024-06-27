@@ -11,8 +11,8 @@ import SnapKit
 class NoticeTableViewController: UITableViewController {
     
     var notices = [
-        Notice(title: "[업데이트] 공지사항", date: "2024.06.26", detail: "안녕하세요. 공지사항 버튼이 생기게 되어 첫번째 공지사항을 올립니다. 이용해 주셔서 감사합니다."),
-        Notice(title: "[업데이트] 커뮤니티 탭", date: "2024.06.26", detail: "안녕하세요. 커뮤니티 기능이 새롭게 업데이트 되었습니다. 앱 개선을 위해 앞으로도 꾸준히 노력하겠습니다. 감사합니다.")
+        Notice(title: "[업데이트] 커뮤니티 탭", date: "2024.06.26", detail: "안녕하세요. 커뮤니티 기능이 새롭게 업데이트 되었습니다. 앱 개선을 위해 앞으로도 꾸준히 노력하겠습니다. 감사합니다."),
+        Notice(title: "[업데이트] 공지사항", date: "2024.06.26", detail: "안녕하세요. 공지사항 버튼이 생기게 되어 첫번째 공지사항을 올립니다. 이용해 주셔서 감사합니다.")
     ]
     
     var expandedIndexSet: IndexSet = []
