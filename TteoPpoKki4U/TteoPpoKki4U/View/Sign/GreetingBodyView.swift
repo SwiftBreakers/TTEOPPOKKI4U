@@ -8,7 +8,6 @@
 import UIKit
 import SnapKit
 import AuthenticationServices
-import KakaoSDKAuth
 import GoogleSignIn
 
 class GreetingBodyView: UIView {

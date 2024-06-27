@@ -80,8 +80,6 @@
 		61DAC4E02C05C3A700DFC575 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61DAC4DF2C05C3A700DFC575 /* MapViewController.swift */; };
 		61DAC4E42C05C3CF00DFC575 /* MyPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61DAC4E32C05C3CF00DFC575 /* MyPageViewController.swift */; };
 		61DAC4EA2C05C7D800DFC575 /* KakaoSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 61DAC4E92C05C7D800DFC575 /* KakaoSDK */; };
-		61DAC4EC2C05C7D800DFC575 /* KakaoSDKAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 61DAC4EB2C05C7D800DFC575 /* KakaoSDKAuth */; };
-		61DAC4EE2C05C7D800DFC575 /* KakaoSDKUser in Frameworks */ = {isa = PBXBuildFile; productRef = 61DAC4ED2C05C7D800DFC575 /* KakaoSDKUser */; };
 		61DAC4F12C05C80F00DFC575 /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = 61DAC4F02C05C80F00DFC575 /* GoogleSignIn */; };
 		61DAC4F62C06B57500DFC575 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 61DAC4F52C06B57500DFC575 /* FirebaseAnalytics */; };
 		61DAC4F82C06B57500DFC575 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 61DAC4F72C06B57500DFC575 /* FirebaseAuth */; };
@@ -326,8 +324,6 @@
 				61DAC4FC2C06B57500DFC575 /* FirebaseFirestore in Frameworks */,
 				61DAC4EA2C05C7D800DFC575 /* KakaoSDK in Frameworks */,
 				610717A32C2131A400626649 /* SwiftJWT in Frameworks */,
-				61DAC4EE2C05C7D800DFC575 /* KakaoSDKUser in Frameworks */,
-				61DAC4EC2C05C7D800DFC575 /* KakaoSDKAuth in Frameworks */,
 				61DAC4FA2C06B57500DFC575 /* FirebaseDatabase in Frameworks */,
 				CE3F36472C14286400532901 /* SkeletonView in Frameworks */,
 				618DEE092C125D9D006B95A8 /* Kingfisher in Frameworks */,
@@ -821,8 +817,6 @@
 			packageProductDependencies = (
 				613D86B72C05C0DC0039E771 /* SnapKit */,
 				61DAC4E92C05C7D800DFC575 /* KakaoSDK */,
-				61DAC4EB2C05C7D800DFC575 /* KakaoSDKAuth */,
-				61DAC4ED2C05C7D800DFC575 /* KakaoSDKUser */,
 				61DAC4F02C05C80F00DFC575 /* GoogleSignIn */,
 				61DAC4F52C06B57500DFC575 /* FirebaseAnalytics */,
 				61DAC4F72C06B57500DFC575 /* FirebaseAuth */,
@@ -1412,16 +1406,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 61DAC4E82C05C7D800DFC575 /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */;
 			productName = KakaoSDK;
-		};
-		61DAC4EB2C05C7D800DFC575 /* KakaoSDKAuth */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 61DAC4E82C05C7D800DFC575 /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */;
-			productName = KakaoSDKAuth;
-		};
-		61DAC4ED2C05C7D800DFC575 /* KakaoSDKUser */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 61DAC4E82C05C7D800DFC575 /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */;
-			productName = KakaoSDKUser;
 		};
 		61DAC4F02C05C80F00DFC575 /* GoogleSignIn */ = {
 			isa = XCSwiftPackageProductDependency;

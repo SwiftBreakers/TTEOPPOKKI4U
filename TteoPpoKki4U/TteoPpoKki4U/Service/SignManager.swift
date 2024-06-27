@@ -11,8 +11,6 @@ import FirebaseDatabase
 import FirebaseStorage
 import AuthenticationServices
 import CryptoKit
-import KakaoSDKAuth
-import KakaoSDKUser
 import GoogleSignIn
 import SwiftJWT
 import Alamofire
