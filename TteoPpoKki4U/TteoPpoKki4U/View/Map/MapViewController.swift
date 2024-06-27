@@ -77,7 +77,6 @@ class MapViewController: UIViewController, PinStoreViewDelegate {
         
         mapView.searchBar.delegate = self
         storeInfoView.delegate = self
-        navigationController?.navigationBar.isHidden = true
         tabBarController?.tabBar.backgroundColor = .white
         
         NotificationCenter.default.addObserver(self, selector: #selector(appWillEnterForeground), name: UIApplication.willEnterForegroundNotification, object: nil)
