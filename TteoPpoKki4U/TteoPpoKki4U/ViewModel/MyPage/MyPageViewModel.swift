@@ -17,7 +17,7 @@ class MyPageViewModel {
     let sections: [MyPageSection] = [
         MyPageSection(title: "Profile", options: [
             MyPageModel(icon: "note.text", title: "공지사항"),
-            MyPageModel(icon: "event", title: "이벤트")
+            MyPageModel(icon: "party.popper.fill", title: "이벤트")
         ]),
         MyPageSection(title: "History", options: [
             MyPageModel(icon: "heart.fill", title: "나의 찜 목록"),

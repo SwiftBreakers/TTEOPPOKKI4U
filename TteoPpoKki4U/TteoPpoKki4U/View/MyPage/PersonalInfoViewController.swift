@@ -17,21 +17,30 @@ class PersonalInfoViewController: UIViewController, PHPickerViewControllerDelega
     
     var profileImageView: UIImageView!
     var userNameTextField: CustomTextField!
-    var saveButton: UIButton!
+    var saveButton: UIButton = {
+        let button = UIButton()
+        button.setTitle("저장", for: .normal)
+        button.addTarget(self, action: #selector(saveChanges), for: .touchUpInside)
+        button.titleLabel?.font = ThemeFont.fontBold(size: 14)
+        button.titleLabel?.textColor = .white
+        button.backgroundColor = ThemeColor.mainOrange
+        button.layer.cornerRadius = 5
+        return button
+    }()
     var validateButton: UIButton = {
         let button = UIButton()
         button.setTitle("중복확인", for: .normal)
         button.addTarget(self, action: #selector(validateName), for: .touchUpInside)
         button.titleLabel?.font = ThemeFont.fontBold(size: 14)
         button.titleLabel?.textColor = .white
-        button.backgroundColor = ThemeColor.mainOrange
-        button.layer.cornerRadius = 10
+        button.backgroundColor = ThemeColor.mainGreen
+        button.layer.cornerRadius = 5
         return button
     }()
     
     lazy var validateLabel: UILabel = {
         let label = UILabel()
-        label.font = ThemeFont.fontBold(size: 18)
+        label.font = ThemeFont.fontRegular(size: 14)
         label.textColor = ThemeColor.mainBlack
         label.text = "닉네임 변경 전 중복확인 검사를 해주세요."
         return label
@@ -46,14 +55,14 @@ class PersonalInfoViewController: UIViewController, PHPickerViewControllerDelega
     var viewModel: ManageViewModel!
     private var cancellables = Set<AnyCancellable>()
     
-    var backButton: UIButton = {
-        let button = UIButton(type: .system)
-        let image = UIImage(systemName: "chevron.backward.2")
-        button.setImage(image, for: .normal)
-        button.tintColor = .gray
-        button.addTarget(nil, action: #selector(backButtonTapped), for: .touchUpInside)
-        return button
-    }()
+//    var backButton: UIButton = {
+//        let button = UIButton(type: .system)
+//        let image = UIImage(systemName: "chevron.backward.2")
+//        button.setImage(image, for: .normal)
+//        button.tintColor = .gray
+//        button.addTarget(nil, action: #selector(backButtonTapped), for: .touchUpInside)
+//        return button
+//    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -61,7 +70,7 @@ class PersonalInfoViewController: UIViewController, PHPickerViewControllerDelega
         
         setupProfileImageView()
         setupUserNameTextField()
-        setupBackButton()
+//        setupBackButton()
         setupSaveButton()
         getImage()
         navigationController?.isNavigationBarHidden = true
@@ -77,7 +86,7 @@ class PersonalInfoViewController: UIViewController, PHPickerViewControllerDelega
         profileImageView.image = nil
         
         userNameTextField.text = nil
-        saveButton = nil
+        //saveButton = nil
     }
     
     func getImage() {
@@ -85,20 +94,21 @@ class PersonalInfoViewController: UIViewController, PHPickerViewControllerDelega
     }
     
     
-    func setupBackButton() {
-        view.addSubview(backButton)
-        
-        backButton.snp.makeConstraints { make in
-            make.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(10)
-            make.leading.equalToSuperview().offset(20)
-            make.trailing.equalToSuperview().offset(-340)
-            make.height.width.equalTo(24)
-        }
-    }
+//    func setupBackButton() {
+//        view.addSubview(backButton)
+//        
+//        backButton.snp.makeConstraints { make in
+//            make.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(10)
+//            make.leading.equalToSuperview().offset(20)
+//            make.trailing.equalToSuperview().offset(-340)
+//            make.height.width.equalTo(24)
+//        }
+//    }
     
     func setupProfileImageView() {
         profileImageView = UIImageView()
         profileImageView.contentMode = .scaleAspectFill
+        profileImageView.layer.borderWidth = 0.2
         profileImageView.layer.cornerRadius = 50
         profileImageView.clipsToBounds = true
         profileImageView.backgroundColor = .lightGray
@@ -109,7 +119,7 @@ class PersonalInfoViewController: UIViewController, PHPickerViewControllerDelega
         
         profileImageView.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
-            make.top.equalTo(view.safeAreaLayoutGuide).offset(50)
+            make.top.equalTo(view.safeAreaLayoutGuide).offset(70)
             make.width.height.equalTo(100)
         }
     }
@@ -123,46 +133,48 @@ class PersonalInfoViewController: UIViewController, PHPickerViewControllerDelega
         view.addSubview(validateLabel)
         
         userNameTextField.snp.makeConstraints { make in
-            make.top.equalTo(profileImageView.snp.bottom).offset(20)
+            make.top.equalTo(profileImageView.snp.bottom).offset(30)
             make.leading.equalToSuperview().offset(20)
             make.height.equalTo(40)
         }
         
         validateButton.snp.makeConstraints { make in
-            make.top.equalTo(profileImageView.snp.bottom).offset(20)
+            make.top.equalTo(profileImageView.snp.bottom).offset(30)
             make.leading.equalTo(userNameTextField.snp.trailing).offset(10)
             make.trailing.equalToSuperview().offset(-20)
+            make.width.equalTo(60)
             make.height.equalTo(40)
         }
         
         validateLabel.snp.makeConstraints { make in
             make.top.equalTo(userNameTextField.snp.bottom).offset(20)
-            make.horizontalEdges.equalToSuperview().inset(20)
+            make.horizontalEdges.equalToSuperview().inset(30)
         }
     }
     
     func setupSaveButton() {
-        saveButton = UIButton(type: .system)
-        saveButton.setImage(UIImage(named: "checkBox"), for: .normal)
-        saveButton.tintColor = ThemeColor.mainGreen
-        saveButton.addTarget(self, action: #selector(saveChanges), for: .touchUpInside)
+//        saveButton = UIButton(type: .system)
+//        saveButton.setImage(UIImage(named: "checkBox"), for: .normal)
+//        saveButton.tintColor = ThemeColor.mainGreen
+//        saveButton.addTarget(self, action: #selector(saveChanges), for: .touchUpInside)
         
         view.addSubview(saveButton)
         
         saveButton.snp.makeConstraints { make in
             make.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(10)
             //  make.leading.equalTo(backButton.snp.trailing).offset(274)
-            make.trailing.equalToSuperview().offset(-30)
-            make.width.height.equalTo(24)
+            make.trailing.equalToSuperview().offset(-20)
+            make.width.equalTo(50)
+            make.height.equalTo(35)
             
         }
     }
     
     
-    @objc func backButtonTapped() {
-        navigationController?.popViewController(animated: true)
-        
-    }
+//    @objc func backButtonTapped() {
+//        navigationController?.popViewController(animated: true)
+//        
+//    }
     
     @objc func doneButtonTapped() {
         self.view.endEditing(true)
