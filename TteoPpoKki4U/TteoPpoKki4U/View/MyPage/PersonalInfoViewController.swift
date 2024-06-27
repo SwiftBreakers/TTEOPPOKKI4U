@@ -61,10 +61,9 @@ class PersonalInfoViewController: UIViewController, PHPickerViewControllerDelega
         
         setupProfileImageView()
         setupUserNameTextField()
-        setupBackButton()
+        //setupBackButton()
         setupSaveButton()
         getImage()
-        navigationController?.isNavigationBarHidden = true
         userNameTextField.text = profileName
     }
     

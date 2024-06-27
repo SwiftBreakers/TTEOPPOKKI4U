@@ -96,6 +96,9 @@ class MapViewController: UIViewController, PinStoreViewDelegate {
     }
     
     private func loadJson(file name: String) {
+        let allAnnotations = self.mapView.map.annotations
+        self.mapView.map.removeAnnotations(allAnnotations)
+        
         let jsonService = JsonService(fileName: name)
         jsonViewModel = JsonViewModel(jsonService: jsonService)
         
@@ -111,6 +114,8 @@ class MapViewController: UIViewController, PinStoreViewDelegate {
                 return "seoul"
             case "경기도":
                 return "gyeonggi"
+            case "인천광역시":
+                return "incheon"
             case "강원도":
                 return "gangwon"
             case "충청북도":
@@ -347,6 +352,7 @@ class MapViewController: UIViewController, PinStoreViewDelegate {
     
     @objc func findMyLocationBtnTapped() {
         findMyLocation()
+        getAddress(coordinate: userLocation)
     }
     
     @objc func handleLongPress(gestureRecognizer: UILongPressGestureRecognizer) {
