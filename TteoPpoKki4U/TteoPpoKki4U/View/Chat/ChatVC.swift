@@ -117,6 +117,7 @@ class ChatVC: MessagesViewController {
         }
         
         setupMessageInputBar()
+        navigationController?.navigationBar.isHidden = false
         tabBarController?.tabBar.isHidden = true
         navigationController?.setToolbarHidden(true, animated: false)
     }
@@ -378,12 +379,14 @@ class ChatVC: MessagesViewController {
     
     private func didTapLibraryButton() {
         let picker = UIImagePickerController()
+        picker.delegate = self
         picker.sourceType = .photoLibrary
         present(picker, animated: true)
     }
     private func didTapCameraButton() {
         if UIImagePickerController.isSourceTypeAvailable(.camera) {
             let picker = UIImagePickerController()
+            picker.delegate = self
             picker.sourceType = .camera
             present(picker, animated: true)
         } else {
