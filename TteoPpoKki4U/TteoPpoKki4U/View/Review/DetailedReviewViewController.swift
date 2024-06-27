@@ -26,14 +26,6 @@ class DetailedReviewViewController: UIViewController {
     private var userProfile: String?
     private var userNickname: String?
     
-//    private lazy var introLabel: UILabel = {
-//        let label = UILabel()
-//        label.text = "리뷰 전체보기"
-//        label.font = ThemeFont.fontMedium(size: 20)
-//        label.textAlignment = .center
-//        label.textColor = ThemeColor.mainBlack
-//        return label
-//    }()
     private lazy var groundScrollView: UIScrollView = {
         let view = UIScrollView()
         view.showsHorizontalScrollIndicator = false
@@ -64,7 +56,6 @@ class DetailedReviewViewController: UIViewController {
         view.layer.borderColor = UIColor.gray.cgColor
         view.clipsToBounds = true
         view.contentMode = .scaleToFill
-        //view.sizeToFit()
         return view
     }()
     private lazy var userNicknameLabel: UILabel = {
@@ -103,21 +94,7 @@ class DetailedReviewViewController: UIViewController {
     private lazy var scrollView = UIScrollView()
     private lazy var stackView = UIStackView()
     private lazy var imageView = UIImageView()
-//    private lazy var reportButton: UIButton = {
-//        let button = UIButton(type: .system)
-//        button.setTitle("신고", for: .normal)
-//        button.setTitleColor(.systemRed, for: .normal)
-//        button.titleLabel?.font = ThemeFont.fontMedium(size: 16)
-//        button.addTarget(self, action: #selector(reportButtonTapped), for: .touchUpInside)
-//        return button
-//    }()
-//    private lazy var backButton: UIButton = {
-//        let button = UIButton(type: .system)
-//        button.setImage(UIImage(systemName: "chevron.backward.2"), for: .normal)
-//        button.tintColor = .systemGray
-//        button.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
-//        return button
-//    }()
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -195,9 +172,6 @@ class DetailedReviewViewController: UIViewController {
         reviewContentLabel.text = reviewContent
         createdAtLabel.text = createdAt
         
-//        view.addSubview(backButton)
-//        view.addSubview(introLabel)
-//        view.addSubview(reportButton)
         view.addSubview(storeNameLabel)
         
         groundScrollView.addSubview(contentView)
@@ -212,22 +186,6 @@ class DetailedReviewViewController: UIViewController {
         stackView.spacing = 10
         stackView.distribution = .fillEqually
         scrollView.addSubview(stackView)
-        
-        
-//        backButton.snp.makeConstraints { make in
-//            make.top.equalTo(view.safeAreaLayoutGuide).offset(10)
-//            make.leading.equalToSuperview().offset(20)
-//        }
-//        
-//        introLabel.snp.makeConstraints { make in
-//            make.centerY.equalTo(backButton)
-//            make.centerX.equalToSuperview()
-//        }
-//        
-//        reportButton.snp.makeConstraints { make in
-//            make.centerY.equalTo(backButton)
-//            make.trailing.equalToSuperview().inset(20)
-//        }
         
         storeNameLabel.snp.makeConstraints { make in
             make.top.equalTo(view.safeAreaLayoutGuide).offset(40)
@@ -394,10 +352,6 @@ class DetailedReviewViewController: UIViewController {
         }
     }
     
-//    @objc private func backButtonTapped() {
-//        navigationController?.popViewController(animated: true)
-//    }
-    
     @objc private func reportButtonTapped() {
         if let _ = Auth.auth().currentUser?.uid {
             showMessageWithCancel(title: "신고하기", message: "해당 리뷰를 신고하시겠습니까?") { [weak self]  in
@@ -408,8 +362,6 @@ class DetailedReviewViewController: UIViewController {
         } else {
             showMessage(title: "안내", message: "로그인이 필요한 기능입니다.")
         }
-        
-        
     }
     
     private func showMessage(title: String, message: String) {

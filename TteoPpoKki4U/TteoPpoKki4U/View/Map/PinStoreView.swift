@@ -206,7 +206,7 @@ class PinStoreView: UIView {
         let channelName = getChannelName(address: region)
         
         let chatVC: ChatVC
-        chatVC = ChatVC(user: Auth.auth().currentUser!, channel: channelName)
+        chatVC = ChatVC(user: Auth.auth().currentUser!, channel: Channel(name: channelName))
         chatVC.isLocation = true
         currentViewController?.navigationController?.pushViewController(chatVC, animated: true)
     }
@@ -217,7 +217,7 @@ class PinStoreView: UIView {
                 return "서울특별시"
             case "경기":
                 return "경기도"
-            case "강원도":
+            case "강원특별자치도":
                 return "강원도"
             case "충북":
                 return "충청북도"
