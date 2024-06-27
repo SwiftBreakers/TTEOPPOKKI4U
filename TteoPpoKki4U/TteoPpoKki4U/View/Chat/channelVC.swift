@@ -10,6 +10,7 @@ import SnapKit
 import FirebaseAuth
 import Firebase
 import CoreLocation
+import Combine
 
 class ChannelVC: BaseViewController {
     
@@ -38,6 +39,10 @@ class ChannelVC: BaseViewController {
     private var currentChannelAlertController: UIAlertController?
     private var currentAddress = ""
     private var isLocation = false
+    private var cancellables = Set<AnyCancellable>()
+    
+    var viewModel: ManageViewModel?
+    var isValidate = false
     
     init(currentUser: User) {
         self.currentUser = currentUser
@@ -72,7 +77,7 @@ class ChannelVC: BaseViewController {
         view.backgroundColor = .white
         channelTableView.backgroundColor = .white
         
-        checkNickname()
+        
         configureViews()
         //addToolBarItems()
         setupListener()
@@ -86,7 +91,21 @@ class ChannelVC: BaseViewController {
         navigationController?.navigationBar.titleTextAttributes = [
             NSAttributedString.Key.foregroundColor: ThemeColor.mainOrange
         ]
+        checkNickname()
         checkUserLocation()
+    }
+    
+    private func validateNickname(nickName: String, completion: @escaping ((Bool) -> Void)) {
+        let manageManager = ManageManager()
+        self.viewModel = ManageViewModel(manageManager: manageManager)
+        
+        self.viewModel?.getUsers {
+            if self.viewModel?.userArray.contains(where: { $0.nickName == nickName }) == false {
+                completion(true)
+            } else {
+                completion(false)
+            }
+        }
     }
     
     private func checkUserLocation() {
@@ -120,10 +139,18 @@ class ChannelVC: BaseViewController {
         
         let confirmAction = UIAlertAction(title: "OK", style: .default) { [weak self] (_) in
             if let textField = alertController.textFields?.first, let newName = textField.text, !newName.isEmpty {
-                self?.updateUserName(uid: uid, newName: newName)
+                self?.validateNickname(nickName: newName) { result in
+                    switch result {
+                    case true:
+                        self?.updateUserName(uid: uid, newName: newName)
+                    case false:
+                        self?.showMessage(title: "중복 확인", message: "현재 닉네임은 이미 존재합니다.") {
+                            self?.showNameAlert(uid: uid) // 이름이 유효하지 않으면 알림을 다시 표시
+                        }
+                    }
+                }
             }
         }
-        
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
         
         alertController.addAction(confirmAction)
@@ -260,7 +287,7 @@ extension ChannelVC: UITableViewDataSource, UITableViewDelegate {
         } else {
             isLocation = true
         }
-    
+        
         
         if let user = currentUser {
             if channel.name == "테스트" {
