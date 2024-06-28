@@ -73,5 +73,11 @@ class ChannelTableViewCell: UITableViewCell {
             make.edges.equalToSuperview().inset(UIEdgeInsets(top: 0, left: 6, bottom: 0, right: 6))  // 레이블과 뷰 사이의 패딩 설정
         }
     }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        threadCountLabel.text = nil
+    }
+
 }
 

@@ -563,21 +563,37 @@ extension ChatVC: InputBarAccessoryViewDelegate {
 }
 
 extension ChatVC: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        picker.dismiss(animated: true)
-        
-        if let asset = info[.phAsset] as? PHAsset {
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
+        if let image = info[.originalImage] as? UIImage {
+            showImageConfirmationAlert(image, picker: picker)
+        } else if let asset = info[.phAsset] as? PHAsset {
             let imageSize = CGSize(width: 500, height: 500)
             PHImageManager.default().requestImage(for: asset,
                                                   targetSize: imageSize,
                                                   contentMode: .aspectFit,
-                                                  options: nil) { image, _ in
-                guard let image = image else { return }
-                self.sendPhoto(image)
+                                                  options: nil) { [weak self] image, _ in
+                guard let self = self, let image = image else { return }
+                DispatchQueue.main.async {
+                    self.showImageConfirmationAlert(image, picker: picker)
+                }
             }
-        } else if let image = info[.originalImage] as? UIImage {
-            sendPhoto(image)
         }
+    }
+
+    private func showImageConfirmationAlert(_ image: UIImage, picker: UIImagePickerController) {
+        let alert = UIAlertController(title: "이미지 업로드", message: "이 이미지를 업로드하시겠습니까?", preferredStyle: .alert)
+        
+        let confirmAction = UIAlertAction(title: "확인", style: .default) { [weak self] _ in
+            picker.dismiss(animated: true) {
+                self?.sendPhoto(image)
+            }
+        }
+        
+        let cancelAction = UIAlertAction(title: "취소", style: .cancel)
+        alert.addAction(confirmAction)
+        alert.addAction(cancelAction)
+        
+        picker.present(alert, animated: true, completion: nil)
     }
     
     private func sendPhoto(_ image: UIImage) {
