@@ -27,14 +27,14 @@ class EventPageTableViewCell: UITableViewCell {
     
     let titleLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 16, weight: .semibold)
+        label.font = ThemeFont.fontMedium(size: 16)
         label.textColor = .white
         return label
     }()
     
     let descriptionLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 14)
+        label.font = ThemeFont.fontRegular(size: 14)
         label.textColor = .white
         label.numberOfLines = 0
         return label
