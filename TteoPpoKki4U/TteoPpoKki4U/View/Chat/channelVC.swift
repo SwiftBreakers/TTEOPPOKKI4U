@@ -89,12 +89,13 @@ class ChannelVC: BaseViewController {
         navigationController?.navigationBar.titleTextAttributes = [
             NSAttributedString.Key.foregroundColor: ThemeColor.mainOrange
         ]
+        if Auth.auth().currentUser == nil {
+            currentUser = nil
+            customUser = CustomUser(guestUID: "guest")
+        }
         checkNickname()
-        //        checkUserLocation { in
-        //
-        //        }
-        //        updateVisibleCells()
     }
+    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         updateVisibleCells() // Move this call here
