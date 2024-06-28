@@ -15,6 +15,7 @@
 		25CCA3D82C2AAB8A008F81A3 /* EventData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25CCA3D72C2AAB8A008F81A3 /* EventData.swift */; };
 		25CCA3DA2C2B8BC5008F81A3 /* EventSceneViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25CCA3D92C2B8BC5008F81A3 /* EventSceneViewController.swift */; };
 		25CCA3DE2C2CDA99008F81A3 /* EventSceneCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25CCA3DD2C2CDA99008F81A3 /* EventSceneCollectionViewCell.swift */; };
+		25CCA3E02C2E3358008F81A3 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 25CCA3DF2C2E3358008F81A3 /* GoogleService-Info.plist */; };
 		610717A32C2131A400626649 /* SwiftJWT in Frameworks */ = {isa = PBXBuildFile; productRef = 610717A22C2131A400626649 /* SwiftJWT */; };
 		610717A72C21364600626649 /* AuthKey_RS7QZ647UQ_public.p8 in Resources */ = {isa = PBXBuildFile; fileRef = 610717A62C21364600626649 /* AuthKey_RS7QZ647UQ_public.p8 */; };
 		610717A92C2137F600626649 /* AppleTokenResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 610717A82C2137F600626649 /* AppleTokenResponse.swift */; };
@@ -172,6 +173,7 @@
 		25CCA3D72C2AAB8A008F81A3 /* EventData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventData.swift; sourceTree = "<group>"; };
 		25CCA3D92C2B8BC5008F81A3 /* EventSceneViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventSceneViewController.swift; sourceTree = "<group>"; };
 		25CCA3DD2C2CDA99008F81A3 /* EventSceneCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventSceneCollectionViewCell.swift; sourceTree = "<group>"; };
+		25CCA3DF2C2E3358008F81A3 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../GoogleService-Info.plist"; sourceTree = "<group>"; };
 		610717A62C21364600626649 /* AuthKey_RS7QZ647UQ_public.p8 */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = AuthKey_RS7QZ647UQ_public.p8; sourceTree = "<group>"; };
 		610717A82C2137F600626649 /* AppleTokenResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleTokenResponse.swift; sourceTree = "<group>"; };
 		610717AA2C213D5C00626649 /* AuthKey_RS7QZ647UQ.p8 */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = AuthKey_RS7QZ647UQ.p8; sourceTree = "<group>"; };
