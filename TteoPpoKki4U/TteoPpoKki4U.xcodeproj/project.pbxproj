@@ -673,7 +673,6 @@
 				25CCA3D52C2A90D2008F81A3 /* EventPageTableViewCell.swift */,
 				25CCA3D92C2B8BC5008F81A3 /* EventSceneViewController.swift */,
 				25CCA3DD2C2CDA99008F81A3 /* EventSceneCollectionViewCell.swift */,
-				25CCA3D72C2AAB8A008F81A3 /* EventData.swift */,
 			);
 			path = MyPage;
 			sourceTree = "<group>";
@@ -681,6 +680,7 @@
 		8DB30F1F2C076B6F00503139 /* MyPage */ = {
 			isa = PBXGroup;
 			children = (
+				25CCA3D72C2AAB8A008F81A3 /* EventData.swift */,
 				8DB30F202C076B8B00503139 /* MyPageModel.swift */,
 				8DB30F2F2C07771400503139 /* MyPageSection.swift */,
 				8D580A4E2C0893A40057D370 /* ScrapList.swift */,

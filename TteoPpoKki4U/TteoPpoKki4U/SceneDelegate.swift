@@ -23,6 +23,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     private lazy var tabbarDelegate = TabbarControllerDelegate()
     private lazy var personalInfoVC = PersonalInfoViewController()
     private lazy var mypageVC = UINavigationController(rootViewController: MyPageViewController())
+    private lazy var verifyVC = VerifyViewController()
     
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         guard let windowScene = (scene as? UIWindowScene) else { return }
@@ -177,6 +178,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                 viewModel: signViewModel)
             self.window?.rootViewController = self.greetingVC
         }
+    }
+    
+    func showVerifyVC() {
+        greetingVC.modalPresentationStyle = .fullScreen
+        greetingVC.present(verifyVC, animated: true)
     }
     
 }
