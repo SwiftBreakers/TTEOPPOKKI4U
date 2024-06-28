@@ -229,6 +229,14 @@ extension MyScrapViewController: UICollectionViewDelegate, UICollectionViewDataS
             return CGSize(width: width, height: width * 1.5)
         }
     }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        if segmentedControl.selectedSegmentIndex == 0 {
+            
+        } else {
+            
+        }
+    }
 }
 
 extension MyScrapViewController: ScrapCellDelegate {

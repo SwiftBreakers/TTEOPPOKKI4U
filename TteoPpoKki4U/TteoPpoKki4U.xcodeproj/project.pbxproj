@@ -133,6 +133,7 @@
 		9CC6D3182C206BD6004C85D8 /* PinStoreModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CC6D3172C206BD6004C85D8 /* PinStoreModel.swift */; };
 		9CC6D31C2C23C6AC004C85D8 /* UICollectionView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CC6D31B2C23C6AC004C85D8 /* UICollectionView+Extension.swift */; };
 		9CC6D3222C245678004C85D8 /* UILabel+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CC6D3212C245678004C85D8 /* UILabel+Extension.swift */; };
+		9CC6D3282C2ECE50004C85D8 /* VerifyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CC6D3272C2ECE50004C85D8 /* VerifyViewController.swift */; };
 		CE3F36322C08463700532901 /* VerticalCardSwiper in Frameworks */ = {isa = PBXBuildFile; productRef = CE3F36312C08463700532901 /* VerticalCardSwiper */; };
 		CE3F36352C08469700532901 /* RecommendCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE3F36342C08469700532901 /* RecommendCardView.swift */; };
 		CE3F36382C0846C800532901 /* RecommendModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE3F36372C0846C800532901 /* RecommendModel.swift */; };
@@ -283,6 +284,7 @@
 		9CC6D3172C206BD6004C85D8 /* PinStoreModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinStoreModel.swift; sourceTree = "<group>"; };
 		9CC6D31B2C23C6AC004C85D8 /* UICollectionView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UICollectionView+Extension.swift"; sourceTree = "<group>"; };
 		9CC6D3212C245678004C85D8 /* UILabel+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILabel+Extension.swift"; sourceTree = "<group>"; };
+		9CC6D3272C2ECE50004C85D8 /* VerifyViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VerifyViewController.swift; sourceTree = "<group>"; };
 		CE3F36342C08469700532901 /* RecommendCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendCardView.swift; sourceTree = "<group>"; };
 		CE3F36372C0846C800532901 /* RecommendModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendModel.swift; sourceTree = "<group>"; };
 		CE3F36392C08474700532901 /* RecommendViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendViewController.swift; sourceTree = "<group>"; };
@@ -547,6 +549,7 @@
 		613D86B32C05C08C0039E771 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				9CC6D3272C2ECE50004C85D8 /* VerifyViewController.swift */,
 				CE771C9E2C240EA0004415CA /* Chat */,
 				611EE6792C20BFD80096D903 /* Map */,
 				617BCCBD2C195C96008D8D48 /* Manage */,
@@ -951,6 +954,7 @@
 				8DD5CBB92C107C82004F27BD /* DetailedReviewViewController.swift in Sources */,
 				617357292C137A3F0007B92A /* Constants.swift in Sources */,
 				8D69D7102C2982FE0087296A /* Notice.swift in Sources */,
+				9CC6D3282C2ECE50004C85D8 /* VerifyViewController.swift in Sources */,
 				8D580A532C08C8420057D370 /* MyReviewViewController.swift in Sources */,
 				617BCCC62C19699C008D8D48 /* ManageTableViewCell.swift in Sources */,
 				CE3F36352C08469700532901 /* RecommendCardView.swift in Sources */,
