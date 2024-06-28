@@ -18,6 +18,7 @@ class ChannelVC: BaseViewController {
     let userManager = UserManager()
     var currentName: String?
     let myPageView = MyPageView()
+    var documentCounts: [String: Int] = [:]
     
     lazy var channelTableView: UITableView = {
         let view = UITableView()
@@ -94,6 +95,7 @@ class ChannelVC: BaseViewController {
         ]
         checkNickname()
         checkUserLocation()
+        updateVisibleCells()
     }
     
  
@@ -268,6 +270,32 @@ class ChannelVC: BaseViewController {
         channels.remove(at: index)
         channelTableView.deleteRows(at: [IndexPath(row: index, section: 0)], with: .automatic)
     }
+    func updateVisibleCells() {
+            guard let visibleIndexPaths = channelTableView.indexPathsForVisibleRows else { return }
+            
+            for indexPath in visibleIndexPaths {
+                guard let channelId = channels[indexPath.row].id else { continue }
+                
+                getDocumentCount(id: channelId) { [weak self] result in
+                    guard let self = self else { return }
+                    
+                    DispatchQueue.main.async {
+                        switch result {
+                        case .success(let count):
+                            self.documentCounts[channelId] = count
+                            if let cell = self.channelTableView.cellForRow(at: indexPath) as? ChannelTableViewCell {
+                                cell.threadCountLabel.text = "\(count)"
+                            }
+                        case .failure(let error):
+                            print("Error fetching document count: \(error)")
+                            if let cell = self.channelTableView.cellForRow(at: indexPath) as? ChannelTableViewCell {
+                                cell.threadCountLabel.text = "Error"
+                            }
+                        }
+                    }
+                }
+            }
+        }
 }
 
 extension ChannelVC: UITableViewDataSource, UITableViewDelegate {
@@ -280,9 +308,60 @@ extension ChannelVC: UITableViewDataSource, UITableViewDelegate {
         cell.backgroundColor = .white
         cell.selectionStyle = .none
         cell.chatRoomLabel.text = channels[indexPath.row].name
+        cell.threadCountLabel.text = "Loading..."
+//        let channelId = channels[indexPath.row].id
+//        
+//        // 초기화
+//        cell.threadCountLabel.text = "Loading..."
+//        
+//        getDocumentCount(id: channelId!) { [weak self] result in
+//            guard let self = self else { return }
+//            switch result {
+//            case .success(let count):
+//                DispatchQueue.main.async {
+//                    // 현재 인덱스와 셀의 인덱스가 일치하는지 확인
+//                    if let currentCell = tableView.cellForRow(at: indexPath) as? ChannelTableViewCell {
+//                        currentCell.threadCountLabel.text = "\(count)"
+//                    }
+//                }
+//            case .failure(let error):
+//                print("Error fetching document count: \(error)")
+//            }
+//        }
         return cell
     }
     
+    func getDocumentCount(id: String, completion: @escaping (Result<Int, Error>) -> Void) {
+        let streamPath = "channels/\(id)/thread"
+        
+        // Firestore 인스턴스 가져오기
+        let firestoreDataBase = Firestore.firestore()
+        
+        firestoreDataBase.collection(streamPath).whereField(db_isActive, isEqualTo: true).getDocuments { (snapshot, error) in
+            if let error = error {
+                // 에러 발생 시 실패를 반환
+                completion(.failure(error))
+            } else {
+                // 성공 시 도큐먼트 수를 반환
+                if let snapshot = snapshot {
+                    let documentCount = snapshot.documents.count
+                    completion(.success(documentCount))
+                } else {
+                    // Snapshot이 nil인 경우도 에러로 처리
+                    completion(.failure(NSError(domain: "FirestoreErrorDomain", code: -1, userInfo: [NSLocalizedDescriptionKey: "Snapshot is nil"])))
+                }
+            }
+        }
+    }
+    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+            if !decelerate {
+                updateVisibleCells()
+            }
+        }
+        
+        func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+            updateVisibleCells()
+        }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 55
     }

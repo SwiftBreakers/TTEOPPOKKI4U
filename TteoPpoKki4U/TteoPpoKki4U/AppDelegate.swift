@@ -8,7 +8,6 @@
 import UIKit
 import FirebaseCore
 import FirebaseFirestore
-import KakaoSDKAuth
 import KakaoSDKCommon
 import GoogleSignIn
 

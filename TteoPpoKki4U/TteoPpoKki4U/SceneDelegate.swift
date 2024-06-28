@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import KakaoSDKAuth
 import FirebaseAuth
 import FirebaseStorage
 
@@ -27,7 +26,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         guard let windowScene = (scene as? UIWindowScene) else { return }
-    
+        
+        Thread.sleep(forTimeInterval: 0.5)
+        
         let window = UIWindow(windowScene: windowScene)
         self.window = window
         
@@ -178,11 +179,4 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         }
     }
     
-    func scene(_ scene: UIScene, openURLContexts URLContexts: Set<UIOpenURLContext>) {
-        if let url = URLContexts.first?.url {
-            if (AuthApi.isKakaoTalkLoginUrl(url)) {
-                _ = AuthController.handleOpenUrl(url: url)
-            }
-        }
-    }
 }

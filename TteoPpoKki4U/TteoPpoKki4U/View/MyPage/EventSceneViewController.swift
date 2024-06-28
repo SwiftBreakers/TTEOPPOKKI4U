@@ -17,18 +17,18 @@ class EventSceneViewController: UIViewController {
         return reviewButton
     }()
     
-    var backButton: UIButton = {
-        
-        let button = UIButton(type: .system)
-        let image = UIImage(systemName: "chevron.backward.2")
-        button.tintColor = .gray
-        button.setImage(image, for: .normal)
-
-        button.addTarget(nil, action: #selector(backButtonTapped), for: .touchUpInside)
-        return button
-       
-    }()
-    
+//    var backButton: UIButton = {
+//        
+//        let button = UIButton(type: .system)
+//        let image = UIImage(systemName: "chevron.backward.2")
+//        button.tintColor = .gray
+//        button.setImage(image, for: .normal)
+//
+//        button.addTarget(nil, action: #selector(backButtonTapped), for: .touchUpInside)
+//        return button
+//       
+//    }()
+//    
     var titleLabel: UILabel = {
        let label = UILabel()
         label.text = "이벤트"
@@ -128,15 +128,15 @@ class EventSceneViewController: UIViewController {
         }
     
         
-        customNavigationBar.addSubview(backButton)
+//        customNavigationBar.addSubview(backButton)
         customNavigationBar.addSubview(titleLabel)
         
-        backButton.snp.makeConstraints { make in
-            make.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(10)
-            make.leading.equalToSuperview().offset(20)
-            make.trailing.equalToSuperview().offset(-340)
-            make.height.equalTo(30)
-        }
+//        backButton.snp.makeConstraints { make in
+//            make.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(10)
+//            make.leading.equalToSuperview().offset(20)
+//            make.trailing.equalToSuperview().offset(-340)
+//            make.height.equalTo(30)
+//        }
         
         titleLabel.snp.makeConstraints { make in
             make.center.equalToSuperview()
@@ -151,15 +151,10 @@ class EventSceneViewController: UIViewController {
     func bottomReviewMoveButton() {
         
         reviewButton.setTitle("구글폼 작성하러 가기", for: .normal)
-
-
-
-
-
-
+        reviewButton.titleLabel?.font = ThemeFont.fontBold(size: 16)
         reviewButton.setTitleColor(UIColor(hexString: "FFFFFF"), for: .normal)
         reviewButton.backgroundColor = UIColor(hexString: "FE724C")
-        reviewButton.layer.cornerRadius = 4
+        reviewButton.layer.cornerRadius = 5
         reviewButton.addTarget(self, action: #selector(reviewButtonTapped), for: .touchUpInside)
         
         view.addSubview(reviewButton)
@@ -201,7 +196,7 @@ class EventSceneViewController: UIViewController {
         
         imageTitleLabel.text = "리뷰 작성하고"
         imageTitleLabel.textColor = UIColor(hexString: "FFFFFF")
-        imageTitleLabel.font = .systemFont(ofSize: 20)
+        imageTitleLabel.font = ThemeFont.fontRegular(size: 20)
         
         
         view.addSubview(imageTitleLabel)
@@ -213,7 +208,7 @@ class EventSceneViewController: UIViewController {
         
         imageSubTitleLabel.text = "커피 마실래?"
         imageSubTitleLabel.textColor = UIColor(hexString: "FFFFFF")
-        imageSubTitleLabel.font = .boldSystemFont(ofSize: 48)
+        imageSubTitleLabel.font = ThemeFont.fontBold(size: 48)
         
         view.addSubview(imageSubTitleLabel)
         imageSubTitleLabel.snp.makeConstraints { make in
@@ -221,9 +216,9 @@ class EventSceneViewController: UIViewController {
             make.top.equalTo(imageTitleLabel.snp.bottom).offset(10)
         }
         
-        eventTitleLabel.text = "작성하면 무조건 받는 이벤트!"
+        eventTitleLabel.text = "구글폼을 제출해주시면 커피 쿠폰을 드려요!"
         eventTitleLabel.textColor = UIColor(hexString: "353535")
-        eventTitleLabel.font = .boldSystemFont(ofSize: 16)
+        eventTitleLabel.font = ThemeFont.fontBold(size: 16)
         
         view.addSubview(eventTitleLabel)
         eventTitleLabel.snp.makeConstraints { make in
@@ -236,7 +231,7 @@ class EventSceneViewController: UIViewController {
         20분께 스타벅스 커피 쿠폰을 드립니다.
         """
         eventSubTitleLabel.textColor = UIColor(hexString: "353535")
-        eventSubTitleLabel.font = .systemFont(ofSize: 14)
+        eventSubTitleLabel.font = ThemeFont.fontRegular(size: 14)
         eventSubTitleLabel.numberOfLines = 0 // 여러 줄의 텍스트를 표시하기 위해 설정
         eventSubTitleLabel.textAlignment = .center
         
