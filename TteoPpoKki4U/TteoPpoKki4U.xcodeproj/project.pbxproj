@@ -48,6 +48,8 @@
 		613D86A52C05BFF90039E771 /* Base in Resources */ = {isa = PBXBuildFile; fileRef = 613D86A42C05BFF90039E771 /* Base */; };
 		613D86B82C05C0DC0039E771 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 613D86B72C05C0DC0039E771 /* SnapKit */; };
 		615147ED2C2E6453004F85CC /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 615147EC2C2E6453004F85CC /* GoogleService-Info.plist */; };
+		615147EF2C2EC74A004F85CC /* CommunityPolicyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 615147EE2C2EC74A004F85CC /* CommunityPolicyViewController.swift */; };
+		615147F12C2EC7E1004F85CC /* CommunityPolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 615147F02C2EC7E1004F85CC /* CommunityPolicy.swift */; };
 		6173571F2C12AE470007B92A /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = 6173571E2C12AE470007B92A /* FirebaseMessaging */; };
 		617357262C1364940007B92A /* ReviewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 617357252C1364940007B92A /* ReviewModel.swift */; };
 		617357292C137A3F0007B92A /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 617357282C137A3F0007B92A /* Constants.swift */; };
@@ -206,6 +208,8 @@
 		613D86A62C05BFF90039E771 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6144066C2C291BE2006707A8 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
 		615147EC2C2E6453004F85CC /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../../../Desktop/GoogleService-Info.plist"; sourceTree = "<group>"; };
+		615147EE2C2EC74A004F85CC /* CommunityPolicyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityPolicyViewController.swift; sourceTree = "<group>"; };
+		615147F02C2EC7E1004F85CC /* CommunityPolicy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityPolicy.swift; sourceTree = "<group>"; };
 		617357252C1364940007B92A /* ReviewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewModel.swift; sourceTree = "<group>"; };
 		617357282C137A3F0007B92A /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		6173572B2C137B500007B92A /* ReviewViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewViewModel.swift; sourceTree = "<group>"; };
@@ -659,6 +663,8 @@
 				8D580A522C08C8420057D370 /* MyReviewViewController.swift */,
 				8D3BA8402C15D5F1007597F2 /* SettingViewController.swift */,
 				25CCA3C82C254A46008F81A3 /* PrivacyPolicyViewController.swift */,
+				615147EE2C2EC74A004F85CC /* CommunityPolicyViewController.swift */,
+				615147F02C2EC7E1004F85CC /* CommunityPolicy.swift */,
 				25CCA3CD2C259EC9008F81A3 /* privacyPolicyText.swift */,
 				25CCA3D32C2979D6008F81A3 /* EventPageViewController.swift */,
 				25CCA3D52C2A90D2008F81A3 /* EventPageTableViewCell.swift */,
@@ -966,6 +972,7 @@
 				25CCA3D02C291B28008F81A3 /* TabbarControllerDelegate.swift in Sources */,
 				617BCCC42C195E4B008D8D48 /* ManageManager.swift in Sources */,
 				9CC6D3222C245678004C85D8 /* UILabel+Extension.swift in Sources */,
+				615147EF2C2EC74A004F85CC /* CommunityPolicyViewController.swift in Sources */,
 				619FE8EC2C1F147F00745A0A /* ReportModel.swift in Sources */,
 				9C82B95B2C0F54D7008FA84E /* Double+Extension.swift in Sources */,
 				CE771CCF2C243D8E004415CA /* ChannelTableViewCell.swift in Sources */,
@@ -973,6 +980,7 @@
 				8D69D70C2C2981C30087296A /* NoticeTableViewController.swift in Sources */,
 				610717A92C2137F600626649 /* AppleTokenResponse.swift in Sources */,
 				8DD5CBB72C107BFD004F27BD /* ReviewTableViewCell.swift in Sources */,
+				615147F12C2EC7E1004F85CC /* CommunityPolicy.swift in Sources */,
 				61DC69072C15CC38003DEB73 /* StoreManager.swift in Sources */,
 				617BCCBA2C1912CD008D8D48 /* GreetingBottomView.swift in Sources */,
 				611644302C08FFFC009FFDA5 /* GreetingHeaderView.swift in Sources */,

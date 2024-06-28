@@ -116,9 +116,6 @@ extension RecommendViewController: VerticalCardSwiperDatasource, VerticalCardSwi
 
 extension RecommendViewController {
     
-   
-   
-    
     public override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         

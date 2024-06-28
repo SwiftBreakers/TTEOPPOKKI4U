@@ -72,7 +72,7 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        return 2
+        return 3
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -93,6 +93,21 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
                 make.center.equalTo(cell.contentView)
             }
         } else if indexPath.row == 1 {
+            
+            let deleteUserLabel = UILabel()
+            deleteUserLabel.text = "커뮤니티 이용약관"
+            deleteUserLabel.font = ThemeFont.fontMedium(size: 18)
+            deleteUserLabel.textColor = .gray
+            deleteUserLabel.textAlignment = .center
+            
+            cell.contentView.addSubview(deleteUserLabel)
+            cell.backgroundColor = .white
+            cell.selectionStyle = .none
+            deleteUserLabel.snp.makeConstraints { make in
+                make.center.equalTo(cell.contentView)
+            }
+            
+        } else if indexPath.row == 2{
             
             let deleteUserLabel = UILabel()
             deleteUserLabel.text = "회원탈퇴"
@@ -118,9 +133,12 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
         
         switch indexPath.row {
         case 0:
-            let privacyVC = PrivacyPolicyViewController()  // 개인정보 뷰컨 인스턴스 생성
+            let privacyVC = PrivacyPolicyViewController()
             navigationController?.pushViewController(privacyVC, animated: true)
         case 1:
+            let communityPolicyVC = CommunityPolicyViewController()
+            navigationController?.pushViewController(communityPolicyVC, animated: true)
+        case 2:
             if isLogin {
                 deleteUser()
             } else {
