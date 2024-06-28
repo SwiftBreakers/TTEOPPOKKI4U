@@ -214,7 +214,6 @@ class PinStoreView: UIView {
         let channelInfo = getChannelInfo(address: region)
         
         if let user = Auth.auth().currentUser {
-            
             checkNickname(uid: user.uid) { [weak self] result in
                 switch result {
                 case true :
@@ -225,7 +224,6 @@ class PinStoreView: UIView {
                     self?.currentViewController?.showMessage(title: "안내", message: "닉네임 설정을 먼저 해주세요.")
                 }
             }
-
         } else {
             currentViewController?.showMessageWithCancel(title: "로그인이 필요한 기능입니다.", message: "확인을 클릭하시면 로그인 페이지로 이동합니다.") {
                 let scene = UIApplication.shared.connectedScenes.first

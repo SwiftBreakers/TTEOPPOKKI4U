@@ -176,7 +176,7 @@ extension RecommendViewController {
                 eventImageView.addGestureRecognizer(tapGesture)
         
         titleLabel.text("리뷰 쓰고 커피 받아가세요!")
-        titleLabel.font = UIFont.systemFont(ofSize: 14, weight: .semibold)
+        titleLabel.font = ThemeFont.fontMedium(size: 14)
 
         titleLabel.textColor = UIColor(hexString: "353535")
         titleLabel.snp.makeConstraints { make in
@@ -187,7 +187,7 @@ extension RecommendViewController {
         }
         
         subTitleLabel.text("기간 종료 후 20명 순차지급")
-        subTitleLabel.font = UIFont.systemFont(ofSize: 12, weight: .medium)
+        subTitleLabel.font = ThemeFont.fontRegular(size: 12)
 
         subTitleLabel.textColor = UIColor(hexString: "353535")
         subTitleLabel.snp.makeConstraints { make in
@@ -197,6 +197,7 @@ extension RecommendViewController {
         }
         
         closeButton.setTitle("닫기", for: .normal)
+        closeButton.titleLabel?.font = ThemeFont.fontMedium(size: 14)
         closeButton.setTitleColor(UIColor(hexString: "FFFFFF"), for: .normal)
         closeButton.backgroundColor = UIColor(hexString: "FE724C")
         closeButton.layer.cornerRadius = 4
@@ -212,6 +213,7 @@ extension RecommendViewController {
         }
         
         doNotShowTodayButton.setTitle("오늘 하루 보지 않기", for: .normal)
+        doNotShowTodayButton.titleLabel?.font = ThemeFont.fontRegular(size: 14)
         doNotShowTodayButton.setTitleColor(UIColor(hexString: "353535"), for: .normal)
         doNotShowTodayButton.backgroundColor = .white
         doNotShowTodayButton.layer.cornerRadius = 4
