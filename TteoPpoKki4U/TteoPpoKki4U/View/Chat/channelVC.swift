@@ -79,7 +79,6 @@ class ChannelVC: BaseViewController {
         channelTableView.backgroundColor = .white
         configureViews()
         //addToolBarItems()
-        setupListener()
         checkUserLocation()
     }
     
@@ -91,8 +90,10 @@ class ChannelVC: BaseViewController {
             NSAttributedString.Key.foregroundColor: ThemeColor.mainOrange
         ]
         checkNickname()
-        checkUserLocation()
-//        updateVisibleCells()
+        //        checkUserLocation { in
+        //
+        //        }
+        //        updateVisibleCells()
     }
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
@@ -273,6 +274,7 @@ class ChannelVC: BaseViewController {
                 removeChannelFromTable(channel)
             }
         }
+        
         completion()
     }
     
@@ -280,12 +282,20 @@ class ChannelVC: BaseViewController {
         guard channels.contains(channel) == false else { return }
         
         channels.append(channel)
-        channels.sort(by: { $0.name < $1.name }) // 채널 이름을 기준으로 정렬
+        
+        // currentAddress와 일치하는 채널을 찾음
+        if let currentAddressIndex = channels.firstIndex(where: { $0.name == currentAddress }) {
+            let currentAddressChannel = channels.remove(at: currentAddressIndex)
+            channels.sort(by: { $0.name < $1.name }) // 나머지 채널 이름 기준으로 정렬
+            channels.insert(currentAddressChannel, at: 0) // currentAddress 채널을 맨 앞에 삽입
+        } else {
+            channels.sort(by: { $0.name < $1.name }) // 나머지 채널 이름 기준으로 정렬
+        }
         
         guard let index = channels.firstIndex(of: channel) else { return }
         channelTableView.insertRows(at: [IndexPath(row: index, section: 0)], with: .automatic)
     }
-
+    
     private func updateChannelInTable(_ channel: Channel) {
         guard let index = channels.firstIndex(of: channel) else { return }
         channels[index] = channel
@@ -297,7 +307,7 @@ class ChannelVC: BaseViewController {
         channels.remove(at: index)
         channelTableView.deleteRows(at: [IndexPath(row: index, section: 0)], with: .automatic)
     }
-
+    
     func updateVisibleCells() {
         guard let visibleIndexPaths = channelTableView.indexPathsForVisibleRows else { return }
         
@@ -324,8 +334,8 @@ class ChannelVC: BaseViewController {
             }
         }
     }
-
-
+    
+    
     private func updateCellCountLabel(_ cell: ChannelTableViewCell, with count: Int?) {
         if let count = count {
             if count >= 10 {
@@ -343,7 +353,7 @@ class ChannelVC: BaseViewController {
             cell.countView.isHidden = false
         }
     }
-
+    
 }
 
 extension ChannelVC: UITableViewDataSource, UITableViewDelegate {
@@ -358,7 +368,11 @@ extension ChannelVC: UITableViewDataSource, UITableViewDelegate {
         cell.chatRoomLabel.text = channels[indexPath.row].name
         cell.threadCountLabel.text = "..."
         //cell.countView.isHidden = true
-
+        
+        if channels[indexPath.row].name == currentAddress {
+            cell.myLabel.text = "현재 지역"
+        }
+        
         if let channelId = channels[indexPath.row].id {
             if let count = documentCounts[channelId] {
                 updateCellCountLabel(cell, with: count)
@@ -382,7 +396,7 @@ extension ChannelVC: UITableViewDataSource, UITableViewDelegate {
                 }
             }
         }
-
+        
         return cell
     }
     
@@ -459,8 +473,12 @@ extension ChannelVC: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         if let location = locations.last {
             userLocation = location
-            getAddress(coordinate: userLocation)
-            locationManager.stopUpdatingLocation()  // 위치 업데이트 멈추기
+            getAddress(coordinate: userLocation) { [weak self] address in
+                guard let self = self else { return }
+                self.currentAddress = address ?? ""
+                self.locationManager.stopUpdatingLocation()  // 위치 업데이트 멈추기
+                self.setupListener()  // currentAddress가 설정된 후 setupListener 호출
+            }
         }
     }
     
@@ -468,17 +486,19 @@ extension ChannelVC: CLLocationManagerDelegate {
         print("Failed to find user's location: \(error.localizedDescription)")
     }
     
-    func getAddress(coordinate: CLLocation) {
+    func getAddress(coordinate: CLLocation, completion: @escaping (String?) -> Void) {
         let address = CLGeocoder.init()
         
-        address.reverseGeocodeLocation(coordinate) { [weak self] (placeMarks, error) in
+        address.reverseGeocodeLocation(coordinate) { (placeMarks, error) in
             var placeMark: CLPlacemark!
             placeMark = placeMarks?[0]
             
-            guard let address = placeMark else { return }
-            self?.currentAddress = address.administrativeArea!
+            guard let address = placeMark else {
+                completion(nil)
+                return
+            }
+            completion(address.administrativeArea)
         }
-        
     }
     
 }
