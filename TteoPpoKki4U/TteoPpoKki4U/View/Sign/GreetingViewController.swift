@@ -68,6 +68,7 @@ final class GreetingViewController: UIViewController {
         bind()
     }
     
+    
     private func validateUserData(completion: @escaping(Bool) -> Void) {
         guard let uid = Auth.auth().currentUser?.uid else { return }
         userManager.fetchUserData(uid: uid) { [self] error, snapshot in
