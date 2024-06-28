@@ -84,5 +84,10 @@ extension UIViewController {
             }
         })
     }
+    
+    @objc func removeCustomAlert() {
+        guard let existingAlertView = view.subviews.first(where: { $0.tag == 999 }) else { return }
+        existingAlertView.removeFromSuperview()
+    }
 }
 

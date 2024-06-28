@@ -15,6 +15,12 @@ class ChannelTableViewCell: UITableViewCell {
         label.font = ThemeFont.fontMedium(size: 18)
         return label
     }()
+    lazy var myLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = ThemeColor.mainOrange
+        label.font = ThemeFont.fontMedium(size: 18)
+        return label
+    }()
     lazy var countView: UIView = {
         let view = UIView()
         view.backgroundColor = ThemeColor.mainOrange
@@ -47,12 +53,19 @@ class ChannelTableViewCell: UITableViewCell {
     
     private func configure() {
         contentView.addSubview(chatRoomLabel)
+        contentView.addSubview(myLabel)
         contentView.addSubview(detailButton)
         contentView.addSubview(countView)
         countView.addSubview(threadCountLabel)
         
         chatRoomLabel.snp.makeConstraints { make in
             make.leading.equalToSuperview().offset(24)
+            make.centerY.equalToSuperview()
+            make.trailing.lessThanOrEqualTo(countView).offset(-24)
+        }
+        
+        myLabel.snp.makeConstraints { make in
+            make.leading.equalTo(chatRoomLabel.snp.trailing).offset(40)
             make.centerY.equalToSuperview()
             make.trailing.lessThanOrEqualTo(countView).offset(-24)
         }
@@ -73,5 +86,13 @@ class ChannelTableViewCell: UITableViewCell {
             make.edges.equalToSuperview().inset(UIEdgeInsets(top: 0, left: 6, bottom: 0, right: 6))  // 레이블과 뷰 사이의 패딩 설정
         }
     }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        myLabel.text = nil
+        
+        threadCountLabel.text = nil
+    }
+
 }
 

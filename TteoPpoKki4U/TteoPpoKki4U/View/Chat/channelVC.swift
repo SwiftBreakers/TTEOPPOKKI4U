@@ -75,14 +75,11 @@ class ChannelVC: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-//        updateVisibleCells()
         view.backgroundColor = .white
         channelTableView.backgroundColor = .white
         configureViews()
         //addToolBarItems()
-        setupListener()
         checkUserLocation()
-       
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -93,15 +90,17 @@ class ChannelVC: BaseViewController {
             NSAttributedString.Key.foregroundColor: ThemeColor.mainOrange
         ]
         checkNickname()
-        checkUserLocation()
-        updateVisibleCells()
+        //        checkUserLocation { in
+        //
+        //        }
+        //        updateVisibleCells()
     }
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         updateVisibleCells() // Move this call here
     }
     
- 
+    
     
     private func validateNickname(nickName: String, completion: @escaping ((Bool) -> Void)) {
         let manageManager = ManageManager()
@@ -207,10 +206,35 @@ class ChannelVC: BaseViewController {
         channelStream.subscribe { [weak self] result in
             switch result {
             case .success(let data):
-                self?.updateCell(to: data)
+                self?.updateCell(to: data) { [weak self] in
+                    self?.fetchDocumentCounts()
+                }
             case .failure(let error):
                 print(error)
             }
+        }
+    }
+    
+    private func fetchDocumentCounts() {
+        let group = DispatchGroup()
+        
+        for channel in channels {
+            guard let channelId = channel.id else { continue }
+            group.enter()
+            getDocumentCount(id: channelId) { [weak self] result in
+                guard let self = self else { return }
+                switch result {
+                case .success(let count):
+                    self.documentCounts[channelId] = count
+                case .failure(let error):
+                    print("Error fetching document count: \(error)")
+                }
+                group.leave()
+            }
+        }
+        
+        group.notify(queue: .main) {
+            self.channelTableView.reloadData()
         }
     }
     
@@ -239,7 +263,7 @@ class ChannelVC: BaseViewController {
     
     // MARK: - Update Cell
     
-    private func updateCell(to data: [(Channel, DocumentChangeType)]) {
+    private func updateCell(to data: [(Channel, DocumentChangeType)], completion: @escaping () -> Void) {
         data.forEach { (channel, documentChangeType) in
             switch documentChangeType {
             case .added:
@@ -250,13 +274,23 @@ class ChannelVC: BaseViewController {
                 removeChannelFromTable(channel)
             }
         }
+        
+        completion()
     }
     
     private func addChannelToTable(_ channel: Channel) {
         guard channels.contains(channel) == false else { return }
         
         channels.append(channel)
-        channels.sort()
+        
+        // currentAddress와 일치하는 채널을 찾음
+        if let currentAddressIndex = channels.firstIndex(where: { $0.name == currentAddress }) {
+            let currentAddressChannel = channels.remove(at: currentAddressIndex)
+            channels.sort(by: { $0.name < $1.name }) // 나머지 채널 이름 기준으로 정렬
+            channels.insert(currentAddressChannel, at: 0) // currentAddress 채널을 맨 앞에 삽입
+        } else {
+            channels.sort(by: { $0.name < $1.name }) // 나머지 채널 이름 기준으로 정렬
+        }
         
         guard let index = channels.firstIndex(of: channel) else { return }
         channelTableView.insertRows(at: [IndexPath(row: index, section: 0)], with: .automatic)
@@ -273,39 +307,53 @@ class ChannelVC: BaseViewController {
         channels.remove(at: index)
         channelTableView.deleteRows(at: [IndexPath(row: index, section: 0)], with: .automatic)
     }
+    
     func updateVisibleCells() {
-            guard let visibleIndexPaths = channelTableView.indexPathsForVisibleRows else { return }
+        guard let visibleIndexPaths = channelTableView.indexPathsForVisibleRows else { return }
+        
+        for indexPath in visibleIndexPaths {
+            guard let channelId = channels[indexPath.row].id else { continue }
             
-            for indexPath in visibleIndexPaths {
-                guard let channelId = channels[indexPath.row].id else { continue }
+            getDocumentCount(id: channelId) { [weak self] result in
+                guard let self = self else { return }
                 
-                getDocumentCount(id: channelId) { [weak self] result in
-                    guard let self = self else { return }
-                    
-                    DispatchQueue.main.async {
-                        switch result {
-                        case .success(let count):
-                            self.documentCounts[channelId] = count
-                            if let cell = self.channelTableView.cellForRow(at: indexPath) as? ChannelTableViewCell {
-                                if count >= 10 {
-                                    cell.threadCountLabel.text = "10+"
-                                } else if count == 0 {
-                                    cell.countView.isHidden = true
-                                    cell.threadCountLabel.text = ""
-                                } else {
-                                    cell.threadCountLabel.text = "\(count)"
-                                }
-                            }
-                        case .failure(let error):
-                            print("Error fetching document count: \(error)")
-                            if let cell = self.channelTableView.cellForRow(at: indexPath) as? ChannelTableViewCell {
-                                cell.threadCountLabel.text = "Error"
-                            }
+                DispatchQueue.main.async {
+                    switch result {
+                    case .success(let count):
+                        self.documentCounts[channelId] = count
+                        if let cell = self.channelTableView.cellForRow(at: indexPath) as? ChannelTableViewCell {
+                            self.updateCellCountLabel(cell, with: count)
+                        }
+                    case .failure(let error):
+                        print("Error fetching document count: \(error)")
+                        if let cell = self.channelTableView.cellForRow(at: indexPath) as? ChannelTableViewCell {
+                            self.updateCellCountLabel(cell, with: nil)
                         }
                     }
                 }
             }
         }
+    }
+    
+    
+    private func updateCellCountLabel(_ cell: ChannelTableViewCell, with count: Int?) {
+        if let count = count {
+            if count >= 10 {
+                cell.threadCountLabel.text = "10+"
+                cell.countView.isHidden = false
+            } else if count == 0 {
+                cell.threadCountLabel.text = ""
+                cell.countView.isHidden = true
+            } else {
+                cell.threadCountLabel.text = "\(count)"
+                cell.countView.isHidden = false
+            }
+        } else {
+            cell.threadCountLabel.text = "Error"
+            cell.countView.isHidden = false
+        }
+    }
+    
 }
 
 extension ChannelVC: UITableViewDataSource, UITableViewDelegate {
@@ -319,6 +367,36 @@ extension ChannelVC: UITableViewDataSource, UITableViewDelegate {
         cell.selectionStyle = .none
         cell.chatRoomLabel.text = channels[indexPath.row].name
         cell.threadCountLabel.text = "..."
+        //cell.countView.isHidden = true
+        
+        if channels[indexPath.row].name == currentAddress {
+            cell.myLabel.text = "현재 지역"
+        }
+        
+        if let channelId = channels[indexPath.row].id {
+            if let count = documentCounts[channelId] {
+                updateCellCountLabel(cell, with: count)
+            } else {
+                getDocumentCount(id: channelId) { [weak self] result in
+                    guard let self = self else { return }
+                    DispatchQueue.main.async {
+                        switch result {
+                        case .success(let count):
+                            self.documentCounts[channelId] = count
+                            if let updateCell = tableView.cellForRow(at: indexPath) as? ChannelTableViewCell {
+                                self.updateCellCountLabel(updateCell, with: count)
+                            }
+                        case .failure(let error):
+                            print("Error fetching document count: \(error)")
+                            if let updateCell = tableView.cellForRow(at: indexPath) as? ChannelTableViewCell {
+                                self.updateCellCountLabel(updateCell, with: nil)
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        
         return cell
     }
     
@@ -345,14 +423,14 @@ extension ChannelVC: UITableViewDataSource, UITableViewDelegate {
         }
     }
     func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
-            if !decelerate {
-                updateVisibleCells()
-            }
-        }
-        
-        func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        if !decelerate {
             updateVisibleCells()
         }
+    }
+    
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        updateVisibleCells()
+    }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 55
     }
@@ -395,8 +473,12 @@ extension ChannelVC: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         if let location = locations.last {
             userLocation = location
-            getAddress(coordinate: userLocation)
-            locationManager.stopUpdatingLocation()  // 위치 업데이트 멈추기
+            getAddress(coordinate: userLocation) { [weak self] address in
+                guard let self = self else { return }
+                self.currentAddress = address ?? ""
+                self.locationManager.stopUpdatingLocation()  // 위치 업데이트 멈추기
+                self.setupListener()  // currentAddress가 설정된 후 setupListener 호출
+            }
         }
     }
     
@@ -404,17 +486,19 @@ extension ChannelVC: CLLocationManagerDelegate {
         print("Failed to find user's location: \(error.localizedDescription)")
     }
     
-    func getAddress(coordinate: CLLocation) {
+    func getAddress(coordinate: CLLocation, completion: @escaping (String?) -> Void) {
         let address = CLGeocoder.init()
         
-        address.reverseGeocodeLocation(coordinate) { [weak self] (placeMarks, error) in
+        address.reverseGeocodeLocation(coordinate) { (placeMarks, error) in
             var placeMark: CLPlacemark!
             placeMark = placeMarks?[0]
             
-            guard let address = placeMark else { return }
-            self?.currentAddress = address.administrativeArea!
+            guard let address = placeMark else {
+                completion(nil)
+                return
+            }
+            completion(address.administrativeArea)
         }
-        
     }
     
 }

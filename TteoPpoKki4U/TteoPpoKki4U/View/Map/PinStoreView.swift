@@ -13,6 +13,9 @@ class PinStoreView: UIView {
     
     weak var delegate: PinStoreViewDelegate?
     
+    let userManager = UserManager()
+    var currentName: String?
+    
     var isScrapped = false {
         didSet {
             if isScrapped {
@@ -196,7 +199,7 @@ class PinStoreView: UIView {
         storeVC.addressText = address
         storeVC.shopTitleText = shopName
         storeVC.callNumberText = self.callNumberText
-    
+        
         currentViewController?.navigationController?.pushViewController(storeVC, animated: true)
     }
     
@@ -209,11 +212,18 @@ class PinStoreView: UIView {
         
         let region = String(regionSubSequence)
         let channelInfo = getChannelInfo(address: region)
-                
+        
         if let user = Auth.auth().currentUser {
-            let chatVC = ChatVC(user: user, channel: Channel(id: channelInfo.id, name: channelInfo.name))
-            chatVC.isLocation = true
-            currentViewController?.navigationController?.pushViewController(chatVC, animated: true)
+            checkNickname(uid: user.uid) { [weak self] result in
+                switch result {
+                case true :
+                    let chatVC = ChatVC(user: user, channel: Channel(id: channelInfo.id, name: channelInfo.name))
+                    chatVC.isLocation = true
+                    self?.currentViewController?.navigationController?.pushViewController(chatVC, animated: true)
+                case false :
+                    self?.currentViewController?.showMessage(title: "안내", message: "닉네임 설정을 먼저 해주세요.")
+                }
+            }
         } else {
             currentViewController?.showMessageWithCancel(title: "로그인이 필요한 기능입니다.", message: "확인을 클릭하시면 로그인 페이지로 이동합니다.") {
                 let scene = UIApplication.shared.connectedScenes.first
@@ -262,6 +272,25 @@ class PinStoreView: UIView {
             return ("defaultID", "default")
         }
     }
+    
+    private func checkNickname(uid: String, completion: @escaping(Bool) -> Void) {
+
+        userManager.fetchUserData(uid: uid) { [self] error, snapshot in
+            if let error = error {
+                print(error)
+            }
+            guard let dictionary = snapshot?.value as? [String: Any] else { return }
+            currentName = (dictionary[db_nickName] as? String) ?? "Unknown"
+            print(currentName!)
+            if currentName! == ""  {
+                completion(false)
+            } else {
+                completion(true)
+            }
+        }
+
+    }
+    
 }
 
 
