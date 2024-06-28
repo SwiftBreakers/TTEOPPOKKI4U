@@ -140,12 +140,13 @@ class DetailedReviewViewController: UIViewController {
         self.navigationItem.hidesSearchBarWhenScrolling = false
         appearance.configureWithTransparentBackground()
         appearance.backgroundColor = .white
-        UINavigationBar.appearance().barTintColor = .white
         navigationController?.navigationBar.tintColor = ThemeColor.mainOrange
         navigationItem.title = "리뷰 전체보기"
         appearance.titleTextAttributes = [NSAttributedString.Key.foregroundColor: ThemeColor.mainBlack]
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "신고", style: .plain, target: self, action: #selector(reportButtonTapped))
         navigationItem.rightBarButtonItem?.tintColor = .red
+        navigationController?.navigationBar.standardAppearance = appearance
+        navigationController?.navigationBar.scrollEdgeAppearance = appearance
     }
     
     private func setData(data: ReviewModel) {
@@ -173,10 +174,8 @@ class DetailedReviewViewController: UIViewController {
         reviewContentLabel.text = reviewContent
         createdAtLabel.text = createdAt
         
-        view.addSubview(storeNameLabel)
-        
         groundScrollView.addSubview(contentView)
-        [scrollView, reviewTitleLabel, userProfileImage, userNicknameLabel, starRatingLabel, createdAtLabel, reviewContentLabel].forEach {
+        [storeNameLabel, scrollView, reviewTitleLabel, userProfileImage, userNicknameLabel, starRatingLabel, createdAtLabel, reviewContentLabel].forEach {
             contentView.addSubview($0)
         }
         view.addSubview(groundScrollView)
@@ -188,20 +187,19 @@ class DetailedReviewViewController: UIViewController {
         stackView.distribution = .fillEqually
         scrollView.addSubview(stackView)
         
-        storeNameLabel.snp.makeConstraints { make in
-            make.top.equalTo(view.safeAreaLayoutGuide).offset(40)
-            make.centerX.equalToSuperview()
-        }
         
         groundScrollView.snp.makeConstraints { make in
-            make.top.equalTo(storeNameLabel.snp.bottom).offset(10)
-            make.horizontalEdges.equalTo(view.safeAreaLayoutGuide)
-            make.bottom.equalTo(view.safeAreaLayoutGuide)
+            make.edges.equalTo(view.safeAreaLayoutGuide)
         }
         
         contentView.snp.makeConstraints { make in
             make.edges.equalTo(groundScrollView)
             make.width.equalTo(groundScrollView)
+        }
+        
+        storeNameLabel.snp.makeConstraints { make in
+            make.top.equalToSuperview().offset(40)
+            make.centerX.equalToSuperview()
         }
         
         reviewTitleLabel.snp.makeConstraints { make in
@@ -283,13 +281,11 @@ class DetailedReviewViewController: UIViewController {
             contentView.addSubview(scrollView)
             
             scrollView.snp.remakeConstraints { make in
-                make.top.equalToSuperview().offset(20)
+                make.top.equalTo(storeNameLabel.snp.bottom).offset(20)
                 make.leading.trailing.equalToSuperview().inset(20)
                 make.height.equalTo(200)
             }
-            
-               
-            
+
             stackView.snp.remakeConstraints { make in
                 make.edges.equalToSuperview()
                 make.height.equalTo(scrollView.snp.height)
