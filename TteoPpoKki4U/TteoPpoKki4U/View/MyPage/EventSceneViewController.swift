@@ -151,6 +151,12 @@ class EventSceneViewController: UIViewController {
     func bottomReviewMoveButton() {
         
         reviewButton.setTitle("구글폼 작성하러 가기", for: .normal)
+
+
+
+
+
+
         reviewButton.setTitleColor(UIColor(hexString: "FFFFFF"), for: .normal)
         reviewButton.backgroundColor = UIColor(hexString: "FE724C")
         reviewButton.layer.cornerRadius = 4
