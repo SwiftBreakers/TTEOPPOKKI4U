@@ -49,6 +49,7 @@ class StoreViewController: UIViewController {
     private lazy var reviewCountLabel: UILabel = {
         let label = UILabel()
         label.font = ThemeFont.fontMedium()
+        label.textColor = ThemeColor.mainBlack
         label.sizeToFit()
         return label
     }()
@@ -139,11 +140,9 @@ class StoreViewController: UIViewController {
         self.navigationItem.hidesSearchBarWhenScrolling = false
         appearance.configureWithTransparentBackground()
         appearance.backgroundColor = .white
-        UINavigationBar.appearance().barTintColor = .white
         navigationController?.navigationBar.tintColor = ThemeColor.mainOrange
         navigationItem.title = "가게 정보"
         appearance.titleTextAttributes = [.foregroundColor: ThemeColor.mainBlack]
-        //appearance.largeTitleTextAttributes = [.foregroundColor: ThemeColor.mainBlack]
         navigationController?.navigationBar.standardAppearance = appearance
         navigationController?.navigationBar.scrollEdgeAppearance = appearance
     }
