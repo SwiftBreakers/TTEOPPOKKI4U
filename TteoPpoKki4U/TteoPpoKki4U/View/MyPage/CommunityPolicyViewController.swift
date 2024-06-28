@@ -41,7 +41,7 @@ class CommunityPolicyViewController: UIViewController {
     
     
     func setupTopLabel() {
-        label.text = "커뮤니티 이용약관"
+        label.text = "서비스 이용약관"
         view.addSubview(label)
         
         label.font = ThemeFont.fontBold(size: 20)
