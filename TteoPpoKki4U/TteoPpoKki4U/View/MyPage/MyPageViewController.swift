@@ -66,22 +66,21 @@ class MyPageViewController: UIViewController {
     
     //아래는 이벤트씬뷰컨으로 이동하는 코드. 추천페이지의 이벤트이미지를 눌렀을때
     func showEventSceneViewController() {
-      
+        
         let eventPageVC = EventPageViewController()
         
         navigationController?.pushViewController(eventPageVC, animated: false) {
             eventPageVC.showEventSceneViewController()
         }
         
-//        let eventSceneVC = EventSceneViewController()
-//            navigationController?.pushViewController(eventSceneVC, animated: true)
-        }
+        //        let eventSceneVC = EventSceneViewController()
+        //            navigationController?.pushViewController(eventSceneVC, animated: true)
+    }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         getData()
         fetchUser()
-        
     }
     
     private func getData() {
@@ -114,6 +113,7 @@ class MyPageViewController: UIViewController {
             
             myPageView.userNameLabel.text = currentName
             myPageView.userRankLabel.text = currentRank
+            
         }
     }
     
