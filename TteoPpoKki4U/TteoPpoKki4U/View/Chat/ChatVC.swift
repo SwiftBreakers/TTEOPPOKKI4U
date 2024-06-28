@@ -137,8 +137,8 @@ class ChatVC: MessagesViewController {
             return date
         }
         for (date, msgs) in messagesByDate {
-                messagesByDate[date] = msgs.sorted { $0.sentDate < $1.sentDate }
-            }
+            messagesByDate[date] = msgs.sorted { $0.sentDate < $1.sentDate }
+        }
         // 날짜 배열을 정렬된 순서로 유지
         sortedDates = messagesByDate.keys.sorted(by: <)
     }
@@ -272,7 +272,9 @@ class ChatVC: MessagesViewController {
         guard let layout = messagesCollectionView.collectionViewLayout as? MessagesCollectionViewFlowLayout else { return }
         layout.textMessageSizeCalculator.outgoingAvatarSize = .zero
         layout.setMessageOutgoingAvatarSize(.zero)
-        let outgoingLabelAlignment = LabelAlignment(textAlignment: .right, textInsets: UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 15))
+        layout.minimumInteritemSpacing = 0
+        layout.minimumLineSpacing = 0
+        let outgoingLabelAlignment = LabelAlignment(textAlignment: .right, textInsets: UIEdgeInsets(top: -10, left: 0, bottom: -5, right: 15))
         layout.setMessageOutgoingMessageTopLabelAlignment(outgoingLabelAlignment)
     }
     
@@ -416,7 +418,6 @@ class ChatVC: MessagesViewController {
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = super.collectionView(collectionView, cellForItemAt: indexPath) as! MessageContentCell
         let message = messages[indexPath.section]
-//        cell.messageTimestampLabel.attributedText = messageTimestampLabelAttributedText(for: message, at: indexPath)
         configureAvatarView(cell.avatarView, for: message, at: indexPath, in: collectionView as! MessagesCollectionView)
         return cell
     }
@@ -473,7 +474,6 @@ extension ChatVC: MessagesDataSource {
     }
     
     func messageTimestampLabelAttributedText(for message: MessageType, at indexPath: IndexPath) -> NSAttributedString? {
-        //        self.showMessageTimestampOnSwipeLeft = true
         let messageDate = message.sentDate
         let formatter = DateFormatter()
         formatter.dateFormat = "HH:mm"
@@ -487,7 +487,7 @@ extension ChatVC: MessagesDataSource {
 extension ChatVC: MessagesLayoutDelegate {
     // 아래 여백
     func footerViewSize(for section: Int, in messagesCollectionView: MessagesCollectionView) -> CGSize {
-        return CGSize(width: 0, height: 8)
+        return CGSize(width: 0, height: 0)
     }
     
     // 말풍선 위 이름 나오는 곳의 height
@@ -495,11 +495,11 @@ extension ChatVC: MessagesLayoutDelegate {
         return 20
     }
     func messageBottomLabelHeight(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> CGFloat {
-            return 16
-        }
+        return 20
+    }
     func headerViewSize(for section: Int, in messagesCollectionView: MessagesCollectionView) -> CGSize {
-            return CGSize(width: messagesCollectionView.bounds.width, height: 10)
-        }
+        return CGSize(width: messagesCollectionView.bounds.width, height: 10)
+    }
     
 }
 
@@ -520,10 +520,10 @@ extension ChatVC: MessagesDisplayDelegate {
         return .bubbleTail(cornerDirection, .curved)
     }
     func formatDate(_ date: Date) -> String {
-            let formatter = DateFormatter()
-            formatter.dateFormat = "yyyy년 MM월 dd일"
-            return formatter.string(from: date)
-        }
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy년 MM월 dd일"
+        return formatter.string(from: date)
+    }
     func avatarFor(message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> MessageKit.Avatar {
         let sender = message.sender
         let initials = String(sender.displayName.prefix(2))
@@ -581,8 +581,8 @@ extension ChatVC: MessagesDisplayDelegate {
         }
     }
     func messageBottomLabelAttributedText(for message: MessageType, at indexPath: IndexPath) -> NSAttributedString? {
-            return messageTimestampLabelAttributedText(for: message, at: indexPath)
-        }
+        return messageTimestampLabelAttributedText(for: message, at: indexPath)
+    }
     
 }
 
@@ -643,7 +643,7 @@ extension ChatVC: UIImagePickerControllerDelegate, UINavigationControllerDelegat
             }
         }
     }
-
+    
     private func showImageConfirmationAlert(_ image: UIImage, picker: UIImagePickerController) {
         let alert = UIAlertController(title: "이미지 업로드", message: "이 이미지를 업로드하시겠습니까?", preferredStyle: .alert)
         
@@ -665,7 +665,7 @@ extension ChatVC: UIImagePickerControllerDelegate, UINavigationControllerDelegat
         isSendingPhoto = true
         
         ProgressHUD.animate()
-
+        
         _ = FirebaseStorageManager.uploadImage(image: image, channel: channel, progress: { progress in
             // 업로드 진행 상황을 처리할 수 있습니다. 예: progress bar 업데이트
             print("Upload progress: \(progress * 100)%")
@@ -762,3 +762,4 @@ extension MessageCollectionViewCell {
         }
     }
 }
+
