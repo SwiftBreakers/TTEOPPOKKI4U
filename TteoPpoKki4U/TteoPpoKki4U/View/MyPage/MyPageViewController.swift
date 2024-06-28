@@ -84,20 +84,7 @@ class MyPageViewController: UIViewController {
     }
     
     private func getData() {
-        reviewViewModel.getUserReview()
-    }
-    
-    private func fetchUser() {
-        guard let uid = Auth.auth().currentUser?.uid else { return }
-        userManager.fetchUserData(uid: uid) { [self] error, snapshot in
-            if let error = error {
-                print(error)
-            }
-            guard let dictionary = snapshot?.value as? [String: Any] else { return }
-            myPageView.userProfile.kf.setImage(with: URL(string: dictionary[db_profileImageUrl] as! String))
-            currentImageUrl = dictionary[db_profileImageUrl] as? String
-            currentName = (dictionary[db_nickName] as? String) ?? "Unknown"
-            
+        reviewViewModel.getUserReview { [unowned self] in
             switch reviewViewModel.userReview.count {
             case 0...4:
                 currentRank = "떡볶이 순례길의 초행자"
@@ -110,10 +97,22 @@ class MyPageViewController: UIViewController {
             default:
                 currentRank = "떡볶이의 모든 것을 통찰하는 대가"
             }
-            
-            myPageView.userNameLabel.text = currentName
+
             myPageView.userRankLabel.text = currentRank
-            
+        }
+    }
+    
+    private func fetchUser() {
+        guard let uid = Auth.auth().currentUser?.uid else { return }
+        userManager.fetchUserData(uid: uid) { [self] error, snapshot in
+            if let error = error {
+                print(error)
+            }
+            guard let dictionary = snapshot?.value as? [String: Any] else { return }
+            myPageView.userProfile.kf.setImage(with: URL(string: dictionary[db_profileImageUrl] as! String))
+            currentImageUrl = dictionary[db_profileImageUrl] as? String
+            currentName = (dictionary[db_nickName] as? String) ?? "Unknown"
+            myPageView.userNameLabel.text = currentName
         }
     }
     
