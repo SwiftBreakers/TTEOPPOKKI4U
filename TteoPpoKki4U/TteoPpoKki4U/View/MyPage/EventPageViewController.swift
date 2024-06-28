@@ -15,26 +15,26 @@ class EventPageViewController: UIViewController {
     var tableView: UITableView!
     
     var eventData: [EventData] = [
-    EventData(title: "떡볶이 먹고 커피도 마시고!", description: "떡볶이로 매운 입가를 달래줄 추첨 이벤트", image: UIImage(named: "sample"))
+    EventData(title: "떡볶이 먹고 커피도 마시고!", description: "떡볶이로 매운 입가를 달래줄 리뷰 이벤트", image: UIImage(named: "sample"))
     ]
     
-    var backButton: UIButton = {
-        
-        let button = UIButton(type: .system)
-        let image = UIImage(systemName: "chevron.backward.2")
-        button.tintColor = .gray
-        button.setImage(image, for: .normal)
-
-        button.addTarget(nil, action: #selector(backButtonTapped), for: .touchUpInside)
-        return button
-       
-    }()
+//    var backButton: UIButton = {
+//        
+//        let button = UIButton(type: .system)
+//        let image = UIImage(systemName: "chevron.backward.2")
+//        button.tintColor = .gray
+//        button.setImage(image, for: .normal)
+//
+//        button.addTarget(nil, action: #selector(backButtonTapped), for: .touchUpInside)
+//        return button
+//       
+//    }()
     
     var titleLabel: UILabel = {
        let label = UILabel()
         label.text = "이벤트"
-        label.font = UIFont.boldSystemFont(ofSize: 18)
-        label.textColor = .black
+        label.font = ThemeFont.fontBold(size: 18)
+        label.textColor = ThemeColor.mainBlack
         label.textAlignment = .center
         return label
     }()
@@ -82,15 +82,15 @@ class EventPageViewController: UIViewController {
             
         }
         
-        customNavigationBar.addSubview(backButton)
+//        customNavigationBar.addSubview(backButton)
         customNavigationBar.addSubview(titleLabel)
         
-        backButton.snp.makeConstraints { make in
-            make.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(10)
-            make.leading.equalToSuperview().offset(20)
-            make.trailing.equalToSuperview().offset(-340)
-            make.height.equalTo(30)
-        }
+//        backButton.snp.makeConstraints { make in
+//            make.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(10)
+//            make.leading.equalToSuperview().offset(20)
+//            make.trailing.equalToSuperview().offset(-340)
+//            make.height.equalTo(30)
+//        }
         
         titleLabel.snp.makeConstraints { make in
             make.center.equalToSuperview()
@@ -125,18 +125,18 @@ class EventPageViewController: UIViewController {
     
     
     
-    
-    @objc func backButtonTapped() {
-        navigationController?.popViewController(animated: true)
-        
-    }
-    func setupBackButton() {
-        
-        navigationController?.isNavigationBarHidden = true
+//    
+//    @objc func backButtonTapped() {
 //        navigationController?.popViewController(animated: true)
-
-        
-    }
+//        
+//    }
+//    func setupBackButton() {
+//        
+//        navigationController?.isNavigationBarHidden = true
+//      navigationController?.popViewController(animated: true)
+//
+//        
+//    }
     
     
     
