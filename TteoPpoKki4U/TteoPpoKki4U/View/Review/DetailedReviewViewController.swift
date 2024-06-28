@@ -139,6 +139,7 @@ class DetailedReviewViewController: UIViewController {
         navigationController?.navigationBar.isHidden = false
         self.navigationItem.hidesSearchBarWhenScrolling = false
         appearance.configureWithTransparentBackground()
+        appearance.backgroundColor = .white
         UINavigationBar.appearance().barTintColor = .white
         navigationController?.navigationBar.tintColor = ThemeColor.mainOrange
         navigationItem.title = "리뷰 전체보기"

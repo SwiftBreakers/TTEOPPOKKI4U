@@ -56,6 +56,7 @@ class WriteViewController: UIViewController {
         
         bind()
         setDataForEdit()
+        navigationController?.navigationBar.isHidden = true
     }
     
     private func setDataForEdit() {
