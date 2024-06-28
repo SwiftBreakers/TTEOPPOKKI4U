@@ -89,6 +89,8 @@ class ChannelTableViewCell: UITableViewCell {
     
     override func prepareForReuse() {
         super.prepareForReuse()
+        myLabel.text = nil
+        
         threadCountLabel.text = nil
     }
 
