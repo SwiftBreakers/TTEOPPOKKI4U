@@ -181,7 +181,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
     
     func showVerifyVC() {
-        greetingVC.modalPresentationStyle = .fullScreen
+        verifyVC.modalPresentationStyle = .fullScreen
         greetingVC.present(verifyVC, animated: true)
     }
     

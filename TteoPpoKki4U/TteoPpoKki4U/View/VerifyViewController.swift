@@ -118,6 +118,7 @@ class VerifyViewController: UIViewController {
         
         setConstraints()
     }
+
     
     private func setConstraints() {
     
