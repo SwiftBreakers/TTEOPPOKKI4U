@@ -83,7 +83,6 @@ class StoreViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        setTabAndNavi()
         setupViews()
         setupConstraints()
     }
@@ -93,6 +92,7 @@ class StoreViewController: UIViewController {
         
         fetchRequest()
         bind()
+        setTabAndNavi()
     }
     
     private func fetchRequest() {
@@ -138,10 +138,14 @@ class StoreViewController: UIViewController {
         navigationController?.navigationBar.isHidden = false
         self.navigationItem.hidesSearchBarWhenScrolling = false
         appearance.configureWithTransparentBackground()
+        appearance.backgroundColor = .white
         UINavigationBar.appearance().barTintColor = .white
         navigationController?.navigationBar.tintColor = ThemeColor.mainOrange
         navigationItem.title = "가게 정보"
-        appearance.titleTextAttributes = [NSAttributedString.Key.foregroundColor: ThemeColor.mainBlack]
+        appearance.titleTextAttributes = [.foregroundColor: ThemeColor.mainBlack]
+        //appearance.largeTitleTextAttributes = [.foregroundColor: ThemeColor.mainBlack]
+        navigationController?.navigationBar.standardAppearance = appearance
+        navigationController?.navigationBar.scrollEdgeAppearance = appearance
     }
     
     private func setupViews() {
