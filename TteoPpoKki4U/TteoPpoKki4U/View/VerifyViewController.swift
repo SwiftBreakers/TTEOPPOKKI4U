@@ -41,7 +41,7 @@ class VerifyViewController: UIViewController {
     lazy var privacyVerifyLabel: UILabel = {
         let label = UILabel()
         label.text = "개인정보 수집 및 이용동의"
-        label.font = ThemeFont.fontMedium(size: 18)
+        label.font = ThemeFont.fontMedium(size: 16)
         label.textColor = ThemeColor.mainBlack
         return label
     }()
@@ -49,7 +49,7 @@ class VerifyViewController: UIViewController {
     lazy var communityVerifyLabel: UILabel = {
         let label = UILabel()
         label.text = "커뮤니티 이용동의"
-        label.font = ThemeFont.fontMedium(size: 18)
+        label.font = ThemeFont.fontMedium(size: 16)
         label.textColor = ThemeColor.mainBlack
         return label
     }()
@@ -68,6 +68,7 @@ class VerifyViewController: UIViewController {
         let button = UIButton()
         button.setTitle("보기", for: .normal)
         button.setTitleColor(ThemeColor.mainBlack, for: .normal)
+        button.titleLabel?.font = ThemeFont.fontRegular(size: 16)
         button.backgroundColor = .white
         button.addTarget(self, action: #selector(moveToPrivacyButtonTapped(_:)), for: .touchUpInside)
         return button
@@ -77,6 +78,7 @@ class VerifyViewController: UIViewController {
         let button = UIButton()
         button.setTitle("보기", for: .normal)
         button.setTitleColor(ThemeColor.mainBlack, for: .normal)
+        button.titleLabel?.font = ThemeFont.fontRegular(size: 16)
         button.backgroundColor = .white
         button.addTarget(self, action: #selector(moveToCommunityButtonTapped(_:)), for: .touchUpInside)
         return button
@@ -97,7 +99,7 @@ class VerifyViewController: UIViewController {
         let button = UIButton()
         button.setTitle("가입", for: .normal)
         button.setTitleColor(UIColor.white, for: .normal)
-        button.backgroundColor = .lightGray
+        button.backgroundColor = ThemeColor.mainOrange
         button.addTarget(self, action: #selector(submitTapped), for: .touchUpInside)
         button.layer.cornerRadius = 10
         return button
@@ -155,25 +157,25 @@ class VerifyViewController: UIViewController {
         }
         privacyVerifyLabel.snp.makeConstraints { make in
             make.top.equalTo(serviceVerifyLabel.snp.bottom).offset(10)
-            make.leadingMargin.equalTo(serviceVerifyLabel)
+            make.leading.equalTo(serviceVerifyLabel.snp.leading)
         }
         communityVerifyLabel.snp.makeConstraints { make in
             make.top.equalTo(privacyVerifyLabel.snp.bottom).offset(10)
-            make.leadingMargin.equalTo(privacyVerifyLabel)
+            make.leading.equalTo(privacyVerifyLabel.snp.leading)
         }
         privacyButton.snp.makeConstraints { make in
-            make.topMargin.equalTo(privacyVerifyLabel)
-            make.trailing.equalToSuperview().offset(-10)
+            make.centerY.equalTo(privacyVerifyLabel)
+            make.trailing.equalToSuperview().offset(-20)
         }
         communityButton.snp.makeConstraints { make in
-            make.topMargin.equalTo(communityVerifyLabel)
-            make.trailing.equalToSuperview().offset(-10)
+            make.centerY.equalTo(communityVerifyLabel)
+            make.trailing.equalToSuperview().offset(-20)
         }
         
         hStackView.snp.makeConstraints { make in
             make.top.equalTo(communityVerifyLabel.snp.bottom).offset(350)
             make.horizontalEdges.equalToSuperview().inset(20)
-            make.bottom.equalToSuperview().offset(-40)
+            make.bottom.equalToSuperview().offset(-80)
         }
     }
     
