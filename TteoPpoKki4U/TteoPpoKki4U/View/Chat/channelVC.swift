@@ -75,14 +75,14 @@ class ChannelVC: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+//        updateVisibleCells()
         view.backgroundColor = .white
         channelTableView.backgroundColor = .white
-        
-        
         configureViews()
         //addToolBarItems()
         setupListener()
         checkUserLocation()
+       
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -96,6 +96,12 @@ class ChannelVC: BaseViewController {
         checkUserLocation()
         updateVisibleCells()
     }
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        updateVisibleCells() // Move this call here
+    }
+    
+ 
     
     private func validateNickname(nickName: String, completion: @escaping ((Bool) -> Void)) {
         let manageManager = ManageManager()
@@ -281,7 +287,14 @@ class ChannelVC: BaseViewController {
                         case .success(let count):
                             self.documentCounts[channelId] = count
                             if let cell = self.channelTableView.cellForRow(at: indexPath) as? ChannelTableViewCell {
-                                cell.threadCountLabel.text = "\(count)"
+                                if count >= 10 {
+                                    cell.threadCountLabel.text = "10+"
+                                } else if count == 0 {
+                                    cell.countView.isHidden = true
+                                    cell.threadCountLabel.text = ""
+                                } else {
+                                    cell.threadCountLabel.text = "\(count)"
+                                }
                             }
                         case .failure(let error):
                             print("Error fetching document count: \(error)")
@@ -305,26 +318,7 @@ extension ChannelVC: UITableViewDataSource, UITableViewDelegate {
         cell.backgroundColor = .white
         cell.selectionStyle = .none
         cell.chatRoomLabel.text = channels[indexPath.row].name
-        cell.threadCountLabel.text = "Loading..."
-//        let channelId = channels[indexPath.row].id
-//        
-//        // 초기화
-//        cell.threadCountLabel.text = "Loading..."
-//        
-//        getDocumentCount(id: channelId!) { [weak self] result in
-//            guard let self = self else { return }
-//            switch result {
-//            case .success(let count):
-//                DispatchQueue.main.async {
-//                    // 현재 인덱스와 셀의 인덱스가 일치하는지 확인
-//                    if let currentCell = tableView.cellForRow(at: indexPath) as? ChannelTableViewCell {
-//                        currentCell.threadCountLabel.text = "\(count)"
-//                    }
-//                }
-//            case .failure(let error):
-//                print("Error fetching document count: \(error)")
-//            }
-//        }
+        cell.threadCountLabel.text = "..."
         return cell
     }
     

@@ -7,6 +7,7 @@
 
 import UIKit
 import SnapKit
+import FirebaseAuth
 
 class PinStoreView: UIView {
     
@@ -75,16 +76,16 @@ class PinStoreView: UIView {
         stv.distribution = .equalSpacing
         return stv
     }()
-//    let findFriendButton: UIButton = {
-//        let bt = UIButton()
-//        bt.setTitle("친구 찾기", for: .normal)
-//        bt.setTitleColor(.white, for: .normal)
-//        bt.titleLabel?.font = ThemeFont.fontBold(size: 16)
-//        bt.titleLabel?.textAlignment = .center
-//        bt.backgroundColor = ThemeColor.mainOrange
-//        bt.layer.cornerRadius = 8
-//        return bt
-//    }()
+    let findFriendButton: UIButton = {
+        let bt = UIButton()
+        bt.setTitle("친구 찾기", for: .normal)
+        bt.setTitleColor(.white, for: .normal)
+        bt.titleLabel?.font = ThemeFont.fontBold(size: 16)
+        bt.titleLabel?.textAlignment = .center
+        bt.backgroundColor = ThemeColor.mainOrange
+        bt.layer.cornerRadius = 8
+        return bt
+    }()
     
     
     override init(frame: CGRect) {
@@ -105,7 +106,7 @@ class PinStoreView: UIView {
             stackView.addArrangedSubview($0)
         }
         
-        [titleLabel, scrapButton, addressLabel, line, stackView/*, findFriendButton*/].forEach {
+        [titleLabel, scrapButton, addressLabel, line, stackView, findFriendButton].forEach {
             self.addSubview($0)
         }
         
@@ -118,7 +119,7 @@ class PinStoreView: UIView {
             make.centerY.equalTo(titleLabel.snp.centerY)
             make.verticalEdges.equalTo(titleLabel.snp.verticalEdges)
             make.width.equalTo(self.scrapButton.snp.height)
-            make.leading.equalTo(titleLabel.snp.trailing).inset(10)
+            make.leading.equalTo(titleLabel.snp.trailing).inset(-10)
             make.trailing.equalToSuperview().inset(20)
         }
         
@@ -137,14 +138,14 @@ class PinStoreView: UIView {
         stackView.snp.makeConstraints { make in
             make.top.equalTo(line.snp.bottom).offset(10)
             make.horizontalEdges.equalTo(line.snp.horizontalEdges).inset(5)
-            make.bottom.equalToSuperview().inset(20)   // 친구찾기 버튼 복구 시 삭제하기
+            //make.bottom.equalToSuperview().inset(20)   // 친구찾기 버튼 복구 시 삭제하기
         }
         
-//        findFriendButton.snp.makeConstraints { make in
-//            make.top.equalTo(stackView.snp.bottom).offset(15)
-//            make.horizontalEdges.bottom.equalToSuperview().inset(20)
-//            make.height.equalTo(40)
-//        }
+        findFriendButton.snp.makeConstraints { make in
+            make.top.equalTo(stackView.snp.bottom).offset(15)
+            make.horizontalEdges.bottom.equalToSuperview().inset(20)
+            make.height.equalTo(40)
+        }
     }
     
     private func setClickEvents() {
@@ -157,6 +158,7 @@ class PinStoreView: UIView {
         addressLabel.addGestureRecognizer(tap)
         
         scrapButton.addTarget(self, action: #selector(scrapButtonTapped), for: .touchUpInside)
+        findFriendButton.addTarget(self, action: #selector(findFriendsButtonTapped), for: .touchUpInside)
     }
     
     // uilabel 텍스트 앞에 아이콘 넣기
@@ -200,6 +202,65 @@ class PinStoreView: UIView {
     
     @objc func scrapButtonTapped() {
         delegate?.scrapButtonTapped(self)
+    }
+    
+    @objc func findFriendsButtonTapped() {
+        guard let regionSubSequence = addressLabel.text?.split(separator: " ").first else { return }
+        
+        let region = String(regionSubSequence)
+        let channelInfo = getChannelInfo(address: region)
+                
+        if let user = Auth.auth().currentUser {
+            let chatVC = ChatVC(user: user, channel: Channel(id: channelInfo.id, name: channelInfo.name))
+            chatVC.isLocation = true
+            currentViewController?.navigationController?.pushViewController(chatVC, animated: true)
+        } else {
+            currentViewController?.showMessageWithCancel(title: "로그인이 필요한 기능입니다.", message: "확인을 클릭하시면 로그인 페이지로 이동합니다.") {
+                let scene = UIApplication.shared.connectedScenes.first
+                if let sd: SceneDelegate = (scene?.delegate as? SceneDelegate) {
+                    sd.switchToGreetingViewController()
+                }
+            }
+        }
+    }
+    
+    private func getChannelInfo(address: String) -> (id: String, name: String) {
+        switch address {
+        case "서울":
+            return ("rHab49QfIiTU2g59iOho", "서울특별시")
+        case "경기":
+            return ("4ZfnmRzimiBAqi9yevHs", "경기도")
+        case "강원특별자치도":
+            return ("AzvAnfWm3H26tBiWVD0n", "강원도")
+        case "충북":
+            return ("42dFCDyZhoF5HsZiGHiR", "충청북도")
+        case "충남":
+            return ("JqmZpJgXPJSDYrKmQS8Z", "충청남도")
+        case "경북":
+            return ("ur4UAL6hG5vCJSQCwNDj", "경상북도")
+        case "경남":
+            return ("wiBr0aYzdyvI3QOR8iZp", "경상남도")
+        case "전북":
+            return ("rufxIoaIPAqLs197P3RP", "전라북도")
+        case "전남":
+            return ("EsKtN3g6LoRfOIuPoNVh", "전라남도")
+        case "광주":
+            return ("KnchGwEEDQQ0hV6bQM5i", "광주광역시")
+        case "대구":
+            return ("SuOKtqriajsOPcPBvewm", "대구광역시")
+        case "대전":
+            return ("88EulHa6KF4LChqeUgMY", "대전광역시")
+        case "부산":
+            return ("h6xTcrUCBHUc9KvCwcxk", "부산광역시")
+        case "울산":
+            return ("kIpkkRqgmj9KOqwBGL81", "울산광역시")
+        case "세종특별자치시":
+            return ("TbKkSzKgPNHEBbWspSCp", "세종특별자치시")
+        case "제주특별자치도":
+            return ("CxoT9A2FwnypYLJNeZ5P", "제주특별자치도")
+        default:
+            return ("defaultID", "default")
+        }
     }
 }
 

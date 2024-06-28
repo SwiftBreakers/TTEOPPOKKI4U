@@ -26,14 +26,14 @@ class DetailedReviewViewController: UIViewController {
     private var userProfile: String?
     private var userNickname: String?
     
-    private lazy var introLabel: UILabel = {
-        let label = UILabel()
-        label.text = "리뷰 전체보기"
-        label.font = ThemeFont.fontMedium(size: 20)
-        label.textAlignment = .center
-        label.textColor = ThemeColor.mainBlack
-        return label
+    private lazy var groundScrollView: UIScrollView = {
+        let view = UIScrollView()
+        view.showsHorizontalScrollIndicator = false
+        view.showsVerticalScrollIndicator = true
+        view.backgroundColor = .white
+        return view
     }()
+    private lazy var contentView = UIView()
     private lazy var storeNameLabel: UILabel = {
         let label = UILabel()
         label.font = ThemeFont.fontBold(size: 24)
@@ -41,7 +41,6 @@ class DetailedReviewViewController: UIViewController {
         label.textColor = ThemeColor.mainBlack
         return label
     }()
-    
     private lazy var reviewTitleLabel: UILabel = {
         let label = UILabel()
         label.font = ThemeFont.fontMedium(size: 22)
@@ -57,7 +56,6 @@ class DetailedReviewViewController: UIViewController {
         view.layer.borderColor = UIColor.gray.cgColor
         view.clipsToBounds = true
         view.contentMode = .scaleToFill
-        //view.sizeToFit()
         return view
     }()
     private lazy var userNicknameLabel: UILabel = {
@@ -96,27 +94,14 @@ class DetailedReviewViewController: UIViewController {
     private lazy var scrollView = UIScrollView()
     private lazy var stackView = UIStackView()
     private lazy var imageView = UIImageView()
-    private lazy var reportButton: UIButton = {
-        let button = UIButton(type: .system)
-        button.setTitle("신고", for: .normal)
-        button.setTitleColor(.systemRed, for: .normal)
-        button.titleLabel?.font = ThemeFont.fontMedium(size: 16)
-        button.addTarget(self, action: #selector(reportButtonTapped), for: .touchUpInside)
-        return button
-    }()
-    private lazy var backButton: UIButton = {
-        let button = UIButton(type: .system)
-        button.setImage(UIImage(systemName: "chevron.backward.2"), for: .normal)
-        button.tintColor = .systemGray
-        button.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
-        return button
-    }()
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         view.backgroundColor = .white
         
+        setTabAndNavi()
         setData(data: userData!)
         setUserData(info: userInfo!)
         configureUI()
@@ -147,6 +132,21 @@ class DetailedReviewViewController: UIViewController {
         stackView.removeFromSuperview()
     }
     
+    private func setTabAndNavi() {
+        tabBarController?.tabBar.isHidden = true
+        
+        let appearance = UINavigationBarAppearance()
+        navigationController?.navigationBar.isHidden = false
+        self.navigationItem.hidesSearchBarWhenScrolling = false
+        appearance.configureWithTransparentBackground()
+        UINavigationBar.appearance().barTintColor = .white
+        navigationController?.navigationBar.tintColor = ThemeColor.mainOrange
+        navigationItem.title = "리뷰 전체보기"
+        appearance.titleTextAttributes = [NSAttributedString.Key.foregroundColor: ThemeColor.mainBlack]
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "신고", style: .plain, target: self, action: #selector(reportButtonTapped))
+        navigationItem.rightBarButtonItem?.tintColor = .red
+    }
+    
     private func setData(data: ReviewModel) {
         storeName = data.storeName
         reviewTitle = data.title
@@ -172,66 +172,55 @@ class DetailedReviewViewController: UIViewController {
         reviewContentLabel.text = reviewContent
         createdAtLabel.text = createdAt
         
-        view.addSubview(backButton)
-        view.addSubview(introLabel)
-        view.addSubview(reportButton)
-        
         view.addSubview(storeNameLabel)
         
-        view.addSubview(reviewTitleLabel)
-        view.addSubview(userProfileImage)
-        view.addSubview(userNicknameLabel)
-        view.addSubview(starRatingLabel)
-        view.addSubview(createdAtLabel)
-        view.addSubview(reviewContentLabel)
+        groundScrollView.addSubview(contentView)
+        [scrollView, reviewTitleLabel, userProfileImage, userNicknameLabel, starRatingLabel, createdAtLabel, reviewContentLabel].forEach {
+            contentView.addSubview($0)
+        }
+        view.addSubview(groundScrollView)
         
         scrollView.isPagingEnabled = true
-        view.addSubview(scrollView)
         
         stackView.axis = .horizontal
         stackView.spacing = 10
         stackView.distribution = .fillEqually
         scrollView.addSubview(stackView)
         
-        
-        backButton.snp.makeConstraints { make in
-            make.top.equalTo(view.safeAreaLayoutGuide).offset(10)
-            make.leading.equalToSuperview().offset(20)
-        }
-        
-        introLabel.snp.makeConstraints { make in
-            make.centerY.equalTo(backButton)
-            make.centerX.equalToSuperview()
-        }
-        
-        reportButton.snp.makeConstraints { make in
-            make.centerY.equalTo(backButton)
-            make.trailing.equalToSuperview().inset(20)
-        }
-        
         storeNameLabel.snp.makeConstraints { make in
-            make.top.equalTo(backButton.snp.bottom).offset(40)
+            make.top.equalTo(view.safeAreaLayoutGuide).offset(40)
             make.centerX.equalToSuperview()
+        }
+        
+        groundScrollView.snp.makeConstraints { make in
+            make.top.equalTo(storeNameLabel.snp.bottom).offset(10)
+            make.horizontalEdges.equalTo(view.safeAreaLayoutGuide)
+            make.bottom.equalTo(view.safeAreaLayoutGuide)
+        }
+        
+        contentView.snp.makeConstraints { make in
+            make.edges.equalTo(groundScrollView)
+            make.width.equalTo(groundScrollView)
         }
         
         reviewTitleLabel.snp.makeConstraints { make in
             make.top.equalTo(scrollView.snp.bottom).offset(40)
-            make.horizontalEdges.equalTo(view.safeAreaLayoutGuide).inset(20)
+            make.horizontalEdges.equalToSuperview().inset(20)
         }
         
         userProfileImage.snp.makeConstraints { make in
             make.top.equalTo(reviewTitleLabel.snp.bottom).offset(10)
-            make.leading.equalTo(view.safeAreaLayoutGuide).inset(20)
+            make.leading.equalToSuperview().inset(20)
             make.width.height.equalTo(44)
         }
         
         userNicknameLabel.snp.makeConstraints { make in
             make.top.equalTo(userProfileImage.snp.top)
             make.leading.equalTo(userProfileImage.snp.trailing).offset(10)
+            make.trailing.equalToSuperview().inset(20)
         }
         
         starRatingLabel.snp.makeConstraints { make in
-            make.top.equalTo(userNicknameLabel.snp.bottom).offset(5)
             make.leading.equalTo(userProfileImage.snp.trailing).offset(10)
             make.bottom.equalTo(userProfileImage.snp.bottom)
         }
@@ -239,13 +228,12 @@ class DetailedReviewViewController: UIViewController {
         createdAtLabel.snp.makeConstraints { make in
             make.leading.equalTo(starRatingLabel.snp.trailing).offset(10)
             make.centerY.equalTo(starRatingLabel)
-            //make.trailing.equalTo(view.safeAreaLayoutGuide).offset(-20)
-            //make.width.equalTo(80)
         }
         
         reviewContentLabel.snp.makeConstraints { make in
             make.top.equalTo(starRatingLabel.snp.bottom).offset(30)
-            make.leading.trailing.equalTo(view.safeAreaLayoutGuide).inset(20)
+            make.leading.trailing.equalToSuperview().inset(20)
+            make.bottom.equalToSuperview().offset(-20)
         }
     }
     
@@ -257,11 +245,11 @@ class DetailedReviewViewController: UIViewController {
             scrollView.removeFromSuperview()
             reviewTitleLabel.snp.remakeConstraints { make in
                 make.top.equalTo(storeNameLabel.snp.bottom).offset(20)
-                make.leading.trailing.equalTo(view.safeAreaLayoutGuide).inset(20)
+                make.leading.trailing.equalToSuperview().inset(20)
             }
         } else if imageURLs.count == 1, let imageURLString = imageURLs.first, let imageURL = URL(string: imageURLString) {
             scrollView.removeFromSuperview()
-            view.addSubview(imageView)
+            contentView.addSubview(imageView)
             
             imageView.contentMode = .scaleAspectFill
             imageView.clipsToBounds = true
@@ -288,16 +276,18 @@ class DetailedReviewViewController: UIViewController {
             
             reviewTitleLabel.snp.remakeConstraints { make in
                 make.top.equalTo(imageView.snp.bottom).offset(20)
-                make.leading.trailing.equalTo(view.safeAreaLayoutGuide).inset(20)
+                make.leading.trailing.equalToSuperview().inset(20)
             }
         } else {
-            view.addSubview(scrollView)
+            contentView.addSubview(scrollView)
             
             scrollView.snp.remakeConstraints { make in
-                make.top.equalTo(storeNameLabel.snp.bottom).offset(20)
+                make.top.equalToSuperview().offset(20)
                 make.leading.trailing.equalToSuperview().inset(20)
                 make.height.equalTo(200)
             }
+            
+               
             
             stackView.snp.remakeConstraints { make in
                 make.edges.equalToSuperview()
@@ -362,10 +352,6 @@ class DetailedReviewViewController: UIViewController {
         }
     }
     
-    @objc private func backButtonTapped() {
-        navigationController?.popViewController(animated: true)
-    }
-    
     @objc private func reportButtonTapped() {
         if let _ = Auth.auth().currentUser?.uid {
             showMessageWithCancel(title: "신고하기", message: "해당 리뷰를 신고하시겠습니까?") { [weak self]  in
@@ -374,15 +360,13 @@ class DetailedReviewViewController: UIViewController {
                 self?.present(reportVC, animated: true)
             }
         } else {
-            showMessage(title: "안내", message: "로그인이 필요한 기능입니다.") {
+            showMessageWithCancel(title: "로그인이 필요한 기능입니다.", message: "확인을 클릭하시면 로그인 페이지로 이동합니다.") {
                 let scene = UIApplication.shared.connectedScenes.first
                 if let sd: SceneDelegate = (scene?.delegate as? SceneDelegate) {
                     sd.switchToGreetingViewController()
                 }
             }
         }
-        
-        
     }
     
     private func showMessage(title: String, message: String) {

@@ -49,19 +49,23 @@ class MapViewController: UIViewController, PinStoreViewDelegate {
     
     private let sendButton: UIButton = {
         let button = UIButton(type: .system)
-        button.setTitle("Send", for: .normal)
+        button.setTitle("보내기", for: .normal)
         button.addTarget(self, action: #selector(sendButtonTapped), for: .touchUpInside)
         button.tintColor = .white
+        button.titleLabel?.font = ThemeFont.fontBold()
         button.backgroundColor = .gray
+        button.layer.cornerRadius = 10
         return button
     }()
     
     private let cancelButton: UIButton = {
         let button = UIButton(type: .system)
-        button.setTitle("Cancel", for: .normal)
+        button.setTitle("취소", for: .normal)
         button.addTarget(self, action: #selector(cancelButtonTapped), for: .touchUpInside)
         button.tintColor = .white
+        button.titleLabel?.font = ThemeFont.fontBold()
         button.backgroundColor = .gray
+        button.layer.cornerRadius = 10
         return button
     }()
     
@@ -89,8 +93,10 @@ class MapViewController: UIViewController, PinStoreViewDelegate {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         tabBarController?.tabBar.isHidden = false
+        navigationController?.navigationBar.isHidden = true
         if isLocationPicker {
             setupButtons()
+            mapView.searchBar.searchTextField.attributedPlaceholder = NSAttributedString(string: "보내고 싶은 지역을 지도에서 길게 누르세요.", attributes: [NSAttributedString.Key.foregroundColor: UIColor.gray])
         }
         getRecentData()
     }
@@ -231,9 +237,9 @@ class MapViewController: UIViewController, PinStoreViewDelegate {
         buttonStackView.addArrangedSubview(sendButton)
         
         buttonStackView.snp.makeConstraints { make in
-            make.bottom.equalTo(view.safeAreaLayoutGuide).inset(20)
+            make.bottom.equalTo(view.safeAreaLayoutGuide).inset(10)
             make.leading.trailing.equalTo(view.safeAreaLayoutGuide).inset(20)
-            make.height.equalTo(50)
+            make.height.equalTo(40)
         }
     }
     
@@ -416,7 +422,7 @@ class MapViewController: UIViewController, PinStoreViewDelegate {
                 print(error)
                 if error == .noUID {
                     DispatchQueue.main.async {
-                        self.showMessage(title: "안내", message: "로그인이 필요한 기능입니다.") {
+                        self.showMessageWithCancel(title: "로그인이 필요한 기능입니다.", message: "확인을 클릭하시면 로그인 페이지로 이동합니다.") {
                             let scene = UIApplication.shared.connectedScenes.first
                             if let sd: SceneDelegate = (scene?.delegate as? SceneDelegate) {
                                 sd.switchToGreetingViewController()
