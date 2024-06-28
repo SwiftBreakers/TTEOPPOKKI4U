@@ -40,7 +40,7 @@ class VerifyViewController: UIViewController {
     
     lazy var privacyVerifyLabel: UILabel = {
         let label = UILabel()
-        label.text = "개인정보 수집 및 이용동의"
+        label.text = "개인정보 처리방침"
         label.font = ThemeFont.fontMedium(size: 16)
         label.textColor = ThemeColor.mainBlack
         return label
@@ -48,7 +48,7 @@ class VerifyViewController: UIViewController {
     
     lazy var communityVerifyLabel: UILabel = {
         let label = UILabel()
-        label.text = "커뮤니티 이용동의"
+        label.text = "서비스 이용약관"
         label.font = ThemeFont.fontMedium(size: 16)
         label.textColor = ThemeColor.mainBlack
         return label
