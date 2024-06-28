@@ -102,7 +102,11 @@ class PersonalInfoViewController: UIViewController, PHPickerViewControllerDelega
     
     
     func setupNavigationBar() {
-        navigationItem.rightBarButtonItem = UIBarButtonItem(customView: saveButton)
+        let customSaveButtonView = UIView(frame: CGRect(x: 0, y: 0, width: 60, height: 40)) // 원하는 크기로 설정
+        saveButton.frame = customSaveButtonView.bounds
+        customSaveButtonView.addSubview(saveButton)
+        
+        navigationItem.rightBarButtonItem = UIBarButtonItem(customView: customSaveButtonView)
     }
     
 //    func setupBackButton() {
