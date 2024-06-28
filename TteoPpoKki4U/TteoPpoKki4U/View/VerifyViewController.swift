@@ -88,6 +88,8 @@ class VerifyViewController: UIViewController {
         button.setTitleColor(ThemeColor.mainBlack, for: .normal)
         button.backgroundColor = .white
         button.addTarget(self, action: #selector(closedTapped), for: .touchUpInside)
+        button.layer.cornerRadius = 10
+        button.layer.borderWidth = 0.5
         return button
     }()
     
@@ -97,6 +99,7 @@ class VerifyViewController: UIViewController {
         button.setTitleColor(UIColor.white, for: .normal)
         button.backgroundColor = .lightGray
         button.addTarget(self, action: #selector(submitTapped), for: .touchUpInside)
+        button.layer.cornerRadius = 10
         return button
     }()
     
@@ -170,7 +173,7 @@ class VerifyViewController: UIViewController {
         hStackView.snp.makeConstraints { make in
             make.top.equalTo(communityVerifyLabel.snp.bottom).offset(350)
             make.horizontalEdges.equalToSuperview().inset(20)
-            make.bottom.equalToSuperview().offset(-20)
+            make.bottom.equalToSuperview().offset(-40)
         }
     }
     
@@ -203,6 +206,7 @@ class VerifyViewController: UIViewController {
         signViewModel = SignViewModel(signManager: signManager)
         signViewModel?.signOut { [weak self] in
             self?.dismiss(animated: true)
+            print("signout")
         }
     }
     
