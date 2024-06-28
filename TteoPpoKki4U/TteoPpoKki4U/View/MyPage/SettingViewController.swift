@@ -81,7 +81,7 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
         if indexPath.row == 0 {
             
             let deleteUserLabel = UILabel()
-            deleteUserLabel.text = "개인정보 처리방침"
+            deleteUserLabel.text = "서비스 이용약관"
             deleteUserLabel.font = ThemeFont.fontMedium(size: 18)
             deleteUserLabel.textColor = .gray
             deleteUserLabel.textAlignment = .center
@@ -95,7 +95,7 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
         } else if indexPath.row == 1 {
             
             let deleteUserLabel = UILabel()
-            deleteUserLabel.text = "커뮤니티 이용약관"
+            deleteUserLabel.text = "개인정보 처리방침"
             deleteUserLabel.font = ThemeFont.fontMedium(size: 18)
             deleteUserLabel.textColor = .gray
             deleteUserLabel.textAlignment = .center
@@ -133,11 +133,11 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
         
         switch indexPath.row {
         case 0:
-            let privacyVC = PrivacyPolicyViewController()
-            navigationController?.pushViewController(privacyVC, animated: true)
-        case 1:
             let communityPolicyVC = CommunityPolicyViewController()
             navigationController?.pushViewController(communityPolicyVC, animated: true)
+        case 1:
+            let privacyVC = PrivacyPolicyViewController()
+            navigationController?.pushViewController(privacyVC, animated: true)
         case 2:
             if isLogin {
                 deleteUser()

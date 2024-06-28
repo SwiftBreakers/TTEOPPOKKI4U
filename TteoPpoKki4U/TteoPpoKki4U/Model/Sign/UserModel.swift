@@ -13,4 +13,5 @@ struct UserModel: Hashable {
     let isBlock: Bool
     let nickName: String
     let profileImageUrl: String
+    let isAgree: Bool
 }

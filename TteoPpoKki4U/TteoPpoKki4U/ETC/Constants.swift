@@ -27,6 +27,7 @@ let db_isActive = "isActive"
 let db_createdAt = "createdAt"
 let db_updatedAt = "updatedAt"
 let db_reportCount = "reportCount"
+let db_isAgree = "isAgree"
 
 let scrappedCollection = Firestore.firestore().collection("Scrapped")
 let db_shopName = "shopName"
