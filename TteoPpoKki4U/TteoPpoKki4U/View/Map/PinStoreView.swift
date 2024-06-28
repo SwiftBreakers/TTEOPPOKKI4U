@@ -206,53 +206,62 @@ class PinStoreView: UIView {
     
     @objc func findFriendsButtonTapped() {
         guard let regionSubSequence = addressLabel.text?.split(separator: " ").first else { return }
-        let region = String(regionSubSequence)
-        let channelName = getChannelName(address: region)
         
-        let chatVC: ChatVC
-        chatVC = ChatVC(user: Auth.auth().currentUser!, channel: Channel(name: channelName))
-        chatVC.isLocation = true
-        currentViewController?.navigationController?.pushViewController(chatVC, animated: true)
-    }
-    
-    private func getChannelName(address: String) -> String {
-            switch address {
-            case "서울":
-                return "서울특별시"
-            case "경기":
-                return "경기도"
-            case "강원특별자치도":
-                return "강원도"
-            case "충북":
-                return "충청북도"
-            case "충남":
-                return "충청남도"
-            case "경북":
-                return "경상북도"
-            case "경남":
-                return "경상남도"
-            case "전북":
-                return "전라북도"
-            case "전남":
-                return "전라남도"
-            case "광주":
-                return "광주광역시"
-            case "대구":
-                return "대구광역시"
-            case "대전":
-                return "대전광역시"
-            case "부산":
-                return "부산광역시"
-            case "울산":
-                return "울산광역시"
-            case "세종특별자치시":
-                return "세종특별자치시"
-            case "제주특별자치도":
-                return "제주특별자치도"
-            default:
-                return "default"
+        let region = String(regionSubSequence)
+        let channelInfo = getChannelInfo(address: region)
+                
+        if let user = Auth.auth().currentUser {
+            let chatVC = ChatVC(user: user, channel: Channel(id: channelInfo.id, name: channelInfo.name))
+            chatVC.isLocation = true
+            currentViewController?.navigationController?.pushViewController(chatVC, animated: true)
+        } else {
+            currentViewController?.showMessageWithCancel(title: "로그인이 필요한 기능입니다.", message: "확인을 클릭하시면 로그인 페이지로 이동합니다.") {
+                let scene = UIApplication.shared.connectedScenes.first
+                if let sd: SceneDelegate = (scene?.delegate as? SceneDelegate) {
+                    sd.switchToGreetingViewController()
+                }
             }
         }
+    }
+    
+    private func getChannelInfo(address: String) -> (id: String, name: String) {
+        switch address {
+        case "서울":
+            return ("rHab49QfIiTU2g59iOho", "서울특별시")
+        case "경기":
+            return ("4ZfnmRzimiBAqi9yevHs", "경기도")
+        case "강원특별자치도":
+            return ("AzvAnfWm3H26tBiWVD0n", "강원도")
+        case "충북":
+            return ("42dFCDyZhoF5HsZiGHiR", "충청북도")
+        case "충남":
+            return ("JqmZpJgXPJSDYrKmQS8Z", "충청남도")
+        case "경북":
+            return ("ur4UAL6hG5vCJSQCwNDj", "경상북도")
+        case "경남":
+            return ("wiBr0aYzdyvI3QOR8iZp", "경상남도")
+        case "전북":
+            return ("rufxIoaIPAqLs197P3RP", "전라북도")
+        case "전남":
+            return ("EsKtN3g6LoRfOIuPoNVh", "전라남도")
+        case "광주":
+            return ("KnchGwEEDQQ0hV6bQM5i", "광주광역시")
+        case "대구":
+            return ("SuOKtqriajsOPcPBvewm", "대구광역시")
+        case "대전":
+            return ("88EulHa6KF4LChqeUgMY", "대전광역시")
+        case "부산":
+            return ("h6xTcrUCBHUc9KvCwcxk", "부산광역시")
+        case "울산":
+            return ("kIpkkRqgmj9KOqwBGL81", "울산광역시")
+        case "세종특별자치시":
+            return ("TbKkSzKgPNHEBbWspSCp", "세종특별자치시")
+        case "제주특별자치도":
+            return ("CxoT9A2FwnypYLJNeZ5P", "제주특별자치도")
+        default:
+            return ("defaultID", "default")
+        }
+    }
 }
 
 

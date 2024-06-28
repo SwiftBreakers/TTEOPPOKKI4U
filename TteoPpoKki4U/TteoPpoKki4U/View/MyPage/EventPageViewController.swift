@@ -54,13 +54,24 @@ class EventPageViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .white  // 배경색 설정
         
-        setupCustomNavigationBar()
+//        setupCustomNavigationBar()
 
         setupTableView()
-        setupBackButton()
-       
-        
+//        setupBackButton()
+//       title = "이벤트"
+        navigationController?.navigationBar.tintColor = ThemeColor.mainOrange
+
     }
+    
+    func showEventSceneViewController() {
+//
+//        let eventPageVC = EventPageViewController()
+//        navigationController?.pushViewController(eventPageVC, animated: true)
+        let eventSceneVC = EventSceneViewController()
+        navigationController?.pushViewController(eventSceneVC, animated: true) 
+         
+        
+        }
     
     func setupCustomNavigationBar() {
         view.addSubview(customNavigationBar)
@@ -104,7 +115,7 @@ class EventPageViewController: UIViewController {
         view.addSubview(tableView)
         
         tableView.snp.makeConstraints { make in
-            make.top.equalTo(customNavigationBar.snp.bottom)
+            make.top.equalToSuperview()
             make.leading.equalToSuperview()
             make.trailing.equalToSuperview()
             make.bottom.equalToSuperview()

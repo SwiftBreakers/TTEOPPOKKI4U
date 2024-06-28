@@ -361,7 +361,7 @@ class DetailedReviewViewController: UIViewController {
                 self?.present(reportVC, animated: true)
             }
         } else {
-            showMessage(title: "안내", message: "로그인이 필요한 기능입니다.") {
+            showMessageWithCancel(title: "로그인이 필요한 기능입니다.", message: "확인을 클릭하시면 로그인 페이지로 이동합니다.") {
                 let scene = UIApplication.shared.connectedScenes.first
                 if let sd: SceneDelegate = (scene?.delegate as? SceneDelegate) {
                     sd.switchToGreetingViewController()

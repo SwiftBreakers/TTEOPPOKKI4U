@@ -71,8 +71,7 @@ class PersonalInfoViewController: UIViewController, PHPickerViewControllerDelega
         
         setupProfileImageView()
         setupUserNameTextField()
-//        setupBackButton()
-        setupSaveButton()
+        setupNavigationBar()
         getImage()
         userNameTextField.text = profileName
         userNameTextField.delegate = self
@@ -101,6 +100,10 @@ class PersonalInfoViewController: UIViewController, PHPickerViewControllerDelega
         profileImageView.kf.setImage(with: URL(string: gotProfileImage!))
     }
     
+    
+    func setupNavigationBar() {
+        navigationItem.rightBarButtonItem = UIBarButtonItem(customView: saveButton)
+    }
     
 //    func setupBackButton() {
 //        view.addSubview(backButton)

@@ -23,6 +23,12 @@ class ChannelTableViewCell: UITableViewCell {
         button.tintColor = .gray
         return button
     }()
+    lazy var threadCountLabel: UILabel = {
+       let label = UILabel()
+        label.textColor = ThemeColor.mainOrange
+        label.font = ThemeFont.fontMedium(size: 18)
+        return label
+    }()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -37,11 +43,16 @@ class ChannelTableViewCell: UITableViewCell {
     private func configure() {
         contentView.addSubview(chatRoomLabel)
         contentView.addSubview(detailButton)
+        contentView.addSubview(threadCountLabel)
         
         chatRoomLabel.snp.makeConstraints { make in
             make.leading.equalToSuperview().offset(24)
             make.centerY.equalToSuperview()
-            make.trailing.lessThanOrEqualTo(detailButton).offset(-24)
+//            make.trailing.lessThanOrEqualTo(detailButton).offset(-24)
+        }
+        threadCountLabel.snp.makeConstraints { make in
+            make.leading.equalTo(chatRoomLabel.snp.trailing).offset(20)
+            make.centerY.equalToSuperview()
         }
         
         detailButton.setContentHuggingPriority(.defaultHigh, for: .horizontal)

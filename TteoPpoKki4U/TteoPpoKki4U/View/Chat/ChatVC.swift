@@ -12,6 +12,7 @@ import Photos
 import FirebaseFirestore
 import FirebaseAuth
 import Kingfisher
+import ProgressHUD
 
 class ChatVC: MessagesViewController {
     
@@ -117,6 +118,7 @@ class ChatVC: MessagesViewController {
         }
         
         setupMessageInputBar()
+        navigationController?.navigationBar.isHidden = false
         tabBarController?.tabBar.isHidden = true
         navigationController?.setToolbarHidden(true, animated: false)
     }
@@ -357,7 +359,7 @@ class ChatVC: MessagesViewController {
                 present(actionSheet, animated: true)
             }
         } else if customUser != nil {
-            showMessage(title: "로그인이 필요한 기능입니다.", message: "사용 할 수 없습니다.") {
+            showMessageWithCancel(title: "로그인이 필요한 기능입니다.", message: "확인을 클릭하시면 로그인 페이지로 이동합니다.") {
                 let scene = UIApplication.shared.connectedScenes.first
                 if let sd: SceneDelegate = (scene?.delegate as? SceneDelegate) {
                     sd.switchToGreetingViewController()
@@ -378,12 +380,14 @@ class ChatVC: MessagesViewController {
     
     private func didTapLibraryButton() {
         let picker = UIImagePickerController()
+        picker.delegate = self
         picker.sourceType = .photoLibrary
         present(picker, animated: true)
     }
     private func didTapCameraButton() {
         if UIImagePickerController.isSourceTypeAvailable(.camera) {
             let picker = UIImagePickerController()
+            picker.delegate = self
             picker.sourceType = .camera
             present(picker, animated: true)
         } else {
@@ -522,7 +526,7 @@ extension ChatVC: InputBarAccessoryViewDelegate {
     func inputBar(_ inputBar: InputBarAccessoryView, didPressSendButtonWith text: String) {
         Message.fetchDisplayName(userManager: UserManager()) { [weak self] displayName in
             guard let displayName = displayName, let self = self else {
-                self?.showMessage(title: "로그인이 필요한 기능입니다.", message: "게스트는 메세지를 보낼 수 없습니다.", completion: {
+                self?.showMessageWithCancel(title: "로그인이 필요한 기능입니다.", message: "확인을 클릭하시면 로그인 페이지로 이동합니다.", completion: {
                     let scene = UIApplication.shared.connectedScenes.first
                     if let sd: SceneDelegate = (scene?.delegate as? SceneDelegate) {
                         sd.switchToGreetingViewController()
@@ -580,12 +584,16 @@ extension ChatVC: UIImagePickerControllerDelegate, UINavigationControllerDelegat
         guard !isSendingPhoto else { return }
         isSendingPhoto = true
         
+        ProgressHUD.animate()
+
         _ = FirebaseStorageManager.uploadImage(image: image, channel: channel, progress: { progress in
             // 업로드 진행 상황을 처리할 수 있습니다. 예: progress bar 업데이트
             print("Upload progress: \(progress * 100)%")
         }, completion: { [weak self] result in
             self?.isSendingPhoto = false
             guard let self = self else { return }
+            
+            ProgressHUD.dismiss()
             
             switch result {
             case .success(let url):
@@ -616,6 +624,7 @@ extension ChatVC: UIImagePickerControllerDelegate, UINavigationControllerDelegat
                 }
             case .failure(let error):
                 print("Failed to upload image: \(error)")
+                ProgressHUD.dismiss()
             }
         })
     }

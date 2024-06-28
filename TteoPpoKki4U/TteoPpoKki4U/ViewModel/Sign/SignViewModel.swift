@@ -7,8 +7,6 @@
 
 import Foundation
 import AuthenticationServices
-import KakaoSDKAuth
-import KakaoSDKUser
 import GoogleSignIn
 import FirebaseAuth
 import Combine
