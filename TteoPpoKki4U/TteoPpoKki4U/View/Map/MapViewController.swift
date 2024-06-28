@@ -354,6 +354,10 @@ class MapViewController: UIViewController, PinStoreViewDelegate {
         let name = view.titleLabel.text ?? ""
         viewModel.scrap(name, upon: storeInfoView.isScrapped)
         storeInfoView.isScrapped.toggle()
+        customAlertControl()
+    }
+    
+    private func customAlertControl() {
         if storeInfoView.isScrapped {
             showCustomAlert(image: UIImage(systemName: "flag.fill")!, message: "스크랩되었습니다.")
         } else {
@@ -434,7 +438,10 @@ class MapViewController: UIViewController, PinStoreViewDelegate {
                             }
                         }
                         self.storeInfoView.isScrapped = false
+                        self.removeCustomAlert()
                     }
+                } else {
+                    customAlertControl()
                 }
                 
             default: break
