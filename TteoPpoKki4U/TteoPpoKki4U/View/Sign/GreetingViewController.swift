@@ -7,6 +7,7 @@
 
 import UIKit
 import SnapKit
+import FirebaseAuth
 import Combine
 
 final class GreetingViewController: UIViewController {
@@ -42,8 +43,12 @@ final class GreetingViewController: UIViewController {
     private var googleTapped: (() -> Void)!
     private var hiddenTapped: (() -> Void)!
     private var guestTapped: (() -> Void)!
+    private var isAgree = false
+    
     
     var viewModel: SignViewModel!
+    var userManager = UserManager()
+    
     private var cancellables = Set<AnyCancellable>()
     
     convenience init(appleTapped: @escaping () -> Void, googleTapped: @escaping () -> Void, hiddenTapped: @escaping () -> Void, guestTapped: @escaping () -> Void, viewModel: SignViewModel) {
@@ -63,13 +68,37 @@ final class GreetingViewController: UIViewController {
         bind()
     }
     
+    private func validateUserData(completion: @escaping(Bool) -> Void) {
+        guard let uid = Auth.auth().currentUser?.uid else { return }
+        userManager.fetchUserData(uid: uid) { [self] error, snapshot in
+            if let error = error {
+                print(error)
+            }
+            guard let dictionary = snapshot?.value as? [String: Any] else { return }
+            isAgree = (dictionary[db_isAgree] as? Bool)!
+            
+            if isAgree {
+                completion(true)
+            } else {
+                completion(false)
+            }
+        }
+    }
+    
     private func bind() {
         viewModel.loginPublisher.sink { [weak self] result in
             switch result {
             case .success():
                 let scene = UIApplication.shared.connectedScenes.first
                 if let sd: SceneDelegate = (scene?.delegate as? SceneDelegate) {
-                    sd.switchToMainTabBarController()
+                    self?.validateUserData { result in
+                        switch result {
+                        case true :
+                            sd.switchToMainTabBarController()
+                        case false :
+                            sd.showVerifyVC()
+                        }
+                    }
                 }
             case .failure(let error):
                 self?.showMessage(title: "에러 발생", message: "\(error.localizedDescription)발생했습니다.")

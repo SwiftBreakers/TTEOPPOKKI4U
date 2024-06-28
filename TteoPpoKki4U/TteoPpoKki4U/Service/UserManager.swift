@@ -52,6 +52,17 @@ class UserManager {
         
     }
     
+    func setAgreeProfile(uid: String, isAgree: Bool, completion: @escaping ((Result<(),Error>) -> Void)) {
+        let values = [db_isAgree: isAgree]
+        self.ref.child(db_user_users).child(uid).updateChildValues(values) { error, reference in
+            if let error = error {
+                completion(.failure(error))
+                return
+            }
+            completion(.success(()))
+        }
+    }
+    
     func fetchUserData(uid: String, completion: @escaping((Error)?, DataSnapshot?) -> Void) {
         ref.child(db_user_users).child(uid).getData(completion: completion)
     }
