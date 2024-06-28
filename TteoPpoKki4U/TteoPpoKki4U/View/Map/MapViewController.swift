@@ -31,6 +31,7 @@ class MapViewController: UIViewController, PinStoreViewDelegate {
     var selectedStoreName: String?
     private var viewModel = MapViewModel()
     private var jsonViewModel: JsonViewModel!
+    private var customAlertVC = CustomAlertViewController()
     var isLocationPicker: Bool = false
     var selectedStoreRatings = [Float]()
     var selectedStoreAverageRating: Float?
@@ -80,7 +81,6 @@ class MapViewController: UIViewController, PinStoreViewDelegate {
         
         mapView.searchBar.delegate = self
         storeInfoView.delegate = self
-        navigationController?.navigationBar.isHidden = true
         tabBarController?.tabBar.backgroundColor = .white
         
         NotificationCenter.default.addObserver(self, selector: #selector(appWillEnterForeground), name: UIApplication.willEnterForegroundNotification, object: nil)
@@ -354,6 +354,11 @@ class MapViewController: UIViewController, PinStoreViewDelegate {
         let name = view.titleLabel.text ?? ""
         viewModel.scrap(name, upon: storeInfoView.isScrapped)
         storeInfoView.isScrapped.toggle()
+        if storeInfoView.isScrapped {
+            showCustomAlert(image: UIImage(systemName: "flag.fill")!, message: "스크랩되었습니다.")
+        } else {
+            showCustomAlert(image: UIImage(systemName: "flag.slash")!, message: "스크랩이 해제되었습니다.")
+        }
     }
     
     @objc func findMyLocationBtnTapped() {

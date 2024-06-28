@@ -68,6 +68,45 @@ class ReviewViewModel {
         }
     }
     
+    func getUserReview(completion: @escaping ()->Void) {
+        guard let uid = Auth.auth().currentUser?.uid else { return }
+        
+        userManager.getMyReview(uid: uid) { [weak self] querySnapshot, error in
+            self?.userReview.removeAll()
+            if let error = error {
+                self?.reviewPublisher.send(completion: .failure(error))
+            }
+            
+            if let snapshotDocuments = querySnapshot?.documents {
+                if !snapshotDocuments.isEmpty {
+                    for doc in snapshotDocuments {
+                        let data = doc.data()
+                        guard
+                            let uid = data[db_uid] as? String,
+                            let title = data[db_title] as? String,
+                            let storeName = data[db_storeName] as? String,
+                            let storeAddress = data[db_storeAddress] as? String,
+                            let content = data[db_content] as? String,
+                            let rating = data[db_rating] as? Float,
+                            let imageURL = data[db_imageURL] as? [String],
+                            let isActive = data[db_isActive] as? Bool,
+                            let createdAt = data[db_createdAt] as? Timestamp,
+                            let updatedAt = data[db_updatedAt] as? Timestamp,
+                            let reportCount = data[db_reportCount] as? Int
+                        else {
+                            print("error")
+                            return
+                        }
+                        let reviewData = ReviewModel(uid: uid, title: title, storeAddress: storeAddress, storeName: storeName, content: content, rating: rating, imageURL: imageURL, isActive: isActive, createdAt: createdAt, updatedAt: updatedAt, reportCount: reportCount)
+                        self?.userReview.append(reviewData)
+                        self?.reviewPublisher.send(())
+                        completion()
+                    }
+                }
+            }
+        }
+    }
+    
     func editUserReview(uid: String, storeAddress: String, title: String, userDict: [String: Any], completion: @escaping () -> Void) {
         userManager.getSpecificReview(uid: uid, storeAddress: storeAddress, title: title) { [weak self ] querySnapshot, error in
             if let error = error {

@@ -69,7 +69,7 @@ class MyPageCollectionViewCell: UICollectionViewCell {
     }
     
     func configure(with model: MyPageModel) {
-        if model.title == "로그아웃" {
+        if model.title == "로그아웃" || model.title == "로그인 하러가기" {
             arrowImageView.image = nil
         }
         titleLabel.text = model.title

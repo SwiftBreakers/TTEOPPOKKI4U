@@ -49,6 +49,7 @@ class StoreViewController: UIViewController {
     private lazy var reviewCountLabel: UILabel = {
         let label = UILabel()
         label.font = ThemeFont.fontMedium()
+        label.textColor = ThemeColor.mainBlack
         label.sizeToFit()
         return label
     }()
@@ -83,7 +84,6 @@ class StoreViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        setTabAndNavi()
         setupViews()
         setupConstraints()
     }
@@ -93,6 +93,7 @@ class StoreViewController: UIViewController {
         
         fetchRequest()
         bind()
+        setTabAndNavi()
     }
     
     private func fetchRequest() {
@@ -138,10 +139,12 @@ class StoreViewController: UIViewController {
         navigationController?.navigationBar.isHidden = false
         self.navigationItem.hidesSearchBarWhenScrolling = false
         appearance.configureWithTransparentBackground()
-        UINavigationBar.appearance().barTintColor = .white
+        appearance.backgroundColor = .white
         navigationController?.navigationBar.tintColor = ThemeColor.mainOrange
         navigationItem.title = "가게 정보"
-        appearance.titleTextAttributes = [NSAttributedString.Key.foregroundColor: ThemeColor.mainBlack]
+        appearance.titleTextAttributes = [.foregroundColor: ThemeColor.mainBlack]
+        navigationController?.navigationBar.standardAppearance = appearance
+        navigationController?.navigationBar.scrollEdgeAppearance = appearance
     }
     
     private func setupViews() {
