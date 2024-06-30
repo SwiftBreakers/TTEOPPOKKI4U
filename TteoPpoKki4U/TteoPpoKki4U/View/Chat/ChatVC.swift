@@ -30,6 +30,8 @@ class ChatVC: MessagesViewController {
     private var customUser: CustomUser?
     let channel: Channel
     var messages = [Message]()
+    var messagesByDate: [Date: [Message]] = [:]
+    var sortedDates: [Date] = []
     private var profileImageUrls = [String: String]()
     private var imageCache = [String: UIImage]()
     private var currentDisplayName: String = "Unknown"
@@ -127,6 +129,18 @@ class ChatVC: MessagesViewController {
         super.viewWillDisappear(animated)
         tabBarController?.tabBar.isHidden = false
         navigationController?.setToolbarHidden(true, animated: false)
+    }
+    func groupMessagesByDate() {
+        let calendar = Calendar.current
+        messagesByDate = Dictionary(grouping: messages) { message in
+            let date = calendar.startOfDay(for: message.sentDate)
+            return date
+        }
+        for (date, msgs) in messagesByDate {
+            messagesByDate[date] = msgs.sorted { $0.sentDate < $1.sentDate }
+        }
+        // 날짜 배열을 정렬된 순서로 유지
+        sortedDates = messagesByDate.keys.sorted(by: <)
     }
     override func collectionView(_ collectionView: UICollectionView, canPerformAction action: Selector, forItemAt indexPath: IndexPath, withSender sender: Any?) -> Bool {
         if action == #selector(MessageCollectionViewCell.block(_:)) {
@@ -258,7 +272,9 @@ class ChatVC: MessagesViewController {
         guard let layout = messagesCollectionView.collectionViewLayout as? MessagesCollectionViewFlowLayout else { return }
         layout.textMessageSizeCalculator.outgoingAvatarSize = .zero
         layout.setMessageOutgoingAvatarSize(.zero)
-        let outgoingLabelAlignment = LabelAlignment(textAlignment: .right, textInsets: UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 15))
+        layout.minimumInteritemSpacing = 0
+        layout.minimumLineSpacing = 0
+        let outgoingLabelAlignment = LabelAlignment(textAlignment: .right, textInsets: UIEdgeInsets(top: -10, left: 0, bottom: -5, right: 15))
         layout.setMessageOutgoingMessageTopLabelAlignment(outgoingLabelAlignment)
     }
     
@@ -270,8 +286,8 @@ class ChatVC: MessagesViewController {
     
     private func insertNewMessage(_ message: Message) {
         messages.append(message)
-        messages.sort()
         
+        groupMessagesByDate()
         messagesCollectionView.reloadData()
     }
     
@@ -419,30 +435,72 @@ extension ChatVC: MessagesDataSource {
     }
     
     func numberOfSections(in messagesCollectionView: MessagesCollectionView) -> Int {
-        return messages.count
+        return sortedDates.count
     }
     
     func messageForItem(at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> MessageType {
-        return messages[indexPath.section]
+        let date = sortedDates[indexPath.section]
+        return messagesByDate[date]![indexPath.item]
     }
-    
+    func numberOfItems(inSection section: Int, in messagesCollectionView: MessagesCollectionView) -> Int {
+        let date = sortedDates[section]
+        return messagesByDate[date]!.count
+    }
     func messageTopLabelAttributedText(for message: MessageType, at indexPath: IndexPath) -> NSAttributedString? {
         let name = message.sender.displayName
         return NSAttributedString(string: name, attributes: [.font: UIFont.preferredFont(forTextStyle: .caption1),
                                                              .foregroundColor: UIColor(white: 0.3, alpha: 1)])
     }
+    
+    func cellTopLabelAttributedText(for message: MessageType, at indexPath: IndexPath) -> NSAttributedString? {
+        // 섹션의 첫 번째 아이템일 경우에만 날짜를 표시
+        if indexPath.item == 0 {
+            let date = sortedDates[indexPath.section]
+            let dateString = formatDate(date)
+            
+            let attributes: [NSAttributedString.Key: Any] = [
+                .font: UIFont.boldSystemFont(ofSize: 10),
+                .foregroundColor: UIColor.darkGray
+            ]
+            
+            return NSAttributedString(string: dateString, attributes: attributes)
+        } else {
+            // 섹션의 첫 번째 메시지가 아닌 경우 빈 헤더 반환
+            return nil
+        }
+    }
+    func cellTopLabelHeight(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> CGFloat {
+        return 10
+    }
+    
+    func messageTimestampLabelAttributedText(for message: MessageType, at indexPath: IndexPath) -> NSAttributedString? {
+        let messageDate = message.sentDate
+        let formatter = DateFormatter()
+        formatter.dateFormat = "HH:mm"
+        let dateString = formatter.string(from: messageDate)
+        return
+        NSAttributedString(string: dateString, attributes: [.font: UIFont.systemFont(ofSize: 12)])
+    }
+    
+    
 }
-
 extension ChatVC: MessagesLayoutDelegate {
     // 아래 여백
     func footerViewSize(for section: Int, in messagesCollectionView: MessagesCollectionView) -> CGSize {
-        return CGSize(width: 0, height: 8)
+        return CGSize(width: 0, height: 0)
     }
     
     // 말풍선 위 이름 나오는 곳의 height
     func messageTopLabelHeight(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> CGFloat {
         return 20
     }
+    func messageBottomLabelHeight(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> CGFloat {
+        return 20
+    }
+    func headerViewSize(for section: Int, in messagesCollectionView: MessagesCollectionView) -> CGSize {
+        return CGSize(width: messagesCollectionView.bounds.width, height: 10)
+    }
+    
 }
 
 // 상대방이 보낸 메시지, 내가 보낸 메시지를 구분하여 색상과 모양 지정
@@ -461,7 +519,11 @@ extension ChatVC: MessagesDisplayDelegate {
         let cornerDirection: MessageStyle.TailCorner = isFromCurrentSender(message: message) ? .bottomRight : .bottomLeft
         return .bubbleTail(cornerDirection, .curved)
     }
-    
+    func formatDate(_ date: Date) -> String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy년 MM월 dd일"
+        return formatter.string(from: date)
+    }
     func avatarFor(message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> MessageKit.Avatar {
         let sender = message.sender
         let initials = String(sender.displayName.prefix(2))
@@ -518,7 +580,9 @@ extension ChatVC: MessagesDisplayDelegate {
             avatarView.set(avatar: MessageKit.Avatar(initials: initials))
         }
     }
-    
+    func messageBottomLabelAttributedText(for message: MessageType, at indexPath: IndexPath) -> NSAttributedString? {
+        return messageTimestampLabelAttributedText(for: message, at: indexPath)
+    }
     
 }
 
@@ -579,7 +643,7 @@ extension ChatVC: UIImagePickerControllerDelegate, UINavigationControllerDelegat
             }
         }
     }
-
+    
     private func showImageConfirmationAlert(_ image: UIImage, picker: UIImagePickerController) {
         let alert = UIAlertController(title: "이미지 업로드", message: "이 이미지를 업로드하시겠습니까?", preferredStyle: .alert)
         
@@ -601,7 +665,7 @@ extension ChatVC: UIImagePickerControllerDelegate, UINavigationControllerDelegat
         isSendingPhoto = true
         
         ProgressHUD.animate()
-
+        
         _ = FirebaseStorageManager.uploadImage(image: image, channel: channel, progress: { progress in
             // 업로드 진행 상황을 처리할 수 있습니다. 예: progress bar 업데이트
             print("Upload progress: \(progress * 100)%")
@@ -698,14 +762,4 @@ extension MessageCollectionViewCell {
         }
     }
 }
-class EmptyCell: UICollectionViewCell {
-    // 필요한 경우 셀의 초기화나 구성을 추가합니다
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        // 셀 초기화 설정
-    }
-    
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-}
+

@@ -178,10 +178,6 @@ class VerifyViewController: UIViewController {
             make.bottom.equalToSuperview().offset(-80)
         }
     }
-    
-    
-    
-    
     @objc private func moveToPrivacyButtonTapped(_ sender: UIButton) {
         let privacyVC = PrivacyPolicyViewController()
         present(privacyVC, animated: true)
@@ -202,7 +198,6 @@ class VerifyViewController: UIViewController {
             break
         }
     }
-    
     @objc func closedTapped() {
         let signManager = SignManager()
         signViewModel = SignViewModel(signManager: signManager)
