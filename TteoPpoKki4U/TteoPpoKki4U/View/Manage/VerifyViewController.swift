@@ -66,19 +66,31 @@ class VerifyViewController: UIViewController {
     
     lazy var privacyButton: UIButton = {
         let button = UIButton()
-        button.setTitle("보기", for: .normal)
-        button.setTitleColor(ThemeColor.mainBlack, for: .normal)
-        button.titleLabel?.font = ThemeFont.fontRegular(size: 16)
+        let attributedString = NSAttributedString(
+            string: "보기",
+            attributes: [
+                .foregroundColor: ThemeColor.mainBlack,
+                .font: ThemeFont.fontRegular(size: 16),
+                .underlineStyle: NSUnderlineStyle.single.rawValue
+            ]
+        )
+        button.setAttributedTitle(attributedString, for: .normal)
         button.backgroundColor = .white
         button.addTarget(self, action: #selector(moveToPrivacyButtonTapped(_:)), for: .touchUpInside)
         return button
     }()
-    
+
     lazy var communityButton: UIButton = {
         let button = UIButton()
-        button.setTitle("보기", for: .normal)
-        button.setTitleColor(ThemeColor.mainBlack, for: .normal)
-        button.titleLabel?.font = ThemeFont.fontRegular(size: 16)
+        let attributedString = NSAttributedString(
+            string: "보기",
+            attributes: [
+                .foregroundColor: ThemeColor.mainBlack,
+                .font: ThemeFont.fontRegular(size: 16),
+                .underlineStyle: NSUnderlineStyle.single.rawValue
+            ]
+        )
+        button.setAttributedTitle(attributedString, for: .normal)
         button.backgroundColor = .white
         button.addTarget(self, action: #selector(moveToCommunityButtonTapped(_:)), for: .touchUpInside)
         return button
@@ -178,6 +190,10 @@ class VerifyViewController: UIViewController {
             make.bottom.equalToSuperview().offset(-80)
         }
     }
+    
+    
+    
+    
     @objc private func moveToPrivacyButtonTapped(_ sender: UIButton) {
         let privacyVC = PrivacyPolicyViewController()
         present(privacyVC, animated: true)
@@ -198,6 +214,7 @@ class VerifyViewController: UIViewController {
             break
         }
     }
+    
     @objc func closedTapped() {
         let signManager = SignManager()
         signViewModel = SignViewModel(signManager: signManager)

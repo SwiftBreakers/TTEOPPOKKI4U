@@ -30,7 +30,6 @@ class MyScrapViewController: UIViewController {
         return image
     }()
     
-    let mapViewModel = MapViewModel()
     let scrapViewModel = ScrapViewModel()
     let bookmarkViewModel = BookmarkViewModel()
     let cardViewModel = CardViewModel()
@@ -233,33 +232,9 @@ extension MyScrapViewController: UICollectionViewDelegate, UICollectionViewDataS
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if segmentedControl.selectedSegmentIndex == 0 {
-            let scrapItem = scrapViewModel.scrapArray[indexPath.row]
-            
-            let storeVC = StoreViewController()
-            storeVC.addressText = scrapItem.shopAddress
-            storeVC.shopTitleText = scrapItem.shopName
-            self.navigationController?.pushViewController(storeVC, animated: true)
             
         } else {
-            let bookmarkItem = bookmarkViewModel.bookmarkArray[indexPath.item]
             
-            Task {
-                await cardViewModel.fetchData()
-                let cards = cardViewModel.cards
-
-                var index = 0
-                for card in cards {
-                    if card.title == bookmarkItem.title {
-                        break
-                    } else {
-                        index += 1
-                    }
-                }
-                
-                let detailVC = DetailViewController()
-                detailVC.card = cardViewModel.card(at: index)
-                self.navigationController?.pushViewController(detailVC, animated: true)
-            }
         }
     }
 }

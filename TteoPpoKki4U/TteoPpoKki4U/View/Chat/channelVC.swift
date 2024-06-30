@@ -40,6 +40,7 @@ class ChannelVC: BaseViewController {
     private var currentChannelAlertController: UIAlertController?
     private var currentAddress = ""
     private var isLocation = false
+    private var isAdmin = false
     private var cancellables = Set<AnyCancellable>()
     
     var viewModel: ManageViewModel?
@@ -89,12 +90,13 @@ class ChannelVC: BaseViewController {
         navigationController?.navigationBar.titleTextAttributes = [
             NSAttributedString.Key.foregroundColor: ThemeColor.mainOrange
         ]
+        if Auth.auth().currentUser == nil {
+            currentUser = nil
+            customUser = CustomUser(guestUID: "guest")
+        }
         checkNickname()
-        //        checkUserLocation { in
-        //
-        //        }
-        //        updateVisibleCells()
     }
+    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         updateVisibleCells() // Move this call here
@@ -133,6 +135,8 @@ class ChannelVC: BaseViewController {
                 if currentName == ""  {
                     showNameAlert(uid: user.uid)
                     isValidate = false
+                } else if currentName == "관리자" {
+                    isAdmin = true
                 } else {
                     isValidate = true
                 }
@@ -436,18 +440,21 @@ extension ChannelVC: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
         let channel = channels[indexPath.row]
         var viewController: ChatVC? // viewController를 옵셔널로 선언
         
-        if currentAddress != channel.name {
-            isLocation = false
-        } else {
+        if isAdmin {
             isLocation = true
+        } else {
+            if currentAddress != channel.name {
+                isLocation = false
+            } else {
+                isLocation = true
+            }
         }
         
         if let user = currentUser {
-            if isValidate {
+            if isValidate || isAdmin {
                 viewController = ChatVC(user: user, channel: channel)
                 viewController?.isLocation = isLocation
             } else {
@@ -457,6 +464,7 @@ extension ChannelVC: UITableViewDataSource, UITableViewDelegate {
             }
         } else if let customUser = customUser {
             viewController = ChatVC(customUser: customUser, channel: channel)
+            viewController?.isLocation = isLocation
         } else {
             fatalError("No valid user found.")
         }

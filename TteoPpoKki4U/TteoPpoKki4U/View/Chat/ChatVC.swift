@@ -29,9 +29,14 @@ class ChatVC: MessagesViewController {
     private var user: User?
     private var customUser: CustomUser?
     let channel: Channel
-    var messages = [Message]()
-    var messagesByDate: [Date: [Message]] = [:]
-    var sortedDates: [Date] = []
+    private var messages = [Message]() {
+        didSet {
+            DispatchQueue.main.async {
+                self.messagesCollectionView.reloadData()
+                self.messagesCollectionView.scrollToLastItem(animated: false)
+            }
+        }
+    }
     private var profileImageUrls = [String: String]()
     private var imageCache = [String: UIImage]()
     private var currentDisplayName: String = "Unknown"
@@ -47,6 +52,7 @@ class ChatVC: MessagesViewController {
     }
     var userData: ReportUserData?
     var isLocation: Bool?
+    let viewModel = ChatReportViewModel()
     
     init(user: User, channel: Channel) {
         self.user = user
@@ -89,7 +95,7 @@ class ChatVC: MessagesViewController {
             }
             self?.messagesCollectionView.reloadData()
             DispatchQueue.main.async {
-                self?.messagesCollectionView.scrollToLastItem()
+                self?.messagesCollectionView.scrollToLastItem(animated: false)
             }
         }
         
@@ -101,11 +107,12 @@ class ChatVC: MessagesViewController {
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTap))
         messagesCollectionView.addGestureRecognizer(tapGesture)
         
-        // 커스텀 메뉴 항목 추가
-        //        let blockMenuItem = UIMenuItem(title: "차단", action: #selector(MessageCollectionViewCell.block(_:)))
-        let reportMenuItem = UIMenuItem(title: "신고", action: #selector(MessageCollectionViewCell.report(_:)))
-        UIMenuController.shared.menuItems = [/*blockMenuItem, */reportMenuItem]
         
+        let blockMenuItem = UIMenuItem(title: "차단", action: #selector(MessageCollectionViewCell.block(_:)))
+        let reportMenuItem = UIMenuItem(title: "신고", action: #selector(MessageCollectionViewCell.report(_:)))
+        UIMenuController.shared.menuItems = [blockMenuItem, reportMenuItem]
+        
+       
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -125,25 +132,17 @@ class ChatVC: MessagesViewController {
         navigationController?.setToolbarHidden(true, animated: false)
     }
     
+    
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         tabBarController?.tabBar.isHidden = false
         navigationController?.setToolbarHidden(true, animated: false)
     }
-    func groupMessagesByDate() {
-        let calendar = Calendar.current
-        messagesByDate = Dictionary(grouping: messages) { message in
-            let date = calendar.startOfDay(for: message.sentDate)
-            return date
-        }
-        for (date, msgs) in messagesByDate {
-            messagesByDate[date] = msgs.sorted { $0.sentDate < $1.sentDate }
-        }
-        // 날짜 배열을 정렬된 순서로 유지
-        sortedDates = messagesByDate.keys.sorted(by: <)
-    }
     override func collectionView(_ collectionView: UICollectionView, canPerformAction action: Selector, forItemAt indexPath: IndexPath, withSender sender: Any?) -> Bool {
         if action == #selector(MessageCollectionViewCell.block(_:)) {
+            showMessageWithCancel(title: "안내", message: "해당 메세지를 보낸 유져를 차단하시겠습니까?") { [weak self] in
+                print("ok")
+            }
             return true
         } else {
             return super.collectionView(collectionView, canPerformAction: action, forItemAt: indexPath, withSender: sender)
@@ -157,21 +156,51 @@ class ChatVC: MessagesViewController {
                 // 1. 선택한 메시지 가져오기
                 let selectedMessage = messages[indexPath.section]
                 
-                // 2. ReportUserData 생성
-                let reportData = ReportUserData(title: "제목", // 원하는 신고 제목 설정
-                                                uid: self.user?.uid ?? "", // 사용자 ID
-                                                senderId: selectedMessage.sender.senderId, // 보낸 사람 ID
-                                                content: selectedMessage.content, // 메시지 내용
-                                                sentDate: selectedMessage.sentDate, // 메시지 전송 날짜
-                                                reportCount: 0, // 초기 신고 수
-                                                isActive: true, // 활성 상태
-                                                channel: channel.name) // 채널 확인
+                var reportContent = selectedMessage.content
+                var reportURL: String? = nil
                 
-                // 3. ChatReportViewController로 전달
+                switch selectedMessage.kind {
+                case .photo(_):
+                    reportContent = "이미지 신고"
+                    reportURL = selectedMessage.downloadURL?.absoluteString
+                case .text(let text):
+                    reportContent = text
+                    reportURL = nil
+                default:
+                    reportContent = "알 수 없는 종류의 메시지"
+                    reportURL = nil
+                }
+                
+                let reportData = ReportUserData(
+                    title: "신고", // 원하는 신고 제목 설정
+                    uid: self.user?.uid ?? "", // 사용자 ID
+                    senderId: selectedMessage.sender.senderId, // 보낸 사람 ID
+                    content: reportContent, // 메시지 내용
+                    sentDate: selectedMessage.sentDate, // 메시지 전송 날짜
+                    reportCount: 0, // 초기 신고 수
+                    isActive: true, // 활성 상태
+                    channel: channel.name,
+                    url: reportURL ?? "" // 이미지 URL 또는 nil
+                )
+                
                 let reportVC = ChatReportViewController(userData: reportData)
                 self.present(reportVC, animated: true)
             } else {
                 super.collectionView(collectionView, performAction: action, forItemAt: indexPath, withSender: sender)
+            }
+        } else if action == #selector(MessageCollectionViewCell.block(_:)) {
+            showMessageWithCancel(title: "안내", message: "해당 메세지를 보낸 유저를 차단하시겠습니까?\n차단 유저는 마이페이지의 설정에서\n해제가 가능합니다.") { [weak self] in
+                if let myUid = Auth.auth().currentUser?.uid {
+                    let selectedMessage = self?.messages[indexPath.section]
+                    let senderName = selectedMessage!.sender.displayName
+                    if myUid == senderName {
+                        self?.showMessage(title: "에러", message: "자기 자신은 신고할 수 없습니다.")
+                    } else {
+                        self?.viewModel.addBlockUser(myUid: myUid, senderName: senderName)
+                    }
+                } else {
+                    self?.showMessage(title: "안내", message: "게스트는 신고할 수 없습니다.")
+                }
             }
         }
     }
@@ -272,9 +301,7 @@ class ChatVC: MessagesViewController {
         guard let layout = messagesCollectionView.collectionViewLayout as? MessagesCollectionViewFlowLayout else { return }
         layout.textMessageSizeCalculator.outgoingAvatarSize = .zero
         layout.setMessageOutgoingAvatarSize(.zero)
-        layout.minimumInteritemSpacing = 0
-        layout.minimumLineSpacing = 0
-        let outgoingLabelAlignment = LabelAlignment(textAlignment: .right, textInsets: UIEdgeInsets(top: -10, left: 0, bottom: -5, right: 15))
+        let outgoingLabelAlignment = LabelAlignment(textAlignment: .right, textInsets: UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 15))
         layout.setMessageOutgoingMessageTopLabelAlignment(outgoingLabelAlignment)
     }
     
@@ -285,11 +312,21 @@ class ChatVC: MessagesViewController {
     }
     
     private func insertNewMessage(_ message: Message) {
-        messages.append(message)
-        
-        groupMessagesByDate()
-        messagesCollectionView.reloadData()
+        if let index = messages.firstIndex(where: { $0.id == message.id }) {
+            messages[index] = message
+        } else {
+            messages.append(message)
+        }
+        messages.sort()
+        DispatchQueue.main.async {
+            self.messagesCollectionView.reloadData()
+        }
     }
+    
+    private func updateMessages(_ newMessages: [Message]) {
+        self.messages = newMessages
+    }
+    
     
     private func listenToMessages() {
         guard let id = channel.id else {
@@ -297,9 +334,12 @@ class ChatVC: MessagesViewController {
             return
         }
         
-        chatFirestoreStream.subscribe(id: id) { [weak self] result in
+        let myUid = user?.uid  // 현재 사용자가 있는 경우에만 uid를 전달
+        
+        chatFirestoreStream.subscribe(id: id, myUid: myUid) { [weak self] result in
             switch result {
             case .success(let messages):
+                self?.messages = messages
                 self?.loadImageAndUpdateCells(messages)
                 self?.preloadProfileImages(for: messages)
             case .failure(let error):
@@ -323,33 +363,32 @@ class ChatVC: MessagesViewController {
     }
     
     
+    
     private func loadImageAndUpdateCells(_ messages: [Message]) {
         let dispatchGroup = DispatchGroup()
         
-        messages.forEach { message in
-            var message = message
+        var messagesWithImages = messages.filter { $0.downloadURL != nil }
+        
+        messagesWithImages.forEach { message in
             if let url = message.downloadURL {
                 dispatchGroup.enter()
-                FirebaseStorageManager.downloadImage(url: url) { [weak self] result in
-                    defer { dispatchGroup.leave() }
-                    guard let self = self else { return }
-                    
+                FirebaseStorageManager.downloadImage(url: url) { result in
                     switch result {
                     case .success(let image):
-                        message.image = image
-                        self.insertNewMessage(message)
+                        if let index = self.messages.firstIndex(where: { $0.id == message.id }) {
+                            self.messages[index].image = image
+                        }
                     case .failure(let error):
                         print("Failed to download image: \(error)")
-                        self.insertNewMessage(message)
                     }
+                    dispatchGroup.leave()
                 }
-            } else {
-                self.insertNewMessage(message)
             }
         }
         
-        dispatchGroup.notify(queue: .main) { [weak self] in
-            self?.messagesCollectionView.scrollToLastItem(animated: true)
+        dispatchGroup.notify(queue: .main) {
+            self.messagesCollectionView.reloadData()
+            self.messagesCollectionView.scrollToLastItem(animated: false)
         }
     }
     
@@ -435,72 +474,30 @@ extension ChatVC: MessagesDataSource {
     }
     
     func numberOfSections(in messagesCollectionView: MessagesCollectionView) -> Int {
-        return sortedDates.count
+        return messages.count
     }
     
     func messageForItem(at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> MessageType {
-        let date = sortedDates[indexPath.section]
-        return messagesByDate[date]![indexPath.item]
+        return messages[indexPath.section]
     }
-    func numberOfItems(inSection section: Int, in messagesCollectionView: MessagesCollectionView) -> Int {
-        let date = sortedDates[section]
-        return messagesByDate[date]!.count
-    }
+    
     func messageTopLabelAttributedText(for message: MessageType, at indexPath: IndexPath) -> NSAttributedString? {
         let name = message.sender.displayName
         return NSAttributedString(string: name, attributes: [.font: UIFont.preferredFont(forTextStyle: .caption1),
                                                              .foregroundColor: UIColor(white: 0.3, alpha: 1)])
     }
-    
-    func cellTopLabelAttributedText(for message: MessageType, at indexPath: IndexPath) -> NSAttributedString? {
-        // 섹션의 첫 번째 아이템일 경우에만 날짜를 표시
-        if indexPath.item == 0 {
-            let date = sortedDates[indexPath.section]
-            let dateString = formatDate(date)
-            
-            let attributes: [NSAttributedString.Key: Any] = [
-                .font: UIFont.boldSystemFont(ofSize: 10),
-                .foregroundColor: UIColor.darkGray
-            ]
-            
-            return NSAttributedString(string: dateString, attributes: attributes)
-        } else {
-            // 섹션의 첫 번째 메시지가 아닌 경우 빈 헤더 반환
-            return nil
-        }
-    }
-    func cellTopLabelHeight(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> CGFloat {
-        return 10
-    }
-    
-    func messageTimestampLabelAttributedText(for message: MessageType, at indexPath: IndexPath) -> NSAttributedString? {
-        let messageDate = message.sentDate
-        let formatter = DateFormatter()
-        formatter.dateFormat = "HH:mm"
-        let dateString = formatter.string(from: messageDate)
-        return
-        NSAttributedString(string: dateString, attributes: [.font: UIFont.systemFont(ofSize: 12)])
-    }
-    
-    
 }
+
 extension ChatVC: MessagesLayoutDelegate {
     // 아래 여백
     func footerViewSize(for section: Int, in messagesCollectionView: MessagesCollectionView) -> CGSize {
-        return CGSize(width: 0, height: 0)
+        return CGSize(width: 0, height: 8)
     }
     
     // 말풍선 위 이름 나오는 곳의 height
     func messageTopLabelHeight(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> CGFloat {
         return 20
     }
-    func messageBottomLabelHeight(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> CGFloat {
-        return 20
-    }
-    func headerViewSize(for section: Int, in messagesCollectionView: MessagesCollectionView) -> CGSize {
-        return CGSize(width: messagesCollectionView.bounds.width, height: 10)
-    }
-    
 }
 
 // 상대방이 보낸 메시지, 내가 보낸 메시지를 구분하여 색상과 모양 지정
@@ -519,11 +516,7 @@ extension ChatVC: MessagesDisplayDelegate {
         let cornerDirection: MessageStyle.TailCorner = isFromCurrentSender(message: message) ? .bottomRight : .bottomLeft
         return .bubbleTail(cornerDirection, .curved)
     }
-    func formatDate(_ date: Date) -> String {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "yyyy년 MM월 dd일"
-        return formatter.string(from: date)
-    }
+    
     func avatarFor(message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> MessageKit.Avatar {
         let sender = message.sender
         let initials = String(sender.displayName.prefix(2))
@@ -580,9 +573,7 @@ extension ChatVC: MessagesDisplayDelegate {
             avatarView.set(avatar: MessageKit.Avatar(initials: initials))
         }
     }
-    func messageBottomLabelAttributedText(for message: MessageType, at indexPath: IndexPath) -> NSAttributedString? {
-        return messageTimestampLabelAttributedText(for: message, at: indexPath)
-    }
+    
     
 }
 
@@ -761,5 +752,16 @@ extension MessageCollectionViewCell {
             }
         }
     }
+    
 }
-
+class EmptyCell: UICollectionViewCell {
+    // 필요한 경우 셀의 초기화나 구성을 추가합니다
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        // 셀 초기화 설정
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+}

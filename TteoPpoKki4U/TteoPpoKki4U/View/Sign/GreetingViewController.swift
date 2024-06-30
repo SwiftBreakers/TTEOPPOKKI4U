@@ -65,9 +65,16 @@ final class GreetingViewController: UIViewController {
         view.backgroundColor = .white
         setupLayout()
         
-        bind()
+        
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        bind()
+        
+       
+    }
     
     private func validateUserData(completion: @escaping(Bool) -> Void) {
         guard let uid = Auth.auth().currentUser?.uid else { return }

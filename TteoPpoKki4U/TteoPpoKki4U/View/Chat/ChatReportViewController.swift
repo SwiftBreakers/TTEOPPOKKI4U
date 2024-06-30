@@ -99,6 +99,7 @@ class ChatReportViewController: UIViewController {
         view.backgroundColor = .white
         
         setupLayout()
+        print(userData)
     }
     
     private func setupLayout() {
@@ -234,6 +235,11 @@ class ChatReportViewController: UIViewController {
             return
         }
         
+        if isEtc == false && !textView.text.isEmpty {
+            showMessage(title: "오류", message: "기타 사유를 선택한 경우에만 내용을 신고할 수 있습니다.")
+            return
+        }
+        
         if uid == userData.senderId {
             showMessage(title: "오류", message: "본인의 채팅은 신고할 수 없습니다.")
         } else {
@@ -254,6 +260,11 @@ class ChatReportViewController: UIViewController {
                     "reportCount": userData.reportCount
                 ]
                 await viewModel.addReportAndIncreaseCount(content: userData.content, channel: userData.channel, senderId: userData.senderId, reportData: reportData)
+                if userData.url != "" {
+                    await viewModel.fetchFilteredImages(forChannelName: userData.channel, senderId: userData.senderId, url: userData.url, isSexual: isSexual)
+                } else {
+                    await viewModel.fetchFilteredMessages(forChannelName: userData.channel, senderId: userData.senderId, content: userData.content, isSexual: isSexual)
+                }
                 showMessage(title: "신고가 완료되었습니다", message: "신고 내용은 관리자 검토 후 반영됩니다.") { [weak self] in
                     self?.dismiss(animated: true)
                 }

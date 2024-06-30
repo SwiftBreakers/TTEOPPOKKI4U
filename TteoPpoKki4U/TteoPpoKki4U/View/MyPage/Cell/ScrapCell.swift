@@ -25,7 +25,6 @@ class ScrapCell: UICollectionViewCell {
         return label
     }()
     private var deleteButton: UIButton!
-
     
     override init(frame: CGRect) {
         super.init(frame: frame)

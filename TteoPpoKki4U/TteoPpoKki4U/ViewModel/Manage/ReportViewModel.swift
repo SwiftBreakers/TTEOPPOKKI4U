@@ -15,7 +15,7 @@ class ReportViewModel {
     
     var managePublisher = PassthroughSubject<Void, Error>()
     
-    func addReportCount(uid: String, storeAddress: String, title: String) async throws {
+    func addReportCount(uid: String, storeAddress: String, title: String, isSexual: Bool) async throws {
         let querySnapshot = try await manageManager.getSpecificReview(uid: uid, storeAddress: storeAddress, title: title)
         
         if let documents = querySnapshot?.documents {
@@ -23,8 +23,13 @@ class ReportViewModel {
                 let id = doc.documentID
                 let data = doc.data()
                 guard let reportCount = data[db_reportCount] as? Int else { return }
-                let count = [db_reportCount: reportCount + 1]
-                try await reviewCollection.document(id).setData(count, merge: true)
+                var dict = [String: Any]()
+                if reportCount >= 2 || isSexual {
+                    dict = [db_reportCount: reportCount + 1, db_isActive: false]
+                } else {
+                    dict = [db_reportCount: reportCount + 1]
+                }
+                try await reviewCollection.document(id).setData(dict, merge: true)
                 managePublisher.send(())
             }
         }
@@ -35,12 +40,15 @@ class ReportViewModel {
         managePublisher.send(())
     }
     
-    func addReportAndIncreaseCount(uid: String, storeAddress: String, title: String, reportData: [String: Any]) async {
+    func addReportAndIncreaseCount(uid: String, storeAddress: String, title: String, isSexual: Bool,  reportData: [String: Any]) async {
         do {
-            try await addReportCount(uid: uid, storeAddress: storeAddress, title: title)
+            try await addReportCount(uid: uid, storeAddress: storeAddress, title: title, isSexual: isSexual)
             try await addReport(reportData: reportData)
+            
         } catch {
             managePublisher.send(completion: .failure(error))
         }
     }
+    
+   
 }
