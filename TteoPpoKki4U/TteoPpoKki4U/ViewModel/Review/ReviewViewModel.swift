@@ -206,11 +206,13 @@ class ReviewViewModel {
                 let profileImageUrl = dictionary[db_profileImageUrl] as? String ?? ""
                 let isBlockInt = dictionary[db_isBlock] as? Int ?? 0
                 let isBlock = isBlockInt != 0
+                let isAgreeInt = dictionary[db_isAgree] as? Int ?? 0
+                let isAgree = isAgreeInt != 0
                 
-                let model = UserModel(uid: uid, email: email, isBlock: isBlock, nickName: nickName, profileImageUrl: profileImageUrl)
+                let model = UserModel(uid: uid, email: email, isBlock: isBlock, nickName: nickName, profileImageUrl: profileImageUrl, isAgree: isAgree)
                 completion(model)
             } else {
-                let model = UserModel(uid: "", email: "", isBlock: false, nickName: "익명의 떡볶커", profileImageUrl: "")
+                let model = UserModel(uid: "", email: "", isBlock: false, nickName: "익명의 떡볶커", profileImageUrl: "", isAgree: false)
                 completion(model)
             }
         }

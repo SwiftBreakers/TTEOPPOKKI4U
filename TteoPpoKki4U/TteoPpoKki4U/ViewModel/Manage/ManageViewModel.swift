@@ -35,8 +35,10 @@ class ManageViewModel {
                 let profileImageUrl = userDict[db_profileImageUrl] as? String ?? ""
                 let isBlockInt = userDict[db_isBlock] as? Int ?? 0
                 let isBlock = isBlockInt != 0
+                let isAgreeInt = userDict[db_isAgree] as? Int ?? 0
+                let isAgree = isAgreeInt != 0
                 
-                let model = UserModel(uid: uid, email: email, isBlock: isBlock, nickName: nickName, profileImageUrl: profileImageUrl)
+                let model = UserModel(uid: uid, email: email, isBlock: isBlock, nickName: nickName, profileImageUrl: profileImageUrl, isAgree: isAgree)
                 self?.userArray.append(model)
             }
             self?.managePublisher.send(())
@@ -57,8 +59,10 @@ class ManageViewModel {
                 let profileImageUrl = userDict[db_profileImageUrl] as? String ?? ""
                 let isBlockInt = userDict[db_isBlock] as? Int ?? 0
                 let isBlock = isBlockInt != 0
+                let isAgreeInt = userDict[db_isAgree] as? Int ?? 0
+                let isAgree = isAgreeInt != 0
                 
-                let model = UserModel(uid: uid, email: email, isBlock: isBlock, nickName: nickName, profileImageUrl: profileImageUrl)
+                let model = UserModel(uid: uid, email: email, isBlock: isBlock, nickName: nickName, profileImageUrl: profileImageUrl, isAgree: isAgree)
                 self?.userArray.append(model)
             }
             self?.managePublisher.send(())

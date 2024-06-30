@@ -29,7 +29,7 @@ public class RecommendViewController: UIViewController {
     let titleLabel = UILabel()
     
     let subTitleLabel = UILabel()
-    //여기까지
+//    //여기까지
     
     public override func viewDidLoad() {
         super.viewDidLoad()
@@ -115,10 +115,7 @@ extension RecommendViewController: VerticalCardSwiperDatasource, VerticalCardSwi
 }
 
 extension RecommendViewController {
-    
-   
-   
-    
+
     public override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
@@ -277,4 +274,3 @@ extension RecommendViewController {
         return true
     }
 }
-

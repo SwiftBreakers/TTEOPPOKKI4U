@@ -36,6 +36,21 @@ class BookmarkCell: UICollectionViewCell {
         imageView.layer.cornerRadius = 15
         imageView.layer.borderWidth = 0.1
         imageView.layer.borderColor = UIColor.gray.cgColor
+        
+        // 그라데이션 설정
+        let gradientLayer = CAGradientLayer()
+        gradientLayer.frame = self.bounds
+        
+        let colors: [CGColor] = [
+            .init(red: 0, green: 0, blue: 0, alpha: 0.0),
+            .init(red: 0, green: 0, blue: 0, alpha: 0.9)
+        ]
+        gradientLayer.colors = colors
+        
+        gradientLayer.startPoint = CGPoint(x: 0.5, y: 0.0)
+        gradientLayer.endPoint = CGPoint(x: 0.5, y: 1.0)
+        gradientLayer.locations = [0.6, 1.0]
+        imageView.layer.addSublayer(gradientLayer)
         contentView.addSubview(imageView)
 
         // titleLabel 설정

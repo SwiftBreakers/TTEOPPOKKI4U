@@ -135,7 +135,8 @@ class SignManager {
             db_nickName: user.nickName,
             db_email: user.email,
             db_profileImageUrl: user.profileImageUrl,
-            db_isBlock: user.isBlock
+            db_isBlock: user.isBlock,
+            db_isAgree: user.isAgree
         ]
         ref.child("users").child(user.uid).setValue(userData)
     }

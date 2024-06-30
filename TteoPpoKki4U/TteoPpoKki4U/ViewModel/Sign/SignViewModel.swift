@@ -83,7 +83,7 @@ class SignViewModel: NSObject {
                                     self?.loginPublisher.send(.success(()))
                                 }
                             } else {
-                                let model = UserModel(uid: user.uid, email: email!, isBlock: false, nickName: "", profileImageUrl: "https://firebasestorage.googleapis.com/v0/b/tteoppokki4u.appspot.com/o/dummyProfile%2FdefaultImage.png?alt=media&token=b4aab21e-e19a-42b7-9d17-d92a3801a327")
+                                let model = UserModel(uid: user.uid, email: email!, isBlock: false, nickName: "", profileImageUrl: "https://firebasestorage.googleapis.com/v0/b/tteoppokki4u.appspot.com/o/dummyProfile%2FdefaultImage.png?alt=media&token=b4aab21e-e19a-42b7-9d17-d92a3801a327", isAgree: false)
                                 self?.signManager.saveUserData(user: model)
                                 self?.loginPublisher.send(.success(()))
                             }
@@ -293,7 +293,7 @@ extension SignViewModel: ASAuthorizationControllerDelegate, ASAuthorizationContr
                                     self?.loginPublisher.send(.success(()))
                                 }
                             } else {
-                                let model = UserModel(uid: user.uid, email: email, isBlock: false, nickName: "", profileImageUrl: "https://firebasestorage.googleapis.com/v0/b/tteoppokki4u.appspot.com/o/dummyProfile%2FdefaultImage.png?alt=media&token=b4aab21e-e19a-42b7-9d17-d92a3801a327")
+                                let model = UserModel(uid: user.uid, email: email, isBlock: false, nickName: "", profileImageUrl: "https://firebasestorage.googleapis.com/v0/b/tteoppokki4u.appspot.com/o/dummyProfile%2FdefaultImage.png?alt=media&token=b4aab21e-e19a-42b7-9d17-d92a3801a327", isAgree: false)
                                 self?.signManager.saveUserData(user: model)
                                 self?.loginPublisher.send(.success(()))
                             }

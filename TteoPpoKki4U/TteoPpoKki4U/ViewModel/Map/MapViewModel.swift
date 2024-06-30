@@ -153,7 +153,7 @@ final class MapViewModel {
     }
     
     private func createScrapItem(shopName: String, shopAddress: String) {
-        guard let userID = Auth.auth().currentUser?.uid else { 
+        guard let userID = Auth.auth().currentUser?.uid else {
             self.state = .didLoadedWithError(error: .noUID)
             return }
         scrappedCollection.addDocument(

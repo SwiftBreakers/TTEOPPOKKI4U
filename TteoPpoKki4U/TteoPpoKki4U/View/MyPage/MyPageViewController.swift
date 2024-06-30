@@ -13,6 +13,9 @@ import Kingfisher
 
 class MyPageViewController: UIViewController {
     
+    
+    let subTitleLabel = UILabel()
+    
     lazy var myPageView: MyPageView = {
         let view = MyPageView()
         view.editTapped = editTapped
@@ -61,24 +64,13 @@ class MyPageViewController: UIViewController {
         myPageView.collectionView.register(SeparatorView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: SeparatorView.identifier)
         
         bind()
-    }
-    
-    
-    //아래는 이벤트씬뷰컨으로 이동하는 코드. 추천페이지의 이벤트이미지를 눌렀을때
-    func showEventSceneViewController() {
-        
-        let eventPageVC = EventPageViewController()
-        
-        navigationController?.pushViewController(eventPageVC, animated: false) {
-            eventPageVC.showEventSceneViewController()
-        }
-        
-        //        let eventSceneVC = EventSceneViewController()
-        //            navigationController?.pushViewController(eventSceneVC, animated: true)
+   
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        tabBarController?.tabBar.isHidden = false
+        
         getData()
         fetchUser()
     }
@@ -131,6 +123,19 @@ class MyPageViewController: UIViewController {
                     }
                 }
             }.store(in: &cancellables)
+    }
+    
+    //아래는 이벤트씬뷰컨으로 이동하는 코드. 추천페이지의 이벤트이미지를 눌렀을때
+    func showEventSceneViewController() {
+        
+        let eventPageVC = EventPageViewController()
+        
+        navigationController?.pushViewController(eventPageVC, animated: false) {
+            eventPageVC.showEventSceneViewController()
+        }
+        
+        //        let eventSceneVC = EventSceneViewController()
+        //            navigationController?.pushViewController(eventSceneVC, animated: true)
     }
     
 }

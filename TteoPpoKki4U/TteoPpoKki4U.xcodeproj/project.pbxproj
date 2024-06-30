@@ -47,6 +47,8 @@
 		613D86A22C05BFF90039E771 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 613D86A12C05BFF90039E771 /* Assets.xcassets */; };
 		613D86A52C05BFF90039E771 /* Base in Resources */ = {isa = PBXBuildFile; fileRef = 613D86A42C05BFF90039E771 /* Base */; };
 		613D86B82C05C0DC0039E771 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 613D86B72C05C0DC0039E771 /* SnapKit */; };
+		615147EF2C2EC74A004F85CC /* CommunityPolicyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 615147EE2C2EC74A004F85CC /* CommunityPolicyViewController.swift */; };
+		615147F12C2EC7E1004F85CC /* CommunityPolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 615147F02C2EC7E1004F85CC /* CommunityPolicy.swift */; };
 		6173571F2C12AE470007B92A /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = 6173571E2C12AE470007B92A /* FirebaseMessaging */; };
 		617357262C1364940007B92A /* ReviewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 617357252C1364940007B92A /* ReviewModel.swift */; };
 		617357292C137A3F0007B92A /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 617357282C137A3F0007B92A /* Constants.swift */; };
@@ -157,10 +159,10 @@
 		CE771CCF2C243D8E004415CA /* ChannelTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE771CCE2C243D8E004415CA /* ChannelTableViewCell.swift */; };
 		CE771CD12C243E03004415CA /* NSObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE771CD02C243E03004415CA /* NSObject.swift */; };
 		CE866A0D2C2EAA6700D48F44 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = CE866A0C2C2EAA6700D48F44 /* GoogleService-Info.plist */; };
-		CE866A112C2EC4BF00D48F44 /* VerifyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE866A102C2EC4BF00D48F44 /* VerifyViewController.swift */; };
 		CEA3189B2C2A4F82001BAB0B /* ReportChatUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEA3189A2C2A4F82001BAB0B /* ReportChatUser.swift */; };
 		CEA3189D2C2A5CB3001BAB0B /* ChatReportViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEA3189C2C2A5CB3001BAB0B /* ChatReportViewController.swift */; };
 		CEA318A12C2A6406001BAB0B /* ChatReportViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEA318A02C2A6406001BAB0B /* ChatReportViewModel.swift */; };
+		CEF173222C318B99003D7B4A /* VerifyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEF173212C318B99003D7B4A /* VerifyViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -206,6 +208,8 @@
 		613D86A42C05BFF90039E771 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		613D86A62C05BFF90039E771 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6144066C2C291BE2006707A8 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
+		615147EE2C2EC74A004F85CC /* CommunityPolicyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityPolicyViewController.swift; sourceTree = "<group>"; };
+		615147F02C2EC7E1004F85CC /* CommunityPolicy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityPolicy.swift; sourceTree = "<group>"; };
 		617357252C1364940007B92A /* ReviewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewModel.swift; sourceTree = "<group>"; };
 		617357282C137A3F0007B92A /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		6173572B2C137B500007B92A /* ReviewViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewViewModel.swift; sourceTree = "<group>"; };
@@ -303,10 +307,10 @@
 		CE771CCE2C243D8E004415CA /* ChannelTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelTableViewCell.swift; sourceTree = "<group>"; };
 		CE771CD02C243E03004415CA /* NSObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSObject.swift; sourceTree = "<group>"; };
 		CE866A0C2C2EAA6700D48F44 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
-		CE866A102C2EC4BF00D48F44 /* VerifyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerifyViewController.swift; sourceTree = "<group>"; };
 		CEA3189A2C2A4F82001BAB0B /* ReportChatUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportChatUser.swift; sourceTree = "<group>"; };
 		CEA3189C2C2A5CB3001BAB0B /* ChatReportViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatReportViewController.swift; sourceTree = "<group>"; };
 		CEA318A02C2A6406001BAB0B /* ChatReportViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatReportViewModel.swift; sourceTree = "<group>"; };
+		CEF173212C318B99003D7B4A /* VerifyViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VerifyViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -545,6 +549,7 @@
 		613D86B32C05C08C0039E771 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				CEF173212C318B99003D7B4A /* VerifyViewController.swift */,
 				CE771C9E2C240EA0004415CA /* Chat */,
 				611EE6792C20BFD80096D903 /* Map */,
 				617BCCBD2C195C96008D8D48 /* Manage */,
@@ -552,7 +557,6 @@
 				8DB2BE2A2C198ED6003FF2F1 /* Review */,
 				6116442E2C08FEF2009FFDA5 /* Sign */,
 				8DB30F1C2C076A6A00503139 /* MyPage */,
-				CE866A102C2EC4BF00D48F44 /* VerifyViewController.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -662,12 +666,13 @@
 				8D580A522C08C8420057D370 /* MyReviewViewController.swift */,
 				8D3BA8402C15D5F1007597F2 /* SettingViewController.swift */,
 				25CCA3C82C254A46008F81A3 /* PrivacyPolicyViewController.swift */,
+				615147EE2C2EC74A004F85CC /* CommunityPolicyViewController.swift */,
+				615147F02C2EC7E1004F85CC /* CommunityPolicy.swift */,
 				25CCA3CD2C259EC9008F81A3 /* privacyPolicyText.swift */,
 				25CCA3D32C2979D6008F81A3 /* EventPageViewController.swift */,
 				25CCA3D52C2A90D2008F81A3 /* EventPageTableViewCell.swift */,
 				25CCA3D92C2B8BC5008F81A3 /* EventSceneViewController.swift */,
 				25CCA3DD2C2CDA99008F81A3 /* EventSceneCollectionViewCell.swift */,
-				25CCA3D72C2AAB8A008F81A3 /* EventData.swift */,
 			);
 			path = MyPage;
 			sourceTree = "<group>";
@@ -675,6 +680,7 @@
 		8DB30F1F2C076B6F00503139 /* MyPage */ = {
 			isa = PBXGroup;
 			children = (
+				25CCA3D72C2AAB8A008F81A3 /* EventData.swift */,
 				8DB30F202C076B8B00503139 /* MyPageModel.swift */,
 				8DB30F2F2C07771400503139 /* MyPageSection.swift */,
 				8D580A4E2C0893A40057D370 /* ScrapList.swift */,
@@ -932,6 +938,7 @@
 				61107A802C2AFFE800EE9AD2 /* JsonModel.swift in Sources */,
 				CE771CC92C243C08004415CA /* Sender.swift in Sources */,
 				61AB7EF82C1E745200C51ECA /* CustomTextView.swift in Sources */,
+				CEF173222C318B99003D7B4A /* VerifyViewController.swift in Sources */,
 				9C82B94F2C0F2D27008FA84E /* NetworkManager.swift in Sources */,
 				CE771C9B2C22FB41004415CA /* FullscreenViewController.swift in Sources */,
 				25CCA3DE2C2CDA99008F81A3 /* EventSceneCollectionViewCell.swift in Sources */,
@@ -948,7 +955,6 @@
 				8DD5CBB92C107C82004F27BD /* DetailedReviewViewController.swift in Sources */,
 				617357292C137A3F0007B92A /* Constants.swift in Sources */,
 				8D69D7102C2982FE0087296A /* Notice.swift in Sources */,
-				CE866A112C2EC4BF00D48F44 /* VerifyViewController.swift in Sources */,
 				8D580A532C08C8420057D370 /* MyReviewViewController.swift in Sources */,
 				617BCCC62C19699C008D8D48 /* ManageTableViewCell.swift in Sources */,
 				CE3F36352C08469700532901 /* RecommendCardView.swift in Sources */,
@@ -970,6 +976,7 @@
 				25CCA3D02C291B28008F81A3 /* TabbarControllerDelegate.swift in Sources */,
 				617BCCC42C195E4B008D8D48 /* ManageManager.swift in Sources */,
 				9CC6D3222C245678004C85D8 /* UILabel+Extension.swift in Sources */,
+				615147EF2C2EC74A004F85CC /* CommunityPolicyViewController.swift in Sources */,
 				619FE8EC2C1F147F00745A0A /* ReportModel.swift in Sources */,
 				9C82B95B2C0F54D7008FA84E /* Double+Extension.swift in Sources */,
 				CE771CCF2C243D8E004415CA /* ChannelTableViewCell.swift in Sources */,
@@ -977,6 +984,7 @@
 				8D69D70C2C2981C30087296A /* NoticeTableViewController.swift in Sources */,
 				610717A92C2137F600626649 /* AppleTokenResponse.swift in Sources */,
 				8DD5CBB72C107BFD004F27BD /* ReviewTableViewCell.swift in Sources */,
+				615147F12C2EC7E1004F85CC /* CommunityPolicy.swift in Sources */,
 				61DC69072C15CC38003DEB73 /* StoreManager.swift in Sources */,
 				617BCCBA2C1912CD008D8D48 /* GreetingBottomView.swift in Sources */,
 				611644302C08FFFC009FFDA5 /* GreetingHeaderView.swift in Sources */,
