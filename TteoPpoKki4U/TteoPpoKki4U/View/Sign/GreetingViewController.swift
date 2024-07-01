@@ -10,6 +10,10 @@ import SnapKit
 import FirebaseAuth
 import Combine
 
+protocol GreetingViewControllerDelegate: AnyObject {
+    func showVerifyViewController()
+}
+
 final class GreetingViewController: UIViewController {
     
     
@@ -48,6 +52,7 @@ final class GreetingViewController: UIViewController {
     
     var viewModel: SignViewModel!
     var userManager = UserManager()
+    weak var delegate: GreetingViewControllerDelegate?
     
     private var cancellables = Set<AnyCancellable>()
     
@@ -99,12 +104,12 @@ final class GreetingViewController: UIViewController {
             case .success():
                 let scene = UIApplication.shared.connectedScenes.first
                 if let sd: SceneDelegate = (scene?.delegate as? SceneDelegate) {
-                    self?.validateUserData { result in
+                    self?.validateUserData { [weak sd] result in
                         switch result {
                         case true :
-                            sd.switchToMainTabBarController()
+                            sd?.switchToMainTabBarController()
                         case false :
-                            sd.showVerifyVC()
+                            sd?.showVerifyVC()
                         }
                     }
                 }
