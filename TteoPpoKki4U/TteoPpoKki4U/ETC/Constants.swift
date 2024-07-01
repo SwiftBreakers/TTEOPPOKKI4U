@@ -51,9 +51,13 @@ let db_channelName = "name"
 let db_channel = "channel"
 let db_thread = "thread"
 let db_senderId = "senderId"
-let db_messageConetent = "messageContent"
+let db_messageContent = "content"
 
 let threadCollection = Firestore.firestore().collection("thread")
 let chatReportCollection = Firestore.firestore().collection("chatReport")
 
 let db_chatReportCount = "chatReportCount"
+let blockCollection = Firestore.firestore().collection("UserBlock")
+let db_myUid = "myUid"
+let db_blockSenderNames = "blockSenderNames"
+let db_url = "url"

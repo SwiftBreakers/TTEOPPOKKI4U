@@ -13,6 +13,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
     var window: UIWindow?
     var currentUser: User?
+    var customUser: CustomUser? // 여기에서 var로 수정했습니다.
     private lazy var signManager = SignManager()
     private lazy var userManager = UserManager()
     private lazy var signViewModel = SignViewModel(signManager: signManager)
@@ -32,7 +33,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         let window = UIWindow(windowScene: windowScene)
         self.window = window
-        
         
         let loadingVC = UIViewController()
         loadingVC.view.backgroundColor = .white // 로딩 화면 배경색 설정
@@ -75,14 +75,13 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
     func switchToMainTabBarController() {
         let user: User? = Auth.auth().currentUser
-            let customUser: CustomUser?
-            
-            if let user = user {
-                currentUser = user
-                customUser = nil
-            } else {
-                customUser = CustomUser(guestUID: "guest")
-            }
+        
+        if user != nil {
+            currentUser = user
+            customUser = nil
+        } else {
+            customUser = CustomUser(guestUID: "guest")
+        }
         
         let tabbarController = UITabBarController()
         
@@ -99,6 +98,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                     }
                 })
             }, guestTapped: {
+                self.customUser = CustomUser(guestUID: "guest") // guestTapped 시 customUser 설정
                 self.switchToMainTabBarController()
             },
             viewModel: signViewModel)
@@ -106,13 +106,13 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let mapVC = UINavigationController(rootViewController: MapViewController())
         let recommendVC = UINavigationController(rootViewController: RecommendViewController())
         let communityVC: UINavigationController
-            if let user = currentUser {
-                communityVC = UINavigationController(rootViewController: ChannelVC(currentUser: user))
-            } else if let guestUser = customUser {
-                communityVC = UINavigationController(rootViewController: ChannelVC(customUser: guestUser))
-            } else {
-                fatalError("No valid user found.")
-            }
+        if let user = currentUser {
+            communityVC = UINavigationController(rootViewController: ChannelVC(currentUser: user))
+        } else if let guestUser = customUser {
+            communityVC = UINavigationController(rootViewController: ChannelVC(customUser: guestUser))
+        } else {
+            fatalError("No valid user found.")
+        }
         mypageVC = UINavigationController(rootViewController: MyPageViewController(signOutTapped: { [weak signViewModel, weak self] in
             signViewModel?.signOut {
                 DispatchQueue.main.async {
@@ -173,6 +173,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                         }
                     })
                 }, guestTapped: {
+                    self.customUser = CustomUser(guestUID: "guest") // guestTapped 시 customUser 설정
                     self.switchToMainTabBarController()
                 },
                 viewModel: signViewModel)
@@ -184,5 +185,4 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         verifyVC.modalPresentationStyle = .fullScreen
         greetingVC.present(verifyVC, animated: true)
     }
-    
 }

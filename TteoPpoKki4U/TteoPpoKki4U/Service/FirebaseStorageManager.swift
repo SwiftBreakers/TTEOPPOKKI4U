@@ -15,13 +15,13 @@ struct FirebaseStorageManager {
     
     static func uploadImage(image: UIImage, channel: Channel, progress: ((Double) -> Void)? = nil, completion: @escaping (Result<URL, Error>) -> Void) -> StorageUploadTask? {
         guard let channelId = channel.id,
-              let data = image.jpegData(compressionQuality: 0.4) else { // PNG 포맷 사용
+              let data = image.jpegData(compressionQuality: 0.4) else { // jpg 포맷 사용
             completion(.failure(NSError(domain: "ImageUploadError", code: 0, userInfo: [NSLocalizedDescriptionKey: "Failed to prepare image for upload"])))
             return nil
         }
         
         let metaData = StorageMetadata()
-        metaData.contentType = "image/jpg" // PNG 포맷 사용
+        metaData.contentType = "image/jpg" // jpg 포맷 사용
         
         let imageName = UUID().uuidString + String(Date().timeIntervalSince1970)
         let imageReference = Storage.storage().reference().child("\(channelId)/\(imageName)")
@@ -58,26 +58,38 @@ struct FirebaseStorageManager {
             return
         }
         
-        let reference = Storage.storage().reference(forURL: url.absoluteString)
-        
-        // 최대 크기를 50MB로 증가
-        let fiftyMegabytes = Int64(2 * 1024 * 1024)
-        
-        reference.getData(maxSize: fiftyMegabytes) { data, error in
-            if let error = error {
-                completion(.failure(error))
-                return
+        cache.retrieveImage(forKey: url.absoluteString) { result in
+            switch result {
+            case .success(let value):
+                if let image = value.image {
+                    completion(.success(image))
+                    return
+                }
+            case .failure:
+                break
             }
             
-            guard let imageData = data, let image = UIImage(data: imageData) else {
-                completion(.failure(NSError(domain: "ImageDownloadError", code: 0, userInfo: [NSLocalizedDescriptionKey: "Failed to create image from data"])))
-                return
+            let reference = Storage.storage().reference(forURL: url.absoluteString)
+            // 최대 크기를 2MB로 증가
+            let fiftyMegabytes = Int64(2 * 1024 * 1024)
+            
+            reference.getData(maxSize: fiftyMegabytes) { data, error in
+                if let error = error {
+                    completion(.failure(error))
+                    return
+                }
+                
+                guard let imageData = data, let image = UIImage(data: imageData) else {
+                    completion(.failure(NSError(domain: "ImageDownloadError", code: 0, userInfo: [NSLocalizedDescriptionKey: "Failed to create image from data"])))
+                    return
+                }
+                
+                // 이미지를 캐시에 저장
+                cache.store(image, forKey: url.absoluteString)
+                
+                completion(.success(image))
             }
-            
-            // 이미지를 캐시에 저장
-            cache.store(image, forKey: url.absoluteString)
-            
-            completion(.success(image))
         }
     }
 }
+

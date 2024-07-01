@@ -15,21 +15,13 @@ class MyScrapViewController: UIViewController {
     
     var segmentedControl: UISegmentedControl!
     var collectionView: UICollectionView!
-    
-//    var backButton: UIButton = {
-//        let button = UIButton(type: .system)
-//        let image = UIImage(systemName: "chevron.backward.2")
-//        button.setImage(image, for: .normal)
-//        button.tintColor = .gray
-//        button.addTarget(nil, action: #selector(backButtonTapped), for: .touchUpInside)
-//        return button
-//    }()
     var defaultView: UIImageView = {
         let image = UIImageView()
         image.image = UIImage(named: "ttukbokki4u1n")
         return image
     }()
     
+    var selectedIndex = 0
     let mapViewModel = MapViewModel()
     let scrapViewModel = ScrapViewModel()
     let bookmarkViewModel = BookmarkViewModel()
@@ -48,13 +40,15 @@ class MyScrapViewController: UIViewController {
         setupSegmentedControl()
         setupCollectionView()
        // navigationController?.isNavigationBarHidden = true
+        bind()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        getData()
-        bind()
+        segmentChanged(sender: segmentedControl)
+        tabBarController?.tabBar.isHidden = false
+        
     }
     
     deinit{
@@ -233,6 +227,7 @@ extension MyScrapViewController: UICollectionViewDelegate, UICollectionViewDataS
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if segmentedControl.selectedSegmentIndex == 0 {
+            selectedIndex = segmentedControl.selectedSegmentIndex
             let scrapItem = scrapViewModel.scrapArray[indexPath.row]
             
             let storeVC = StoreViewController()
@@ -242,8 +237,9 @@ extension MyScrapViewController: UICollectionViewDelegate, UICollectionViewDataS
             
         } else {
             let bookmarkItem = bookmarkViewModel.bookmarkArray[indexPath.item]
-            
+            selectedIndex = segmentedControl.selectedSegmentIndex
             Task {
+                ProgressHUD.animate()
                 await cardViewModel.fetchData()
                 let cards = cardViewModel.cards
 
@@ -256,6 +252,7 @@ extension MyScrapViewController: UICollectionViewDelegate, UICollectionViewDataS
                     }
                 }
                 
+                ProgressHUD.dismiss()
                 let detailVC = DetailViewController()
                 detailVC.card = cardViewModel.card(at: index)
                 self.navigationController?.pushViewController(detailVC, animated: true)

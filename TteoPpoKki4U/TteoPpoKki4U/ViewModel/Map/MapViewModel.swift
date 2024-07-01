@@ -244,4 +244,3 @@ final class MapViewModel {
         deleteScrapItem(shopName: store.storeName)
     }
 }
-

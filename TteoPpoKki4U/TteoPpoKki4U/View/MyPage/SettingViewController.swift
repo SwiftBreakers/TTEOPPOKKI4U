@@ -72,7 +72,7 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        return 3
+        return 4
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -107,7 +107,22 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
                 make.center.equalTo(cell.contentView)
             }
             
-        } else if indexPath.row == 2{
+        } else if indexPath.row == 2 {
+            
+            let deleteUserLabel = UILabel()
+            deleteUserLabel.text = "차단유저 관리"
+            deleteUserLabel.font = ThemeFont.fontMedium(size: 18)
+            deleteUserLabel.textColor = .gray
+            deleteUserLabel.textAlignment = .center
+            
+            cell.contentView.addSubview(deleteUserLabel)
+            cell.backgroundColor = .white
+            cell.selectionStyle = .none
+            deleteUserLabel.snp.makeConstraints { make in
+                make.center.equalTo(cell.contentView)
+            }
+            
+        } else if indexPath.row == 3{
             
             let deleteUserLabel = UILabel()
             deleteUserLabel.text = "회원탈퇴"
@@ -139,6 +154,9 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
             let privacyVC = PrivacyPolicyViewController()
             navigationController?.pushViewController(privacyVC, animated: true)
         case 2:
+            let blockVC = BlockManageViewController()
+            navigationController?.pushViewController(blockVC, animated: true)
+        case 3:
             if isLogin {
                 deleteUser()
             } else {
