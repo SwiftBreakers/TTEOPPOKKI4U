@@ -19,12 +19,20 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     private lazy var signViewModel = SignViewModel(signManager: signManager)
     private lazy var manageManager = ManageManager()
     private lazy var manageViewModel = ManageViewModel(manageManager: manageManager)
-    private lazy var greetingVC = GreetingViewController()
+    private lazy var greetingVC: GreetingViewController = {
+        let vc = GreetingViewController()
+        vc.delegate = self
+        return vc
+    }()
     private lazy var manageVC = ManageViewController(viewModel: manageViewModel)
     private lazy var tabbarDelegate = TabbarControllerDelegate()
     private lazy var personalInfoVC = PersonalInfoViewController()
     private lazy var mypageVC = UINavigationController(rootViewController: MyPageViewController())
     private lazy var verifyVC = VerifyViewController()
+    
+    private var isVerifyVCBeingPresented = false
+
+    
     
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         guard let windowScene = (scene as? UIWindowScene) else { return }
@@ -182,6 +190,38 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
     
     func showVerifyVC() {
+        verifyVC.modalPresentationStyle = .fullScreen
+
+        // VerifyViewController가 이미 표시 중인지 확인하는 플래그를 사용
+        if isVerifyVCBeingPresented {
+            print("VerifyViewController is already being presented.")
+            return
+        }
+
+        // 현재 표시된 뷰 컨트롤러를 가져옵니다.
+        if let rootViewController = window?.rootViewController {
+            // VerifyViewController가 이미 표시되지 않은 경우에만 표시합니다.
+            if rootViewController.presentedViewController == verifyVC {
+                print("VerifyViewController is already presented.")
+            } else {
+                isVerifyVCBeingPresented = true // 플래그 설정
+                rootViewController.present(verifyVC, animated: true) { [weak self] in
+                    self?.isVerifyVCBeingPresented = false // 프레젠테이션 완료 후 플래그 해제
+                }
+            }
+        } else {
+            // 루트 뷰 컨트롤러가 없을 경우 (예외적인 경우)
+            isVerifyVCBeingPresented = true // 플래그 설정
+            window?.rootViewController = verifyVC
+            // verifyVC가 루트 뷰 컨트롤러로 설정된 후에도 플래그를 해제해야 합니다.
+            isVerifyVCBeingPresented = false // 플래그 해제
+        }
+    }
+    
+}
+
+extension SceneDelegate: GreetingViewControllerDelegate {
+    func showVerifyViewController() {
         verifyVC.modalPresentationStyle = .fullScreen
         greetingVC.present(verifyVC, animated: true)
     }
