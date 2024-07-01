@@ -70,6 +70,7 @@ class VerifyViewController: UIViewController {
         button.setTitleColor(ThemeColor.mainBlack, for: .normal)
         button.titleLabel?.font = ThemeFont.fontRegular(size: 16)
         button.backgroundColor = .white
+        button.setUnderline()
         button.addTarget(self, action: #selector(moveToPrivacyButtonTapped(_:)), for: .touchUpInside)
         return button
     }()
@@ -80,6 +81,7 @@ class VerifyViewController: UIViewController {
         button.setTitleColor(ThemeColor.mainBlack, for: .normal)
         button.titleLabel?.font = ThemeFont.fontRegular(size: 16)
         button.backgroundColor = .white
+        button.setUnderline()
         button.addTarget(self, action: #selector(moveToCommunityButtonTapped(_:)), for: .touchUpInside)
         return button
     }()
@@ -230,5 +232,18 @@ class VerifyViewController: UIViewController {
         } else {
             showMessage(title: "안내", message: "약관에 동의를 해주세요.")
         }
+    }
+}
+
+
+extension UIButton {
+    func setUnderline() {
+        guard let title = title(for: .normal) else { return }
+        let attributedString = NSMutableAttributedString(string: title)
+        attributedString.addAttribute(.underlineStyle,
+                                      value: NSUnderlineStyle.single.rawValue,
+                                      range: NSRange(location: 0, length: title.count)
+        )
+        setAttributedTitle(attributedString, for: .normal)
     }
 }
