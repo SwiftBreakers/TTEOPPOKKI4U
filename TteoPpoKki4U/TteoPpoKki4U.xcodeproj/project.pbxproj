@@ -77,6 +77,7 @@
 		61AB7EF82C1E745200C51ECA /* CustomTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61AB7EF72C1E745200C51ECA /* CustomTextView.swift */; };
 		61B0E6CE2C2686AF007436DD /* CustomUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61B0E6CD2C2686AF007436DD /* CustomUser.swift */; };
 		61B0E6D22C270BDE007436DD /* ChatManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61B0E6D12C270BDE007436DD /* ChatManager.swift */; };
+		61D2C8462C2EFE2800DB73D9 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 61D2C8452C2EFE2800DB73D9 /* GoogleService-Info.plist */; };
 		61DAC4E02C05C3A700DFC575 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61DAC4DF2C05C3A700DFC575 /* MapViewController.swift */; };
 		61DAC4E42C05C3CF00DFC575 /* MyPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61DAC4E32C05C3CF00DFC575 /* MyPageViewController.swift */; };
 		61DAC4EA2C05C7D800DFC575 /* KakaoSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 61DAC4E92C05C7D800DFC575 /* KakaoSDK */; };
@@ -89,6 +90,10 @@
 		61DAC5002C06CCB000DFC575 /* Secret.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61DAC4FF2C06CCB000DFC575 /* Secret.swift */; };
 		61DC69072C15CC38003DEB73 /* StoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61DC69062C15CC38003DEB73 /* StoreManager.swift */; };
 		61DC69092C16A7EF003DEB73 /* UIViewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61DC69082C16A7EF003DEB73 /* UIViewController+Extension.swift */; };
+		61F824672C323E64004FDE32 /* CustomMessageContentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61F824662C323E64004FDE32 /* CustomMessageContentCell.swift */; };
+		61FCFDAD2C31076F00B417A0 /* UserBlock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61FCFDAC2C31076F00B417A0 /* UserBlock.swift */; };
+		61FCFDAF2C310E6700B417A0 /* BlockManageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61FCFDAE2C310E6700B417A0 /* BlockManageViewController.swift */; };
+		61FCFDB12C31111000B417A0 /* BlockedUserCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61FCFDB02C31111000B417A0 /* BlockedUserCell.swift */; };
 		8D1410012C12BF900062E527 /* UIResponder+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D1410002C12BF900062E527 /* UIResponder+Extension.swift */; };
 		8D2E862D2C1AD5DD00967B13 /* BookmarkViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D2E862C2C1AD5DD00967B13 /* BookmarkViewModel.swift */; };
 		8D2E862F2C1B2D7000967B13 /* BookmarkList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D2E862E2C1B2D7000967B13 /* BookmarkList.swift */; };
@@ -132,6 +137,7 @@
 		9CC6D3182C206BD6004C85D8 /* PinStoreModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CC6D3172C206BD6004C85D8 /* PinStoreModel.swift */; };
 		9CC6D31C2C23C6AC004C85D8 /* UICollectionView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CC6D31B2C23C6AC004C85D8 /* UICollectionView+Extension.swift */; };
 		9CC6D3222C245678004C85D8 /* UILabel+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CC6D3212C245678004C85D8 /* UILabel+Extension.swift */; };
+		9CC6D3282C2ECE50004C85D8 /* VerifyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CC6D3272C2ECE50004C85D8 /* VerifyViewController.swift */; };
 		CE3F36322C08463700532901 /* VerticalCardSwiper in Frameworks */ = {isa = PBXBuildFile; productRef = CE3F36312C08463700532901 /* VerticalCardSwiper */; };
 		CE3F36352C08469700532901 /* RecommendCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE3F36342C08469700532901 /* RecommendCardView.swift */; };
 		CE3F36382C0846C800532901 /* RecommendModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE3F36372C0846C800532901 /* RecommendModel.swift */; };
@@ -158,11 +164,9 @@
 		CE771CCD2C243D69004415CA /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE771CCC2C243D69004415CA /* BaseViewController.swift */; };
 		CE771CCF2C243D8E004415CA /* ChannelTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE771CCE2C243D8E004415CA /* ChannelTableViewCell.swift */; };
 		CE771CD12C243E03004415CA /* NSObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE771CD02C243E03004415CA /* NSObject.swift */; };
-		CE866A0D2C2EAA6700D48F44 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = CE866A0C2C2EAA6700D48F44 /* GoogleService-Info.plist */; };
 		CEA3189B2C2A4F82001BAB0B /* ReportChatUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEA3189A2C2A4F82001BAB0B /* ReportChatUser.swift */; };
 		CEA3189D2C2A5CB3001BAB0B /* ChatReportViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEA3189C2C2A5CB3001BAB0B /* ChatReportViewController.swift */; };
 		CEA318A12C2A6406001BAB0B /* ChatReportViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEA318A02C2A6406001BAB0B /* ChatReportViewModel.swift */; };
-		CEF173222C318B99003D7B4A /* VerifyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEF173212C318B99003D7B4A /* VerifyViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -235,11 +239,16 @@
 		61AB7EF72C1E745200C51ECA /* CustomTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextView.swift; sourceTree = "<group>"; };
 		61B0E6CD2C2686AF007436DD /* CustomUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomUser.swift; sourceTree = "<group>"; };
 		61B0E6D12C270BDE007436DD /* ChatManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatManager.swift; sourceTree = "<group>"; };
+		61D2C8452C2EFE2800DB73D9 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../../../Desktop/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		61DAC4DF2C05C3A700DFC575 /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		61DAC4E32C05C3CF00DFC575 /* MyPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageViewController.swift; sourceTree = "<group>"; };
 		61DAC4FF2C06CCB000DFC575 /* Secret.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Secret.swift; sourceTree = "<group>"; };
 		61DC69062C15CC38003DEB73 /* StoreManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreManager.swift; sourceTree = "<group>"; };
 		61DC69082C16A7EF003DEB73 /* UIViewController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extension.swift"; sourceTree = "<group>"; };
+		61F824662C323E64004FDE32 /* CustomMessageContentCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomMessageContentCell.swift; sourceTree = "<group>"; };
+		61FCFDAC2C31076F00B417A0 /* UserBlock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserBlock.swift; sourceTree = "<group>"; };
+		61FCFDAE2C310E6700B417A0 /* BlockManageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockManageViewController.swift; sourceTree = "<group>"; };
+		61FCFDB02C31111000B417A0 /* BlockedUserCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockedUserCell.swift; sourceTree = "<group>"; };
 		8D1410002C12BF900062E527 /* UIResponder+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIResponder+Extension.swift"; sourceTree = "<group>"; };
 		8D2E862C2C1AD5DD00967B13 /* BookmarkViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkViewModel.swift; sourceTree = "<group>"; };
 		8D2E862E2C1B2D7000967B13 /* BookmarkList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkList.swift; sourceTree = "<group>"; };
@@ -283,6 +292,7 @@
 		9CC6D3172C206BD6004C85D8 /* PinStoreModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinStoreModel.swift; sourceTree = "<group>"; };
 		9CC6D31B2C23C6AC004C85D8 /* UICollectionView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UICollectionView+Extension.swift"; sourceTree = "<group>"; };
 		9CC6D3212C245678004C85D8 /* UILabel+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILabel+Extension.swift"; sourceTree = "<group>"; };
+		9CC6D3272C2ECE50004C85D8 /* VerifyViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VerifyViewController.swift; sourceTree = "<group>"; };
 		CE3F36342C08469700532901 /* RecommendCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendCardView.swift; sourceTree = "<group>"; };
 		CE3F36372C0846C800532901 /* RecommendModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendModel.swift; sourceTree = "<group>"; };
 		CE3F36392C08474700532901 /* RecommendViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendViewController.swift; sourceTree = "<group>"; };
@@ -306,11 +316,9 @@
 		CE771CCC2C243D69004415CA /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
 		CE771CCE2C243D8E004415CA /* ChannelTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelTableViewCell.swift; sourceTree = "<group>"; };
 		CE771CD02C243E03004415CA /* NSObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSObject.swift; sourceTree = "<group>"; };
-		CE866A0C2C2EAA6700D48F44 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		CEA3189A2C2A4F82001BAB0B /* ReportChatUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportChatUser.swift; sourceTree = "<group>"; };
 		CEA3189C2C2A5CB3001BAB0B /* ChatReportViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatReportViewController.swift; sourceTree = "<group>"; };
 		CEA318A02C2A6406001BAB0B /* ChatReportViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatReportViewModel.swift; sourceTree = "<group>"; };
-		CEF173212C318B99003D7B4A /* VerifyViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VerifyViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -468,6 +476,7 @@
 				8DB30F1D2C076AE900503139 /* MyPageCollectionViewCell.swift */,
 				8D899FDF2C1C3F0500FEBE77 /* BookmarkCell.swift */,
 				8DA4C3832C0A0ACF008AB975 /* ReviewCell.swift */,
+				61FCFDB02C31111000B417A0 /* BlockedUserCell.swift */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -512,7 +521,7 @@
 				610717AA2C213D5C00626649 /* AuthKey_RS7QZ647UQ.p8 */,
 				610717A62C21364600626649 /* AuthKey_RS7QZ647UQ_public.p8 */,
 				610717AC2C2156B200626649 /* PrivacyInfo.xcprivacy */,
-				CE866A0C2C2EAA6700D48F44 /* GoogleService-Info.plist */,
+				61D2C8452C2EFE2800DB73D9 /* GoogleService-Info.plist */,
 			);
 			path = TteoPpoKki4U;
 			sourceTree = "<group>";
@@ -549,7 +558,6 @@
 		613D86B32C05C08C0039E771 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				CEF173212C318B99003D7B4A /* VerifyViewController.swift */,
 				CE771C9E2C240EA0004415CA /* Chat */,
 				611EE6792C20BFD80096D903 /* Map */,
 				617BCCBD2C195C96008D8D48 /* Manage */,
@@ -590,6 +598,7 @@
 			children = (
 				611EE67C2C20C0990096D903 /* Cell */,
 				617BCCBB2C191897008D8D48 /* ManageViewController.swift */,
+				9CC6D3272C2ECE50004C85D8 /* VerifyViewController.swift */,
 				617BCCBE2C195CAB008D8D48 /* ManageView.swift */,
 				6116167D2C1C218B008A2FA2 /* ReportViewController.swift */,
 			);
@@ -665,6 +674,7 @@
 				8D580A4C2C08767F0057D370 /* MyScrapViewController.swift */,
 				8D580A522C08C8420057D370 /* MyReviewViewController.swift */,
 				8D3BA8402C15D5F1007597F2 /* SettingViewController.swift */,
+				61FCFDAE2C310E6700B417A0 /* BlockManageViewController.swift */,
 				25CCA3C82C254A46008F81A3 /* PrivacyPolicyViewController.swift */,
 				615147EE2C2EC74A004F85CC /* CommunityPolicyViewController.swift */,
 				615147F02C2EC7E1004F85CC /* CommunityPolicy.swift */,
@@ -766,6 +776,7 @@
 				CE771CCA2C243D2B004415CA /* channelVC.swift */,
 				CE771CCE2C243D8E004415CA /* ChannelTableViewCell.swift */,
 				CEA3189C2C2A5CB3001BAB0B /* ChatReportViewController.swift */,
+				61F824662C323E64004FDE32 /* CustomMessageContentCell.swift */,
 			);
 			path = Chat;
 			sourceTree = "<group>";
@@ -783,6 +794,7 @@
 				CE771CC02C2439CA004415CA /* ChannelFirestoreStream.swift */,
 				61B0E6CD2C2686AF007436DD /* CustomUser.swift */,
 				6127E3562C2857740037F9E3 /* Location.swift */,
+				61FCFDAC2C31076F00B417A0 /* UserBlock.swift */,
 			);
 			path = ChatModel;
 			sourceTree = "<group>";
@@ -905,7 +917,7 @@
 				613D86A22C05BFF90039E771 /* Assets.xcassets in Resources */,
 				8D580A492C082AB60057D370 /* Pretendard-Regular.ttf in Resources */,
 				8D580A4A2C082AB60057D370 /* Pretendard-ExtraLight.ttf in Resources */,
-				CE866A0D2C2EAA6700D48F44 /* GoogleService-Info.plist in Resources */,
+				61D2C8462C2EFE2800DB73D9 /* GoogleService-Info.plist in Resources */,
 				6128DBDB2C2D29FF00729439 /* kwangju.json in Resources */,
 				613D86A52C05BFF90039E771 /* Base in Resources */,
 				61107A862C2B897500EE9AD2 /* seoul.json in Resources */,
@@ -938,7 +950,6 @@
 				61107A802C2AFFE800EE9AD2 /* JsonModel.swift in Sources */,
 				CE771CC92C243C08004415CA /* Sender.swift in Sources */,
 				61AB7EF82C1E745200C51ECA /* CustomTextView.swift in Sources */,
-				CEF173222C318B99003D7B4A /* VerifyViewController.swift in Sources */,
 				9C82B94F2C0F2D27008FA84E /* NetworkManager.swift in Sources */,
 				CE771C9B2C22FB41004415CA /* FullscreenViewController.swift in Sources */,
 				25CCA3DE2C2CDA99008F81A3 /* EventSceneCollectionViewCell.swift in Sources */,
@@ -947,6 +958,7 @@
 				611644322C09000F009FFDA5 /* GreetingBodyView.swift in Sources */,
 				617BCCBF2C195CAB008D8D48 /* ManageView.swift in Sources */,
 				8D3BA8412C15D5F1007597F2 /* SettingViewController.swift in Sources */,
+				61FCFDAD2C31076F00B417A0 /* UserBlock.swift in Sources */,
 				8D78CDE02C0E077D00051D50 /* WriteViewController.swift in Sources */,
 				617BCCC22C195E24008D8D48 /* ManageViewModel.swift in Sources */,
 				CE4004102C1D1D46009E1142 /* DetailCollectionViewCell.swift in Sources */,
@@ -955,6 +967,8 @@
 				8DD5CBB92C107C82004F27BD /* DetailedReviewViewController.swift in Sources */,
 				617357292C137A3F0007B92A /* Constants.swift in Sources */,
 				8D69D7102C2982FE0087296A /* Notice.swift in Sources */,
+				9CC6D3282C2ECE50004C85D8 /* VerifyViewController.swift in Sources */,
+				61FCFDAF2C310E6700B417A0 /* BlockManageViewController.swift in Sources */,
 				8D580A532C08C8420057D370 /* MyReviewViewController.swift in Sources */,
 				617BCCC62C19699C008D8D48 /* ManageTableViewCell.swift in Sources */,
 				CE3F36352C08469700532901 /* RecommendCardView.swift in Sources */,
@@ -962,11 +976,13 @@
 				9C82B9512C0F2D55008FA84E /* ResponseStore.swift in Sources */,
 				8D899FE02C1C3F0500FEBE77 /* BookmarkCell.swift in Sources */,
 				61107A842C2B78AD00EE9AD2 /* JsonViewModel.swift in Sources */,
+				61F824672C323E64004FDE32 /* CustomMessageContentCell.swift in Sources */,
 				8D580A302C0826B40057D370 /* ThemeFont.swift in Sources */,
 				8D2E862F2C1B2D7000967B13 /* BookmarkList.swift in Sources */,
 				25CCA3C92C254A46008F81A3 /* PrivacyPolicyViewController.swift in Sources */,
 				CE3F36382C0846C800532901 /* RecommendModel.swift in Sources */,
 				CE771CCB2C243D2B004415CA /* channelVC.swift in Sources */,
+				61FCFDB12C31111000B417A0 /* BlockedUserCell.swift in Sources */,
 				619FE8F02C1F183300745A0A /* ReportViewModel.swift in Sources */,
 				CE771CBD2C24397D004415CA /* ChatFirestoreStream.swift in Sources */,
 				8DB30F302C07771400503139 /* MyPageSection.swift in Sources */,
