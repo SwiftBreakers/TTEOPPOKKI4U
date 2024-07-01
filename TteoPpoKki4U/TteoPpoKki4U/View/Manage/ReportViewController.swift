@@ -244,7 +244,7 @@ class ReportViewController: UIViewController {
                     db_storeName: userData!.storeName,
                     db_reportedUID: userData!.uid
                 ]
-                await viewModel.addReportAndIncreaseCount(uid: userData!.uid, storeAddress: userData!.storeAddress, title: userData!.title, reportData: reportData)
+                await viewModel.addReportAndIncreaseCount(uid: userData!.uid, storeAddress: userData!.storeAddress, title: userData!.title, isSexual: isSexual, reportData: reportData)
                 showMessage(title: "신고가 완료 되었습니다", message: "신고 내용은 관리자 검토후 반영 됩니다.", completion: { [weak self] in
                     self?.dismiss(animated: true)
                 })

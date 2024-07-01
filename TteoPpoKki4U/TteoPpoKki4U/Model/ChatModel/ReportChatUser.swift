@@ -16,4 +16,5 @@ struct ReportUserData {
     var reportCount: Int
     var isActive: Bool
     var channel: String
+    var url: String
 }

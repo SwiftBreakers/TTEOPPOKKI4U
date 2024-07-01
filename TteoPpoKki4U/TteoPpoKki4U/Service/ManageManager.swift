@@ -63,7 +63,7 @@ class ManageManager {
     }
     func getSpecificChatReport(content: String, channel: String, senderId: String) async throws -> QuerySnapshot? {
         return try await withCheckedThrowingContinuation { continuation in
-            chatReportCollection.whereField(db_messageConetent, isEqualTo: content)
+            chatReportCollection.whereField(db_content, isEqualTo: content)
                 .whereField(db_channel, isEqualTo: channel)
                 .whereField(db_senderId, isEqualTo: senderId)
                 .getDocuments { querySnapshot, error in
@@ -96,4 +96,5 @@ class ManageManager {
             }
         }
     }
+    
 }

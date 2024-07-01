@@ -167,7 +167,6 @@ extension Message: Comparable {
         return lhs.sentDate < rhs.sentDate
     }
 }
-
 struct BlockedUser {
     let uid: String
 }
