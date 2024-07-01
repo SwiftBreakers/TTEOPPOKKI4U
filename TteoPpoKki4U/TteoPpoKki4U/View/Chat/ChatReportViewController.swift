@@ -251,7 +251,8 @@ class ChatReportViewController: UIViewController {
                     "senderId": userData.senderId,
                     "messageContent": userData.content,
                     "channel": userData.channel,
-                    "reportCount": userData.reportCount
+                    "reportCount": userData.reportCount,
+                    "sentDate": userData.sentDate
                 ]
                 await viewModel.addReportAndIncreaseCount(content: userData.content, channel: userData.channel, senderId: userData.senderId, reportData: reportData)
                 showMessage(title: "신고가 완료되었습니다", message: "신고 내용은 관리자 검토 후 반영됩니다.") { [weak self] in

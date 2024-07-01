@@ -155,7 +155,16 @@ class ChatVC: MessagesViewController {
         if action == #selector(MessageCollectionViewCell.report(_:)) {
             if let _ = Auth.auth().currentUser?.uid {
                 // 1. 선택한 메시지 가져오기
-                let selectedMessage = messages[indexPath.section]
+                // indexPath.section을 사용하여 해당 섹션의 날짜를 가져옴
+                let dateSections = Array(messagesByDate.keys).sorted()
+                let selectedDate = dateSections[indexPath.section]
+                
+                // indexPath.row를 사용하여 해당 섹션의 메시지 리스트에서 정확한 메시지를 가져옴
+                guard let selectedMessages = messagesByDate[selectedDate] else {
+                    print("선택한 날짜의 메시지를 찾을 수 없습니다.")
+                    return
+                }
+                let selectedMessage = selectedMessages[indexPath.row]
                 
                 // 2. ReportUserData 생성
                 let reportData = ReportUserData(title: "제목", // 원하는 신고 제목 설정
@@ -163,7 +172,7 @@ class ChatVC: MessagesViewController {
                                                 senderId: selectedMessage.sender.senderId, // 보낸 사람 ID
                                                 content: selectedMessage.content, // 메시지 내용
                                                 sentDate: selectedMessage.sentDate, // 메시지 전송 날짜
-                                                reportCount: 0, // 초기 신고 수
+                                                reportCount: 1, // 초기 신고 수
                                                 isActive: true, // 활성 상태
                                                 channel: channel.name) // 채널 확인
                 
