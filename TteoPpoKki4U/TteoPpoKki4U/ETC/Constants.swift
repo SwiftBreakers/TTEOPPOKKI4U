@@ -61,3 +61,8 @@ let blockCollection = Firestore.firestore().collection("UserBlock")
 let db_myUid = "myUid"
 let db_blockSenderNames = "blockSenderNames"
 let db_url = "url"
+
+let noticeCollection = Firestore.firestore().collection("notice")
+let db_date = "date"
+let db_detail = "detail"
+

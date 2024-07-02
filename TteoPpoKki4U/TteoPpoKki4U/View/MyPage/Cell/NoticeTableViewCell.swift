@@ -68,8 +68,13 @@ class NoticeTableViewCell: UITableViewCell {
     
     func configure(with notice: Notice, isExpanded: Bool) {
         titleLabel.text = notice.title
-        dateLabel.text = notice.date
-        detailLabel.text = notice.detail
+        
+        let date = notice.date.dateValue()
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd"
+        dateLabel.text = dateFormatter.string(from: date)
+        
+        detailLabel.text = notice.detail.replacingOccurrences(of: "\\n", with: "\n")
         detailLabel.isHidden = !isExpanded
         
         if isExpanded {

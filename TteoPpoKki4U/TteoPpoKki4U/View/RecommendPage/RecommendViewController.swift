@@ -46,9 +46,9 @@ public class RecommendViewController: UIViewController {
     public override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         cancellables.removeAll()
-        Task {
-            await viewModel.fetchData()
-        }
+//        Task {
+//            await viewModel.fetchData()
+//        }
         bind()
     }
     

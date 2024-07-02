@@ -34,6 +34,7 @@ class MyPageViewController: UIViewController {
     private var currentImageUrl: String?
     public var currentName: String?
     public var currentRank: String?
+
     
     convenience init(signOutTapped: @escaping () -> Void, editTapped:@escaping () -> Void, viewModel: SignViewModel) {
         self.init()
