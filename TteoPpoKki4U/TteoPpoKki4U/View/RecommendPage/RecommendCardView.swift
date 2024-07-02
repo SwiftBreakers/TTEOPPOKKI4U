@@ -134,22 +134,20 @@ public class MyCardCell: CardCell {
                 viewModel.deleteBookmarkItem(title: titleLabel.text!)
                 let bookmark0Image = UIImageView()
                 bookmark0Image.image = .bookmark0
-                viewController.showCustomAlert(image: bookmark0Image.image!, message: "북마크에서 삭제 되었어요.")
+                viewController.showNegativeCustomAlert(image: bookmark0Image.image!, message: "북마크에서 삭제 되었어요.")
                 
             } else {
                 bookmarkButton.setImage(.bookmark1, for: .normal)
                 viewModel.createBookmarkItem(title: titleLabel.text!, imageURL: imageURL.text!)
                 let bookmark1Image = UIImageView()
                 bookmark1Image.image = .bookmark1
-                viewController.showCustomAlert(image: bookmark1Image.image!, message: "북마크에 추가 되었어요.")
+                viewController.showPositiveCustomAlert(image: bookmark1Image.image!, message: "북마크에 추가 되었어요.")
             }
         } else {
             let userXImage = UIImageView()
             userXImage.image = .userX
-            viewController.showCustomAlert(image: userXImage.image!, message: "로그인이 필요한 기능입니다.")
+            viewController.showPositiveCustomAlert(image: userXImage.image!, message: "로그인이 필요한 기능입니다.")
         }
     }
     
 }
-
-

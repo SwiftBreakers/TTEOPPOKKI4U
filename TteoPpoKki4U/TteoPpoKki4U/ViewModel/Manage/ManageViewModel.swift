@@ -20,6 +20,7 @@ class ManageViewModel {
     var managePublisher = PassthroughSubject<Void, Error>()
     @Published var userReview = [ReviewModel]()
     @Published var userArray = [UserModel]()
+    @Published var noticeArray = [Notice]()
     
     func getUsers() {
         manageManager.fetchUsers { [weak self] error, dataSnapshot in
@@ -183,6 +184,28 @@ class ManageViewModel {
         
     }
     
+    func getNotices() {
+        manageManager.getNoitce { [weak self] querySnapshot, error in
+            if let error = error {
+                self?.managePublisher.send(completion: .failure(error))
+                return
+            }
+            
+            if let docSnapshot = querySnapshot?.documents {
+                for doc in docSnapshot {
+                    let data = doc.data()
+                    
+                    guard let title = data[db_title] as? String,
+                          let date = data[db_date] as? Timestamp,
+                          let detail = data[db_detail] as? String else { return
+                    }
+
+                    let model = Notice(title: title, date: date, detail: detail)
+                    self?.noticeArray.append(model)
+                    self?.managePublisher.send(())
+                }
+            }
+        }
+    }
     
 }
-

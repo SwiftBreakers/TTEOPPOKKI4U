@@ -7,51 +7,56 @@
 
 import UIKit
 import SnapKit
+import Combine
 
 class NoticeTableViewController: UITableViewController {
     
-    var notices = [
-        Notice(title: "[업데이트] 커뮤니티", date: "2024.06.28", detail: "안녕하세요. 커뮤니티에서 사진과 지도를 공유할 수 있는 기능이 추가되었습니다."),
-        Notice(title: "[업데이트] 커뮤니티 탭", date: "2024.06.26", detail: "안녕하세요. 커뮤니티 기능이 새롭게 업데이트 되었습니다. 앱 개선을 위해 앞으로도 꾸준히 노력하겠습니다. 감사합니다."),
-        Notice(title: "[업데이트] 공지사항", date: "2024.06.26", detail: "안녕하세요. 공지사항 버튼이 생기게 되어 첫번째 공지사항을 올립니다. 이용해 주셔서 감사합니다.")
-    ]
-    
     var expandedIndexSet: IndexSet = []
+    var viewModel: ManageViewModel!
+    private var cancellables = Set<AnyCancellable>()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        let manageManager = ManageManager()
+        viewModel = ManageViewModel(manageManager: manageManager)
+        viewModel.getNotices()
+        bind()
+        
         view.backgroundColor = .white
         
         navigationController?.navigationBar.tintColor = ThemeColor.mainOrange
         navigationController?.navigationBar.barTintColor = .white
         
         tableView.register(NoticeTableViewCell.self, forCellReuseIdentifier: "NoticeCell")
-      //  tableView.estimatedRowHeight = 100
-     //   tableView.rowHeight = UITableView.automaticDimension
         tableView.rowHeight = 60
         tableView.rowHeight = UITableView.automaticDimension
     }
     
-    // MARK: - Table view data source
+    private func bind() {
+        viewModel.$noticeArray
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] notices in
+            self?.tableView.reloadData()
+        }.store(in: &cancellables)
+    }
     
     override func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return notices.count
+        let count = viewModel.noticeArray.count
+        return count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "NoticeCell", for: indexPath) as? NoticeTableViewCell else {
             return UITableViewCell()
         }
-        let notice = notices[indexPath.row]
+        let notice = viewModel.noticeArray[indexPath.row]
         cell.configure(with: notice, isExpanded: expandedIndexSet.contains(indexPath.row))
         return cell
     }
-    
-    // MARK: - Table view delegate
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if expandedIndexSet.contains(indexPath.row) {
@@ -65,5 +70,4 @@ class NoticeTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return expandedIndexSet.contains(indexPath.row) ? UITableView.automaticDimension : 60
     }
-    
 }

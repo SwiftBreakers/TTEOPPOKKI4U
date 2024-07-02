@@ -97,4 +97,8 @@ class ManageManager {
         }
     }
     
+    
+    func getNoitce(completion: @escaping (QuerySnapshot?, (any Error)?) -> Void) {
+        noticeCollection.order(by: db_date, descending: true).getDocuments(completion: completion)
+    }
 }

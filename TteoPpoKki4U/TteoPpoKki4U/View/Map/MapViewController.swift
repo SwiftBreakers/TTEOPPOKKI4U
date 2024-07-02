@@ -359,9 +359,9 @@ class MapViewController: UIViewController, PinStoreViewDelegate {
     
     private func customAlertControl() {
         if storeInfoView.isScrapped {
-            showCustomAlert(image: UIImage(systemName: "flag.fill")!, message: "스크랩되었습니다.")
+            showPositiveCustomAlert(image: UIImage(systemName: "flag.fill")!, message: "스크랩되었습니다.")
         } else {
-            showCustomAlert(image: UIImage(systemName: "flag.slash")!, message: "스크랩이 해제되었습니다.")
+            showNegativeCustomAlert(image: UIImage(systemName: "flag.slash")!, message: "스크랩이 해제되었습니다.")
         }
     }
     
