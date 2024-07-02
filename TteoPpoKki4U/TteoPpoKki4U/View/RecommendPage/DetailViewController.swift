@@ -165,7 +165,7 @@ class DetailViewController: UIViewController, UISearchBarDelegate {
                 }
                 let bookmark0Image = UIImageView()
                 bookmark0Image.image = .bookmark0
-                showCustomAlert(image: bookmark0Image.image!, message: "북마크에서 삭제 되었어요.")
+                showNegativeCustomAlert(image: bookmark0Image.image!, message: "북마크에서 삭제 되었어요.")
                 viewModel.deleteBookmarkItem(title: titleLabel.text!)
             } else {
                 if let image = UIImage(named: "bookmark1")?.withRenderingMode(.alwaysTemplate) {
@@ -174,13 +174,13 @@ class DetailViewController: UIViewController, UISearchBarDelegate {
                 }
                 let bookmark1Image = UIImageView()
                 bookmark1Image.image = .bookmark1
-                showCustomAlert(image: bookmark1Image.image!, message: "북마크에 추가 되었어요.")
+                showPositiveCustomAlert(image: bookmark1Image.image!, message: "북마크에 추가 되었어요.")
                 viewModel.createBookmarkItem(title: titleLabel.text!, imageURL: imageURL.text!)
             }
         } else {
             let userXImage = UIImageView()
             userXImage.image = .userX
-            showCustomAlert(image: userXImage.image!, message: "로그인이 필요한 기능입니다.")
+            showPositiveCustomAlert(image: userXImage.image!, message: "로그인이 필요한 기능입니다.")
         }
     }
     private func bind() {
@@ -339,7 +339,7 @@ class DetailViewController: UIViewController, UISearchBarDelegate {
         
         let clipBoardImage = UIImageView()
         clipBoardImage.image = UIImage(named: "clipBoard")
-        showCustomAlert(image: clipBoardImage.image!, message: "복사를 완료했어요.")
+        showPositiveCustomAlert(image: clipBoardImage.image!, message: "복사를 완료했어요.")
     }
 }
 extension DetailViewController: UICollectionViewDataSource {
