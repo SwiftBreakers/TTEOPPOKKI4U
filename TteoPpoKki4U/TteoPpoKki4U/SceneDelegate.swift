@@ -31,7 +31,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     private lazy var verifyVC = VerifyViewController()
     
     private var isVerifyVCBeingPresented = false
-
+    private var isValidate = false
+    private var isImageChanged = false
     
     
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
@@ -134,6 +135,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                 let currentImageUrl = dictionary[db_profileImageUrl] as? String
                 let currentName = (dictionary[db_nickName] as? String) ?? "닉네임을 설정해주세요"
                 self?.personalInfoVC.gotProfileImage = currentImageUrl
+                self?.personalInfoVC.isValidate = self!.isValidate
                 self?.personalInfoVC.profileName = currentName
                 self?.mypageVC.pushViewController(self!.personalInfoVC, animated: true)
             }

@@ -6,9 +6,10 @@
 //
 
 import Foundation
+import Firebase
 
 struct Notice {
     let title: String
-    let date: String
+    let date: Timestamp
     let detail: String
 }
