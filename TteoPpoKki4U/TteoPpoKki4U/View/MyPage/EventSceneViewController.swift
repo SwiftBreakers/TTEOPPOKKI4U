@@ -8,6 +8,8 @@
 import Foundation
 import UIKit
 import SnapKit
+import FirebaseFirestore
+import FirebaseStorage
 
 class EventSceneViewController: UIViewController {
     
@@ -17,20 +19,20 @@ class EventSceneViewController: UIViewController {
         return reviewButton
     }()
     
-//    var backButton: UIButton = {
-//        
-//        let button = UIButton(type: .system)
-//        let image = UIImage(systemName: "chevron.backward.2")
-//        button.tintColor = .gray
-//        button.setImage(image, for: .normal)
-//
-//        button.addTarget(nil, action: #selector(backButtonTapped), for: .touchUpInside)
-//        return button
-//       
-//    }()
-//    
+    //    var backButton: UIButton = {
+    //
+    //        let button = UIButton(type: .system)
+    //        let image = UIImage(systemName: "chevron.backward.2")
+    //        button.tintColor = .gray
+    //        button.setImage(image, for: .normal)
+    //
+    //        button.addTarget(nil, action: #selector(backButtonTapped), for: .touchUpInside)
+    //        return button
+    //
+    //    }()
+    //
     var titleLabel: UILabel = {
-       let label = UILabel()
+        let label = UILabel()
         label.text = "이벤트"
         label.font = UIFont.boldSystemFont(ofSize: 18)
         label.textColor = .black
@@ -39,69 +41,71 @@ class EventSceneViewController: UIViewController {
     }()
     
     var customNavigationBar: UIView = {
-       let view = UIView()
+        let view = UIView()
         view.backgroundColor = .white
         
         return view
         
     }()
     //        let mainView = UIImageView(image: UIImage(named: "coffee2"))
-
-    let mainView = UIImageView(image: UIImage(named: "coffee2"))
     
+//    let mainView = UIImageView(image: UIImage(named: "coffee2"))
+        let mainView = UIImageView()
+
     let imageTitleLabel = UILabel()
     let imageSubTitleLabel = UILabel()
     let eventTitleLabel = UILabel()
     let eventSubTitleLabel = UILabel()
-        
-        
     
     
     
     
-  
+    
+    
+    
     
     let gradientLayer: CAGradientLayer = {
-            let gradient = CAGradientLayer()
-            gradient.colors = [UIColor.clear.cgColor, UIColor.black.withAlphaComponent(0.7).cgColor]
+        let gradient = CAGradientLayer()
+        gradient.colors = [UIColor.clear.cgColor, UIColor.black.withAlphaComponent(0.7).cgColor]
         gradient.locations = [0.3, 1.0]
-            return gradient
-        }()
+        return gradient
+    }()
     
     
     
     
     
     
-//    private var collectionView: UICollectionView!
-//    private let items: [UIImage] = [
-//        UIImage(named: "coffee1")!,
-//        UIImage(named: "coffee2")!
-//    ]
-//    
+    //    private var collectionView: UICollectionView!
+    //    private let items: [UIImage] = [
+    //        UIImage(named: "coffee1")!,
+    //        UIImage(named: "coffee2")!
+    //    ]
+    //
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
-//        setupCustomNavigationBar()
-//        setupBackButton()
+        //        setupCustomNavigationBar()
+        //        setupBackButton()
         bottomReviewMoveButton()
-//
-//        setupCollectionView()
-//        title = "이벤트"
+        //
+        //        setupCollectionView()
+        //        title = "이벤트"
         navigationController?.navigationBar.tintColor = ThemeColor.mainOrange
         setupMainImageView()
-
+        fetchEventData()
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
-            super.viewWillAppear(animated)
-            tabBarController?.tabBar.isHidden = true // 탭바 숨기기
-        }
-        
-        override func viewWillDisappear(_ animated: Bool) {
-            super.viewWillDisappear(animated)
-            tabBarController?.tabBar.isHidden = false // 탭바 다시 표시
-        }
+        super.viewWillAppear(animated)
+        tabBarController?.tabBar.isHidden = true // 탭바 숨기기
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        tabBarController?.tabBar.isHidden = false // 탭바 다시 표시
+    }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
@@ -126,17 +130,17 @@ class EventSceneViewController: UIViewController {
             make.height.equalTo(50)
             
         }
-    
         
-//        customNavigationBar.addSubview(backButton)
+        
+        //        customNavigationBar.addSubview(backButton)
         customNavigationBar.addSubview(titleLabel)
         
-//        backButton.snp.makeConstraints { make in
-//            make.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(10)
-//            make.leading.equalToSuperview().offset(20)
-//            make.trailing.equalToSuperview().offset(-340)
-//            make.height.equalTo(30)
-//        }
+        //        backButton.snp.makeConstraints { make in
+        //            make.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(10)
+        //            make.leading.equalToSuperview().offset(20)
+        //            make.trailing.equalToSuperview().offset(-340)
+        //            make.height.equalTo(30)
+        //        }
         
         titleLabel.snp.makeConstraints { make in
             make.center.equalToSuperview()
@@ -175,14 +179,14 @@ class EventSceneViewController: UIViewController {
     }
     
     func setupMainImageView() {
-       
         
         
-//        let mainView = UIImageView(image: UIImage(named: "coffee2"))
+        
+        //        let mainView = UIImageView(image: UIImage(named: "coffee2"))
         mainView.contentMode = .scaleAspectFill
         mainView.clipsToBounds = true
-//        mainView.backgroundColor = UIColor(hexString: "FEFEFE")
-
+        //        mainView.backgroundColor = UIColor(hexString: "FEFEFE")
+        
         
         view.addSubview(mainView)
         mainView.snp.makeConstraints { make in
@@ -194,7 +198,7 @@ class EventSceneViewController: UIViewController {
         
         mainView.layer.addSublayer(gradientLayer)
         
-        imageTitleLabel.text = "리뷰 작성하고"
+//        imageTitleLabel.text = "리뷰 작성하고"
         imageTitleLabel.textColor = UIColor(hexString: "FFFFFF")
         imageTitleLabel.font = ThemeFont.fontRegular(size: 20)
         
@@ -206,7 +210,7 @@ class EventSceneViewController: UIViewController {
             
         }
         
-        imageSubTitleLabel.text = "커피 마실래?"
+//        imageSubTitleLabel.text = "커피 마실래?"
         imageSubTitleLabel.textColor = UIColor(hexString: "FFFFFF")
         imageSubTitleLabel.font = ThemeFont.fontBold(size: 48)
         
@@ -216,7 +220,7 @@ class EventSceneViewController: UIViewController {
             make.top.equalTo(imageTitleLabel.snp.bottom).offset(10)
         }
         
-        eventTitleLabel.text = "구글폼을 제출해주시면 커피 쿠폰을 드려요!"
+//        eventTitleLabel.text = "구글폼을 제출해주시면 커피 쿠폰을 드려요!"
         eventTitleLabel.textColor = UIColor(hexString: "353535")
         eventTitleLabel.font = ThemeFont.fontBold(size: 16)
         
@@ -226,10 +230,10 @@ class EventSceneViewController: UIViewController {
             make.top.equalTo(view.snp.top).offset(540)
         }
         
-        eventSubTitleLabel.text = """
-        떡볶이 맛집을 다녀오신 후, 리뷰를 작성해주세요!
-        20분께 스타벅스 커피 쿠폰을 드립니다.
-        """
+//        eventSubTitleLabel.text = """
+//        떡볶이 맛집을 다녀오신 후, 리뷰를 작성해주세요!
+//        20분께 스타벅스 커피 쿠폰을 드립니다.
+//        """
         eventSubTitleLabel.textColor = UIColor(hexString: "353535")
         eventSubTitleLabel.font = ThemeFont.fontRegular(size: 14)
         eventSubTitleLabel.numberOfLines = 0 // 여러 줄의 텍스트를 표시하기 위해 설정
@@ -237,12 +241,56 @@ class EventSceneViewController: UIViewController {
         
         view.addSubview(eventSubTitleLabel)
         eventSubTitleLabel.snp.makeConstraints { make in
-            make.centerX.equalTo(view.snp.centerX)
-            make.top.equalTo(eventTitleLabel.snp.top).offset(30)
+            make.horizontalEdges.equalToSuperview().inset(20)
+            make.top.equalTo(eventTitleLabel.snp.bottom).offset(10)
         }
-
+        
         
     }
+    
+    func fetchEventData() {
+            let db = Firestore.firestore()
+            let storage = Storage.storage()
+            
+            db.collection("events").document("event1").getDocument { (document, error) in
+                if let document = document, document.exists {
+                    let data = document.data()
+                    let imageTitle = data?["imageTitle"] as? String ?? ""
+                    let imageSubTitle = data?["imageSubTitle"] as? String ?? ""
+                    let eventTitle = data?["eventTitle"] as? String ?? ""
+                    var eventSubTitle = data?["eventSubTitle"] as? String ?? ""
+                    let imageURL = data?["imageURL"] as? String ?? ""
+                    
+                    eventSubTitle = eventSubTitle.replacingOccurrences(of: "\\n", with: "\n")
+                    
+                    self.imageTitleLabel.text = imageTitle
+                    self.imageSubTitleLabel.text = imageSubTitle
+                    self.eventTitleLabel.text = eventTitle
+                    self.eventSubTitleLabel.text = eventSubTitle
+                    
+                    if !imageURL.isEmpty {
+                        let storageRef = storage.reference(forURL: imageURL)
+                        storageRef.downloadURL { url, error in
+                            if let error = error {
+                                print("Error getting download URL: \(error)")
+                            } else if let url = url {
+                                URLSession.shared.dataTask(with: url) { data, response, error in
+                                    if let data = data, error == nil {
+                                        DispatchQueue.main.async {
+                                            self.mainView.image = UIImage(data: data)
+                                        }
+                                    }
+                                }.resume()
+                            }
+                        }
+                    }
+                } else {
+                    print("Document does not exist")
+                }
+            }
+        }
+    
+}
 
     
 //
@@ -347,6 +395,6 @@ class EventSceneViewController: UIViewController {
 //        func configure(with title: String, description: String) {
 //            titleLabel.text = title
 //            descriptionLabel.text = description
-        }
+        
     
 
