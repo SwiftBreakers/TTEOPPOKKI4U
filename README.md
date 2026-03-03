@@ -19,7 +19,7 @@
     <img src="https://github.com/user-attachments/assets/eb732610-f2b8-4b3e-a9fa-c47ddf22e7d2" alt="프로젝트 요약 이미지 보기" width="45" height="45">
 </a>    
 
-> 위 아이콘을 클릭해 [앱스토어](https://apps.apple.com/us/app/%EB%96%A1%EB%B3%B6%EC%9D%B44u/id6503482348) 또는 [프로젝트 요약 이미지](https://github.com/user-attachments/assets/0992634b-cf2d-49d7-8cf5-2b97cbd9b176)를 확인하세요.
+> 위 아이콘을 클릭해 [앱스토어](https://apps.apple.com/kr/app/%EB%96%A1%EB%B3%B6%EC%9D%B44u/id6503482348) 또는 [프로젝트 요약 이미지](https://github.com/user-attachments/assets/0992634b-cf2d-49d7-8cf5-2b97cbd9b176)를 확인하세요.
 
 ## 소개
 
